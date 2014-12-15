@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    
+
+	<h:head>  
+		<h:outputStylesheet library="css" name="style.css"  />
+		<ui:debug />
+	  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+		<f:metadata><ui:insert name="metadata" /></f:metadata>
+		<title><h:outputText value = "#{MESSAGE.APPLICATION_TITLE}"/></title>
+    </h:head>  
+    
+    <h:body>
+
+    <p:layout  name="wrapper" fullPage="true">
+ 
+	    <p:layoutUnit  styleClass="headerCenter" position="north" size="150"  resizable="true" closable="true" collapsible="true">
+	        <ui:include src="header.xhtml" />
+	    </p:layoutUnit>
+	 
+	    <p:layoutUnit position="south" size="100"  resizable="true" closable="true" collapsible="true">
+	        <ui:include src="footer.xhtml" />
+	    </p:layoutUnit>
+	 
+	    <p:layoutUnit position="west" size="300" header="#{MESSAGE.MENU_HEADER}" resizable="true" closable="false" collapsible="true">
+	        <ui:include src="menu.xhtml" />
+	    </p:layoutUnit>
+	 	 
+	    <p:layoutUnit styleClass="layoutUnitCenter" position="center">
+			<ui:insert name="content" />
+	    </p:layoutUnit>
+	    
+	</p:layout>
+		
+    </h:body>  
+
+</html>

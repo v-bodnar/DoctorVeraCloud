@@ -1,0 +1,28 @@
+<ui:composition template="index.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<p:dataTable var="user" value="#{usersTable.allUsers}">
+			<p:column headerText="Id">
+				<h:outputText value="#{user.id}" />
+			</p:column>
+
+			<p:column headerText="Login">
+				<h:outputText value="#{user.username}" />
+			</p:column>
+
+			<p:column headerText="First Name">
+				<h:outputText value="#{user.firstName}" />
+			</p:column>
+
+			<p:column headerText="Last Name">
+				<h:outputText value="#{user.lastName}" />
+			</p:column>
+		</p:dataTable>
+	</ui:define>
+
+</ui:composition>

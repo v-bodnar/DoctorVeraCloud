@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <!-- JSP pages corresponding different commands-->
+    <entry key="MAIN">/jsp/main.jsp</entry>
+    <entry key="LOGIN_ERROR">/jsp/error.jspx</entry>
+    <entry key="LOGIN_PAGE">/jsp/login.jspx</entry>
+    <entry key="SHOW_USERS_PAGE">/jsp/show_users.jsp</entry>
+    <entry key="ADD_USER_PAGE">/jsp/add_user.jsp</entry>
+    <entry key="EDIT_USER_PAGE">/jsp/edit_user.jsp</entry>
+    <entry key="DELETE_USER_PAGE">/jsp/delete_user.jsp</entry>
+    <entry key="SHOW_USER_TYPES_PAGE">/jsp/show_user_types.jsp</entry>
+    <!--Commands mapping-->    	
+    <entry key="SHOW_USERS_COMMAND">/Controller?command=showUsers</entry>
+    <entry key="ADD_USER_COMMAND">/Controller?command=addUser</entry>
+    <entry key="EDIT_USER_COMMAND">/Controller?command=editUser</entry>
+    <entry key="DELETE_USER_COMMAND">/Controller?command=deleteUser</entry>
+    <entry key="SHOW_USER_TYPES_COMMAND">/Controller?command=showUserTypes</entry>    
+</properties>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+	<application>
+		<resource-bundle>
+		    <base-name>ua.kiev.doctorvera.web.resources.Message</base-name>
+		    <var>MESSAGE</var>
+		</resource-bundle>
+		
+		<resource-bundle>
+		    <base-name>ua.kiev.doctorvera.web.resources.Mapping</base-name>
+		    <var>MAPPINGS</var>
+		</resource-bundle>
+		
+		<locale-config>
+			<default-locale>en</default-locale>
+		</locale-config>
+	</application>
+	<managed-bean>
+		<managed-bean-name>cropperView</managed-bean-name>
+		<managed-bean-class>ua.kiev.doctorvera.managedbeans.CropperView</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>userLoginView</managed-bean-name>
+		<managed-bean-class>ua.kiev.doctorvera.managedbeans.UserLoginView</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>uploadImageView</managed-bean-name>
+		<managed-bean-class>ua.kiev.doctorvera.managedbeans.UploadImageView</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>userProfileView</managed-bean-name>
+		<managed-bean-class>ua.kiev.doctorvera.managedbeans.UserProfileView</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
+
+</faces-config>

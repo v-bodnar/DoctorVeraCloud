@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<h:outputStylesheet library="css" name="style.css" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Crop Image</title>
+</h:head>
+
+<h:body>
+
+	<h:form>
+		<p:panel>
+			<p:growl id="msgs" showDetail="true" />
+
+			<h:panelGrid id="status">
+
+				<h:outputText value="#{uploadImageView.tempImageName}" />
+
+				<p:imageCropper value="#{uploadImageView.croppedImage}"
+					image="/resources/images/avatar/#{uploadImageView.tempImageName}"
+					aspectRatio="0.75" initialCoords="0,0,225,300"
+					rendered="#{uploadImageView.tempImageName !=null}" />
+
+			</h:panelGrid>
+
+			<p:commandButton value="Crop" action="#{uploadImageView.crop}"
+				update="msgs" icon="ui-icon-scissors"
+				disabled="#{uploadImageView.tempImageName == null}" oncomplete="close" />
+
+
+
+		</p:panel>
+	</h:form>
+
+</h:body>
+
+</html>

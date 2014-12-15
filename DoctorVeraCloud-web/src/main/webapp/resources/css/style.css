@@ -1,0 +1,71 @@
+@CHARSET "UTF-8";
+ /* ---------- Header ---------- */
+.headerCenter{
+	background:URL('/DoctorVeraCloud-web/resources/images/header_background.png');
+	background-size: 100%;
+
+}
+
+#headerEast{
+	padding:auto;
+	margin:0;
+
+}
+
+.headerCenter .ui-widget-content{
+	background:none;
+	padding-left:30px;
+}
+
+.userProfilePanel .ui-widget-content {
+	color: white;
+}
+
+.userProfilePanel a{
+	color: gold;
+}
+
+.userProfilePanel a:HOVER{
+	color: white;
+}
+
+.userProfilePanel img{
+	border-radius: 5px;
+}
+
+.userProfilePanel tr,
+.userProfilePanel td {
+    border: none !important;
+    padding:0;
+	margin:0;
+	text-align: center;
+}
+ /* ---------- Profile ----------*/
+ .userProfilePanel{
+	padding:0;
+	margin:auto;
+}
+
+.profilePanel{
+	text-align:center;
+	margin:auto;
+	width:50%;
+	min-width:50%;
+	max-width:100%;
+}
+
+.avatarGrid{
+	border:1px solid #a8a8a8;
+	border-radius: 3px;
+	margin:auto;
+}
+
+.ui-fileupload-content {
+    display: none;
+}
+
+.profileDetailsGrid{
+	margin:auto;
+	margin-top:2em;
+	text-align: left;
+}

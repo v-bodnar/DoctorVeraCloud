@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    
+
+	<h:head>  
+		<h:outputStylesheet library="css" name="style.css"  />
+		<ui:debug />
+	  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+		<title><h:outputText value = "#{MESSAGE.APPLICATION_TITLE}"/></title>
+    </h:head>  
+    
+    <h:body>
+
+	<h:form>
+		<p:remoteCommand id="checkAuth" name="checkAuth"  actionListener="#{userLoginView.checkAuth}" 
+		oncomplete="handleCheckAuth(xhr, status, args)" autoRun="true"/>
+		
+		<p:dialog header="#{MESSAGE.LOGIN_TITLE}" widgetVar="login" resizable="false">
+			
+			<h:panelGrid columns="2" cellpadding="5">
+			
+				<h:outputLabel for="username" value="#{MESSAGE.USERS_LOGIN}" />
+				
+				<p:inputText id="username" value="#{userLoginView.incomingUser.username}"
+					required="true" label="username" />
+
+				<h:outputLabel for="password" value="#{MESSAGE.USERS_PASSWORD}" />
+				
+				<p:password id="password" value="#{userLoginView.incomingUser.password}"
+					required="true" label="password" />
+				
+				<h:outputText value=" " />
+				
+				<h:outputLink value="#{MAPPINGS.REGISTER_PAGE}" >
+					<h:outputText value="#{MESSAGE.LOGIN_REGISTER}" />
+				</h:outputLink>
+
+				<f:facet name="footer">
+					<p:commandButton value="#{MESSAGE.LOGIN_LOGIN_BUTTON}"
+						actionListener="#{userLoginView.login}"
+						oncomplete="handleLoginRequest(xhr, status, args)" />
+				</f:facet>
+				
+			</h:panelGrid>
+			
+		</p:dialog>
+	</h:form>
+	
+    <script type="text/javascript">
+	function handleCheckAuth(xhr, status, args){
+		if(!args.loggedIn) {
+       		PF('login').show();
+        }
+	}
+	function handleLoginRequest(xhr, status, args) {
+        if(args.validationFailed || !args.loggedIn) {
+            PF('login').jq.effect("shake", {times:5}, 100);
+        }
+        else {
+            PF('login').hide();
+            //window.location.href = '#{request.requestURL}';
+            window.location.href = 'private/index.xhtml'
+        }
+    }
+	</script>
+	
+    </h:body>  
+
+</html>

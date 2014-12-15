@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="DATASOURCE_JNDI">DoctorVera</entry>
+    <entry key="LANGUAGE">ru</entry>
+    <entry key="COUNTRY">RU</entry>
+    <entry key="PROJECT_NAME">DoctorVeraCloud</entry>
+</properties>

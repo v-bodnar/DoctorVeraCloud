@@ -1,0 +1,122 @@
+<ui:composition template="index.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="content">
+		<h:form>
+			<p:panel styleClass="profilePanel">
+				<p:remoteCommand
+					action="#{uploadImageView.setCurrentUserId(userLoginView.authorizedUser.id)}"
+					autoRun="true" />
+
+				<h:panelGrid  styleClass="avatarGrid"
+					column="2" id="status">
+					<p:graphicImage width="75" height="100" styleClass="avatarImage"
+						value="#{MAPPINGS.APPLICATION_AVATAR_IMAGES_PATH}#{userLoginView.authorizedUser.avatarImage}" />
+
+					<p:fileUpload
+						fileUploadListener="#{uploadImageView.handleFileUpload}"
+						widgetVar="uploader" mode="advanced" update="status"
+						sizeLimit="10000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+						auto="true" oncomplete="PF('crop').jq.click();" />
+
+					<p:commandButton widgetVar="crop" value="Crop"
+						icon="ui-icon-extlink" actionListener="#{cropperView.viewCropper}"
+						disabled="#{uploadImageView.tempImageName == null}"
+						style="display:none" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2" styleClass="profileDetailsGrid">
+					
+					<h:outputLabel for="firstName" value="#{MESSAGE.USERS_FIRST_NAME}" />
+					<p:inplace id="firstName" editor="true">
+						<p:inputText value="#{userLoginView.authorizedUser.firstName}" />
+					</p:inplace>
+
+					<h:outputLabel for="lastName" value="#{MESSAGE.USERS_LAST_NAME}" />
+					<p:inplace id="lastName" editor="true">
+						<p:inputText value="#{userLoginView.authorizedUser.lastName}" />
+					</p:inplace>
+
+					<h:outputLabel for="middleName"
+						value="#{MESSAGE.USERS_MIDDLE_NAME}" />
+					<p:inplace id="middleName" editor="true">
+						<p:inputText value="#{userLoginView.authorizedUser.middleName}" />
+					</p:inplace>
+					
+					<h:outputLabel for="username" value="#{MESSAGE.USERS_LOGIN}" />
+					<p:inplace id="username" editor="true">
+						<p:inputText value="#{userLoginView.authorizedUser.username}" />
+					</p:inplace>
+
+					<h:outputLabel for="password" value="#{MESSAGE.USERS_PASSWORD}" />
+					<p:inplace id="password" editor="true">
+						<f:facet name="output">
+			                ******
+			            </f:facet>
+							<p:password value="#{userLoginView.authorizedUser.password}"/>
+					</p:inplace>
+					
+					<h:outputLabel for="phoneNumberHome"
+						value="#{MESSAGE.USERS_PHONE_NUMBER_HOME}" />
+					<p:inplace id="phoneNumberHome" editor="true">
+						<p:inputMask
+							value="#{userLoginView.authorizedUser.phoneNumberHome}"
+							mask="(999)999-99-99" />
+					</p:inplace>
+
+					<h:outputLabel for="phoneNumberMobile"
+						value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}" />
+					<p:inplace id="phoneNumberMobile" editor="true">
+						<p:inputMask
+							value="#{userLoginView.authorizedUser.phoneNumberMobile}"
+							mask="(999)999-99-99" />
+					</p:inplace>
+					
+					<h:outputLabel for="birthDate" value="#{MESSAGE.USERS_BIRTH_DATE}" />
+					<p:inplace id="birthDate" editor="true">
+						<p:calendar value="#{userLoginView.authorizedUser.birthDate}"
+							showOn="button" />
+					</p:inplace>
+
+					<h:outputLabel for="color" value="#{MESSAGE.USERS_COLOR}" />
+					<p:inplace id="color" editor="true">
+						<p:colorPicker value="#{userLoginView.authorizedUser.color}" />
+					</p:inplace>
+
+					<!-- h:outputLabel for="country" value="#{MESSAGE.ADDRESS_COUNTRY}" />
+					<p:inplace id="country" editor="true">
+						<p:inputText
+							value="#{userLoginView.authorizedUser.address.country}" />
+					</p:inplace>
+
+					<h:outputLabel for="city" value="#{MESSAGE.ADDRESS_CITY}" />
+					<p:inplace id="city" editor="true">
+						<p:inputText value="#{userLoginView.authorizedUser.address.city}" />
+					</p:inplace>
+
+					<h:outputLabel for="address" value="#{MESSAGE.ADDRESS_ADDRESS}" />
+					<p:inplace id="address" editor="true">
+						<p:inputText
+							value="#{userLoginView.authorizedUser.address.address}" />
+					</p:inplace>
+
+					<h:outputLabel for="dateCreated"
+						value="#{MESSAGE.ENTITY_DATE_CREATED}" />
+					<h:outputText value="#{userLoginView.authorizedUser.dateCreated}" />
+					
+					<h:outputLabel for="userCreated"
+						value="#{MESSAGE.ENTITY_USER_CREATED}" />
+					<h:outputText
+						value="#{userLoginView.authorizedUser.userCreated.lastName} #{userLoginView.authorizedUser.userCreated.firstName} #{userLoginView.authorizedUser.userCreated.lastName}"
+						showOn="button" /-->
+
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

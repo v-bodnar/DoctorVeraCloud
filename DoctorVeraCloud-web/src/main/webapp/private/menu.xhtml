@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panel id="menu">
+		<h:form>
+			<p:panelMenu style="width:260px">
+				<p:submenu label="Администрирование">
+					<p:menuitem value="Главная" url="index.xhtml" icon="ui-icon-home" />
+					<p:menuitem value="Пользователи" url="users.xhtml"  icon="ui-icon-person" />
+				</p:submenu>
+			</p:panelMenu>
+		</h:form>
+	</p:panel>
+</ui:composition>

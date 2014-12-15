@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    
+
+	<h:head>  
+	  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+		<title>Count</title>
+    </h:head>  
+    
+    <h:body>
+
+	
+			<p:layout id="userProfileWrapper">
+				<p:layoutUnit position="center">
+				<h:form>
+					<p:commandLink actionListener="#{userLoginView.toggleRender}" update=":panel" >  	
+						<h:outputText value="Toggle"/>
+					</p:commandLink>
+				</h:form> 
+				</p:layoutUnit>
+		        <p:layoutUnit position="east" minSize="200" maxSize="450" id="userProfile" >	
+		        <p:outputPanel id="panel">
+		            <p:panelGrid id="userPrifileGrid" rendered="#{userLoginView.render}">
+				       	<p:row>
+				       	<p:column>
+							<h:outputText value="Hello" />
+					    </p:column>
+					    <p:column>
+						<h:form>
+							<p:commandLink actionListener="#{userLoginView.toggleRender}" update=":panel" >  	
+								<h:outputText value="Hide"/>
+							</p:commandLink>
+						</h:form> 
+					    </p:column>
+					    </p:row>
+			        </p:panelGrid>
+			        </p:outputPanel >
+		        </p:layoutUnit>
+	   		</p:layout>
+
+	
+    </h:body>  
+
+</html>
