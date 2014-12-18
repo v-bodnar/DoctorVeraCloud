@@ -26,7 +26,7 @@ public class UserLoginView {
     private final String WELCOME_MESSAGE_TITLE = Message.getInstance().getMessage(Message.Login.LOGIN_WELCOME_TITLE);
     private final String GOODBY_MESSAGE_TITLE = Message.getInstance().getMessage(Message.Login.LOGIN_GOODBY_TITLE);
     private final String GOODBY_MESSAGE = Message.getInstance().getMessage(Message.Login.LOGIN_GOODBY);
-    
+        
     public void toggleRender() {
     	render = !render;
 	}

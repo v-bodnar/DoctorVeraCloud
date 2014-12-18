@@ -24,7 +24,7 @@ public class Message extends ListResourceBundle{
 	
 	public static enum Messages {
 		APPLICATION_TITLE,
-		APPLICATION_IMAGES_PATH
+		APPLICATION_SAVED
 		
 	}
 	public static enum Login {
@@ -126,6 +126,7 @@ public class Message extends ListResourceBundle{
 		
 	}
 	public static enum Validator{
+		VALIDATOR_ERROR_TITLE,
 		VALIDATOR_REQUIRED,
 		VALIDATOR_CYRILLIC_ONLY,
 		VALIDATOR_NOT_CYRILLIC,
@@ -140,7 +141,9 @@ public class Message extends ListResourceBundle{
 		VALIDATOR_PASSWORD_LESS_SIX,
 		VALIDATOR_LOGIN_IN_USE,
 		VALIDATOR_EMAIL,
-		VALIDATOR_PHONE
+		VALIDATOR_PHONE,
+		VALIDATOR_LITERAL_ONLY,
+		VALIDATOR_SUCCESS_TITLE
 	}
 	
 	public static Message getInstance() {

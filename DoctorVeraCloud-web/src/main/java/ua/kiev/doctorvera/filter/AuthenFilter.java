@@ -29,6 +29,11 @@ public class AuthenFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		final String url = request.getRequestURL().toString();
 		
+		//Setting request encoding
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		System.setProperty("file.encoding", "UTF-8");
+		
 		if (url.contains(LOGIN_PAGE)) {
 			// bruteReveal(request);
 			// Pass request back down the filter chain
@@ -47,7 +52,8 @@ public class AuthenFilter implements Filter {
 	private Boolean isAuththenticated(HttpServletRequest request){
 		UserLoginView bean = (UserLoginView) request.getSession().getAttribute("userLoginView");
 		if ( bean != null && bean.getAuthorizedUser() != null) return true;
-		else return false;
+		else 
+			return false;
 	}
 
 	/*

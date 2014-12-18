@@ -9,6 +9,7 @@
     
 
 	<h:head>  
+			<h:outputStylesheet library="css" name="style.css"  />
 		<h:outputStylesheet library="css" name="style.css"  />
 		<ui:debug />
 	  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
@@ -20,6 +21,8 @@
 	<h:form>
 		<p:remoteCommand id="checkAuth" name="checkAuth"  actionListener="#{userLoginView.checkAuth}" 
 		oncomplete="handleCheckAuth(xhr, status, args)" autoRun="true"/>
+
+		<p:growl  id="msg" showDetail="true"/>
 		
 		<p:dialog header="#{MESSAGE.LOGIN_TITLE}" widgetVar="login" resizable="false">
 			
@@ -28,12 +31,12 @@
 				<h:outputLabel for="username" value="#{MESSAGE.USERS_LOGIN}" />
 				
 				<p:inputText id="username" value="#{userLoginView.incomingUser.username}"
-					required="true" label="username" />
+					required="true" label="username" requiredMessage="MESSAGE.VALIDATOR_REQUIRED"/>
 
 				<h:outputLabel for="password" value="#{MESSAGE.USERS_PASSWORD}" />
 				
 				<p:password id="password" value="#{userLoginView.incomingUser.password}"
-					required="true" label="password" />
+					required="true" label="password" requiredMessage="MESSAGE.VALIDATOR_REQUIRED"/>
 				
 				<h:outputText value=" " />
 				
@@ -44,7 +47,8 @@
 				<f:facet name="footer">
 					<p:commandButton value="#{MESSAGE.LOGIN_LOGIN_BUTTON}"
 						actionListener="#{userLoginView.login}"
-						oncomplete="handleLoginRequest(xhr, status, args)" />
+						oncomplete="handleLoginRequest(xhr, status, args)" 
+						update = "msg"/>
 				</f:facet>
 				
 			</h:panelGrid>

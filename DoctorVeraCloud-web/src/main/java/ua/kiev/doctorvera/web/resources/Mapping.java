@@ -25,7 +25,8 @@ public class Mapping extends ListResourceBundle{
     	EDIT_USER_PAGE,
     	SHOW_USER_TYPES_PAGE,
     	USER_PROFILE_PAGE,
-    	USER_USERS_PAGE
+    	USER_USERS_PAGE,
+    	AVATAR_CROP_DIALOG
     }
     
     public static enum Path { 

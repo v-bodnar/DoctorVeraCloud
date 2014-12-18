@@ -25,17 +25,12 @@ public class LogFilter implements Filter {
 		//Loading logging configuration
 		try {
 			//Different target of logging
-			LogManager.getLogManager().readConfiguration(LogFilter.class.getResourceAsStream("/logging.properties"));
-			//LogManager.getLogManager().readConfiguration(LogFilter.class.getResourceAsStream("/log_console.properties"));
+			//LogManager.getLogManager().readConfiguration(LogFilter.class.getResourceAsStream("/logging.properties"));
+			LogManager.getLogManager().readConfiguration(LogFilter.class.getResourceAsStream("/log_console.properties"));
 		} catch (IOException e) {
 			System.err.println("Could not setup logger configuration: " + e.toString());
 		}
 		
-		//Setting request encoding
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		System.setProperty("file.encoding", "UTF-8");
-
 		// Get request parameters
 		String ipAddress = request.getRemoteAddr();
 		String url = ((HttpServletRequest) request).getRequestURL().toString();

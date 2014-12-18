@@ -11,7 +11,7 @@
 <h:head>
 	<h:outputStylesheet library="css" name="style.css" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Crop Image</title>
+	<title><h:outputText value = "#{MESSAGE.PROFILE_CROP_AVATAR_TITLE}"/></title>
 </h:head>
 
 <h:body>
@@ -19,10 +19,7 @@
 	<h:form>
 		<p:panel>
 			<p:growl id="msgs" showDetail="true" />
-
 			<h:panelGrid id="status">
-
-				<h:outputText value="#{uploadImageView.tempImageName}" />
 
 				<p:imageCropper value="#{uploadImageView.croppedImage}"
 					image="/resources/images/avatar/#{uploadImageView.tempImageName}"
@@ -31,11 +28,10 @@
 
 			</h:panelGrid>
 
-			<p:commandButton value="Crop" action="#{uploadImageView.crop}"
+			<p:commandButton value="#{MESSAGE.PROFILE_CROP_BUTTON}" action="#{uploadImageView.crop}"
 				update="msgs" icon="ui-icon-scissors"
-				disabled="#{uploadImageView.tempImageName == null}" oncomplete="close" />
-
-
+				disabled="#{uploadImageView.tempImageName == null}">
+			</p:commandButton>
 
 		</p:panel>
 	</h:form>

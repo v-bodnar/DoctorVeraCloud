@@ -41,31 +41,37 @@
 	text-align: center;
 }
  /* ---------- Profile ----------*/
- .userProfilePanel{
-	padding:0;
-	margin:auto;
-}
-
-.profilePanel{
-	text-align:center;
-	margin:auto;
-	width:50%;
-	min-width:50%;
-	max-width:100%;
-}
 
 .avatarGrid{
-	border:1px solid #a8a8a8;
-	border-radius: 3px;
-	margin:auto;
+	text-align: center;
+	width:100%;
 }
-
-.ui-fileupload-content {
+.avatarGrid .ui-fileupload-buttonbar{
+	background:none;
+	border:none;
+}
+.avatarGrid .ui-fileupload-content {
     display: none;
 }
-
 .profileDetailsGrid{
-	margin:auto;
-	margin-top:2em;
-	text-align: left;
+	width:100%;
+}
+.profileDetailsGrid .ui-panelgrid-cell td {
+	padding:10px !important;
+}
+.profileDetailsGridColumn{
+	border:1px solid #a8a8a8;
+	padding:10px;
+}
+.profileDetailsGrid .firstColumn{
+	width:200px;
+}
+.profileDetailsGrid .secondColumn{
+	width:380px;
+}
+.clear{
+	clear:both;
+}
+.ui-widget, .ui-widget .ui-widget {
+font-size: 100% !important;
 }

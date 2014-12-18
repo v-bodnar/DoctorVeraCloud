@@ -1,13 +1,26 @@
-package ua.kiev.doctorvera.utils;
+package ua.kiev.doctorvera.validators;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ua.kiev.doctorvera.resourses.Message;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facade.UsersFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Message;
+
+@ManagedBean(name = "validator")
+@SessionScoped
 public class Validator {
-	private static final String startLine = "<li>";
-	private static final String endLine = "</li>";
+	
+	
+	@EJB
+	private UsersFacadeLocal usersFacade;
+	
+	private static final String startLine = "";
+	private static final String endLine = "\n";
 	
 	public static Boolean isNull(String string) {
 		return (string == null || string.trim().length() == 0);
@@ -53,7 +66,7 @@ public class Validator {
 		return Pattern.matches("[\\.\\?\\,\\:\\;\\\\\"\\|\\/\\<\\>\\-\\_\\=\\'\\~\\`\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\{\\}]*", string);
 	}
 	
-	public static String checkName(String name) {
+	public static String checkNameCyr(String name) {
 		String note = "";
 		if (isNull(name))
 			note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_REQUIRED) + endLine;
@@ -62,16 +75,25 @@ public class Validator {
 		
 		return note;
 	}
-	/*
-	public static String checkUsername(String login, Users incomingUser) {
+	
+	public static String checkNameLat(String name) {
 		String note = "";
-		UsersMySql usersDao = (UsersMySql) MySqlDaoFactory.getInstance().getDao(Users.class);
-		Users user = usersDao.findByUsername(login);
+		if (isNull(name))
+			note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_REQUIRED) + endLine;
+		else if (!isCyrillic(name))
+			note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_CYRILLIC_ONLY) + endLine;
+		
+		return note;
+	}
+	
+	public String checkUsername(String login, String incomingUserId) {
+		String note = "";
+		Users user = usersFacade.findByUsername(login);
 
 		if (isNull(login))
 			note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_REQUIRED) + endLine;
 		else{
-			if (user != null && user.getId()!=incomingUser.getId())
+			if (user != null && !(user.getId().toString()).equals(incomingUserId))
 				note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_LOGIN_IN_USE) + endLine;
 			if (containsCyrillic(login))
 				note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_NOT_CYRILLIC) + endLine;
@@ -80,7 +102,7 @@ public class Validator {
 		}
 		return note;
 	}
-	*/
+	
 	public static String checkPassword(String password) {
 		String note = "";
 		if (isNull(password))
@@ -160,5 +182,32 @@ public class Validator {
 		return note;
 	}
 	
+	public static String checkLiteral(String value) {
+		String note = "";
+		if (isNull(value))
+			note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_REQUIRED) + endLine;
+		else if (containsNumeric(value))
+			note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_LITERAL_ONLY) + endLine;
+		
+		return note;
+	}
+	
+	public static String checkLiteralOrNull(String value) {
+		String note = "";
+		if (isNull(value))
+			return "";
+		else if (containsNumeric(value))
+			note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_LITERAL_ONLY) + endLine;
+		return note;
+	}
+	
+	public static String checkNumericOrNull(String value) {
+		String note = "";
+		if (isNull(value))
+			return "";
+		else if (!isNumeric(value))
+			note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_NUMBERS_ONLY) + endLine;
+		return note;
+	}
 	
 }

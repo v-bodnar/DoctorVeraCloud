@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-  <display-name>DoctorVeraCloud-web</display-name>
-  <welcome-file-list>
-    <welcome-file>login.xhtml</welcome-file>
-  </welcome-file-list>
-  <filter>
-    <filter-name>logFilter</filter-name>
-    <filter-class>ua.kiev.doctorvera.filter.LogFilter</filter-class>
-  </filter>
-  <filter>
-    <filter-name>authFilter</filter-name>
-    <filter-class>ua.kiev.doctorvera.filter.AuthenFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>logFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-  <filter-mapping>
-    <filter-name>authFilter</filter-name>
-    <url-pattern>/private/*</url-pattern>
-  </filter-mapping>
-  <session-config>
-    <session-timeout>30</session-timeout>
-  </session-config>
-  <servlet>
-    <servlet-name>Faces Servlet</servlet-name>
-    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.xhtml</url-pattern>
-  </servlet-mapping>
+<web-app id="WebApp_ID" version="3.0"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>DoctorVeraCloud-web</display-name>
+	<welcome-file-list>
+		<welcome-file>login.xhtml</welcome-file>
+	</welcome-file-list>
+	<filter>
+		<filter-name>logFilter</filter-name>
+		<filter-class>ua.kiev.doctorvera.filter.LogFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>authFilter</filter-name>
+		<filter-class>ua.kiev.doctorvera.filter.AuthenFilter</filter-class>
+	</filter>
+	<!-- filter-mapping> <filter-name>logFilter</filter-name> <url-pattern>/*</url-pattern> 
+		</filter-mapping -->
+	<filter-mapping>
+		<filter-name>authFilter</filter-name>
+		<url-pattern>/private/*</url-pattern>
+	</filter-mapping>
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+	
+	<context-param>
+		<param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<!-- context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>doctor-vera</param-value>
+	</context-param-->
+
+    <context-param>  
+        <param-name>primefaces.THEME</param-name>  
+        <param-value>south-street</param-value>  
+    </context-param>  
+
 </web-app>

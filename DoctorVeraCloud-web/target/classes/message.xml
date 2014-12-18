@@ -4,6 +4,7 @@
 
 <!-- Application -->
     <entry key="APPLICATION_TITLE">Doctor Vera Cloud Storage</entry>
+    <entry key="APPLICATION_SAVED">Сохранено!</entry>
 <!-- login.xhtml -->
 	<entry key="LOGIN_TITLE">Вход</entry>
 	<entry key="LOGIN_REGISTER">Регистрация</entry>
@@ -18,6 +19,12 @@
     <entry key="LOGIN_USER_PROFILE">Профиль</entry>
 <!-- error.jsp --> 
 <entry key="ERROR_BACK_TO_MAIN">На главную</entry>
+
+<!-- profile.xhtml --> 
+<entry key="PROFILE_UPLOAD_AVATAR_BUTTON">Загрузить</entry>
+<entry key="PROFILE_CROP_AVATAR_TITLE">Обрезать загруженное фото</entry>
+<entry key="PROFILE_CROP_BUTTON">Обрезать</entry>
+<entry key="PROFILE_RELOAD_BUTTON">Обновить</entry>
 	
 <!-- show_users.jsp -->
 	<entry key="SHOW_USERS_TITLE">Пользователи</entry>
@@ -84,7 +91,7 @@
 	<entry key="USERS_PLACEHOLDER_MIDDLE_NAME">Иванович</entry>
 	<entry key="USERS_PLACEHOLDER_LOGIN">[a-z][A-Z][0-9]</entry>
 	<entry key="USERS_PLACEHOLDER_PASSWORD">![a-z]![A-Z]![0-9] не менее 6 символов</entry>
-	<entry key="USERS_PLACEHOLDER_BIRTH_DATE">1980.01.30</entry>
+	<entry key="USERS_PLACEHOLDER_BIRTH_DATE">05-12-1985</entry>
 	<entry key="USERS_PLACEHOLDER_PHONE_NUMBER_HOME">+380441234567</entry>
 	<entry key="USERS_PLACEHOLDER_PHONE_NUMBER_MOBILE">+380501234567</entry>
 <!-- Address Entity  -->
@@ -101,7 +108,10 @@
 	<entry key="ADDRESS_PLACEHOLDER_INDEX">69096</entry>
 	
 <!-- Validator  -->
+	<entry key="VALIDATOR_ERROR_TITLE">Ошибка!</entry>
+	<entry key="VALIDATOR_SUCCESS_TITLE">Успешно!</entry>
 	<entry key="VALIDATOR_REQUIRED">Поле обязательно для заполнения!</entry>
+	<entry key="VALIDATOR_LITERAL_ONLY">Поле может содержать только символы русского или латинского алфавита!</entry>
 	<entry key="VALIDATOR_CYRILLIC_ONLY">Поле может содержать только символы русского алфавита!</entry>
 	<entry key="VALIDATOR_NOT_CYRILLIC">Поле не может содержать символы русского алфавита!</entry>
 	<entry key="VALIDATOR_LATIN">Поле должно содержать символы латинского алфавита!</entry>
@@ -116,5 +126,5 @@
 	<entry key="VALIDATOR_LOGIN_IN_USE">Данный логин уже занят!</entry>
 	<entry key="VALIDATOR_EMAIL">Проверьте правильность ввода электронного адреса!</entry>
 	<entry key="VALIDATOR_PHONE">Проверьте правильность ввода номера телефона!</entry>
-	
+	<entry key="VALIDATOR_POST_INDEX">Поле должно содержать цифры! 5 символов! </entry>	
 </properties>

@@ -34,18 +34,20 @@ public class UploadImageView {
 
 	private String tempImageName;
 	
-	private String currentUserId;
+	private String userId;
 	
 	private final String AVATAR_IMAGES_PATH = Mapping.getInstance().getProperty(Mapping.Path.APPLICATION_AVATAR_IMAGES_PATH);
 	
 	private Integer counter = 0;
 		
-	public String getCurrentUserId() {
-		return currentUserId;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setCurrentUserId(String currentUserId) {
-		this.currentUserId = currentUserId;
+	public void setUserId(String userId) {
+		this.userId = userId;
+		FacesMessage message = new FacesMessage("UserId:" + userId);
+		FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 
 	public Integer getCounter() {
@@ -79,11 +81,11 @@ public class UploadImageView {
 	
     public void handleFileUpload(FileUploadEvent event) {
     	UploadedFile file = event.getFile();
-		if (file != null && currentUserId != null) {
+		if (file != null && userId != null) {
 			try{
 				final ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 				final InputStream input = file.getInputstream();
-				final String filename = "temp_avatar_" + currentUserId + ".";
+				final String filename = "temp_avatar_" + userId + ".";
 				final String extension = FilenameUtils.getExtension(file.getFileName());
 				final String path = servletContext.getRealPath("") + File.separator + AVATAR_IMAGES_PATH;
 	
@@ -123,11 +125,11 @@ public class UploadImageView {
     }
 
 	public void crop() {
-		if (croppedImage == null || currentUserId == null) {
+		if (croppedImage == null || userId == null) {
 			return;
 		}
 		final String extension = FilenameUtils.getExtension(tempImageName);
-		final String filename = "avatar_" + currentUserId + "." +  extension;
+		final String filename = "avatar_" + userId + "." +  extension;
 		final ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 		final String newFileName = servletContext.getRealPath("") + File.separator + AVATAR_IMAGES_PATH + File.separator + filename;
 		
@@ -136,7 +138,7 @@ public class UploadImageView {
 			imageOutput = new FileImageOutputStream(new File(newFileName));
 			imageOutput.write(croppedImage.getBytes(), 0, croppedImage.getBytes().length);
 			imageOutput.close();
-			Users currentUser = (Users)usersFacade.find(Integer.parseInt(currentUserId));
+			Users currentUser = (Users)usersFacade.find(Integer.parseInt(userId));
 			currentUser.setAvatarImage(filename);
 			usersFacade.edit(currentUser);
 		} catch (Exception e) {

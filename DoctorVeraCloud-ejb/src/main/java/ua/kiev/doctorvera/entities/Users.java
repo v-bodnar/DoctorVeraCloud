@@ -8,6 +8,7 @@ package ua.kiev.doctorvera.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -98,7 +99,7 @@ public class Users implements Serializable,Identified<Integer> {
     //@JoinColumn(name = "Users", referencedColumnName = "UserId")
     //@ManyToOne
     @Column(name = "UserCreated")
-    private Integer userCreated;
+    private Integer userCreatedId;
     @Basic(optional = false)
     @NotNull
     @Column(name = "DateCreated")
@@ -120,7 +121,7 @@ public class Users implements Serializable,Identified<Integer> {
     private String color;
     //@JoinColumn(name = "Address", referencedColumnName = "AddressId")
     @Column(name = "Address")
-    private Integer address;
+    private Integer addressId;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
     private Collection<Policy> policyCollection;
@@ -176,14 +177,14 @@ public class Users implements Serializable,Identified<Integer> {
         this.userId = userId;
     }
 
-    public Users(Integer userId, String username, String password, String firstName, String lastName, Integer userCreated, Date dateCreated,Address address, boolean deleted, String color,String avatarImage) {
+    public Users(Integer userId, String username, String password, String firstName, String lastName, Integer userCreatedId, Date dateCreated,Integer addressId, boolean deleted, String color,String avatarImage) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address.getId();
-        this.userCreated = userCreated;
+        this.addressId = addressId;
+        this.userCreatedId = userCreatedId;
         this.dateCreated = dateCreated;
         this.deleted = deleted;
         this.color = color;
@@ -288,19 +289,28 @@ public class Users implements Serializable,Identified<Integer> {
     }
     @Override
     public Users getUserCreated() {
+        //TODO
+    	return null;
+    	/*
         EntityManager em = getEntityManager();
         try {
-            return em.find(Users.class, userCreated);
+            return em.find(Users.class, userCreatedId);
         } finally {
         	em.close();
         }
+        */
     }
-    public void setUserCreated(Integer userCreatedId) {
-        this.userCreated = userCreatedId;
+    public Integer getUserCreatedId() {
+        return userCreatedId;
     }
+    
+    public void setUserCreatedId(Integer userCreatedId) {
+        this.userCreatedId = userCreatedId;
+    }
+    
     @Override
     public void setUserCreated(Users userCreated) {
-        this.userCreated = userCreated.getId();
+        this.userCreatedId = userCreated.getId();
     }
     
     @Override
@@ -366,29 +376,33 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     public Integer getAddressId() {
-        return address;
+        return addressId;
     }
     
-    public void getAddressId(Integer address) {
-    	this.address = address;
+    public void setAddressId(Integer addressId) {
+    	this.addressId = addressId;
     }
     
     public Address getAddress() {
+        //TODO
+    	return null;
+    	/*
         EntityManager em = getEntityManager();
         try {
             return em.find(Address.class, address);
         } finally {
-        	em.close();
+        	try{
+        		em.close();
+        	}catch(Exception e){
+        		e.printStackTrace();
+        	}
         }
+        */
     }
 
     public void setAddress(Address address) {
-        this.address = address.getId();
+        this.addressId = address.getId();
     }
-
-    public void setAddress(Integer address) {
-		this.address = address;
-	}
 
 	@XmlTransient
     public Collection<Plan> getPlanCollection() {
@@ -552,14 +566,21 @@ public class Users implements Serializable,Identified<Integer> {
         this.methodsCollection = methodsCollection;
     }
     private EntityManager getEntityManager(){
-    	return Persistence.createEntityManagerFactory("DoctorVera").createEntityManager();
+    	final Logger LOG = Logger.getLogger(Users.class.getName());
+    	long startTime = System.nanoTime();
+    	LOG.info("Creating Entity Manager in Users");
+    	EntityManager em = Persistence.createEntityManagerFactory("DoctorVera").createEntityManager();
+    	long endTime = System.nanoTime();
+    	long duration = (endTime - startTime); 
+    	LOG.info("Entity Manager created in " + duration/1000000 + " millis");
+    	return em;
     }
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((addressId == null) ? 0 : addressId.hashCode());
 		result = prime * result
 				+ ((birthDate == null) ? 0 : birthDate.hashCode());
 		result = prime * result
@@ -585,7 +606,7 @@ public class Users implements Serializable,Identified<Integer> {
 				* result
 				+ ((phoneNumberMobile == null) ? 0 : phoneNumberMobile
 						.hashCode());
-		result = prime * result + userCreated.hashCode();
+		result = prime * result + userCreatedId.hashCode();
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		result = prime * result
 				+ ((username == null) ? 0 : username.hashCode());
@@ -601,10 +622,10 @@ public class Users implements Serializable,Identified<Integer> {
 		if (getClass() != obj.getClass())
 			return false;
 		Users other = (Users) obj;
-		if (address == null) {
-			if (other.address != null)
+		if (addressId == null) {
+			if (other.addressId != null)
 				return false;
-		} else if (!address.equals(other.address))
+		} else if (!addressId.equals(other.addressId))
 			return false;
 		if (birthDate == null) {
 			if (other.birthDate != null)
@@ -663,7 +684,7 @@ public class Users implements Serializable,Identified<Integer> {
 				return false;
 		} else if (!phoneNumberMobile.equals(other.phoneNumberMobile))
 			return false;
-		if (userCreated != other.userCreated)
+		if (userCreatedId != other.userCreatedId)
 			return false;
 		if (userId == null) {
 			if (other.userId != null)
@@ -686,8 +707,8 @@ public class Users implements Serializable,Identified<Integer> {
 				+ ", birthDate=" + birthDate + ", phoneNumberHome="
 				+ phoneNumberHome + ", phoneNumberMobile=" + phoneNumberMobile
 				+ ", description=" + description + ", userCreatedId="
-				+ userCreated + ", dateCreated=" + dateCreated + ", deleted="
-				+ deleted + ", address=" + address + ", color=" + color +", avatarImage=" + avatarImage + "]";
+				+ userCreatedId + ", dateCreated=" + dateCreated + ", deleted="
+				+ deleted + ", addressId=" + addressId + ", color=" + color +", avatarImage=" + avatarImage + "]";
 	}
 
     @Override

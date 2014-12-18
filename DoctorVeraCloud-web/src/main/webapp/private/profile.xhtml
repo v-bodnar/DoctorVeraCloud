@@ -7,116 +7,219 @@
 
 	<ui:define name="content">
 		<h:form>
-			<p:panel styleClass="profilePanel">
-				<p:remoteCommand
-					action="#{uploadImageView.setCurrentUserId(userLoginView.authorizedUser.id)}"
-					autoRun="true" />
+		<p:growl id="growl" showDetail="true" severity="info"/> 
+				<p:panelGrid styleClass="avatarGrid" id="avatarGrid">
+					<p:row>
+						<p:column>
+						<p:graphicImage width="75" height="100" styleClass="avatarImage"
+							value="#{MAPPINGS.APPLICATION_AVATAR_IMAGES_PATH}#{userProfileView.user.avatarImage}" />
+	
+						<p:fileUpload
+							fileUploadListener="#{uploadImageView.handleFileUpload}"
+							widgetVar="uploader" mode="advanced" update="avatarGrid"
+							sizeLimit="10000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+							auto="true" 
+							label="#{MESSAGE.PROFILE_UPLOAD_AVATAR_BUTTON}" 
+							onstart="#{uploadImageView.setUserId(userProfileView.user.id)}" 
+							oncomplete="PF('crop').jq.click();"/>
+	
+						<p:commandButton widgetVar="crop" value="crop"
+							icon="ui-icon-extlink"
+							actionListener="#{userProfileView.showCropper}"
+							disabled="#{uploadImageView.tempImageName == null}"
+							style="display:none;" process="@none" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
 
-				<h:panelGrid  styleClass="avatarGrid"
-					column="2" id="status">
-					<p:graphicImage width="75" height="100" styleClass="avatarImage"
-						value="#{MAPPINGS.APPLICATION_AVATAR_IMAGES_PATH}#{userLoginView.authorizedUser.avatarImage}" />
-
-					<p:fileUpload
-						fileUploadListener="#{uploadImageView.handleFileUpload}"
-						widgetVar="uploader" mode="advanced" update="status"
-						sizeLimit="10000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-						auto="true" oncomplete="PF('crop').jq.click();" />
-
-					<p:commandButton widgetVar="crop" value="Crop"
-						icon="ui-icon-extlink" actionListener="#{cropperView.viewCropper}"
-						disabled="#{uploadImageView.tempImageName == null}"
-						style="display:none" />
-				</h:panelGrid>
-
-				<h:panelGrid columns="2" styleClass="profileDetailsGrid">
-					
-					<h:outputLabel for="firstName" value="#{MESSAGE.USERS_FIRST_NAME}" />
-					<p:inplace id="firstName" editor="true">
-						<p:inputText value="#{userLoginView.authorizedUser.firstName}" />
-					</p:inplace>
-
-					<h:outputLabel for="lastName" value="#{MESSAGE.USERS_LAST_NAME}" />
-					<p:inplace id="lastName" editor="true">
-						<p:inputText value="#{userLoginView.authorizedUser.lastName}" />
-					</p:inplace>
-
-					<h:outputLabel for="middleName"
-						value="#{MESSAGE.USERS_MIDDLE_NAME}" />
-					<p:inplace id="middleName" editor="true">
-						<p:inputText value="#{userLoginView.authorizedUser.middleName}" />
-					</p:inplace>
-					
-					<h:outputLabel for="username" value="#{MESSAGE.USERS_LOGIN}" />
-					<p:inplace id="username" editor="true">
-						<p:inputText value="#{userLoginView.authorizedUser.username}" />
-					</p:inplace>
-
-					<h:outputLabel for="password" value="#{MESSAGE.USERS_PASSWORD}" />
-					<p:inplace id="password" editor="true">
-						<f:facet name="output">
-			                ******
-			            </f:facet>
-							<p:password value="#{userLoginView.authorizedUser.password}"/>
-					</p:inplace>
-					
-					<h:outputLabel for="phoneNumberHome"
-						value="#{MESSAGE.USERS_PHONE_NUMBER_HOME}" />
-					<p:inplace id="phoneNumberHome" editor="true">
-						<p:inputMask
-							value="#{userLoginView.authorizedUser.phoneNumberHome}"
-							mask="(999)999-99-99" />
-					</p:inplace>
-
-					<h:outputLabel for="phoneNumberMobile"
-						value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}" />
-					<p:inplace id="phoneNumberMobile" editor="true">
-						<p:inputMask
-							value="#{userLoginView.authorizedUser.phoneNumberMobile}"
-							mask="(999)999-99-99" />
-					</p:inplace>
-					
-					<h:outputLabel for="birthDate" value="#{MESSAGE.USERS_BIRTH_DATE}" />
-					<p:inplace id="birthDate" editor="true">
-						<p:calendar value="#{userLoginView.authorizedUser.birthDate}"
-							showOn="button" />
-					</p:inplace>
-
-					<h:outputLabel for="color" value="#{MESSAGE.USERS_COLOR}" />
-					<p:inplace id="color" editor="true">
-						<p:colorPicker value="#{userLoginView.authorizedUser.color}" />
-					</p:inplace>
-
-					<!-- h:outputLabel for="country" value="#{MESSAGE.ADDRESS_COUNTRY}" />
-					<p:inplace id="country" editor="true">
-						<p:inputText
-							value="#{userLoginView.authorizedUser.address.country}" />
-					</p:inplace>
-
-					<h:outputLabel for="city" value="#{MESSAGE.ADDRESS_CITY}" />
-					<p:inplace id="city" editor="true">
-						<p:inputText value="#{userLoginView.authorizedUser.address.city}" />
-					</p:inplace>
-
-					<h:outputLabel for="address" value="#{MESSAGE.ADDRESS_ADDRESS}" />
-					<p:inplace id="address" editor="true">
-						<p:inputText
-							value="#{userLoginView.authorizedUser.address.address}" />
-					</p:inplace>
-
-					<h:outputLabel for="dateCreated"
-						value="#{MESSAGE.ENTITY_DATE_CREATED}" />
-					<h:outputText value="#{userLoginView.authorizedUser.dateCreated}" />
-					
-					<h:outputLabel for="userCreated"
-						value="#{MESSAGE.ENTITY_USER_CREATED}" />
-					<h:outputText
-						value="#{userLoginView.authorizedUser.userCreated.lastName} #{userLoginView.authorizedUser.userCreated.firstName} #{userLoginView.authorizedUser.userCreated.lastName}"
-						showOn="button" /-->
-
-				</h:panelGrid>
-			</p:panel>
+				<p:panelGrid styleClass="profileDetailsGrid" id="profileDetailsGrid" 
+				columnClasses="profileDetailsGridColumn" rowClasses="profileDetailsGridRow" >
+				<!-- First Name -->
+					<p:row>
+						<p:column styleClass="firstColumn"><h:outputLabel for="firstName" value="#{MESSAGE.USERS_FIRST_NAME}" /></p:column>
+						<p:column styleClass="secondColumn"><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_FIRST_NAME}">
+							<p:inputText value="#{userProfileView.user.firstName}" id="firstName" name="firstName"  validator="#{usersValidator.validate}">
+								<f:attribute name="name" value="firstName" />
+							</p:inputText>
+							<p:ajax event="save" update="firstNameMessage growl" listener="#{userProfileView.save}"/>
+						</p:inplace></p:column>
+						<p:column styleClass="thirdColumn"><p:messages for="firstName" id="firstNameMessage" /></p:column>
+					</p:row>
+				<!-- Last Name -->
+					<p:row>
+						<p:column><h:outputLabel for="lastName" value="#{MESSAGE.USERS_LAST_NAME}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_LAST_NAME}">
+							<p:inputText value="#{userProfileView.user.lastName}" id="lastName" name = "lastName" validator="#{usersValidator.validate}">
+								<f:attribute name="name" value="lastName"/>
+							</p:inputText>
+							<p:ajax event="save" update="lastNameMessage growl" listener="#{userProfileView.save}"/>
+						</p:inplace></p:column>
+						<p:column><p:message for="lastName" id="lastNameMessage"/></p:column>
+					</p:row>
+				<!-- Middle Name -->
+					<p:row>
+						<p:column><h:outputLabel for="middleName" value="#{MESSAGE.USERS_MIDDLE_NAME}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_MIDDLE_NAME}">
+							<p:inputText value="#{userProfileView.user.middleName}" id="middleName" name = "middleName" validator="#{usersValidator.validate}">
+								<f:attribute name="name" value="middleName" />
+							</p:inputText>
+							<p:ajax event="save" update="middleNameMessage growl" listener="#{userProfileView.save}"/>
+						</p:inplace></p:column>
+						<p:column><p:message for="middleName" id="middleNameMessage" /></p:column>
+					</p:row>
+				<!-- Birth Date -->
+					<p:row>
+						<p:column><h:outputLabel for="birthDate" value="#{MESSAGE.USERS_BIRTH_DATE}"/></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_BIRTH_DATE}">
+							<f:facet name="output">
+				                <h:outputText for="birthDate" value="#{userProfileView.user.birthDate}">
+				                	<f:convertDateTime type="date" pattern="dd-MM-yyyy"/></h:outputText>
+				            </f:facet>
+							<p:calendar value="#{userProfileView.user.birthDate}" id="birthDate" name="birthDate" pattern="dd-MM-yyyy">
+							</p:calendar>
+						</p:inplace></p:column>
+						<p:column><p:message for="birthDate" id="birthDateMessage"/></p:column>
+					</p:row>
+				<!-- Username -->
+					<p:row>
+						<p:column><h:outputLabel for="username" value="#{MESSAGE.USERS_LOGIN}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_LOGIN}">
+							<p:inputText value="#{userProfileView.user.username}" id="username" name="username" validator="#{usersValidator.validate}">
+								<f:attribute name="name" value="username" />
+								<f:attribute name="currentUserId" value="userProfileView.id" />
+							</p:inputText>
+							<p:ajax event="save" update="usernameMessage growl" listener="#{userProfileView.save}" />
+						</p:inplace></p:column>
+						<p:column><p:message for="username" id="usernameMessage"/></p:column>
+					</p:row>
+				<!-- Password -->
+					<p:row>
+						<p:column><h:outputLabel for="password" value="#{MESSAGE.USERS_PASSWORD}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/><p:inplace  editor="true">
+							<f:facet name="output">
+				                ******
+				            </f:facet>
+							<p:password value="#{userProfileView.user.password}" id="password" name="password" validator="#{usersValidator.validate}">
+								<f:attribute name="name" value="password" />
+							</p:password>
+							<p:ajax event="save" update="passwordMessage growl" listener="#{userProfileView.save}"/>
+						</p:inplace></p:column>
+						<p:column><p:message for="password" id="passwordMessage"/></p:column>
+					</p:row>
+				<!-- Phone Number Home -->
+					<p:row>
+						<p:column><h:outputLabel for="phoneNumberHome" value="#{MESSAGE.USERS_PHONE_NUMBER_HOME}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_PHONE_NUMBER_HOME}">
+							<p:inputMask value="#{userProfileView.user.phoneNumberHome}" id="phoneNumberHome" name="phoneNumberHome" mask="(999)999-99-99" validator="#{usersValidator.validate}">
+								<f:attribute name="name" value="phoneNumberHome" />
+							</p:inputMask>
+							<p:ajax event="save" update="phoneNumberHomeMessage growl" listener="#{userProfileView.save}" />
+						</p:inplace></p:column>
+						<p:column><p:message for="phoneNumberHome" id="phoneNumberHomeMessage"/></p:column>
+					</p:row>
+				<!-- Phone Number Mobile -->
+					<p:row>
+						<p:column><h:outputLabel for="phoneNumberMobile" value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_PHONE_NUMBER_MOBILE}">
+							<p:inputMask value="#{userProfileView.user.phoneNumberMobile}" id="phoneNumberMobile" name="phoneNumberMobile" mask="(999)999-99-99" validator="#{usersValidator.validate}">
+								<f:attribute name="name" value="phoneNumberMobile" />
+							</p:inputMask>
+							<p:ajax event="save" update="phoneNumberMobileMessage growl" listener="#{userProfileView.save}"/>
+						</p:inplace></p:column>
+						<p:column><p:message for="phoneNumberMobile" id="phoneNumberMobileMessage"/></p:column>
+					</p:row>
+				<!-- Address Country -->
+					<p:row>
+						<p:column><h:outputLabel for="country" value="#{MESSAGE.ADDRESS_COUNTRY}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_COUNTRY}">
+							<p:autoComplete value="#{userProfileView.address.country}" completeMethod="#{addressView.getCountries}" id="country" name="country" validator="#{addressValidator.validate}">
+								<f:attribute name="name" value="country" />
+							</p:autoComplete>
+							<p:ajax event="save" update="countryMessage growl" listener="#{userProfileView.save}"/>
+						</p:inplace></p:column>
+						<p:column><p:message for="country" id="countryMessage"/></p:column>
+					</p:row>
+				<!-- Address Region -->
+					<p:row>
+						<p:column><h:outputLabel for="region" value="#{MESSAGE.ADDRESS_REGION}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_REGION}">
+							<p:autoComplete value="#{userProfileView.address.region}" completeMethod="#{addressView.getRegions}" id="region" name="region" validator="#{addressValidator.validate}">
+								<f:attribute name="name" value="region" />
+							</p:autoComplete>
+							<p:ajax event="save" update="regionMessage growl" listener="#{userProfileView.save}"/>
+						</p:inplace></p:column>
+						<p:column><p:message for="region" id="regionMessage"/></p:column>
+					</p:row>
+				<!-- Address City -->
+					<p:row>
+						<p:column><h:outputLabel for="city" value="#{MESSAGE.ADDRESS_CITY}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_CITY}">
+							<p:autoComplete value="#{userProfileView.address.city}" completeMethod="#{addressView.getCities}" id="city" name="city" validator="#{addressValidator.validate}">
+								<f:attribute name="name" value="city" />
+							</p:autoComplete>
+							<p:ajax event="save" update="cityMessage growl" listener="#{userProfileView.save}"/>
+						</p:inplace></p:column>
+						<p:column><p:message for="city" id="cityMessage"/></p:column>
+					</p:row>
+				<!-- Address Address(Street #) -->
+					<p:row>
+						<p:column><h:outputLabel for="address" value="#{MESSAGE.ADDRESS_ADDRESS}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_ADDRESS}">
+							<p:autoComplete value="#{userProfileView.address.address}" completeMethod="#{addressView.getAddresses}" id="address" name="address"/>
+						</p:inplace></p:column>
+						<p:column><p:message for="address" id="addressMessage"/></p:column>
+					</p:row>
+				<!-- Post Index -->
+					<p:row>
+						<p:column><h:outputLabel for="postIndex" value="#{MESSAGE.ADDRESS_INDEX}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_INDEX}">
+							<p:autoComplete value="#{userProfileView.address.postIndex}" completeMethod="#{addressView.getIndexes}" id="postIndex" name="postIndex" 
+							validator="#{addressValidator.validate}" validatorMessage="#{MESSAGE.VALIDATOR_POST_INDEX}" converterMessage="#{MESSAGE.VALIDATOR_POST_INDEX}">
+									<f:attribute name="name" value="postIndex" />
+									<f:validateLongRange minimum="5" maximum="5" />
+							</p:autoComplete>
+							<p:ajax event="save" update="postIndexMessage growl" listener="#{userProfileView.save}"/>
+						</p:inplace></p:column>
+						<p:column><p:message for="postIndex" id="postIndexMessage"/></p:column>
+					</p:row>
+				<!-- Color -->
+					<p:row>
+						<p:column><h:outputLabel for="color" value="#{MESSAGE.USERS_COLOR}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/><p:inplace id="color" editor="true">
+							<f:facet name="output">
+				                <h:outputText value="#{MESSAGE.USERS_COLOR}" />
+				            </f:facet>
+							<p:colorPicker value="#{userProfileView.user.color}" />
+						</p:inplace></p:column>
+						<p:column><p:message for="color" /></p:column>
+					</p:row>
+				<!-- Date Created -->
+					<p:row>
+						<p:column><h:outputLabel for="dateCreated" value="#{MESSAGE.ENTITY_DATE_CREATED}" /></p:column>
+						<p:column><h:outputText value="#{userProfileView.user.dateCreated}" id="dateCreated"/></p:column>
+						<p:column><p:message for="dateCreated" /></p:column>
+					</p:row>
+				<!-- User Created -->
+					<p:row>
+					<p:column><h:outputLabel for="userCreated" value="#{MESSAGE.ENTITY_USER_CREATED}" /></p:column>
+					<p:column><h:outputText
+						value="#{userProfileView.userCreated.lastName} #{userProfileView.userCreated.firstName} #{userProfileView.userCreated.middleName}"
+						showOn="button" id="userCreated" /></p:column>
+					<p:column><p:message for="userCreated" /></p:column>
+					</p:row>
+				</p:panelGrid>
 		</h:form>
 	</ui:define>
-
 </ui:composition>
