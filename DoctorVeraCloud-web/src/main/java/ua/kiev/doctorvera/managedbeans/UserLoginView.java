@@ -57,7 +57,6 @@ public class UserLoginView {
     public void setIncomingUser() {
         this.incomingUser = usersFacade.find(14);
     }
-    
     /*
     public String getUsername() {
         return incomingUser.getUsername();

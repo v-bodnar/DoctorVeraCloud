@@ -50,6 +50,11 @@
 		<managed-bean-class>ua.kiev.doctorvera.managedbeans.AddressView</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>userRegisterView</managed-bean-name>
+		<managed-bean-class>ua.kiev.doctorvera.managedbeans.UserRegisterView</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 	
 
 </faces-config>

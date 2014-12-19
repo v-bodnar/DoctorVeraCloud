@@ -4,7 +4,7 @@
     <!-- Pages-->
     <entry key="MAIN">/private/main.xhtml</entry>
     <entry key="LOGIN_PAGE">/login.xhtml</entry>
-    <entry key="REGISTER_PAGE">/private/register.xhtml</entry>
+    <entry key="REGISTER_PAGE">/register.xhtml</entry>
  	<entry key="USER_PROFILE_PAGE">/private/profile.xhtml</entry>
  	<entry key="USER_USERS_PAGE">/private/users.xhtml</entry>
  	<entry key="AVATAR_CROP_DIALOG">/private/crop_image.xhtml</entry>

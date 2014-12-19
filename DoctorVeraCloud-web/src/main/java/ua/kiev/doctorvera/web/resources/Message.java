@@ -15,8 +15,8 @@ public class Message extends ListResourceBundle{
 	public Message(){
 		super();
 		try{
-		resource = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault(), new ExtendedControl());
-		setList();
+			resource = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault(), new ExtendedControl());
+			setList();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -41,18 +41,22 @@ public class Message extends ListResourceBundle{
 		LOGIN_USER_PROFILE
 	}
 	
-	public static enum ShowUsers{
+	public static enum UsersDetails{
 		SHOW_USERS_TITLE,
-		SHOW_USERS_ACTIONS
-	}
-	public static enum AddUser{
+		SHOW_USERS_ACTIONS,
 		ADD_USER_FORM_LEGEND_DETAILS,
 		ADD_USER_FORM_LEGEND_ADDRESS,
-		ADD_USER_BUTTON_ADD
-	}
-	public static enum UpdateUsers{
+		ADD_USER_BUTTON_ADD,
 		UPDATE_USER_BUTTON_UPDATE,
-		UPDATE_USER_TITLE
+		UPDATE_USER_TITLE,
+		PROFILE_UPLOAD_AVATAR_BUTTON,
+		PROFILE_CROP_AVATAR_TITLE,
+		PROFILE_CROP_BUTTON,
+		PROFILE_RELOAD_BUTTON,
+		PROFILE_CROP_AVATAR_ERROR_TITLE,
+		PROFILE_CROP_AVATAR_ERROR_MESSAGE,
+		PROFILE_CROP_AVATAR_SUCCESS_TITLE,
+		PROFILE_CROP_AVATAR_SUCCESS_MESSAGE
 	}
 	
 	public static enum Menu{

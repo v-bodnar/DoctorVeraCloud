@@ -6,8 +6,12 @@
 
 	<p:layout>
 		<p:layoutUnit position="center">
-			<p:graphicImage
+			<h:form>
+			<h:commandLink action="#{MAPPINGS.APPLICATION_ROOT_PATH}">
+				<p:graphicImage
 				value="#{MAPPINGS.APPLICATION_IMAGES_PATH}#{MAPPINGS.APPLICATION_LOGO}" />
+			</h:commandLink>
+			</h:form>
 		</p:layoutUnit>
 
 		<p:layoutUnit id="headerEast" position="east" resizable="true"

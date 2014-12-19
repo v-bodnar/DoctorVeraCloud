@@ -26,12 +26,13 @@
 						<p:commandButton widgetVar="crop" value="crop"
 							icon="ui-icon-extlink"
 							actionListener="#{userProfileView.showCropper}"
-							disabled="#{uploadImageView.tempImageName == null}"
-							style="display:none;" process="@none" />
+							style="display:none;" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>
-
+		</h:form>
+		<h:form>
+			<p:growl id="growl" showDetail="true" severity="info"/> 
 				<p:panelGrid styleClass="profileDetailsGrid" id="profileDetailsGrid" 
 				columnClasses="profileDetailsGridColumn" rowClasses="profileDetailsGridRow" >
 				<!-- First Name -->
@@ -176,7 +177,9 @@
 						<p:column><h:outputLabel for="address" value="#{MESSAGE.ADDRESS_ADDRESS}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
 						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_ADDRESS}">
-							<p:autoComplete value="#{userProfileView.address.address}" completeMethod="#{addressView.getAddresses}" id="address" name="address"/>
+							<p:autoComplete value="#{userProfileView.address.address}" completeMethod="#{addressView.getAddresses}" id="address" name="address">
+							<p:ajax event="save" update="addressMessage growl"/>
+							</p:autoComplete>
 						</p:inplace></p:column>
 						<p:column><p:message for="address" id="addressMessage"/></p:column>
 					</p:row>
@@ -185,11 +188,11 @@
 						<p:column><h:outputLabel for="postIndex" value="#{MESSAGE.ADDRESS_INDEX}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
 						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_INDEX}">
-							<p:autoComplete value="#{userProfileView.address.postIndex}" completeMethod="#{addressView.getIndexes}" id="postIndex" name="postIndex" 
-							validator="#{addressValidator.validate}" validatorMessage="#{MESSAGE.VALIDATOR_POST_INDEX}" converterMessage="#{MESSAGE.VALIDATOR_POST_INDEX}">
+							<p:inputMask value="#{userProfileView.address.postIndex}"
+							id="postIndex" name="postIndex" 
+							mask="99999" validator="#{addressValidator.validate}">
 									<f:attribute name="name" value="postIndex" />
-									<f:validateLongRange minimum="5" maximum="5" />
-							</p:autoComplete>
+							</p:inputMask >
 							<p:ajax event="save" update="postIndexMessage growl" listener="#{userProfileView.save}"/>
 						</p:inplace></p:column>
 						<p:column><p:message for="postIndex" id="postIndexMessage"/></p:column>

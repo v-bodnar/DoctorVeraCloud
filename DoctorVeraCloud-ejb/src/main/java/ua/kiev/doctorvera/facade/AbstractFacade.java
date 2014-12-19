@@ -20,7 +20,6 @@ import ua.kiev.doctorvera.entities.Identified;
  * @author Volodymyr Bodnar
  */
 public abstract class AbstractFacade<T extends Identified<Integer>> {
-
 	//Entity manager got by JNDI from container
 	@PersistenceContext(unitName = "DoctorVera")
 	private EntityManager em;
@@ -90,6 +89,5 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
         cq.select(root).where(cb.isFalse(root.<Boolean>get("deleted")));
         List<T> resultList = getEntityManager().createQuery(cq).getResultList();
         return resultList.size();
-    }
-    
+    }    
 }

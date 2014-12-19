@@ -19,6 +19,7 @@ public class AuthenFilter implements Filter {
 
 	private final static Logger LOG = Logger.getLogger(AuthenFilter.class.getName());
 	private final String LOGIN_PAGE = Mapping.getInstance().getProperty(Mapping.Page.LOGIN_PAGE);
+	private final String REGISTER_PAGE = Mapping.getInstance().getProperty(Mapping.Page.REGISTER_PAGE);
 	private final String APPLICATION_ROOT_PATH = Mapping.getInstance().getProperty(Mapping.Path.APPLICATION_ROOT_PATH);
 	
 	public void init(FilterConfig config) throws ServletException {
@@ -34,7 +35,7 @@ public class AuthenFilter implements Filter {
 		response.setCharacterEncoding("UTF-8");
 		System.setProperty("file.encoding", "UTF-8");
 		
-		if (url.contains(LOGIN_PAGE)) {
+		if (url.contains(LOGIN_PAGE) || url.contains(REGISTER_PAGE)) {
 			// bruteReveal(request);
 			// Pass request back down the filter chain
 			chain.doFilter(request, response);

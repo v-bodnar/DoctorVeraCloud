@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -24,6 +27,7 @@ import org.primefaces.model.UploadedFile;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facade.UsersFacadeLocal;
 import ua.kiev.doctorvera.web.resources.Mapping;
+import ua.kiev.doctorvera.web.resources.Message;
 
 public class UploadImageView {
 	
@@ -36,9 +40,12 @@ public class UploadImageView {
 	
 	private String userId;
 	
+	private final static Logger LOG = Logger.getLogger(UploadImageView.class.getName());
 	private final String AVATAR_IMAGES_PATH = Mapping.getInstance().getProperty(Mapping.Path.APPLICATION_AVATAR_IMAGES_PATH);
-	
-	private Integer counter = 0;
+	private final String SUCCESS_MESSAGE = Message.getInstance().getMessage(Message.UsersDetails.PROFILE_CROP_AVATAR_SUCCESS_MESSAGE);
+	private final String SUCCESS_TITLE = Message.getInstance().getMessage(Message.UsersDetails.PROFILE_CROP_AVATAR_SUCCESS_TITLE);
+	private final String ERROR_MESSAGE = Message.getInstance().getMessage(Message.UsersDetails.PROFILE_CROP_AVATAR_ERROR_MESSAGE);
+	private final String ERROR_TITLE = Message.getInstance().getMessage(Message.UsersDetails.PROFILE_CROP_AVATAR_ERROR_TITLE);
 		
 	public String getUserId() {
 		return userId;
@@ -46,20 +53,6 @@ public class UploadImageView {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-		FacesMessage message = new FacesMessage("UserId:" + userId);
-		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
-
-	public Integer getCounter() {
-		return counter;
-	}
-
-	public void setCounter(Integer counter) {
-		this.counter = counter;
-	}
-
-	public UploadImageView(){
-		counter++;
 	}
 	
 	public CroppedImage getCroppedImage() {
@@ -81,24 +74,26 @@ public class UploadImageView {
 	
     public void handleFileUpload(FileUploadEvent event) {
     	UploadedFile file = event.getFile();
+    	LOG.info("Time " + new Date().toString() + " Starting to upload avatar:");
 		if (file != null && userId != null) {
 			try{
 				final ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 				final InputStream input = file.getInputstream();
 				final String filename = "temp_avatar_" + userId + ".";
-				final String extension = FilenameUtils.getExtension(file.getFileName());
+				final String extension	 = FilenameUtils.getExtension(file.getFileName());
 				final String path = servletContext.getRealPath("") + File.separator + AVATAR_IMAGES_PATH;
-	
+					
 				tempImageName = filename + extension;
+				LOG.info("Time " + new Date().toString() + " Avatar temp path: " + path + tempImageName );
 				
 				File tempFile = new File(path + filename + extension);
 				tempFile.createNewFile();
 				Files.copy(input, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 				resizeImage(tempFile,extension);
-				FacesMessage message = new FacesMessage("Succesfuly uploaded", tempFile.getAbsolutePath() + " is uploaded.");
-				FacesContext.getCurrentInstance().addMessage(null, message);
+				
+				LOG.info("Time " + new Date().toString() + " Avatar successfuly uploaded");
 			}catch(Exception e){
-				e.printStackTrace();
+				LOG.log(Level.SEVERE, "Exception: ", e);
 			}
 		}
     }
@@ -106,22 +101,20 @@ public class UploadImageView {
     private void resizeImage(File image, String imageType) throws IOException{
     	BufferedImage originalImage = ImageIO.read(image);
 		int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-		
 		BufferedImage resizeImageJpg = resizeImage(originalImage, type);
 		ImageIO.write(resizeImageJpg, imageType, image);
     }
     
     private static BufferedImage resizeImage(BufferedImage originalImage, int type){
     	final double aspectRatio = ((double)originalImage.getWidth())/((double)originalImage.getHeight());
-
-    		final int IMG_HEIGHT = 300;
-	    	final int IMG_WIDTH = (int)(((double)IMG_HEIGHT)*aspectRatio);
-	    	BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
-	    	Graphics2D g = resizedImage.createGraphics();
-	    	g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
-	    	g.dispose();
-	    	return resizedImage;
-
+    	final int IMG_HEIGHT = 300;
+	    final int IMG_WIDTH = (int)(((double)IMG_HEIGHT)*aspectRatio);
+	    BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
+	    Graphics2D g = resizedImage.createGraphics();
+	    g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
+	    g.dispose();
+	    LOG.info("Time " + new Date().toString() + " Avatar image resized");
+	    return resizedImage;
     }
 
 	public void crop() {
@@ -142,11 +135,13 @@ public class UploadImageView {
 			currentUser.setAvatarImage(filename);
 			usersFacade.edit(currentUser);
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Cropping failed."));
+			LOG.log(Level.SEVERE, "Exception: ", e);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ERROR_TITLE, ERROR_MESSAGE));
 		}
-		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfuly cropped", "Cropping finished."));
+		LOG.info("Time " + new Date().toString() + " Avatar image Cropped");
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, SUCCESS_TITLE, SUCCESS_MESSAGE));
 		RequestContext.getCurrentInstance().closeDialog(null);
 	}
+
 
 }

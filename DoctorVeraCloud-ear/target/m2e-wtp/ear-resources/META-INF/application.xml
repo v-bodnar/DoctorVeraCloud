@@ -10,4 +10,7 @@
       <context-root>/DoctorVeraCloud-web</context-root>
     </web>
   </module>
+  <module>
+    <ejb>DoctorVeraCloud-ejb-0.0.1-SNAPSHOT.jar</ejb>
+  </module>
 </application>

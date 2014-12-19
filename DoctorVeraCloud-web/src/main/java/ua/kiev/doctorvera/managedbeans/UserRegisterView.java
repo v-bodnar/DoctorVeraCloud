@@ -1,13 +1,9 @@
 package ua.kiev.doctorvera.managedbeans;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-
-import org.primefaces.context.RequestContext;
 
 import ua.kiev.doctorvera.entities.Address;
 import ua.kiev.doctorvera.entities.Users;
@@ -15,8 +11,7 @@ import ua.kiev.doctorvera.facade.AddressFacadeLocal;
 import ua.kiev.doctorvera.facade.UsersFacadeLocal;
 import ua.kiev.doctorvera.web.resources.Message;
 
-public class UserProfileView {
-	
+public class UserRegisterView {
 	@EJB
 	private UsersFacadeLocal usersFacade;
 	
@@ -24,13 +19,15 @@ public class UserProfileView {
 	private AddressFacadeLocal addressFacade;
 		
 	private Users user;
-	private Users userCreated;	
 	private Address address;
 	
-	public void init(String userId) {
-		user = usersFacade.find(Integer.parseInt(userId));
-		userCreated = usersFacade.find(user.getUserCreatedId());
-		address = addressFacade.find(user.getAddressId());
+	private String pass;
+	
+	@PostConstruct
+	public void init() {
+		user = new Users();
+		user.setUserCreated(usersFacade.findByUsername("root"));
+		address = new Address();
 	}
 	
 	public Users getUser() {
@@ -40,37 +37,30 @@ public class UserProfileView {
 	public void setUser(Users user) {
 		this.user = user;
 	}
-	
-    public Users getUserCreated() {
-		return userCreated;
-	}
-
-	public void setUserCreated(Users userCreated) {
-		this.userCreated = userCreated;
-	}
 
 	public Address getAddress() {
 		return address;
 	}
 
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-
-	public void showCropper() {
-        Map<String,Object> options = new HashMap<String, Object>();
-        options.put("modal", true);
-        options.put("minHeight", 470);
-        options.put("closeOnEscape", true);
-        RequestContext.getCurrentInstance().openDialog("/private/crop_image.xhtml", options, null);
-    }
 	
-	public void save(){
+	public void register(){
+		addressFacade.create(address);
+		usersFacade.create(user);
+		user.setAddress(address);
 		usersFacade.edit(user);
-		addressFacade.edit(address);
 		final String successMessage = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
 		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
-	
 }

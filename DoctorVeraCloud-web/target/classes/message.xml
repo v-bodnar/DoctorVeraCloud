@@ -25,6 +25,16 @@
 <entry key="PROFILE_CROP_AVATAR_TITLE">Обрезать загруженное фото</entry>
 <entry key="PROFILE_CROP_BUTTON">Обрезать</entry>
 <entry key="PROFILE_RELOAD_BUTTON">Обновить</entry>
+<entry key="PROFILE_CROP_AVATAR_ERROR_TITLE">Ошибка!</entry>
+<entry key="PROFILE_CROP_AVATAR_ERROR_MESSAGE">Ошибка установки аватарки!</entry>
+<entry key="PROFILE_CROP_AVATAR_SUCCESS_TITLE">Успешно!</entry>
+<entry key="PROFILE_CROP_AVATAR_SUCCESS_MESSAGE">Аватарка успешно установлена, обновите страницу!</entry>
+<entry key="PROFILE_PASSWORD_PROMT">Введите пароль</entry>
+<entry key="PROFILE_PASSWORD_WEAK">Слабый пароль</entry>
+<entry key="PROFILE_PASSWORD_GOOD">Нормальный пароль</entry>
+<entry key="PROFILE_PASSWORD_STRONG">Хороший пароль</entry>
+<entry key="PROFILE_PASSWORD_REPEAT">Повторите пароль</entry>
+
 	
 <!-- show_users.jsp -->
 	<entry key="SHOW_USERS_TITLE">Пользователи</entry>
