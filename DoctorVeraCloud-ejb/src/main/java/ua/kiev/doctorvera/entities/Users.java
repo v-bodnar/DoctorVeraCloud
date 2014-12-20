@@ -110,7 +110,6 @@ public class Users implements Serializable,Identified<Integer> {
     @Column(name = "Deleted")
     private boolean deleted;
     @Basic(optional = false)
-    @NotNull
     @Size(max = 150)
     @Column(name = "AvatarImage", columnDefinition="default default_male_avatar.png")
     private String avatarImage;

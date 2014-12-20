@@ -11,8 +11,12 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
@@ -29,11 +33,19 @@ import ua.kiev.doctorvera.facade.UsersFacadeLocal;
 import ua.kiev.doctorvera.web.resources.Mapping;
 import ua.kiev.doctorvera.web.resources.Message;
 
+@ManagedBean(name="uploadImageView")
+@SessionScoped
 public class UploadImageView {
 	
 	@EJB
 	private UsersFacadeLocal usersFacade;
 	
+    @ManagedProperty(value="#{userLoginView}")
+    private UserLoginView userLogin;
+    
+    @ManagedProperty(value="#{userProfileView}")
+    UserProfileView userProfile;
+    
 	private CroppedImage croppedImage;
 
 	private String tempImageName;
@@ -46,7 +58,23 @@ public class UploadImageView {
 	private final String SUCCESS_TITLE = Message.getInstance().getMessage(Message.UsersDetails.PROFILE_CROP_AVATAR_SUCCESS_TITLE);
 	private final String ERROR_MESSAGE = Message.getInstance().getMessage(Message.UsersDetails.PROFILE_CROP_AVATAR_ERROR_MESSAGE);
 	private final String ERROR_TITLE = Message.getInstance().getMessage(Message.UsersDetails.PROFILE_CROP_AVATAR_ERROR_TITLE);
-		
+
+	public UploadImageView(){}
+	
+	@PostConstruct
+	public void init(){
+		LOG.info(userLogin.getClass() +" injected into" + this.getClass() + "!");
+		LOG.info(userProfile.getClass() +" injected into"+ this.getClass() + "!");
+	}
+	
+	public void setUserLogin(UserLoginView userLogin) {
+		this.userLogin = userLogin;
+	}
+	
+	public void setUserProfile(UserProfileView userProfile) {
+		this.userProfile = userProfile;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -84,14 +112,14 @@ public class UploadImageView {
 				final String path = servletContext.getRealPath("") + File.separator + AVATAR_IMAGES_PATH;
 					
 				tempImageName = filename + extension;
-				LOG.info("Time " + new Date().toString() + " Avatar temp path: " + path + tempImageName );
+				LOG.info("Avatar temp path: " + path + tempImageName );
 				
 				File tempFile = new File(path + filename + extension);
 				tempFile.createNewFile();
 				Files.copy(input, tempFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 				resizeImage(tempFile,extension);
 				
-				LOG.info("Time " + new Date().toString() + " Avatar successfuly uploaded");
+				LOG.info("Avatar successfuly uploaded");
 			}catch(Exception e){
 				LOG.log(Level.SEVERE, "Exception: ", e);
 			}
@@ -113,7 +141,7 @@ public class UploadImageView {
 	    Graphics2D g = resizedImage.createGraphics();
 	    g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
 	    g.dispose();
-	    LOG.info("Time " + new Date().toString() + " Avatar image resized");
+	    LOG.info("Avatar image resized");
 	    return resizedImage;
     }
 
@@ -138,8 +166,11 @@ public class UploadImageView {
 			LOG.log(Level.SEVERE, "Exception: ", e);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ERROR_TITLE, ERROR_MESSAGE));
 		}
-		LOG.info("Time " + new Date().toString() + " Avatar image Cropped");
+		
+		LOG.info("Avatar image Cropped");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, SUCCESS_TITLE, SUCCESS_MESSAGE));
+		if(userId.equals(userLogin.getAuthorizedUser().getId().toString()))userLogin.refresh();
+		userProfile.refresh();
 		RequestContext.getCurrentInstance().closeDialog(null);
 	}
 

@@ -2,6 +2,8 @@ package ua.kiev.doctorvera.managedbeans;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +13,9 @@ import org.primefaces.context.RequestContext;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facade.UsersFacadeLocal;
 import ua.kiev.doctorvera.web.resources.Message;
- 
+
+@ManagedBean(name="userLoginView")
+@SessionScoped
 public class UserLoginView {
 	@EJB
 	private UsersFacadeLocal usersFacade;
@@ -27,6 +31,8 @@ public class UserLoginView {
     private final String GOODBY_MESSAGE_TITLE = Message.getInstance().getMessage(Message.Login.LOGIN_GOODBY_TITLE);
     private final String GOODBY_MESSAGE = Message.getInstance().getMessage(Message.Login.LOGIN_GOODBY);
         
+    public UserLoginView(){};
+    
     public void toggleRender() {
     	render = !render;
 	}
@@ -54,10 +60,10 @@ public class UserLoginView {
     public void setIncomingUser(Users incomingUser) {
        this.incomingUser = incomingUser;
     }
+    /*
     public void setIncomingUser() {
         this.incomingUser = usersFacade.find(14);
     }
-    /*
     public String getUsername() {
         return incomingUser.getUsername();
     }
@@ -74,6 +80,10 @@ public class UserLoginView {
     	incomingUser.setPassword(password);;
     }
    */
+    public void refresh(){
+    	authorizedUser = usersFacade.find(authorizedUser.getId());
+    }
+    
     public void login(ActionEvent event) {
         RequestContext requestContext = RequestContext.getCurrentInstance();
         FacesContext facesContext = FacesContext.getCurrentInstance();

@@ -18,7 +18,7 @@ public class Mapping extends ListResourceBundle{
 	}
 
     public static enum Page { 
-    	MAIN, 
+    	MAIN_PAGE, 
     	LOGIN_PAGE,
     	SHOW_USERS_PAGE,
     	ADD_USER_PAGE,
@@ -33,7 +33,8 @@ public class Mapping extends ListResourceBundle{
     public static enum Path { 
     	APPLICATION_IMAGES_PATH,
     	APPLICATION_AVATAR_IMAGES_PATH,
-    	APPLICATION_ROOT_PATH
+    	APPLICATION_ROOT_PATH,
+    	APPLICATION_AVATAR_DEFAULT
     }
 
 	public static Mapping getInstance() {

@@ -40,6 +40,16 @@
 	margin:0;
 	text-align: center;
 }
+.pageTitle{
+	/*color:#327e04;*/
+	color:gold;
+	font-size: 200%;
+	/*margin-left:25%;*/
+	float:left;
+	padding-left:10%;
+	padding-top:65px;
+	margin:0px;
+}
  /* ---------- Profile ----------*/
 
 .avatarGrid{
@@ -75,3 +85,11 @@
 .ui-widget, .ui-widget .ui-widget {
 font-size: 100% !important;
 }
+
+ /* ---------- Register User ----------*/
+.registerForm td:FIRST-CHILD {
+	width:20%;
+}
+.registerForm tr:nth-child(2){
+	width:30%;
+} 

@@ -1,6 +1,5 @@
 package ua.kiev.doctorvera.filter;
 
-import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.servlet.Filter;
@@ -40,10 +39,10 @@ public class AuthenFilter implements Filter {
 			// Pass request back down the filter chain
 			chain.doFilter(request, response);
 		} else if (isAuththenticated(request)){
-			LOG.info("Time " + new Date().toString() + " Session is authorised");
+			LOG.info("Session is authorised");
 			chain.doFilter(request, response);
 		} else{
-			LOG.info("Time " + new Date().toString() + " Session is not authorised");
+			LOG.info("Session is not authorised");
 			response.sendRedirect(APPLICATION_ROOT_PATH);
 		}
 		

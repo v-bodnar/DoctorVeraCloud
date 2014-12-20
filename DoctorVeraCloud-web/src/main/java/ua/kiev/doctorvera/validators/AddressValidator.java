@@ -41,10 +41,10 @@ public class AddressValidator implements Validator, ClientValidator {
 				message = ua.kiev.doctorvera.validators.Validator.checkLiteralOrNull((String)value);
 				break;
 			case "region":
-				message = ua.kiev.doctorvera.validators.Validator.checkLiteral((String)value);
+				message = ua.kiev.doctorvera.validators.Validator.checkLiteralOrNull((String)value);
 				break;
 			case "city":
-				message = ua.kiev.doctorvera.validators.Validator.checkLiteral((String)value);
+				message = ua.kiev.doctorvera.validators.Validator.checkLiteralOrNull((String)value);
 				break;
 			case "postIndex":
 				message = ua.kiev.doctorvera.validators.Validator.checkNumericOrNull(""+value);
@@ -53,8 +53,6 @@ public class AddressValidator implements Validator, ClientValidator {
 		}
 		 
 		if(message.equals("")) {
-			FacesMessage messages = new FacesMessage("Succesfuly updated");
-			FacesContext.getCurrentInstance().addMessage(null, messages);
 			return;
 			}
 		else 

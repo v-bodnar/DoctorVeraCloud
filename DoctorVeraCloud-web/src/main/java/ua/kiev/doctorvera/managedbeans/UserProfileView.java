@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
@@ -15,6 +17,8 @@ import ua.kiev.doctorvera.facade.AddressFacadeLocal;
 import ua.kiev.doctorvera.facade.UsersFacadeLocal;
 import ua.kiev.doctorvera.web.resources.Message;
 
+@ManagedBean(name="userProfileView")
+@SessionScoped
 public class UserProfileView {
 	
 	@EJB
@@ -26,6 +30,8 @@ public class UserProfileView {
 	private Users user;
 	private Users userCreated;	
 	private Address address;
+	
+	public UserProfileView(){};
 	
 	public void init(String userId) {
 		user = usersFacade.find(Integer.parseInt(userId));
@@ -57,6 +63,9 @@ public class UserProfileView {
 		this.address = address;
 	}
 
+	public void refresh(){
+		init(user.getId().toString());
+	}
 	public void showCropper() {
         Map<String,Object> options = new HashMap<String, Object>();
         options.put("modal", true);

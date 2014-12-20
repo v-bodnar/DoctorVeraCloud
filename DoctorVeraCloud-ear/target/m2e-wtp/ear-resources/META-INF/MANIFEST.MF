@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: Bodun
+Built-By: Guest
 Class-Path: DoctorVeraCloud-ejb-0.0.1-SNAPSHOT.jar hibernate-entityman
  ager-4.3.5.Final.jar jboss-logging-3.1.3.GA.jar jboss-logging-annotat
  ions-1.2.0.Beta1.jar hibernate-core-4.3.5.Final.jar antlr-2.7.7.jar j

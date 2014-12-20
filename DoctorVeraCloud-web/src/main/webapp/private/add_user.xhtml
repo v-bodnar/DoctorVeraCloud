@@ -1,50 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition template="index.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-
-
-<h:head>
-	<h:outputStylesheet library="css" name="style.css" />
-	<h:outputStylesheet library="css" name="style.css" />
-	<ui:debug />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title><h:outputText value="#{MESSAGES.APPLICATION_TITLE}" /></title>
-</h:head>
-
-<h:body>
-	<p:layout name="wrapper" fullPage="true">
-
-		<p:layoutUnit styleClass="headerCenter" position="north" size="150"
-			resizable="true" closable="true" collapsible="true">
-			<p:layout>
-				<p:layoutUnit position="center">
-					<h:form>
-					<a href="#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.MAIN_PAGE}">
-						<h:graphicImage
-							value="#{MAPPINGS.APPLICATION_IMAGES_PATH}#{MAPPINGS.APPLICATION_LOGO}" style="float:left"/>
-					</a>
-					</h:form>
-					<h3 class="pageTitle"><h:outputText value="#{MESSAGE.REGISTRATION_TITLE}"/></h3>
-				</p:layoutUnit>
-
-				<p:layoutUnit id="headerEast" position="east" resizable="true"
-					size="350">
-				</p:layoutUnit>
-			</p:layout>
-		</p:layoutUnit>
-
-		<p:layoutUnit styleClass="layoutUnitCenter" position="center" >
-		
-		
-			<h:form id="registerForm" onkeypress="if( event.keyCode == 13){event.preventDefault()}" styleClass="registerForm">
-				<p:growl id="growl" showDetail="true" severity="info"/>
-				<p:panel>
-				<h:panelGrid columns="3" cellpadding="5" style="margin:auto;width:100%;">
+	<ui:define name="title">
+		<h:outputText value="#{MESSAGE.REGISTRATION_TITLE}" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="registerForm"
+			onkeypress="if( event.keyCode == 13){event.preventDefault()}"
+			styleClass="registerForm">
+			<p:growl id="growl" showDetail="true" severity="info" />
+			<p:panel>
+				<h:panelGrid columns="3" cellpadding="5"
+					style="margin:auto;width:100%;">
 					<!-- First Name -->
 					<h:outputLabel for="firstName" value="#{MESSAGE.USERS_FIRST_NAME}" />
 					<p:inputText value="#{userRegisterView.user.firstName}"
@@ -53,7 +23,8 @@
 						validator="#{usersValidator.validate}" required="true"
 						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
 						<f:attribute name="name" value="firstName" />
-						<p:ajax event="blur" update="firstNameMessage growl" process="firstName" />
+						<p:ajax event="blur" update="firstNameMessage growl"
+							process="firstName" />
 					</p:inputText>
 					<p:message for="firstName" id="firstNameMessage" />
 
@@ -110,11 +81,11 @@
 						promptLabel="#{MESSAGE.PROFILE_PASSWORD_PROMT}"
 						weakLabel="#{MESSAGE.PROFILE_PASSWORD_WEAK}"
 						goodLabel="#{MESSAGE.PROFILE_PASSWORD_GOOD}"
-						strongLabel="#{MESSAGE.PROFILE_PASSWORD_STRONG}" 
-						required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+						strongLabel="#{MESSAGE.PROFILE_PASSWORD_STRONG}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
 						validator="#{usersValidator.validate}">
 						<p:ajax event="blur" update="passwordMessage growl" />
-						<f:attribute  name="name" value="password" />
+						<f:attribute name="name" value="password" />
 					</p:password>
 					<p:message for="password" id="passwordMessage" />
 
@@ -207,14 +178,11 @@
 					</p:colorPicker>
 					<p:message for="color" />
 
-					<p:commandButton update="@all"
-					value="#{MESSAGE.LOGIN_REGISTER}"
-					actionListener="#{userRegisterView.register}" icon="ui-icon-check" style="margin:auto" ajax="true"/>
+					<p:commandButton update="@all" value="#{MESSAGE.LOGIN_REGISTER}"
+						actionListener="#{userRegisterView.register}" icon="ui-icon-check"
+						style="margin:auto" ajax="true" />
 				</h:panelGrid>
 			</p:panel>
-			</h:form>
-		</p:layoutUnit>
-		</p:layout>
-</h:body>
-
-</html>
+		</h:form>
+	</ui:define>
+</ui:composition>

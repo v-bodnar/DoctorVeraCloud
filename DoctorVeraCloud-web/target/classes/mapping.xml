@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
     <!-- Pages-->
-    <entry key="MAIN">/private/main.xhtml</entry>
+    <entry key="MAIN_PAGE">/private/index.xhtml</entry>
     <entry key="LOGIN_PAGE">/login.xhtml</entry>
     <entry key="REGISTER_PAGE">/register.xhtml</entry>
  	<entry key="USER_PROFILE_PAGE">/private/profile.xhtml</entry>
@@ -14,5 +14,6 @@
  	<entry key="APPLICATION_ROOT_PATH">/DoctorVeraCloud-web/</entry>
  	<entry key="APPLICATION_IMAGES_PATH">/resources/images/</entry>
  	<entry key="APPLICATION_AVATAR_IMAGES_PATH">/resources/images/avatar/</entry>
+ 	<entry key="APPLICATION_AVATAR_DEFAULT">default_male_avatar.png</entry>
  	
 </properties>

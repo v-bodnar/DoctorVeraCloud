@@ -34,7 +34,10 @@
 <entry key="PROFILE_PASSWORD_GOOD">Нормальный пароль</entry>
 <entry key="PROFILE_PASSWORD_STRONG">Хороший пароль</entry>
 <entry key="PROFILE_PASSWORD_REPEAT">Повторите пароль</entry>
+<entry key="PROFILE_TITLE">Ваш профиль</entry>
 
+<!-- registration.xhtml --> 
+<entry key="REGISTRATION_TITLE">Регистрация</entry>
 	
 <!-- show_users.jsp -->
 	<entry key="SHOW_USERS_TITLE">Пользователи</entry>

@@ -7,16 +7,18 @@
 	<p:layout>
 		<p:layoutUnit position="center">
 			<h:form>
-			<h:commandLink action="#{MAPPINGS.APPLICATION_ROOT_PATH}">
-				<p:graphicImage
-				value="#{MAPPINGS.APPLICATION_IMAGES_PATH}#{MAPPINGS.APPLICATION_LOGO}" />
-			</h:commandLink>
+				<a href="#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.MAIN_PAGE}">
+				<h:graphicImage
+							value="#{MAPPINGS.APPLICATION_IMAGES_PATH}#{MAPPINGS.APPLICATION_LOGO}" style="float:left"/>
+				</a>
 			</h:form>
+			<h3 class="pageTitle"><ui:insert name="title" /></h3>
 		</p:layoutUnit>
 
 		<p:layoutUnit id="headerEast" position="east" resizable="true"
 			size="350">
-			<p:panelGrid styleClass="userProfilePanel">
+			<h:form id="userAuthform">
+			<p:panelGrid styleClass="userProfilePanel" id="userAuthGrid">
 				<p:row>
 					<p:column colspan="2">
 						<h:outputText value="#{MESSAGE.LOGIN_WELCOME}" />
@@ -46,6 +48,7 @@
 					</p:column>
 				</p:row>
 			</p:panelGrid>
+			</h:form>
 		</p:layoutUnit>
 	</p:layout>
 </ui:composition>

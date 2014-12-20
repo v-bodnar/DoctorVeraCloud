@@ -53,7 +53,7 @@ public class Validator {
 	}
 	
 	public static Boolean isNumeric(String string) {
-		return Pattern.matches("\\d*", string);
+		return Pattern.matches("\\d+", string);
 	}
 	
 	public static Boolean containsPunct(String string) {
@@ -194,7 +194,7 @@ public class Validator {
 	
 	public static String checkLiteralOrNull(String value) {
 		String note = "";
-		if (isNull(value))
+		if (isNull(value) || value.equals(""))
 			return "";
 		else if (containsNumeric(value))
 			note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_LITERAL_ONLY) + endLine;
@@ -203,7 +203,7 @@ public class Validator {
 	
 	public static String checkNumericOrNull(String value) {
 		String note = "";
-		if (isNull(value))
+		if (isNull(value) || value.equals(""))
 			return "";
 		else if (!isNumeric(value))
 			note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_NUMBERS_ONLY) + endLine;
