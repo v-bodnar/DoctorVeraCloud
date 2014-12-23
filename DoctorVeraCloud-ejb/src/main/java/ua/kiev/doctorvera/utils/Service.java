@@ -28,7 +28,14 @@ public class Service {
 		}
 	  
 	  public static String firstUpperCase(String word){
-			if(word == null || word.isEmpty()) return "";//или return word;
+			if(word == null || word.isEmpty()) return "";
 			return word.substring(0, 1).toUpperCase() + word.substring(1);
 		}
+	  
+	  public static String stripPhone(String phone){
+			if(phone == null || phone.isEmpty() || phone.equals("(___)___-__-__")) 
+				return "";
+			phone = "+38" + phone.replaceAll("\\D*", "");
+			return phone;
+	 }
 }

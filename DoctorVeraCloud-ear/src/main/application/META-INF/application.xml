@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application id="Application_ID" version="7"
-	xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd">
-	<display-name>DoctorVeraCloud-ear</display-name>
-	<module>
-		<ejb>DoctorVeraCloud-ejb.ejb</ejb>
-	</module>
-	
-	<module>
-		<web>
-			<web-uri>DoctorVeraCloud-web.war</web-uri>
-			<context-root>DoctorVeraCloud</context-root>
-		</web>
-	</module>
-</application> 
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd" id="Application_ID" version="7">
+  <display-name>DoctorVeraCloud-ear</display-name>
+  <module>
+    <ejb>DoctorVeraCloud-ejb.ejb</ejb>
+  </module>
+  <module>
+    <web>
+      <web-uri>DoctorVeraCloud-web.war</web-uri>
+      <context-root>DoctorVeraCloud</context-root>
+    </web>
+  </module>
+  <library-directory>lib</library-directory>
+</application>

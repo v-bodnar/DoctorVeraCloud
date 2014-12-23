@@ -8,18 +8,15 @@ package ua.kiev.doctorvera.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Persistence;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -268,7 +265,7 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     public void setPhoneNumberHome(String phoneNumberHome) {
-        this.phoneNumberHome = phoneNumberHome;
+        this.phoneNumberHome = Service.stripPhone(phoneNumberHome);
     }
 
     public String getPhoneNumberMobile() {
@@ -276,7 +273,7 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     public void setPhoneNumberMobile(String phoneNumberMobile) {
-        this.phoneNumberMobile = phoneNumberMobile;
+        this.phoneNumberMobile = Service.stripPhone(phoneNumberMobile);
     }
 
     public String getDescription() {
@@ -564,6 +561,7 @@ public class Users implements Serializable,Identified<Integer> {
     public void setMethodsCollection(Collection<Methods> methodsCollection) {
         this.methodsCollection = methodsCollection;
     }
+    /*
     private EntityManager getEntityManager(){
     	final Logger LOG = Logger.getLogger(Users.class.getName());
     	long startTime = System.nanoTime();
@@ -574,7 +572,7 @@ public class Users implements Serializable,Identified<Integer> {
     	LOG.info("Entity Manager created in " + duration/1000000 + " millis");
     	return em;
     }
-
+	*/
 	@Override
 	public int hashCode() {
 		final int prime = 31;

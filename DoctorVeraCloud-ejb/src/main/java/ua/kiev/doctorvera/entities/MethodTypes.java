@@ -30,8 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author Bodun
+ * Entity class Describes User
+ * @author Volodymyr Bodnar
  */
 @Entity
 @Table(name = "MethodTypes")

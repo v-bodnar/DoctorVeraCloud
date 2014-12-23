@@ -6,10 +6,15 @@
 	<p:panel id="menu">
 		<h:form>
 			<p:panelMenu style="width:260px">
-				<p:submenu label="Администрирование">
-					<p:menuitem value="Главная" url="index.xhtml" icon="ui-icon-home" />
-					<p:menuitem value="Пользователи" url="users.xhtml"  icon="ui-icon-person" />
-					<p:menuitem value="Добавить пользователя" url="add_user.xhtml"  icon="ui-icon-person" />
+				<p:submenu label="#{MESSAGE.MENU_HEADER}">
+					<p:menuitem value="#{MESSAGE.MENU_ITEM_MAIN}" icon="ui-icon-home" outcome="#{MAPPINGS.MAIN_PAGE}"/>
+					<p:menuitem value="#{MESSAGE.MENU_ITEM_USERS}"  icon="ui-icon-person" outcome="#{MAPPINGS.USERS_PAGE}"/>
+					<p:menuitem value="#{MESSAGE.MENU_ITEM_ADD_USER}" icon="ui-icon-plus" outcome="#{MAPPINGS.USER_ADD_PAGE}"/>
+					<p:menuitem value="#{MESSAGE.MENU_ITEM_USER_TYPES}" icon="ui-icon-tag" outcome="#{MAPPINGS.USER_TYPES_PAGE}"/>
+					<p:menuitem value="#{MESSAGE.MENU_ITEM_ROOMS}" icon="ui-icon-home" outcome="#{MAPPINGS.ROOMS_PAGE}"/>
+					<p:menuitem value="#{MESSAGE.MENU_ITEM_SEND_SMS}" icon="ui-icon-mail-closed" outcome="#{MAPPINGS.SEND_SMS_PAGE}"/>
+					
+					
 				</p:submenu>
 			</p:panelMenu>
 		</h:form>

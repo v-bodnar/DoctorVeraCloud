@@ -22,8 +22,8 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author Vova
+ * Entity class Describes User
+ * @author Volodymyr Bodnar
  */
 @Entity
 @Table(name = "Address")

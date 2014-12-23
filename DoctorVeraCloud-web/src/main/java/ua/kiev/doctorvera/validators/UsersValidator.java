@@ -13,6 +13,7 @@ import javax.faces.validator.ValidatorException;
 
 import org.primefaces.validate.ClientValidator;
 
+import ua.kiev.doctorvera.utils.Service;
 import ua.kiev.doctorvera.web.resources.Message;
 
 @ManagedBean(name = "usersValidator")
@@ -81,10 +82,10 @@ public class UsersValidator implements Validator, ClientValidator {
 				message = ua.kiev.doctorvera.validators.Validator.checkPassword((String)value);
 				break;
 			case "phoneNumberHome":
-				message = ua.kiev.doctorvera.validators.Validator.checkPhone((String)value);
+				message = ua.kiev.doctorvera.validators.Validator.checkPhoneOrNull(Service.stripPhone((String)value));
 				break;
 			case "phoneNumberMobile":
-				message = ua.kiev.doctorvera.validators.Validator.checkPhone((String)value);
+				message = ua.kiev.doctorvera.validators.Validator.checkPhone(Service.stripPhone((String)value));
 				break;
 	
 		}

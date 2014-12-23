@@ -5,15 +5,21 @@
  */
 package ua.kiev.doctorvera.facade;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import ua.kiev.doctorvera.entities.UserTypes;
 import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.entities.UsersHasUserTypes;
 
 /**
  * Class for implementing main operations with User entity
@@ -22,6 +28,9 @@ import ua.kiev.doctorvera.entities.Users;
 @Stateless
 public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLocal {
 		
+	//@EJB
+    //private UsersHasUserTypesFacade usersHasUserTypesFacade;
+	
     public UsersFacade() {
         super(Users.class);
     }
@@ -119,6 +128,17 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         cq.select(cq.from(Users.class)).where(cb.equal(root.<String>get("Description"), description),cb.isFalse(root.<Boolean>get("deleted")));
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList(); 
+    }
+
+    @Override
+    public List<Users> findByType(UserTypes type){
+    	Collection<UsersHasUserTypes> list = type.getUsersHasUserTypesCollection();
+    	//List<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
+    	HashSet<Users> result = new HashSet<Users>();
+    	if (list!=null)
+    		for(UsersHasUserTypes entry : list) 
+    			result.add(entry.getUserId());
+    	return new ArrayList<Users>(result);
     }
 
 }

@@ -1,0 +1,191 @@
+<ui:composition template="index.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="#{MESSAGE.USER_TYPES_TITLE}" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="userTypesForm">
+
+			<p:growl id="growl" showDetail="true" severity="info" />
+
+			<p:contextMenu for="userTypesTable">
+				<p:menuitem update="userTypesTable growl">
+					<p:commandLink styleClass="ui-menuitem-link"
+						action="#{userTypesTableView.deleteSelectedType}" ajax="false"
+						update="userTypesTable growl">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.USER_TYPES_DELETE_BUTTON}" />
+						<p:confirm header="#{MESSAGE.USER_TYPES_DELETE_CONFIRM_TITLE}" icon="ui-icon-alert"
+							message="#{MESSAGE.USER_TYPES_DELETE_CONFIRM_MESSAGE}" />
+					</p:commandLink>
+				</p:menuitem>
+				
+				<p:menuitem update="userTypesTable growl">
+					<p:commandLink styleClass="ui-menuitem-link"
+						oncomplete="PF('editTypeDialog').show();"
+						update=":userTypesEditForm:editTypeDialog">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
+						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.USER_TYPES_EDIT_BUTTON}" />
+					</p:commandLink>
+				</p:menuitem>
+				
+				<p:menuitem update="userTypesTable growl">
+					<p:commandLink styleClass="ui-menuitem-link"
+						actionListener="#{userAddType.setUserType(userTypesTableView.selectedType)}"
+						oncomplete="PF('addUsersToTypeDialog').show();"
+						update=":addUsersToTypeForm:addUsersToTypeDialog">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-person" />
+						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.USER_TYPES_ADD_USERS}" />
+					</p:commandLink>
+				</p:menuitem>
+				
+				
+			</p:contextMenu>
+
+			<p:dataTable id="userTypesTable" styleClass="userTypesTable"
+				var="type" widgetVar="userTypesTable"
+				value="#{userTypesTableView.allTypes}" rowKey="#{type.id}"
+				selection="#{userTypesTableView.selectedType}"
+				selectionMode="single">
+				
+				<p:ajax event="contextMenu" 
+				update=":userTypesEditForm:editTypeDialog :addUsersToTypeForm:addUsersToTypeDialog" />
+				
+				<p:column headerText="#{MESSAGE.USER_TYPES_NAME}"
+					sortBy="#{type.name}" filterBy="#{type.name}"
+					filterMatchMode="contains" style="width:200px;">
+					<h:outputText value="#{type.name}" />
+				</p:column>
+
+				<p:column headerText="#{MESSAGE.ENTITY_DESCRIPTION}"
+					sortBy="#{type.description}" filterBy="#{type.description}"
+					filterMatchMode="contains">
+					<h:outputText value="#{type.description}" />
+				</p:column>
+				
+				<f:facet name="footer">
+			        <p:commandButton value="#{MESSAGE.USER_TYPES_ADD_BUTTON}" icon="ui-icon-plus"
+			        actionListener = "#{userTypesTableView.initNewType}"
+			        oncomplete="PF('addTypeDialog').show();"/>
+		    	</f:facet>
+
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="#{MESSAGE.USER_TYPES_DELETE_CONFIRM_YES}"
+					type="button" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" />
+				<p:commandButton value="#{MESSAGE.USER_TYPES_DELETE_CONFIRM_NO}"
+					type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+		</h:form>
+
+		<h:form id="userTypesAddForm">
+
+			<p:dialog header="#{MESSAGE.USER_TYPES_ADD_DIALOG_TITLE}"
+				widgetVar="addTypeDialog" modal="false">
+				<p:growl id="growl" showDetail="true" />
+				<p:ajax event="close" update=":userTypesForm:userTypesTable" />
+
+				<h:panelGrid columns="3" cellpadding="5">
+
+					<h:outputLabel for="userTypeName"
+						value="#{MESSAGE.USER_TYPES_NAME}" />
+					<p:inputText id="userTypeName"
+						value="#{userTypesTableView.newType.name}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+						<p:ajax event="blur" update="userTypeNameMessage" />
+					</p:inputText>
+					<p:message for="userTypeName" id="userTypeNameMessage" />
+
+					<h:outputLabel for="userTypeDescription"
+						value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+					<p:inputTextarea rows="6" cols="20" id="userTypeDescription"
+						value="#{userTypesTableView.newType.description}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+						<p:ajax event="blur" update="userTypeDescriptionMessage" />
+					</p:inputTextarea>
+					<p:message for="userTypeDescription"
+						id="userTypeDescriptionMessage" />
+
+					<h:outputLabel for="userTypeSaveButton" value="" />
+					<p:commandButton id="userTypeSaveButton"
+						value="#{MESSAGE.USER_TYPES_ADD_BUTTON}" icon="ui-icon-plus"
+						actionListener="#{userTypesTableView.saveNewType}"
+						update="userTypeDescriptionMessage userTypeNameMessage growl"
+						oncomplete="PF('addTypeDialog').hide();" />
+
+				</h:panelGrid>
+
+			</p:dialog>
+
+		</h:form>
+		
+		<h:form id="userTypesEditForm">
+
+			<p:dialog header="#{MESSAGE.USER_TYPES_EDIT_DIALOG_TITLE}"
+				widgetVar="editTypeDialog"  id="editTypeDialog">
+				<p:growl id="growl" showDetail="true" />
+				<p:ajax event="close" update=":userTypesForm:userTypesTable" />
+
+				<h:panelGrid columns="3" cellpadding="5">
+
+					<h:outputLabel for="userTypeName"
+						value="#{MESSAGE.USER_TYPES_NAME}" />
+					<p:inputText id="userTypeName"
+						value="#{userTypesTableView.selectedType.name}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+						<p:ajax event="blur" update="userTypeNameMessage" />
+					</p:inputText>
+					<p:message for="userTypeName" id="userTypeNameMessage" />
+
+					<h:outputLabel for="userTypeDescription"
+						value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+					<p:inputTextarea rows="6" cols="20" id="userTypeDescription"
+						value="#{userTypesTableView.selectedType.description}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+						<p:ajax event="blur" update="userTypeDescriptionMessage" />
+					</p:inputTextarea>
+					<p:message for="userTypeDescription"
+						id="userTypeDescriptionMessage" />
+
+					<h:outputLabel for="userTypeSaveButton" value="" />
+					<p:commandButton id="userTypeSaveButton"
+						value="#{MESSAGE.USER_TYPES_SAVE_BUTTON}" icon="ui-icon-plus"
+						actionListener="#{userTypesTableView.saveSelectedType}"
+						update="userTypeDescriptionMessage userTypeNameMessage growl"
+						oncomplete="PF('editTypeDialog').hide();" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+		
+		
+		<h:form id="addUsersToTypeForm">
+
+			<p:dialog header="#{MESSAGE.USER_TYPES_PICKER_TITLE}"
+				widgetVar="addUsersToTypeDialog" id="addUsersToTypeDialog" width="650" height="300">
+				<p:growl id="growl" showDetail="true" />
+				<p:ajax event="close" update="growl" />
+
+				<p:pickList id="addUsersToTypePickList" value="#{userAddType.users}" var="user" effect="bounce"
+	                itemValue="#{user}" itemLabel="#{user.firstName} #{user.lastName}" 
+	                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker">
+	 
+			        <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.USER_TYPES_PICKER_SOURCE}"/></f:facet>
+			        <f:facet name="targetCaption"><h:outputText value="#{userAddType.userType.name}"/></f:facet>
+			 
+			        <p:ajax event="transfer" listener="#{pickListView.onTransfer}" update="growl" />
+			 
+
+			    </p:pickList>
+
+			</p:dialog>
+		</h:form>
+		
+	</ui:define>
+</ui:composition>

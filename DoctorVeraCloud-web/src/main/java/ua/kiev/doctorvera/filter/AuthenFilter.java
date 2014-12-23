@@ -19,7 +19,6 @@ public class AuthenFilter implements Filter {
 	private final static Logger LOG = Logger.getLogger(AuthenFilter.class.getName());
 	private final String LOGIN_PAGE = Mapping.getInstance().getProperty(Mapping.Page.LOGIN_PAGE);
 	private final String REGISTER_PAGE = Mapping.getInstance().getProperty(Mapping.Page.REGISTER_PAGE);
-	private final String APPLICATION_ROOT_PATH = Mapping.getInstance().getProperty(Mapping.Path.APPLICATION_ROOT_PATH);
 	
 	public void init(FilterConfig config) throws ServletException {
 	}
@@ -43,7 +42,7 @@ public class AuthenFilter implements Filter {
 			chain.doFilter(request, response);
 		} else{
 			LOG.info("Session is not authorised");
-			response.sendRedirect(APPLICATION_ROOT_PATH);
+			response.sendRedirect(LOGIN_PAGE);
 		}
 		
 	}

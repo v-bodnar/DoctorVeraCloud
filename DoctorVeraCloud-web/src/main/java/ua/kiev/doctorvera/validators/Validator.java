@@ -53,7 +53,7 @@ public class Validator {
 	}
 	
 	public static Boolean isNumeric(String string) {
-		return Pattern.matches("\\d+", string);
+		return Pattern.matches("\\d*", string);
 	}
 	
 	public static Boolean containsPunct(String string) {
@@ -152,6 +152,21 @@ public class Validator {
 				note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_PHONE) + endLine;
 			return note;
 		} else return startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_REQUIRED) + endLine;
+	}
+	
+	public static String checkPhoneOrNull(String phone) {
+		String note = "";
+		phone = preparePhoneNumber(phone);
+		if(isNull(phone) || 
+				!phone.equals("")) 
+			return "";
+		else{
+			final Pattern VALID_PHONE_REGEX = Pattern.compile("\\+[0-9]{12,13}", Pattern.CASE_INSENSITIVE);
+			Matcher phoneM = VALID_PHONE_REGEX.matcher(phone);
+			if (!phoneM.find())
+				note += startLine + Message.getInstance().getMessage(Message.Validator.VALIDATOR_PHONE) + endLine;
+			return note;
+		}
 	}
 	
 	public static String checkCyrText(String text) {

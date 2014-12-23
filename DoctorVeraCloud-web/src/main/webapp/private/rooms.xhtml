@@ -1,0 +1,155 @@
+<ui:composition template="index.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="#{MESSAGE.ROOMS_TITLE}" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="roomsForm">
+
+			<p:growl id="growl" showDetail="true" severity="info" />
+
+			<p:contextMenu for="roomsTable">
+				<p:menuitem update="roomsTable growl">
+					<p:commandLink styleClass="ui-menuitem-link"
+						action="#{roomsView.deleteSelectedRoom}" ajax="false"
+						update="roomsTable growl">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.ROOMS_DELETE_BUTTON}" />
+						<p:confirm header="#{MESSAGE.ROOMS_DELETE_CONFIRM_TITLE}" icon="ui-icon-alert"
+							message="#{MESSAGE.ROOMS_DELETE_CONFIRM_MESSAGE}" />
+					</p:commandLink>
+				</p:menuitem>
+				
+				<p:menuitem update="roomsTable growl">
+					<p:commandLink styleClass="ui-menuitem-link"
+						oncomplete="PF('editRoomDialog').show();"
+						update=":roomsEditForm:editRoomDialog">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
+						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.ROOMS_EDIT_BUTTON}" />
+					</p:commandLink>
+				</p:menuitem>		
+				
+			</p:contextMenu>
+
+			<p:dataTable id="roomsTable" styleClass="roomsTable"
+				var="room" widgetVar="roomsTable"
+				value="#{roomsView.allRooms}" rowKey="#{room.id}"
+				selection="#{roomsView.selectedRoom}"
+				selectionMode="single">
+				
+				<p:ajax event="contextMenu" 
+				update=":roomsEditForm:editRoomDialog" />
+				
+				<p:column headerText="#{MESSAGE.ROOMS_NAME}"
+					sortBy="#{room.name}" filterBy="#{room.name}"
+					filterMatchMode="contains" style="width:200px;">
+					<h:outputText value="#{room.name}" />
+				</p:column>
+
+				<p:column headerText="#{MESSAGE.ENTITY_DESCRIPTION}"
+					sortBy="#{room.description}" filterBy="#{room.description}"
+					filterMatchMode="contains">
+					<h:outputText value="#{room.description}" />
+				</p:column>
+				
+				<f:facet name="footer">
+			        <p:commandButton value="#{MESSAGE.ROOMS_ADD_BUTTON}" icon="ui-icon-plus"
+			        actionListener = "#{roomsView.initNewRoom}"
+			        oncomplete="PF('addRoomDialog').show();"/>
+		    	</f:facet>
+
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="#{MESSAGE.ROOMS_DELETE_CONFIRM_YES}"
+					type="button" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" />
+				<p:commandButton value="#{MESSAGE.ROOMS_DELETE_CONFIRM_NO}"
+					type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+		</h:form>
+
+		<h:form id="roomsAddForm">
+
+			<p:dialog header="#{MESSAGE.ROOMS_ADD_DIALOG_TITLE}"
+				widgetVar="addRoomDialog" modal="false">
+				<p:growl id="growl" showDetail="true" />
+				<p:ajax event="close" update=":roomsForm:roomsTable" />
+
+				<h:panelGrid columns="3" cellpadding="5">
+
+					<h:outputLabel for="roomName"
+						value="#{MESSAGE.ROOMS_NAME}" />
+					<p:inputText id="roomName"
+						value="#{roomsView.newRoom.name}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+						<p:ajax event="blur" update="roomNameMessage" />
+					</p:inputText>
+					<p:message for="roomName" id="roomNameMessage" />
+
+					<h:outputLabel for="roomDescription"
+						value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+					<p:inputTextarea rows="6" cols="20" id="roomDescription"
+						value="#{roomsView.newRoom.description}">
+						<p:ajax event="blur" update="roomDescriptionMessage" />
+					</p:inputTextarea>
+					<p:message for="roomDescription"
+						id="roomDescriptionMessage" />
+
+					<h:outputLabel for="roomSaveButton" value="" />
+					<p:commandButton id="roomSaveButton"
+						value="#{MESSAGE.ROOMS_ADD_BUTTON}" icon="ui-icon-plus"
+						actionListener="#{roomsView.saveNewRoom}"
+						update="roomDescriptionMessage roomNameMessage growl"
+						oncomplete="PF('addRoomDialog').hide();" />
+
+				</h:panelGrid>
+
+			</p:dialog>
+
+		</h:form>
+		
+		<h:form id="roomsEditForm">
+
+			<p:dialog header="#{MESSAGE.ROOMS_EDIT_DIALOG_TITLE}"
+				widgetVar="editRoomDialog"  id="editRoomDialog">
+				<p:growl id="growl" showDetail="true" />
+				<p:ajax event="close" update=":roomsForm:roomsTable" />
+
+				<h:panelGrid columns="3" cellpadding="5">
+
+					<h:outputLabel for="roomName"
+						value="#{MESSAGE.ROOMS_NAME}" />
+					<p:inputText id="roomName"
+						value="#{roomsView.selectedRoom.name}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+						<p:ajax event="blur" update="roomNameMessage" />
+					</p:inputText>
+					<p:message for="roomName" id="roomNameMessage" />
+
+					<h:outputLabel for="roomDescription"
+						value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+					<p:inputTextarea rows="6" cols="20" id="roomDescription"
+						value="#{roomsView.selectedRoom.description}">
+						<p:ajax event="blur" update="roomDescriptionMessage" />
+					</p:inputTextarea>
+					<p:message for="roomDescription"
+						id="roomDescriptionMessage" />
+
+					<h:outputLabel for="roomSaveButton" value="" />
+					<p:commandButton id="roomSaveButton"
+						value="#{MESSAGE.ROOMS_SAVE_BUTTON}" icon="ui-icon-plus"
+						actionListener="#{roomsView.saveSelectedRoom}"
+						update="roomDescriptionMessage roomNameMessage growl"
+						oncomplete="PF('editRoomDialog').hide();" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

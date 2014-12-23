@@ -11,6 +11,7 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
 
+import ua.kiev.doctorvera.entities.UserTypes;
 import ua.kiev.doctorvera.entities.Users;
 
 /**
@@ -65,5 +66,7 @@ public interface UsersFacadeLocal{
     public List<Users> findByPhoneNumberMobile(String phoneNumberMobile);
 
     public List<Users> findByDescription(String description);
+    
+    public List<Users> findByType(UserTypes type);
     
 }

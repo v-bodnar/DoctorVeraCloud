@@ -4,25 +4,75 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-
+	
+	<ui:define name="title">
+		<h:outputText value="#{MESSAGE.USERS_TITLE}"/>
+	</ui:define>
+	
 	<ui:define name="content">
-		<p:dataTable var="user" value="#{usersTable.allUsers}">
-			<p:column headerText="Id">
+		<h:form>
+		<p:growl id="growl" showDetail="true" severity="info"/>
+		
+	    <p:contextMenu for="usersTable">
+	    
+	    	<p:menuitem value="#{MESSAGE.MENU_ITEM_SEND_SMS}" update="usersTable growl" icon="ui-icon-mail-closed" 
+	        action="#{sendSMSView.setPhone(usersTableView.selectedUser.phoneNumberMobile)}" ajax="true"
+	        oncomplete="window.location.replace('#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.SEND_SMS_PAGE}')"/>
+	        
+	        <p:menuitem value="#{MESSAGE.USERS_PROFILE}" update="usersTable growl" icon="ui-icon-search" 
+	        action="#{userProfileView.init(usersTableView.selectedUser.id)}" ajax="true"
+	        oncomplete="window.location.replace('#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.USER_PROFILE_PAGE}')"/>
+	        
+	        <p:menuitem update="usersTable growl">
+	        	<p:commandLink styleClass="ui-menuitem-link" action="#{usersTableView.deleteUser}" ajax="false" update="usersTable growl" process="@none">
+	        		<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+         			<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.USERS_DELETE}" />
+	        		<p:confirm header="#{MESSAGE.USERS_DELETE_CONFIRM_TITLE}" message="#{MESSAGE.USERS_DELETE_CONFIRM_MESSAGE}" icon="ui-icon-alert"/>
+	        	</p:commandLink>
+	        </p:menuitem>
+	        
+	    </p:contextMenu>
+	
+		<p:dataTable id="usersTable" styleClass="usersTable" var="user" widgetVar="usersTable" value="#{usersTableView.allUsers}"
+		rowKey="#{user.id}" selection="#{usersTableView.selectedUser}" selectionMode="single">
+
+			<p:column headerText="Id" sortBy="#{user.id}" 
+			filterBy="#{user.id}" filterMatchMode="contains">
 				<h:outputText value="#{user.id}" />
 			</p:column>
 
-			<p:column headerText="Login">
-				<h:outputText value="#{user.username}" />
+			<p:column headerText="#{MESSAGE.USERS_LAST_NAME}" sortBy="#{user.lastName}" 
+			filterBy="#{user.lastName}" filterMatchMode="contains">
+				<h:outputText value="#{user.lastName}" />
 			</p:column>
 
-			<p:column headerText="First Name">
+			<p:column headerText="#{MESSAGE.USERS_FIRST_NAME}" sortBy="#{user.firstName}" 
+			filterBy="#{user.firstName}" filterMatchMode="contains">
 				<h:outputText value="#{user.firstName}" />
 			</p:column>
 
-			<p:column headerText="Last Name">
-				<h:outputText value="#{user.lastName}" />
+			<p:column headerText="#{MESSAGE.USERS_BIRTH_DATE}" sortBy="#{user.birthDate}" filterBy="#{user.birthDate}" filterFunction="#{usersTableView.filterByBirthDate}">
+				<f:facet name="filter">
+	                <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter">
+	                	<p:ajax event="dateSelect"  oncomplete="PF('usersTable').filter()"/>
+	                </p:calendar>
+            	</f:facet>
+				<h:outputText value="#{user.birthDate}" />
 			</p:column>
+			
+			<p:column headerText="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}" sortBy="#{user.phoneNumberMobile}"
+				filterBy="#{user.phoneNumberMobile}" filterMatchMode="contains">
+				<h:outputText value="#{user.phoneNumberMobile}" />
+			</p:column>
+			
 		</p:dataTable>
+		
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+	        <p:commandButton value="#{MESSAGE.USERS_DELETE_CONFIRM_YES}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" process="@none"/>
+	        <p:commandButton value="#{MESSAGE.USERS_DELETE_CONFIRM_NO}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" process="@none"/>
+	    </p:confirmDialog>
+    
+		</h:form>
 	</ui:define>
 
 </ui:composition>

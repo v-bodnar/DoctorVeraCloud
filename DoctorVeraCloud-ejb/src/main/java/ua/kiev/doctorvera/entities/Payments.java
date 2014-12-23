@@ -26,8 +26,8 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author Bodun
+ * Entity class Describes User
+ * @author Volodymyr Bodnar
  */
 @Entity
 @Table(name = "Payments")

@@ -47,7 +47,7 @@ public class AddressValidator implements Validator, ClientValidator {
 				message = ua.kiev.doctorvera.validators.Validator.checkLiteralOrNull((String)value);
 				break;
 			case "postIndex":
-				message = ua.kiev.doctorvera.validators.Validator.checkNumericOrNull(""+value);
+				message = ua.kiev.doctorvera.validators.Validator.checkNumericOrNull((String)value);
 				break;
 	
 		}
