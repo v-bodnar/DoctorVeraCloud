@@ -20,11 +20,11 @@
 
     <p:layout  name="wrapper" fullPage="true">
  
-	    <p:layoutUnit  styleClass="headerCenter" position="north" size="150"  resizable="true" closable="true" collapsible="true">
+	    <p:layoutUnit  styleClass="headerCenter" position="north" size="150"  resizable="false" closable="true" collapsible="true">
 	        <ui:include src="header.xhtml" />
 	    </p:layoutUnit>
 	  
-	    <p:layoutUnit position="west" size="300" header="#{MESSAGE.MENU_HEADER}" resizable="true" closable="false" collapsible="true">
+	    <p:layoutUnit  position="west" size="300" header="#{MESSAGE.MENU_HEADER}" resizable="true" closable="false" collapsible="true">
 	        <ui:include src="menu.xhtml" />
 	    </p:layoutUnit>
 	 	 
@@ -35,7 +35,7 @@
 	    </p:layoutUnit>
 	    
 	</p:layout>
-			<h:outputScript library="js" name="jquery-ui/jquery-ui.js" />
+			<!--h:outputScript library="js" name="jquery-ui/jquery-ui.js" /-->
     </h:body>  
 
 </html>

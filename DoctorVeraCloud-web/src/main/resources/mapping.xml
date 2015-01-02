@@ -12,6 +12,7 @@
  	<entry key="USER_TYPES_PAGE">/private/user_groups.xhtml</entry>
  	<entry key="SEND_SMS_PAGE">/private/send_sms.xhtml</entry>
  	<entry key="ROOMS_PAGE">/private/rooms.xhtml</entry>
+ 	<entry key="PLAN_PAGE">/private/plan.xhtml</entry>
  	
  	<!-- Path-->
  	<entry key="APPLICATION_LOGO">/logo.png</entry>
@@ -19,5 +20,8 @@
  	<entry key="APPLICATION_IMAGES_PATH">/resources/images/</entry>
  	<entry key="APPLICATION_AVATAR_IMAGES_PATH">/resources/images/avatar/</entry>
  	<entry key="APPLICATION_AVATAR_DEFAULT">default_male_avatar.png</entry>
+ 	
+ 	<!-- UserTypes-->
+ 	<entry key="DOCTORS_TYPE_ID">3</entry>
  	
 </properties>

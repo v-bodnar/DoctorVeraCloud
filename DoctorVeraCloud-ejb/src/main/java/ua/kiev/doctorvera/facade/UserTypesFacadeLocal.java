@@ -46,4 +46,6 @@ public interface UserTypesFacadeLocal {
 
     //@return int records count
     int count();   
+    
+    public UserTypes findByName(String typeName);
 }

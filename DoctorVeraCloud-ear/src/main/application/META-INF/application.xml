@@ -7,7 +7,7 @@
   <module>
     <web>
       <web-uri>DoctorVeraCloud-web.war</web-uri>
-      <context-root>DoctorVeraCloud</context-root>
+      <context-root>/</context-root>
     </web>
   </module>
   <library-directory>lib</library-directory>

@@ -31,6 +31,9 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
 	//@EJB
     //private UsersHasUserTypesFacade usersHasUserTypesFacade;
 	
+	@EJB
+    private UserTypesFacadeLocal userTypesFacade;
+	
     public UsersFacade() {
         super(Users.class);
     }
@@ -137,8 +140,38 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     	HashSet<Users> result = new HashSet<Users>();
     	if (list!=null)
     		for(UsersHasUserTypes entry : list) 
-    			result.add(entry.getUserId());
+    			result.add(entry.getUser());
     	return new ArrayList<Users>(result);
+    }
+    
+    @Override
+    public List<Users> findByType(String typeName){
+    	UserTypes type = userTypesFacade.findByName(typeName);
+    	if(type!=null){
+	    	Collection<UsersHasUserTypes> list = type.getUsersHasUserTypesCollection();
+	    	//List<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
+	    	HashSet<Users> result = new HashSet<Users>();
+	    	if (list!=null)
+	    		for(UsersHasUserTypes entry : list) 
+	    			result.add(entry.getUser());
+	    	return new ArrayList<Users>(result);
+    	} else
+    		return null;
+    }
+
+    @Override
+    public List<Users> findByType(Integer typeId){
+    	UserTypes type = userTypesFacade.find(typeId);
+    	if(type!=null){
+	    	Collection<UsersHasUserTypes> list = type.getUsersHasUserTypesCollection();
+	    	//List<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
+	    	HashSet<Users> result = new HashSet<Users>();
+	    	if (list!=null)
+	    		for(UsersHasUserTypes entry : list) 
+	    			result.add(entry.getUser());
+	    	return new ArrayList<Users>(result);
+    	} else
+    		return null;
     }
 
 }

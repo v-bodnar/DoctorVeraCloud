@@ -27,7 +27,13 @@ public class Mapping extends ListResourceBundle{
     	USER_PROFILE_PAGE,
     	USER_USERS_PAGE,
     	AVATAR_CROP_DIALOG,
-    	REGISTER_PAGE
+    	REGISTER_PAGE,
+    	PLAN_PAGE,
+    	USERS_PAGE,
+    	ROOMS_PAGE,
+    	SEND_SMS_PAGE,
+    	USER_TYPES_PAGE,
+    	USER_ADD_PAGE
     }
     
     public static enum Path { 
@@ -35,6 +41,10 @@ public class Mapping extends ListResourceBundle{
     	APPLICATION_AVATAR_IMAGES_PATH,
     	APPLICATION_ROOT_PATH,
     	APPLICATION_AVATAR_DEFAULT
+    }
+    
+    public static enum UserTypes{
+    	DOCTORS_TYPE_ID
     }
 
 	public static Mapping getInstance() {

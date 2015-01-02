@@ -101,3 +101,15 @@ font-size: 100% !important;
 .typePicker .ui-picklist-list{
 	width:220px !important;
 }
+.planCalendar{
+	padding:0 !important;
+	margin:0 !important;
+	width:95%;
+	font-size: 95%;
+}
+.addPlanDialog .ui-selectonemenu{
+     width: 200px !important; 
+}
+.addPlanDialog .ui-button{
+     width: 100% !important; 
+}

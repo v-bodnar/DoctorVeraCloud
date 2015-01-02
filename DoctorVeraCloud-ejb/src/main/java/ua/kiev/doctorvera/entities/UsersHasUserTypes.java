@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ua.kiev.doctorvera.entities;
 
 import java.io.Serializable;
@@ -10,14 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,25 +22,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Volodymyr Bodnar
  */
 @Entity
+@IdClass(value=UsersHasUserTypes.UsersHasUserTypesId.class)
 @Table(name = "UsersHasUserTypes")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "UsersHasUserTypes.findAll", query = "SELECT u FROM UsersHasUserTypes u")
-    //@NamedQuery(name = "UsersHasUserTypes.findByUsersHasUserTypes", query = "SELECT u FROM UsersHasUserTypes u WHERE u.usersHasUserTypes = :usersHasUserTypes")
-    })
 public class UsersHasUserTypes implements Serializable,Identified<Integer> {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7352790399385415680L;
+	@Id
+    @JoinColumn(name = "User", referencedColumnName = "UserId")
+    @ManyToOne(optional = false)
+    private Users user;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "UsersHasUserTypes")
-    private Integer usersHasUserTypes;
-    @JoinColumn(name = "UserId", referencedColumnName = "UserId")
+    @JoinColumn(name = "UserType", referencedColumnName = "userTypeId")
     @ManyToOne(optional = false)
-    private Users userId;
-    @JoinColumn(name = "UserTypeId", referencedColumnName = "UserTypeId")
-    @ManyToOne(optional = false)
-    private UserTypes userTypeId;
+    private UserTypes userType;
     @Basic(optional = false)
     @NotNull
     @Column(name = "DateCreated")
@@ -64,45 +51,31 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
     public UsersHasUserTypes() {
     }
 
-    public UsersHasUserTypes(Integer usersHasUserTypes) {
-        this.usersHasUserTypes = usersHasUserTypes;
+    public Users getUser() {
+        return user;
     }
 
-    public Integer getUsersHasUserTypesId() {
-        return usersHasUserTypes;
+    public void setUser(Users user) {
+        this.user = user;
     }
 
-    public void setUsersHasUserTypesId(Integer usersHasUserTypes) {
-        this.usersHasUserTypes = usersHasUserTypes;
+    public UserTypes getUserType() {
+        return userType;
     }
 
-    public Users getUserId() {
-        return userId;
+    public void setUserType(UserTypes userType) {
+        this.userType = userType;
     }
 
-    public void setUserId(Users userId) {
-        this.userId = userId;
-    }
-
-    public UserTypes getUserTypeId() {
-        return userTypeId;
-    }
-
-    public void setUserTypeId(UserTypes userTypeId) {
-        this.userTypeId = userTypeId;
-    }
-
-	@Override
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		result = prime * result
-				+ ((userTypeId == null) ? 0 : userTypeId.hashCode());
-		result = prime
-				* result
-				+ ((usersHasUserTypes == null) ? 0 : usersHasUserTypes
-						.hashCode());
+		result = prime * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
+		result = prime * result + (deleted ? 1231 : 1237);
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result + ((userCreated == null) ? 0 : userCreated.hashCode());
+		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
 		return result;
 	}
 
@@ -115,41 +88,47 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
 		if (getClass() != obj.getClass())
 			return false;
 		UsersHasUserTypes other = (UsersHasUserTypes) obj;
-		if (userId == null) {
-			if (other.userId != null)
+		if (dateCreated == null) {
+			if (other.dateCreated != null)
 				return false;
-		} else if (!userId.equals(other.userId))
+		} else if (!dateCreated.equals(other.dateCreated))
 			return false;
-		if (userTypeId == null) {
-			if (other.userTypeId != null)
-				return false;
-		} else if (!userTypeId.equals(other.userTypeId))
+		if (deleted != other.deleted)
 			return false;
-		if (usersHasUserTypes == null) {
-			if (other.usersHasUserTypes != null)
+		if (user == null) {
+			if (other.user != null)
 				return false;
-		} else if (!usersHasUserTypes.equals(other.usersHasUserTypes))
+		} else if (!user.equals(other.user))
+			return false;
+		if (userCreated == null) {
+			if (other.userCreated != null)
+				return false;
+		} else if (!userCreated.equals(other.userCreated))
+			return false;
+		if (userType == null) {
+			if (other.userType != null)
+				return false;
+		} else if (!userType.equals(other.userType))
 			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "UsersHasUserTypes [usersHasUserTypes=" + usersHasUserTypes
-				+ ", userId=" + userId + ", userTypeId=" + userTypeId + "]";
+		return "UsersHasUserTypes [user=" + user + ", userType=" + userType + ", dateCreated=" + dateCreated + ", userCreated=" + userCreated + ", deleted="
+				+ deleted + "]";
 	}
 
-    @Override
-    public Integer getId() {
-       return getUsersHasUserTypesId();
-    }
+	@Override
+	public Integer getId() {
+		return null;
+	}
 
-    @Override
-    public void setId(Integer id) {
-        setUsersHasUserTypesId(id);
-    }
+	@Override
+	public void setId(Integer id) {
+	}
 
-      @Override
+	@Override
     public boolean getDeleted() {
         return deleted;
     }
@@ -173,4 +152,53 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }   
+    
+    @Embeddable
+    public static class UsersHasUserTypesId implements Serializable { 
+    	private static final long serialVersionUID = 6772711638360754952L;
+    	
+        private Users user;
+    	
+        private UserTypes userType;
+        
+    	public Users getUser() {
+    		return user;
+    	}	
+    	
+    	public UserTypes getUserType() {
+    		return userType;
+    	}
+    	
+    	@Override
+    	public int hashCode() {
+    		final int prime = 31;
+    		int result = 1;
+    		result = prime * result + ((user == null) ? 0 : user.hashCode());
+    		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
+    		return result;
+    	}
+    	@Override
+    	public boolean equals(Object obj) {
+    		if (this == obj)
+    			return true;
+    		if (obj == null)
+    			return false;
+    		if (getClass() != obj.getClass())
+    			return false;
+    		UsersHasUserTypesId other = (UsersHasUserTypesId) obj;
+    		if (user == null) {
+    			if (other.user != null)
+    				return false;
+    		} else if (!user.equals(other.user))
+    			return false;
+    		if (userType == null) {
+    			if (other.userType != null)
+    				return false;
+    		} else if (!userType.equals(other.userType))
+    			return false;
+    		return true;
+    	}
+    }
 }
+
+

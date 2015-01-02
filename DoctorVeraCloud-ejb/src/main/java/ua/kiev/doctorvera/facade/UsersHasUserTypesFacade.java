@@ -33,7 +33,7 @@ public class UsersHasUserTypesFacade extends AbstractFacade<UsersHasUserTypes> i
         CriteriaQuery<UsersHasUserTypes> cq = cb.createQuery(UsersHasUserTypes.class);
         Root<UsersHasUserTypes> root = cq.from(UsersHasUserTypes.class);
         
-        cq.select(root).where(cb.equal(root.<Users>get("userid"), user),cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(cb.equal(root.<Users>get("user"), user),cb.isFalse(root.<Boolean>get("deleted")));
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
 	}
@@ -44,7 +44,7 @@ public class UsersHasUserTypesFacade extends AbstractFacade<UsersHasUserTypes> i
         CriteriaQuery<UsersHasUserTypes> cq = cb.createQuery(UsersHasUserTypes.class);
         Root<UsersHasUserTypes> root = cq.from(UsersHasUserTypes.class);
         
-        cq.select(root).where(cb.equal(root.<Users>get("usertypeid"), type),cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(cb.equal(root.<Users>get("userType"), type),cb.isFalse(root.<Boolean>get("deleted")));
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
 	}

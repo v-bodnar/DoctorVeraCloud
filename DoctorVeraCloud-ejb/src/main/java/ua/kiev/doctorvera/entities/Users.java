@@ -119,32 +119,19 @@ public class Users implements Serializable,Identified<Integer> {
     @Column(name = "Address")
     private Integer addressId;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<Policy> policyCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<Address> addressCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<MethodTypes> methodTypesCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<Payments> paymentsCollection;
     @OneToMany(mappedBy = "recipient")
     private Collection<Payments> paymentsCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
     private Collection<Plan> planCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<Plan> planCollection1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<UsersHasUserTypes> usersHasUserTypesCollection;
+    
+    
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
     private Collection<DoctorsHasMethod> doctorsHasMethodCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<DoctorsHasMethod> doctorsHasMethodCollection1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<PolicyHasUserTypes> policyHasUserTypesCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<Rooms> roomsCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<Prices> pricesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
     private Collection<Schedule> scheduleCollection;
     @OneToMany(mappedBy = "assistant")
@@ -153,18 +140,10 @@ public class Users implements Serializable,Identified<Integer> {
     private Collection<Schedule> scheduleCollection2;
     @OneToMany(mappedBy = "doctorDirected")
     private Collection<Schedule> scheduleCollection3;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<Schedule> scheduleCollection4;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<UserTypes> userTypesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
     private Collection<Share> shareCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "assistant")
     private Collection<Share> shareCollection1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<Share> shareCollection2;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCreated")
-    private Collection<Methods> methodsCollection;
        
     public Users() {
     }
@@ -327,42 +306,6 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     @XmlTransient
-    public Collection<Policy> getPolicyCollection() {
-        return policyCollection;
-    }
-
-    public void setPolicyCollection(Collection<Policy> policyCollection) {
-        this.policyCollection = policyCollection;
-    }
-
-    @XmlTransient
-    public Collection<Address> getAddressCollection() {
-        return addressCollection;
-    }
-
-    public void setAddressCollection(Collection<Address> addressCollection) {
-        this.addressCollection = addressCollection;
-    }
-
-    @XmlTransient
-    public Collection<MethodTypes> getMethodTypesCollection() {
-        return methodTypesCollection;
-    }
-
-    public void setMethodTypesCollection(Collection<MethodTypes> methodTypesCollection) {
-        this.methodTypesCollection = methodTypesCollection;
-    }
-
-    @XmlTransient
-    public Collection<Payments> getPaymentsCollection() {
-        return paymentsCollection;
-    }
-
-    public void setPaymentsCollection(Collection<Payments> paymentsCollection) {
-        this.paymentsCollection = paymentsCollection;
-    }
-
-    @XmlTransient
     public Collection<Payments> getPaymentsCollection1() {
         return paymentsCollection1;
     }
@@ -410,15 +353,6 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     @XmlTransient
-    public Collection<Plan> getPlanCollection1() {
-        return planCollection1;
-    }
-
-    public void setPlanCollection1(Collection<Plan> planCollection1) {
-        this.planCollection1 = planCollection1;
-    }
-
-    @XmlTransient
     public Collection<UsersHasUserTypes> getUsersHasUserTypesCollection() {
         return usersHasUserTypesCollection;
     }
@@ -434,42 +368,6 @@ public class Users implements Serializable,Identified<Integer> {
 
     public void setDoctorsHasMethodCollection(Collection<DoctorsHasMethod> doctorsHasMethodCollection) {
         this.doctorsHasMethodCollection = doctorsHasMethodCollection;
-    }
-
-    @XmlTransient
-    public Collection<DoctorsHasMethod> getDoctorsHasMethodCollection1() {
-        return doctorsHasMethodCollection1;
-    }
-
-    public void setDoctorsHasMethodCollection1(Collection<DoctorsHasMethod> doctorsHasMethodCollection1) {
-        this.doctorsHasMethodCollection1 = doctorsHasMethodCollection1;
-    }
-
-    @XmlTransient
-    public Collection<PolicyHasUserTypes> getPolicyHasUserTypesCollection() {
-        return policyHasUserTypesCollection;
-    }
-
-    public void setPolicyHasUserTypesCollection(Collection<PolicyHasUserTypes> policyHasUserTypesCollection) {
-        this.policyHasUserTypesCollection = policyHasUserTypesCollection;
-    }
-
-    @XmlTransient
-    public Collection<Rooms> getRoomsCollection() {
-        return roomsCollection;
-    }
-
-    public void setRoomsCollection(Collection<Rooms> roomsCollection) {
-        this.roomsCollection = roomsCollection;
-    }
-
-    @XmlTransient
-    public Collection<Prices> getPricesCollection() {
-        return pricesCollection;
-    }
-
-    public void setPricesCollection(Collection<Prices> pricesCollection) {
-        this.pricesCollection = pricesCollection;
     }
 
     @XmlTransient
@@ -509,24 +407,6 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     @XmlTransient
-    public Collection<Schedule> getScheduleCollection4() {
-        return scheduleCollection4;
-    }
-
-    public void setScheduleCollection4(Collection<Schedule> scheduleCollection4) {
-        this.scheduleCollection4 = scheduleCollection4;
-    }
-
-    @XmlTransient
-    public Collection<UserTypes> getUserTypesCollection() {
-        return userTypesCollection;
-    }
-
-    public void setUserTypesCollection(Collection<UserTypes> userTypesCollection) {
-        this.userTypesCollection = userTypesCollection;
-    }
-
-    @XmlTransient
     public Collection<Share> getShareCollection() {
         return shareCollection;
     }
@@ -542,24 +422,6 @@ public class Users implements Serializable,Identified<Integer> {
 
     public void setShareCollection1(Collection<Share> shareCollection1) {
         this.shareCollection1 = shareCollection1;
-    }
-
-    @XmlTransient
-    public Collection<Share> getShareCollection2() {
-        return shareCollection2;
-    }
-
-    public void setShareCollection2(Collection<Share> shareCollection2) {
-        this.shareCollection2 = shareCollection2;
-    }
-
-    @XmlTransient
-    public Collection<Methods> getMethodsCollection() {
-        return methodsCollection;
-    }
-
-    public void setMethodsCollection(Collection<Methods> methodsCollection) {
-        this.methodsCollection = methodsCollection;
     }
     /*
     private EntityManager getEntityManager(){

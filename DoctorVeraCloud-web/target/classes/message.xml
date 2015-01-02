@@ -89,7 +89,27 @@
 	<entry key="ROOMS_SAVED">Новый кабинет создан!</entry>
 	<entry key="ROOMS_EDITED">Изменения внесены!</entry>
 	
-		<!-- send_sms.xhtml -->
+	<!-- plan.xhtml -->
+	<entry key="PLAN_TITLE">План приемов</entry>
+	<entry key="PLAN_ADD_BUTTON">Добавить</entry>
+	<entry key="PLAN_ADD_DIALOG_TITLE">Запланировать прием</entry>
+	<entry key="PLAN_EDIT_DIALOG_TITLE">Изменение данных о запланированном приеме</entry>
+	<entry key="PLAN_DELETE_BUTTON">Удалить</entry>
+	<entry key="PLAN_EDIT_BUTTON">Редактировать</entry>
+	<entry key="PLAN_SAVE_BUTTON">Сохранить</entry>
+	<entry key="PLAN_DELETE_CONFIRM_TITLE">Внимание!</entry>
+	<entry key="PLAN_DELETE_CONFIRM_MESSAGE">Вы действительно хотите удалить запланированный прием?</entry>
+	<entry key="PLAN_DELETE_CONFIRM_YES">Да</entry>
+	<entry key="PLAN_DELETE_CONFIRM_NO">Нет</entry>
+	<entry key="PLAN_DELETED">Запланированный прием успешно удален!</entry>
+	<entry key="PLAN_SAVED">Прием запланирован!</entry>
+	<entry key="PLAN_EDITED">Изменения внесены!</entry>
+	<entry key="PLAN_CHOOSE"> </entry>
+	<entry key="PLAN_VALIDATE_DATE">Конечная дата должна быть позже начальной!</entry>
+	<entry key="PLAN_VALIDATE_SCHEDULE_DELETE">Сначала удалите запланированные приемы: </entry>
+	<entry key="PLAN_VALIDATE_SCHEDULE_UPDATE">Уже есть запланированные приемы на данное время: </entry>
+	
+	<!-- send_sms.xhtml -->
 	<entry key="SEND_SMS_TITLE">Отправка СМС</entry>
 	<entry key="SEND_SMS_SEND">Отправить</entry>
 	<entry key="SEND_SMS_PHONE">Номер телефона</entry>
@@ -169,6 +189,11 @@
 	<entry key="ADDRESS_PLACEHOLDER_CITY">Киев</entry>
 	<entry key="ADDRESS_PLACEHOLDER_ADDRESS">Улица, дом, квартира</entry>
 	<entry key="ADDRESS_PLACEHOLDER_INDEX">69096</entry>
+	<!-- Plan Entity -->
+	<entry key="PLAN_TIME_START">Начало приема</entry>
+	<entry key="PLAN_TIME_END">Конец приема</entry>
+	<entry key="PLAN_ROOM">Кабинет</entry>
+	<entry key="PLAN_DOCTOR">Доктор</entry>
 
 	<!-- Validator -->
 	<entry key="VALIDATOR_ERROR_TITLE">Ошибка!</entry>
