@@ -69,8 +69,10 @@ public class UserTypes implements Serializable,Identified<Integer> {
     private boolean deleted;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userType")
     private Collection<UsersHasUserTypes> usersHasUserTypesCollection;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userType")
     private Collection<PolicyHasUserTypes> policyHasUserTypesCollection;
+    
     @JoinColumn(name = "UserCreated", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users userCreated;

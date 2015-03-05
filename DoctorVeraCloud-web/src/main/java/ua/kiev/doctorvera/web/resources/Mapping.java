@@ -33,7 +33,12 @@ public class Mapping extends ListResourceBundle{
     	ROOMS_PAGE,
     	SEND_SMS_PAGE,
     	USER_TYPES_PAGE,
-    	USER_ADD_PAGE
+    	USER_ADD_PAGE,
+    	METHODS_PAGE,
+    	PAYMENTS_PAGE,
+    	SCHEDULE_PAGE,
+    	SCHEDULE_GENERAL_PAGE,
+    	PLAN_GENERAL_PAGE
     }
     
     public static enum Path { 
@@ -44,9 +49,19 @@ public class Mapping extends ListResourceBundle{
     }
     
     public static enum UserTypes{
-    	DOCTORS_TYPE_ID
+    	DOCTORS_TYPE_ID,
+    	PATIENTS_TYPE_ID,
+    	ASSISTENTS_TYPE_ID
+    }
+    
+    public static enum Methods{
+    	METHOD_BREAK_ID
     }
 
+    public static enum Users{
+    	USERS_BREAK_ID
+    }
+    
 	public static Mapping getInstance() {
 		if (instance == null) {
 			instance = new Mapping();

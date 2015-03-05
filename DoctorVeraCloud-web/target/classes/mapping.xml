@@ -13,7 +13,12 @@
  	<entry key="SEND_SMS_PAGE">/private/send_sms.xhtml</entry>
  	<entry key="ROOMS_PAGE">/private/rooms.xhtml</entry>
  	<entry key="PLAN_PAGE">/private/plan.xhtml</entry>
- 	
+ 	<entry key="METHODS_PAGE">/private/methods.xhtml</entry>
+ 	<entry key="PAYMENTS_PAGE">/private/payments.xhtml</entry>
+ 	<entry key="SCHEDULE_PAGE">/private/schedule.xhtml</entry>
+ 	<entry key="SCHEDULE_GENERAL_PAGE">/private/schedule_general.xhtml</entry>
+ 	<entry key="PLAN_GENERAL_PAGE">/private/plan_general.xhtml</entry>
+
  	<!-- Path-->
  	<entry key="APPLICATION_LOGO">/logo.png</entry>
  	<entry key="APPLICATION_ROOT_PATH"></entry>
@@ -23,5 +28,16 @@
  	
  	<!-- UserTypes-->
  	<entry key="DOCTORS_TYPE_ID">3</entry>
+ 	<entry key="PATIENTS_TYPE_ID">1</entry>
+ 	<entry key="ASSISTENTS_TYPE_ID">4</entry>
+ 	
+ 	<!-- Users-->
+ 	<entry key="USERS_BREAK_ID">20</entry>
+ 	
+ 	
+ 	<!-- Methods -->
+ 	<entry key="METHOD_BREAK_ID">15</entry>
+ 	
+ 	
  	
 </properties>

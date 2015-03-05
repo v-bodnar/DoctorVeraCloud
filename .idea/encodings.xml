@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/Identified.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/utils/SMSGateway.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MenuView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MethodsView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PaymentsView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PlanView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/RoomsView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/ScheduleView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SendSMSView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserTypesTableView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UsersTableView.java" charset="UTF-8" />
+  </component>
+</project>

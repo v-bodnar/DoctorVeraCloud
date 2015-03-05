@@ -40,4 +40,6 @@ public interface GenericFacade<T extends Identified<Integer>> {
 
     //@return int records count
     int count();
+    
+    public void removeFromDB(T entity);
 }

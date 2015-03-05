@@ -1,0 +1,1428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="42f36f5b-bdf8-49fe-90d1-3e4f70ba56eb" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__antlr_antlr_2_7_7.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ua_kiev_doctorvera_doctor_vera_1_0_SNAPSHOT.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_entitymanager_4_3_5_Final.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_ear_ear_exploded.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_javax_persistence_hibernate_jpa_2_1_api_1_0_0_Final.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_web_war.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_1_3_GA.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_primefaces_primefaces_5_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_jandex_1_1_0_Final.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_web_war_exploded.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcmail_jdk14_1_38.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_3_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_annotations_1_2_0_Beta1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_core_4_3_5_Final.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_0_b2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_ear_ear.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bctsp_jdk14_1_38.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_ejb_ejb.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jfree_jfreechart_1_0_12.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_1_3.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jfree_jcommon_1_0_15.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_swinglabs_pdf_renderer_1_0_5.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcprov_jdk14_1_38.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_common_hibernate_commons_annotations_4_0_4_Final.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_primefaces_themes_south_street_1_0_10.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_ejb_ejb_exploded.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_1_3_2.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_spec_javax_transaction_jboss_transaction_api_1_2_spec_1_0_0_Final.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_3_6.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_18_1_GA.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_lowagie_itext_4_2_1.xml" />
+      <change type="DELETED" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\src\main\java\ua\kiev\doctorvera\managedbeans\UsersAddType.java" afterPath="" />
+      <change type="DELETED" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UsersAddType.class" afterPath="" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UsersHasUserTypesFacadeLocal.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UsersHasUserTypesFacadeLocal.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\AddressFacade.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\AddressFacade.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\XMLResourceBundle.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\XMLResourceBundle.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\utils\DateUtils.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\utils\DateUtils.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Mapping$UserTypes.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Mapping$UserTypes.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/DoctorsHasMethod.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/DoctorsHasMethod.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Mapping.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Mapping.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\UserTypes.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\UserTypes.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\PlanFacadeLocal.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\PlanFacadeLocal.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UsersHasUserTypesFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UsersHasUserTypesFacade.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Prices.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Prices.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Menu.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Menu.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\PlanView$1.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\PlanView$1.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UsersHasUserTypesFacade.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UsersHasUserTypesFacade.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/Identified.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/Identified.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\utils\Service.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\utils\Service.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Share.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Share.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UserTypesFacadeLocal.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UserTypesFacadeLocal.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/AbstractFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/AbstractFacade.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/GenericFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/GenericFacade.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\validators\AddressValidator.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\validators\AddressValidator.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\AddressFacadeLocal.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\AddressFacadeLocal.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\exceptions\IllegalOrphanException.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\exceptions\IllegalOrphanException.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UserTypesTableView.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UserTypesTableView.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UserTypesFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UserTypesFacade.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\SendSMSView.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\SendSMSView.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Login.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Login.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/target/classes/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/target/classes/META-INF/MANIFEST.MF" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/Message.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/Message.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\UsersHasUserTypes.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\UsersHasUserTypes.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UsersTableView.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UsersTableView.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MenuView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MenuView.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\RoomsView.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\RoomsView.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\validators\Validator.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\validators\Validator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/users.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/users.xhtml" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UserTypesFacade.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UserTypesFacade.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserTypesTableView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserTypesTableView.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\PlanFacade.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\PlanFacade.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UsersHasUserTypesFacadeLocal.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UsersHasUserTypesFacadeLocal.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Entity.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Entity.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/mapping.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/mapping.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/target/classes/META-INF/maven/DoctorVera/DoctorVeraCloud-ejb/pom.properties" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/target/classes/META-INF/maven/DoctorVera/DoctorVeraCloud-ejb/pom.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/resources/css/style.css" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/resources/css/style.css" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Messages.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Messages.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\validators\PlanValidator.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\validators\PlanValidator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/user_groups.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/user_groups.xhtml" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\exceptions\PreexistingEntityException.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\exceptions\PreexistingEntityException.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Schedule.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Schedule.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\RoomsFacadeLocal.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\RoomsFacadeLocal.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$UserTypes.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$UserTypes.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Users.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Users.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\GenericFacade.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\GenericFacade.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Rooms.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Rooms.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\MethodTypes.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\MethodTypes.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\UsersHasUserTypes$UsersHasUserTypesId.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\UsersHasUserTypes$UsersHasUserTypesId.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UserProfileView.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UserProfileView.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Validator.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Validator.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\utils\SMSGateway.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\utils\SMSGateway.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\validators\UsersValidator.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\validators\UsersValidator.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\MenuView.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\MenuView.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\exceptions\RollbackFailureException.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\exceptions\RollbackFailureException.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UsersFacade.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UsersFacade.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ear/src/main/application/META-INF/glassfish-resources.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ear/src/main/application/META-INF/glassfish-resources.xml" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Address.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Address.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Config.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Config.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\AddressView.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\AddressView.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SendSMSView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SendSMSView.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UserLoginView.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UserLoginView.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\filter\LogFilter.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\filter\LogFilter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ear/target/m2e-wtp/ear-resources/META-INF/maven/DoctorVera/DoctorVeraCloud-ear/pom.properties" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ear/target/m2e-wtp/ear-resources/META-INF/maven/DoctorVera/DoctorVeraCloud-ear/pom.properties" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Config$Key.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Config$Key.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Policy.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Policy.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/message.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/message.xml" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\filter\AuthenFilter.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\filter\AuthenFilter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/META-INF/MANIFEST.MF" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$UsersDetails.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$UsersDetails.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Users.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Users.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/m2e-wtp/web-resources/META-INF/maven/DoctorVera/DoctorVeraCloud-web/pom.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/m2e-wtp/web-resources/META-INF/maven/DoctorVera/DoctorVeraCloud-web/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/Methods.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/Methods.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/Mapping.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/Mapping.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Rooms.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Rooms.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/mapping.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/mapping.xml" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Mapping$Page.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Mapping$Page.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UsersFacadeLocal.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UsersFacadeLocal.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UploadImageView.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UploadImageView.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Plan.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Plan.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Plan.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Plan.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\PolicyHasUserTypes.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\PolicyHasUserTypes.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\AbstractFacade.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\AbstractFacade.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Address.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message$Address.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UserRegisterView.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\UserRegisterView.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\converters\UsersConverter.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\converters\UsersConverter.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Payments.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Payments.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\converters\RoomsConverter.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\converters\RoomsConverter.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/Users.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/Users.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/message.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/message.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UsersFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UsersFacade.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Mapping$Path.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Mapping$Path.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/plan.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/plan.xhtml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/m2e-wtp/web-resources/META-INF/maven/DoctorVera/DoctorVeraCloud-web/pom.properties" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/m2e-wtp/web-resources/META-INF/maven/DoctorVera/DoctorVeraCloud-web/pom.properties" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\exceptions\NonexistentEntityException.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\exceptions\NonexistentEntityException.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\RoomsFacade.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\RoomsFacade.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UsersTableView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UsersTableView.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\ExtendedControl.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\ExtendedControl.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\DoctorsHasMethod.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\DoctorsHasMethod.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/UserTypes.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/UserTypes.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Identified.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Identified.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UsersFacadeLocal.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UsersFacadeLocal.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Methods.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\entities\Methods.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/pom.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/pom.xml" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UserTypesFacadeLocal.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\ua\kiev\doctorvera\facade\UserTypesFacadeLocal.class" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\PlanView.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\managedbeans\PlanView.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/RoomsView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/RoomsView.java" />
+      <change type="MODIFICATION" beforePath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message.class" afterPath="D:\Java\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\web\resources\Message.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PlanView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PlanView.java" />
+    </list>
+    <ignored path="DoctorVeraCloud.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/bin/" />
+    <ignored path="$PROJECT_DIR$/DoctorVeraCloud-ear/bin/" />
+    <ignored path=".idea/dataSources.local.xml" />
+    <ignored path="$PROJECT_DIR$/DoctorVeraCloud-web/target/" />
+    <ignored path="$PROJECT_DIR$/DoctorVeraCloud-ejb/target/" />
+    <ignored path="$PROJECT_DIR$/DoctorVeraCloud-ear/target/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="DoctorVeraCloud" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="schedule.xhtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1743" max-vertical-offset="3791">
+              <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MethodsConverter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/MethodsConverter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="459">
+              <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/resources/css/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1720" max-vertical-offset="2584">
+              <caret line="116" column="29" selection-start-line="116" selection-start-column="29" selection-end-line="116" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="glassfish-web.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/WEB-INF/glassfish-web.xml">
+          <provider editor-type-id="com.intellij.javaee.oss.glassfish.editor.GlassfishWebRootProvider">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.2666667" vertical-offset="0" max-vertical-offset="187">
+              <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ear/target/application.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.3437014" vertical-offset="0" max-vertical-offset="643">
+              <caret line="13" column="51" selection-start-line="13" selection-start-column="51" selection-end-line="13" selection-end-column="51" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="methods.xhtml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/methods.xhtml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2174" max-vertical-offset="5491">
+              <caret line="142" column="71" selection-start-line="142" selection-start-column="71" selection-end-line="142" selection-end-column="71" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScheduleView.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/ScheduleView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1411" max-vertical-offset="7276">
+              <caret line="119" column="53" selection-start-line="119" selection-start-column="53" selection-end-line="119" selection-end-column="53" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Message.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/Message.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2959" max-vertical-offset="6052">
+              <caret line="187" column="24" selection-start-line="187" selection-start-column="24" selection-end-line="187" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="message.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/message.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2754" max-vertical-offset="5593">
+              <caret line="185" column="43" selection-start-line="185" selection-start-column="43" selection-end-line="185" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/Identified.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserTypesTableView.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/utils/SMSGateway.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SendSMSView.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PaymentsView.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/RoomsView.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UsersTableView.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-ear/src/main/application/META-INF/glassfish-resources.xml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/MethodValidator.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/WEB-INF/web.xml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/MethodTypesFacadeLocal.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/MethodTypesFacade.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/MethodTypesConverter.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/methods.xhtml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/profile.xhtml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/plan.xhtml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PlanView.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MenuView.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SessionParams.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/WEB-INF/glassfish-web.xml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MethodsView.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-ear/pom.xml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/MethodsConverter.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/Message.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/message.xml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/ScheduleView.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/pom.xml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-ear/src/main/application/META-INF/application.xml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/resources/css/style.css" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-ear/target/application.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="false" />
+    <option name="FILTER_DEBUG" value="false" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+      </PATH>
+    </treeState>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1296" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <OptionsSetting value="true" id="Undo Check Out" />
+    <OptionsSetting value="true" id="Get Latest Version" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WEB-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="META-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-ear" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2446264" />
+    <property name="FullScreen" value="false" />
+    <property name="recentsLimit" value="5" />
+    <property name="restartRequiresConfirmation" value="true" />
+    <property name="options.lastSelected" value="debugger.hotswap" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="OverrideImplement.overriding.sorted" value="false" />
+  </component>
+  <component name="RunManager" selected="GlassFish Server.glassfish">
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 4.1.0" ALTERNATIVE_JRE_ENABLED="false" ALTERNATIVE_JRE_PATH="">
+      <option name="BROWSER_ID" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="DoctorVeraCloud-ear:ear">
+          <settings />
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="DOMAIN" value="" />
+        <option name="PRESERVE" value="false" />
+        <option name="VIRTUAL_SERVER" />
+        <option name="USERNAME" value="admin" />
+        <option name="PASSWORD" value="" />
+      </server-settings>
+      <predefined_log_file id="GlassFish" enabled="true" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="9009" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+      <method />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="JarApplication" factoryName="JAR Application">
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <pass-parent-envs>true</pass-parent-envs>
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="GlassfishConfiguration" factoryName="Remote" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="LOCAL" value="false" />
+      <deployment />
+      <server-settings>
+        <data>
+          <option name="transportHostId" />
+        </data>
+      </server-settings>
+      <predefined_log_file id="GlassFish" enabled="true" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="55452" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="false" name="glassfish" type="GlassfishConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="GlassFish 4.1.0" ALTERNATIVE_JRE_ENABLED="false" ALTERNATIVE_JRE_PATH="">
+      <option name="BROWSER_ID" value="a7bb68e0-33c0-4d6f-a81a-aac1fdb870c8" />
+      <option name="SHOW_DIALOG_ON_UPDATE" value="false" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="DoctorVeraCloud-ear:ear">
+          <settings />
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="DOMAIN" value="domain1" />
+        <option name="PRESERVE" value="false" />
+        <option name="VIRTUAL_SERVER" />
+        <option name="USERNAME" value="admin" />
+        <option name="PASSWORD" value="" />
+      </server-settings>
+      <predefined_log_file id="GlassFish" enabled="true" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="9009" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method>
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="DoctorVeraCloud-ear:ear" />
+        </option>
+      </method>
+    </configuration>
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="GlassFish Server.glassfish" />
+    </list>
+    <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="42f36f5b-bdf8-49fe-90d1-3e4f70ba56eb" name="Default" comment="" />
+      <created>1423343275005</created>
+      <option name="number" value="Default" />
+      <updated>1423343275005</updated>
+      <workItem from="1423343283996" duration="71000" />
+      <workItem from="1423343416799" duration="19000" />
+      <workItem from="1423343455839" duration="12000" />
+      <workItem from="1423471583755" duration="16903000" />
+      <workItem from="1423515138248" duration="90000" />
+      <workItem from="1423515318438" duration="4291000" />
+      <workItem from="1423555486406" duration="9451000" />
+      <workItem from="1423573257206" duration="10391000" />
+      <workItem from="1423598904132" duration="754000" />
+      <workItem from="1423650925748" duration="6590000" />
+      <workItem from="1423660597003" duration="19512000" />
+      <workItem from="1423734118725" duration="1976000" />
+      <workItem from="1423736402107" duration="2036000" />
+      <workItem from="1423738468544" duration="1581000" />
+      <workItem from="1423752031636" duration="87000" />
+      <workItem from="1423752137357" duration="2443000" />
+      <workItem from="1423754661281" duration="1266000" />
+      <workItem from="1423762657324" duration="1775000" />
+      <workItem from="1423770088567" duration="274000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="79522000" />
+  </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43613347" sideWeight="0.4959547" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1726122" sideWeight="0.5040453" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14644013" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25776756" sideWeight="0.5040453" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17606445" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21288837" sideWeight="0.5088997" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18122977" sideWeight="0.49853802" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18122977" sideWeight="0.501462" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="EJB" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18122977" sideWeight="0.501462" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="JavaEE:App" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18122977" sideWeight="0.501462" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="myTodoPanelSettings">
+      <TodoPanelSettings />
+    </option>
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+    </ignored-roots>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/ScheduleView.java</url>
+          <line>241</line>
+          <properties />
+          <option name="timeStamp" value="76" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="77" />
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="GlassfishConfiguration">
+        <watch expression="value" language="JAVA" custom="" />
+        <watch expression="selectedMethods.get(0)" language="JAVA" custom="" />
+        <watch expression="selectedMethods" language="JAVA" custom="" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PaymentsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2363">
+          <caret line="45" column="4" selection-start-line="45" selection-start-column="4" selection-end-line="45" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UsersTableView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2686">
+          <caret line="38" column="4" selection-start-line="38" selection-start-column="4" selection-end-line="38" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SendSMSView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782">
+          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/glassfish-4.1/glassfish/modules/dol.jar!/com/sun/enterprise/deployment/io/DeploymentDescriptorFile.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5497076" vertical-offset="4394" max-vertical-offset="4590">
+          <caret line="311" column="0" selection-start-line="311" selection-start-column="0" selection-end-line="311" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/Users.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="8619">
+          <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/RoomsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.035343036" vertical-offset="255" max-vertical-offset="1428">
+          <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/rooms.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.3604395" vertical-offset="1095" max-vertical-offset="2720">
+          <caret line="28" column="33" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/payments.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.7846154" vertical-offset="1092" max-vertical-offset="2057">
+          <caret line="112" column="23" selection-start-line="112" selection-start-column="23" selection-end-line="112" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/resources/META-INF/persistence.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="542">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ear/src/main/application/META-INF/glassfish-resources.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.035343036" vertical-offset="0" max-vertical-offset="481">
+          <caret line="1" column="159" selection-start-line="1" selection-start-column="159" selection-end-line="1" selection-end-column="159" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/DoctorVeraCloud-web.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="1479">
+          <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserLoginView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2271715" vertical-offset="0" max-vertical-offset="1836">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/MethodValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.075723834" vertical-offset="765" max-vertical-offset="1445">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/Methods.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.6904232" vertical-offset="684" max-vertical-offset="4573">
+          <caret line="44" column="13" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/AbstractFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.44155845" vertical-offset="357" max-vertical-offset="1343">
+          <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/MethodTypesFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="14" max-vertical-offset="595">
+          <caret line="38" column="90" selection-start-line="38" selection-start-column="90" selection-end-line="38" selection-end-column="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/glassfish-4.1/glassfish/modules/javax.faces.jar!/javax/faces/convert/Converter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2806604" vertical-offset="0" max-vertical-offset="424">
+          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/MethodTypesFacadeLocal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="269" max-vertical-offset="850">
+          <caret line="47" column="29" selection-start-line="47" selection-start-column="29" selection-end-line="47" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/entities/MethodTypes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.25925925" vertical-offset="271" max-vertical-offset="2924">
+          <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/MethodTypesConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34423408" vertical-offset="157" max-vertical-offset="1020">
+          <caret line="34" column="12" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/MethodsFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4848485" vertical-offset="222" max-vertical-offset="816">
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="52" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserProfileView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.4044751" vertical-offset="0" max-vertical-offset="1054">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12128419" vertical-offset="0" max-vertical-offset="3927">
+          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/PlanFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20214032" vertical-offset="0" max-vertical-offset="1802">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PlanView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5236">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="63" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/filter/AuthenFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33279744" vertical-offset="286" max-vertical-offset="1581">
+          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/glassfish-4.1/glassfish/modules/web-core.jar!/org/apache/catalina/core/StandardContextValve.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-20.28" vertical-offset="1465" max-vertical-offset="2074">
+          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/glassfish-4.1/glassfish/modules/web-core.jar!/org/apache/catalina/session/StandardSession.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.24" vertical-offset="10894" max-vertical-offset="19193">
+          <caret line="770" column="0" selection-start-line="770" selection-start-column="0" selection-end-line="770" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MenuView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1314" max-vertical-offset="2142">
+          <caret line="116" column="65" selection-start-line="116" selection-start-column="65" selection-end-line="116" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SessionParams.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.4626865" vertical-offset="28" max-vertical-offset="1020">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/WEB-INF/web.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3526971" vertical-offset="102" max-vertical-offset="1224">
+          <caret line="16" column="53" selection-start-line="16" selection-start-column="53" selection-end-line="16" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="986">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ear/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.06500956" vertical-offset="0" max-vertical-offset="1156">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="6" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/plan.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.583501" vertical-offset="662" max-vertical-offset="2635">
+          <caret line="56" column="60" selection-start-line="56" selection-start-column="60" selection-end-line="56" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/add_user.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6498994" vertical-offset="0" max-vertical-offset="3281">
+          <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/header.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.6760563" vertical-offset="336" max-vertical-offset="986">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/profile.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="6.0061984" vertical-offset="510" max-vertical-offset="4012">
+          <caret line="201" column="19" selection-start-line="201" selection-start-column="19" selection-end-line="201" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MethodsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6666667" vertical-offset="3553" max-vertical-offset="4267">
+          <caret line="286" column="36" selection-start-line="286" selection-start-column="36" selection-end-line="286" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/user_groups.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.307693" vertical-offset="2759" max-vertical-offset="3366">
+          <caret line="175" column="0" selection-start-line="175" selection-start-column="0" selection-end-line="186" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserTypesTableView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="561" max-vertical-offset="3043">
+          <caret line="59" column="8" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2959" max-vertical-offset="6052">
+          <caret line="187" column="24" selection-start-line="187" selection-start-column="24" selection-end-line="187" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/message.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2754" max-vertical-offset="5593">
+          <caret line="185" column="43" selection-start-line="185" selection-start-column="43" selection-end-line="185" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/ScheduleView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1629" max-vertical-offset="8925">
+          <caret line="119" column="53" selection-start-line="119" selection-start-column="53" selection-end-line="119" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/methods.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2174" max-vertical-offset="5491">
+          <caret line="142" column="71" selection-start-line="142" selection-start-column="71" selection-end-line="142" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/MethodsConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+          <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.4302104" vertical-offset="0" max-vertical-offset="1598">
+          <caret line="44" column="28" selection-start-line="44" selection-start-column="28" selection-end-line="44" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1743" max-vertical-offset="3791">
+          <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/resources/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1720" max-vertical-offset="2584">
+          <caret line="116" column="29" selection-start-line="116" selection-start-column="29" selection-end-line="116" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/WEB-INF/glassfish-web.xml">
+      <provider editor-type-id="com.intellij.javaee.oss.glassfish.editor.GlassfishWebRootProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.2666667" vertical-offset="0" max-vertical-offset="187">
+          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ear/target/application.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3437014" vertical-offset="0" max-vertical-offset="643">
+          <caret line="13" column="51" selection-start-line="13" selection-start-column="51" selection-end-line="13" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>DoctorVeraCloud-ear:ear</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2446264" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>JavaEE (DoctorVeraCloud-ear)|JavaEE Application</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.15977012" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.22068965" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.22068965" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>DoctorVeraCloud-web</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2446264" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: antlr:antlr:2.7.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.15977012" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+  <component name="mavenExecuteGoalHistory">
+    <option value="" />
+  </component>
+</project>

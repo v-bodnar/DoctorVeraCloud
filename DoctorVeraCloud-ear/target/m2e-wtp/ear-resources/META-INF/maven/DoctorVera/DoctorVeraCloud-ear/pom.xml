@@ -19,7 +19,8 @@
                   <manifest>
                      <addClasspath>true</addClasspath>
                   </manifest>
-               </archive> 
+               </archive>
+               
             </configuration>
   			
   		</plugin>
@@ -41,7 +42,7 @@
             <version>0.0.1-SNAPSHOT</version>
             <type>war</type>
         </dependency>
-                <dependency>
+        <dependency>
             <groupId>DoctorVera</groupId>
             <artifactId>DoctorVeraCloud-ejb</artifactId>
             <version>0.0.1-SNAPSHOT</version>

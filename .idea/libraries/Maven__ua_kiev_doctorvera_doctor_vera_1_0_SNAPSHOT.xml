@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: ua.kiev.doctorvera:doctor-vera:1.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/ua/kiev/doctorvera/doctor-vera/1.0-SNAPSHOT/doctor-vera-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/ua/kiev/doctorvera/doctor-vera/1.0-SNAPSHOT/doctor-vera-1.0-SNAPSHOT-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/ua/kiev/doctorvera/doctor-vera/1.0-SNAPSHOT/doctor-vera-1.0-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

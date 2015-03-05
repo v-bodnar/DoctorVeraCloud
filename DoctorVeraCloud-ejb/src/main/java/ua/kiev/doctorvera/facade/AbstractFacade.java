@@ -55,8 +55,8 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
         return getEntityManager().find(entityClass, id);
     }
     
-    public T find(T id) {
-        return getEntityManager().find(entityClass, id.getId());
+    public T find(T entity) {
+        return getEntityManager().find(entityClass, entity.getId());
     }
 
     public List<T> findAll() {
@@ -90,4 +90,8 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
         List<T> resultList = getEntityManager().createQuery(cq).getResultList();
         return resultList.size();
     }    
+    
+	public void removeFromDB(T entity) {
+		getEntityManager().remove(entity);;
+	}
 }

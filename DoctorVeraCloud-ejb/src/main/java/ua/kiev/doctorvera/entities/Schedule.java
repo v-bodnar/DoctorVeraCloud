@@ -17,8 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,14 +33,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "Schedule")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Schedule.findAll", query = "SELECT s FROM Schedule s"),
-    @NamedQuery(name = "Schedule.findByScheduleId", query = "SELECT s FROM Schedule s WHERE s.scheduleId = :scheduleId"),
-    @NamedQuery(name = "Schedule.findByDateTimeStart", query = "SELECT s FROM Schedule s WHERE s.dateTimeStart = :dateTimeStart"),
-    @NamedQuery(name = "Schedule.findByDateTimeEnd", query = "SELECT s FROM Schedule s WHERE s.dateTimeEnd = :dateTimeEnd"),
-    @NamedQuery(name = "Schedule.findByDescription", query = "SELECT s FROM Schedule s WHERE s.description = :description"),
-    @NamedQuery(name = "Schedule.findByDateCreated", query = "SELECT s FROM Schedule s WHERE s.dateCreated = :dateCreated"),
-    @NamedQuery(name = "Schedule.findByDeleted", query = "SELECT s FROM Schedule s WHERE s.deleted = :deleted")})
 public class Schedule implements Serializable,Identified<Integer> {
     private static final long serialVersionUID = 1L;
     @Id
@@ -83,9 +73,9 @@ public class Schedule implements Serializable,Identified<Integer> {
     @JoinColumn(name = "Patient", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users patient;
-    @JoinColumn(name = "Assistant", referencedColumnName = "UserId")
+    @JoinColumn(name = "Assistent", referencedColumnName = "UserId")
     @ManyToOne
-    private Users assistant;
+    private Users assistent;
     @JoinColumn(name = "Doctor", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users doctor;
@@ -192,12 +182,12 @@ public class Schedule implements Serializable,Identified<Integer> {
         this.patient = patient;
     }
 
-    public Users getAssistant() {
-        return assistant;
+    public Users getAssistent() {
+        return assistent;
     }
 
-    public void setAssistant(Users assistant) {
-        this.assistant = assistant;
+    public void setAssistent(Users assistent) {
+        this.assistent = assistent;
     }
 
     public Users getDoctor() {
@@ -229,7 +219,7 @@ public class Schedule implements Serializable,Identified<Integer> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((assistant == null) ? 0 : assistant.hashCode());
+				+ ((assistent == null) ? 0 : assistent.hashCode());
 		result = prime * result
 				+ ((dateCreated == null) ? 0 : dateCreated.hashCode());
 		result = prime * result
@@ -261,10 +251,10 @@ public class Schedule implements Serializable,Identified<Integer> {
 		if (getClass() != obj.getClass())
 			return false;
 		Schedule other = (Schedule) obj;
-		if (assistant == null) {
-			if (other.assistant != null)
+		if (assistent == null) {
+			if (other.assistent != null)
 				return false;
-		} else if (!assistant.equals(other.assistant))
+		} else if (!assistent.equals(other.assistent))
 			return false;
 		if (dateCreated == null) {
 			if (other.dateCreated != null)
@@ -332,8 +322,8 @@ public class Schedule implements Serializable,Identified<Integer> {
 				+ dateTimeStart + ", dateTimeEnd=" + dateTimeEnd
 				+ ", description=" + description + ", dateCreated="
 				+ dateCreated + ", deleted=" + deleted + ", method=" + method
-				+ ", room=" + room + ", patient=" + patient + ", assistant="
-				+ assistant + ", doctor=" + doctor + ", doctorDirected="
+				+ ", room=" + room + ", patient=" + patient + ", assistent="
+				+ assistent + ", doctor=" + doctor + ", doctorDirected="
 				+ doctorDirected + ", userCreated=" + userCreated + "]";
 	}
 

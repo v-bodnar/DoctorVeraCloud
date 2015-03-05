@@ -1,0 +1,116 @@
+<ui:composition template="index.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="#{MESSAGE.PAYMENTS_ADD_TITLE}" />
+	</ui:define>
+	<ui:define name="content">
+	
+		<h:form id="paymentsForm">
+			<p:dataTable id="paymentsTable" styleClass="paymentsTable"
+				var="payment" widgetVar="paymentsTable"
+				value="#{paymentsView.allPayments}" rowKey="#{payment.id}"
+				rowStyleClass="#{payment.total le 0 ? 'outcome' : null}" >
+				
+				<p:column headerText="#{MESSAGE.ENTITY_ID}"
+					sortBy="#{payment.id}" filterBy="#{payment.id}"
+					filterMatchMode="contains" style="width:50px;">
+					<h:outputText value="#{payment.id}" />
+				</p:column>
+				
+				<p:column headerText="#{MESSAGE.PAYMENTS_DATE_TIME}"
+					sortBy="#{payment.dateCreated}" filterBy="#{payment.dateCreated}">
+					<h:outputText value="#{payment.dateCreated}" />
+				</p:column>
+				
+				<p:column headerText="#{MESSAGE.PAYMENTS_CASHIER}"
+					sortBy="#{payment.userCreated}" filterBy="#{payment.userCreated}">
+					<h:outputText value="#{payment.userCreated.firstName} #{payment.userCreated.firstName}" />
+				</p:column>
+				
+				<p:column headerText="#{MESSAGE.ENTITY_DESCRIPTION}"
+					sortBy="#{payment.description}" filterBy="#{payment.description}"
+					filterMatchMode="contains">
+					<h:outputText value="#{payment.description}" />
+				</p:column>
+				
+				<p:column headerText="#{MESSAGE.PAYMENTS_TOTAL}"
+					sortBy="#{payment.total}" filterBy="#{payment.total}"
+					filterMatchMode="contains">
+					<h:outputText value="#{payment.total}" />
+				</p:column>
+
+				<f:facet name="footer">
+			        <p:commandButton value="#{MESSAGE.PAYMENTS_ADD_BUTTON}" icon="ui-icon-plus"
+			        actionListener = "#{paymentsView.initNewPayment}"
+			        oncomplete="PF('addPaymentDialog').show();"/>
+		    	</f:facet>
+			</p:dataTable>
+		</h:form>
+		
+		<h:form id="addPaymentForm"
+			onkeypress="if( event.keyCode == 13){event.preventDefault()}">
+			<p:growl id="growl" showDetail="true" severity="info" />
+				
+				<p:dialog header="#{MESSAGE.PAYMENTS_ADD_TITLE}"
+				widgetVar="addPaymentDialog" modal="false" closeOnEscape="true">
+				
+					<h:panelGrid columns="3" cellpadding="5"
+						style="margin:auto;width:100%;">
+						
+						<!-- Type -->
+						<h:outputLabel for="type" value="#{MESSAGE.PAYMENTS_TYPE}" />
+						    <p:selectOneRadio id="type" value="#{paymentsView.isPositive}"
+						    required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+					            <f:selectItem itemLabel="#{MESSAGE.PAYMENTS_TYPE_INCOMING}" itemValue="true" />
+					            <f:selectItem itemLabel="#{MESSAGE.PAYMENTS_TYPE_OUTOMING}" itemValue="false" />
+					        </p:selectOneRadio>
+						<p:message for="type" id="typeMessage" />
+						
+						<!-- Total -->
+						<h:outputLabel for="total" value="#{MESSAGE.PAYMENTS_TOTAL}" />
+						<p:inputMask value="#{paymentsView.newPayment.total}"
+							id="total" name="total" mask="9?99999" slotChar="" 
+							required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+							<p:ajax event="blur" update="totalMessage" process="total" />
+						</p:inputMask>
+						<p:message for="total" id="totalMessage" />
+						
+						<!-- Description -->
+						<h:outputLabel for="description" value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+						<p:inputTextarea rows="6" cols="20" id="description"
+							value="#{paymentsView.newPayment.description}"
+							required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+							validato="priceValidator.validate">
+							<f:attribute name="name" value="notZero" />
+							<p:ajax event="blur" update="descriptionMessage"  process="description"/>
+						</p:inputTextarea>
+						<p:message for="description" id="descriptionMessage" />
+	
+						<!-- Date Time -->
+						<h:outputLabel for="dataTime" value="#{MESSAGE.PAYMENTS_DATE_TIME}" />
+						<p:clock pattern="dd.MMMMM.yyyy" id="dataTime"/>
+						<h:outputText value=""/>
+						
+						<!-- Cashier -->
+						<h:outputLabel for="cashier" value="#{MESSAGE.PAYMENTS_CASHIER}" />
+						<h:outputText value="#{paymentsView.authorizedUser.firstName} #{paymentsView.authorizedUser.lastName}" id="cashier"/>
+						<h:outputText value=""/>
+	
+						<!-- Add button -->
+						<p:commandButton value="#{MESSAGE.PAYMENTS_ADD_BUTTON}"
+							actionListener="#{paymentsView.createPayment}" icon="ui-icon-check"
+							update = "@form :paymentsForm:paymentsTable" style="margin:auto"/>
+						
+						<!-- Add && print button -->
+						<p:commandButton value="#{MESSAGE.PAYMENTS_ADD_PRINT_BUTTON}"
+							actionListener="#{paymentsView.createAndPrintPayment}" icon="ui-icon-print"
+							update = "@form :paymentsForm:paymentsTable" style="margin:auto"/>
+					</h:panelGrid>
+				</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

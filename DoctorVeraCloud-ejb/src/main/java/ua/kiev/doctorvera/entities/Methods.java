@@ -6,11 +6,9 @@
 package ua.kiev.doctorvera.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,14 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entity class Describes User
@@ -82,6 +78,7 @@ public class Methods implements Serializable,Identified<Integer> {
     @NotNull
     @Column(name = "Deleted")
     private boolean deleted;
+    /*
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "method")
     private Collection<DoctorsHasMethod> doctorsHasMethodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "method")
@@ -90,6 +87,7 @@ public class Methods implements Serializable,Identified<Integer> {
     private Collection<Schedule> scheduleCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "method")
     private Collection<Share> shareCollection;
+    */
     @JoinColumn(name = "MethodType", referencedColumnName = "MethodTypeId")
     @ManyToOne(optional = false)
     private MethodTypes methodType;
@@ -176,7 +174,7 @@ public class Methods implements Serializable,Identified<Integer> {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
-
+/*
     @XmlTransient
     public Collection<DoctorsHasMethod> getDoctorsHasMethodCollection() {
         return doctorsHasMethodCollection;
@@ -212,7 +210,7 @@ public class Methods implements Serializable,Identified<Integer> {
     public void setShareCollection(Collection<Share> shareCollection) {
         this.shareCollection = shareCollection;
     }
-
+*/
     public MethodTypes getMethodType() {
         return methodType;
     }

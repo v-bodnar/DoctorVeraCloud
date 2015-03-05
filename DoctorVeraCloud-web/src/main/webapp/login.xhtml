@@ -10,7 +10,6 @@
 
 	<h:head>  
 			<h:outputStylesheet library="css" name="style.css"  />
-		<h:outputStylesheet library="css" name="style.css"  />
 		<ui:debug />
 	  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 		<title><h:outputText value = "#{MESSAGE.APPLICATION_TITLE}"/></title>
@@ -19,9 +18,10 @@
     <h:body>
 
 	<h:form>
-		<p:remoteCommand id="checkAuth" name="checkAuth"  actionListener="#{userLoginView.checkAuth}" 
-		oncomplete="handleCheckAuth(xhr, status, args)" autoRun="true"/>
+		<!--p:remoteCommand id="checkAuth" name="checkAuth"  actionListener="#{userLoginView.checkAuth}" 
+		oncomplete="handleCheckAuth(xhr, status, args)" autoRun="true"/-->
 
+		<p:remoteCommand autoRun="true" oncomplete="PF('login').show()"/>
 		<p:growl  id="msg" showDetail="true"/>
 		
 		<p:dialog header="#{MESSAGE.LOGIN_TITLE}" widgetVar="login" resizable="false">

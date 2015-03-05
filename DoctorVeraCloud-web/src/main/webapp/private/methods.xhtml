@@ -1,0 +1,318 @@
+<ui:composition template="index.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:define name="title">
+		<h:outputText value="#{MESSAGE.METHODS_TITLE}" />
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="methodsForm">
+
+			<p:growl id="growl" showDetail="true" severity="info" />
+
+			<p:contextMenu for="methodsTable">
+				
+				<!-- Edit Method Menu Item -->
+				<p:menuitem update="methodsTable growl">
+					<p:commandLink styleClass="ui-menuitem-link"
+						oncomplete="PF('addMethodDialog').show();"
+						update=":methodsAddForm:addMethodDialog">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
+						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.METHODS_EDIT_BUTTON}" />
+					</p:commandLink>
+				</p:menuitem>	
+				
+				<!-- Edit Method Price Menu Item -->
+				<p:menuitem update="methodsTable growl">
+					<p:commandLink styleClass="ui-menuitem-link"
+						oncomplete="PF('addPriceDialog').show();"
+						action="#{methodsView.resetPrice}"
+						update=":priceAddForm:addPriceDialog methodsTable"
+						process="@this">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
+						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.METHODS_PRICE_CHANGE_BUTTON}" />
+					</p:commandLink>
+				</p:menuitem>
+				
+				<!-- Add Doctor to Method Menu Item -->
+				<p:menuitem update="userTypesTable growl">
+					<p:commandLink styleClass="ui-menuitem-link"
+						action="#{methodsView.constructPickList}"
+						oncomplete="PF('addDoctorDialog').show();"
+						update=":doctorAddForm:addDoctorDialog"
+						process="@this">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-person" />
+						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.METHODS_ADD_DOCTORS}" />
+					</p:commandLink>
+				</p:menuitem>
+				
+				<!-- Delete Method Menu Item -->
+				<p:menuitem update="methodsTable growl">
+					<p:commandLink styleClass="ui-menuitem-link"
+						action="#{methodsView.deleteSelectedMethod}" ajax="false"
+						update="methodsTable growl">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.METHODS_DELETE_BUTTON}" />
+						<p:confirm header="#{MESSAGE.METHODS_DELETE_CONFIRM_TITLE}" icon="ui-icon-alert"
+							message="#{MESSAGE.METHODS_DELETE_CONFIRM_MESSAGE}" />
+					</p:commandLink>
+				</p:menuitem>
+				
+			</p:contextMenu>
+
+			<p:dataTable id="methodsTable" styleClass="methodsTable"
+				var="method" widgetVar="methodsTable"
+				value="#{methodsView.allMethods}" rowKey="#{method.id}"
+				selection="#{methodsView.selectedMethod}"
+				selectionMode="single">
+				
+				<p:ajax event="contextMenu" 
+				update=":methodsAddForm:addMethodDialog" />
+				
+				<!-- Column with Method Name -->
+				<p:column headerText="#{MESSAGE.METHODS_FULL_NAME}"
+					sortBy="#{method.fullName}" filterBy="#{method.fullName} #{method.shortName}"
+					filterMatchMode="contains" style="width:200px;">
+					<h:outputText value="#{method.fullName} (#{method.shortName})" />
+				</p:column>
+
+				<!-- Column with Method Short Description -->
+				<p:column headerText="#{MESSAGE.METHODS_SHORT_DESCRIPTION}"
+					sortBy="#{method.shortDescription}" filterBy="#{method.shortDescription}"
+					filterMatchMode="contains">
+					<h:outputText value="#{method.shortDescription}" />
+				</p:column>
+				
+				<p:column headerText="#{MESSAGE.METHODS_TIME}"
+					sortBy="#{method.timeInMinutes}" filterBy="#{method.timeInMinutes}"
+					filterMatchMode="contains">
+					<h:outputText value="#{method.timeInMinutes} мин" />
+				</p:column>
+				
+				<p:column headerText="#{MESSAGE.METHODS_TYPE}"
+					sortBy="#{method.methodType.fullName}" filterBy="#{method.methodType.fullName}"
+					filterMatchMode="contains" style="width:200px;">
+					<h:outputText value="#{method.methodType.fullName} (#{method.methodType.shortName})" />
+				</p:column>
+
+				<p:column headerText="#{MESSAGE.METHODS_PRICE_LAST}" sortBy="#{methodsView.currentPrice.get(method).total}"
+				filterBy="#{methodsView.currentPrice.get(method).total}"	filterMatchMode="contains">
+					<h:outputText value="#{methodsView.currentPrice.get(method).total}">
+						<f:convertNumber type="number" pattern="##0 грн"/>
+					</h:outputText>
+				</p:column>
+				
+				<f:facet name="footer">
+			        <p:commandButton value="#{MESSAGE.METHODS_ADD_BUTTON}" icon="ui-icon-plus"
+			        update=":methodsAddForm:addMethodDialog"
+			        actionListener = "#{methodsView.initNewMethod}"
+			        oncomplete="PF('addMethodDialog').show();"/>
+		    	</f:facet>
+
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="#{MESSAGE.METHODS_DELETE_CONFIRM_YES}"
+					type="button" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" />
+				<p:commandButton value="#{MESSAGE.METHODS_DELETE_CONFIRM_NO}"
+					type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+		</h:form>
+
+		<!-- Form for Add/Update Method dialog -->
+		<h:form id="methodsAddForm">
+
+			<p:dialog header="#{MESSAGE.METHODS_ADD_DIALOG_TITLE}"
+				widgetVar="addMethodDialog" modal="false" id="addMethodDialog" closeOnEscape="true">
+				<p:growl id="growl" showDetail="true" autoUpdate="true"/>
+				<p:messages id = "errorMessage" showDetail="true" style="width:400px;font-size:90%" escape="true" severity="error"/>
+				<p:ajax event="close" update=":methodsForm:methodsTable"/>
+
+				<h:panelGrid columns="3" cellpadding="5">
+				
+					<!-- Method Type -->
+					<h:outputLabel for="methodType" value="#{MESSAGE.METHODS_TYPE}"/>
+					<p:selectOneMenu id="methodType" value="#{methodsView.selectedMethod.methodType}" converter="methodTypesConverter"
+					required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" styleClass="mySelectOneMenu" editable="true" >
+			            <f:selectItems value="#{methodsView.allMethodTypes}" var="methodType" 
+			            itemLabel="#{methodType.shortName}" itemValue="#{methodType}"/>
+			            <!-- p:ajax event="change" update="planRoomMessage" /-->
+			        </p:selectOneMenu>
+					<p:message for="methodType" id="methodTypeMessage" />
+
+					<!-- Method Short Name -->
+					<h:outputLabel for="methodShortName"
+						value="#{MESSAGE.METHODS_SHORT_NAME}" />
+					<p:inputText id="methodShortName"
+						value="#{methodsView.selectedMethod.shortName}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" 
+						validator="#{methodValidator.validate}">
+						<f:attribute name="name" value="shortName" />
+                        <f:attribute name="selectedId" value="#{methodsView.selectedMethod.id}" />
+						<p:ajax event="blur" update="methodShortNameMessage" />
+					</p:inputText>
+					<p:message for="methodShortName" id="methodShortNameMessage" />
+					
+					<!-- Method Full Name -->
+					<h:outputLabel for="methodFullName"
+						value="#{MESSAGE.METHODS_FULL_NAME}" />
+					<p:inputText id="methodFullName"
+						value="#{methodsView.selectedMethod.fullName}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+						<p:ajax event="blur" update="methodFullNameMessage" />
+					</p:inputText>
+					<p:message for="methodFullName" id="methodFullNameMessage" />
+
+					<!-- Method Short Description -->
+					<h:outputLabel for="methodShortDescription"
+						value="#{MESSAGE.METHODS_SHORT_DESCRIPTION}" />
+					<p:inputTextarea rows="6" cols="20" id="methodShortDescription"
+						value="#{methodsView.selectedMethod.shortDescription}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+						<p:ajax event="blur" update="methodShortDescriptionMessage" />
+					</p:inputTextarea>
+					<p:message for="methodShortDescription"
+						id="methodShortDescriptionMessage" />
+
+					<!-- Method Short Description -->
+					<h:outputLabel for="methodFullDescription"
+						value="#{MESSAGE.METHODS_FULL_DESCRIPTION}" />
+					<p:inputTextarea rows="6" cols="20" id="methodFullDescription"
+						value="#{methodsView.selectedMethod.fullDescription}">
+						<p:ajax event="blur" update="methodFullDescriptionMessage" />
+					</p:inputTextarea>
+					<p:message for="methodFullDescription" id="methodFullDescriptionMessage" />
+						
+					<!-- Method Time In Minutes -->
+					<h:outputLabel for="timeInMinutes" value="#{MESSAGE.METHODS_TIME}" />
+					<p:spinner id="timeInMinutes" value="#{methodsView.selectedMethod.timeInMinutes}"
+					min="0" max="180" stepFactor="5" validator="#{methodValidator.validate}"
+					styleClass="mySpinner">
+						<f:attribute name="name" value="timeInMinutes" />
+						<p:ajax event="blur" update="timeInMinutesMessage" />
+					</p:spinner>
+					<p:message for="timeInMinutes" id="timeInMinutesMessage" />
+					
+					<!-- Method Price -->
+					<h:outputLabel for="price" value="#{MESSAGE.METHODS_PRICE}" 
+					rendered="#{methodsView.selectedMethod.id==null}"/>
+					<p:inputMask id="price"	value="#{methodsView.price.total}" mask="9?99" slotChar=""
+					 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" converter="javax.faces.Float"
+					 validator="#{priceValidator.validate}" rendered="#{methodsView.selectedMethod.id==null}"> 
+					 	<f:attribute name="name" value="notZero" />
+						<p:ajax event="blur" update="priceMessage" />
+					</p:inputMask>
+					<p:message for="price" id="priceMessage" />
+					
+					<h:outputLabel for="methodSaveButton" value="" 
+					rendered="#{methodsView.selectedMethod.id==null}"/>
+					<p:commandButton id="methodSaveButton"
+						value="#{MESSAGE.METHODS_ADD_BUTTON}" icon="ui-icon-plus"
+						action="#{methodsView.createNewMethod}"
+						update="growl errorMessage addMethodDialog"
+						rendered="#{methodsView.selectedMethod.id==null}"
+						styleClass="myButton"
+						/>
+						
+					<h:outputLabel for="methodEditButton" value="" 
+					rendered="#{methodsView.selectedMethod.id!=null}"/>
+					<p:commandButton id="methodEditButton"
+						value="#{MESSAGE.METHODS_SAVE_BUTTON}" icon="ui-icon-plus"
+						action="#{methodsView.saveSelectedMethod}"
+						update="growl errorMessage addMethodDialog"
+						rendered="#{methodsView.selectedMethod.id!=null}"
+						styleClass="myButton"
+						/>
+
+				</h:panelGrid>
+
+			</p:dialog>
+		</h:form>
+		
+		<!-- Add price dialog -->
+		<h:form id="priceAddForm">
+
+			<p:dialog header="#{MESSAGE.METHODS_ADD_DIALOG_TITLE}"
+				widgetVar="addPriceDialog" modal="false" id="addPriceDialog" closeOnEscape="true">
+				<p:growl id="growl" showDetail="true" autoUpdate="false" severity="info"/>
+				<p:ajax event="close" update=":methodsForm:methodsTable"/>
+
+				<h:panelGrid columns="3" cellpadding="5">
+				
+					<!-- Price Total -->
+					<h:outputLabel for="price" value="#{MESSAGE.METHODS_PRICE}"/>
+					<p:inputMask id="price"	value="#{methodsView.price.total}" 
+						mask="9?99" slotChar=""	 required="true" 
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" 
+						converter="javax.faces.Float"
+						validator="#{priceValidator.validate}"> 
+					 	<f:attribute name="name" value="notZero" />
+					</p:inputMask>
+					<p:message for="price" id="priceMessage" />
+
+					<!-- Price Date -->
+					<h:outputLabel for="priceDate"
+						value="#{MESSAGE.METHODS_PRICE_DATE}" />
+					<p:calendar  id="priceDate" pattern="dd-MM-yyyy"
+						value="#{methodsView.price.dateTime}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" 
+						validator="#{priceValidator.validate}"
+						mindate="PF('calwidget').today()" widgetVar="calwidget">
+						<f:attribute name="name" value="date" />
+					</p:calendar>
+					<p:message for="priceDate" id="priceDateMessage" />
+						
+					<h:outputLabel for="priceSaveButton" value=""/>
+					<p:commandButton id="priceSaveButton"
+						value="#{MESSAGE.METHODS_SAVE_BUTTON}" icon="ui-icon-plus"
+						action="#{methodsView.createNewPrice}"
+						update="growl priceDateMessage priceMessage"
+						styleClass="myButton"
+						/>
+
+				</h:panelGrid>
+				<p:scrollPanel rendered="#{methodsView.selectedMethod.id != null}" style="height:200px; width:400px">	
+					<p:dataTable value="#{methodsView.prisesHistory}" var="price">
+				        <f:facet name="header">
+				            <h:outputText value="#{MESSAGE.METHODS_PRICE_HISTORY}: #{methodsView.selectedMethod.shortName}"/>
+				        </f:facet>
+				        <p:column sortBy="#{price.dateTime}">
+				            <h:outputText value="#{price.dateTime}" />
+				        </p:column>
+				        
+				        <p:column sortBy="#{price.total}">
+				            <h:outputText value="#{price.total} грн" />
+				        </p:column>
+				    </p:dataTable>
+				</p:scrollPanel>
+
+			</p:dialog>
+
+		</h:form>
+		
+		<!-- Add Doctor dialog -->
+		<h:form id="doctorAddForm">
+
+			<p:dialog header="#{MESSAGE.METHODS_ADD_DIALOG_TITLE}"
+				widgetVar="addDoctorDialog" modal="false" id="addDoctorDialog" closeOnEscape="true" width="650" height="300">
+				<p:growl id="growl" showDetail="true" autoUpdate="false" severity="info"/>
+
+				<p:pickList id="addDoctorsToMethodPickList" value="#{methodsView.doctorsDualListModel}" var="doctor" effect="bounce"
+	                itemValue="#{doctor}" itemLabel="#{doctor.firstName} #{doctor.lastName}" 
+	                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker"
+	                converter = "usersConverter">
+	 
+			        <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.METHODS_DOCTORS_PICKER_SOURCE}"/></f:facet>
+			        <f:facet name="targetCaption"><h:outputText value="#{methodsView.selectedMethod.shortName}"/></f:facet>
+			 
+			        <p:ajax event="transfer" listener="#{methodsView.onTransfer}" update="growl" />
+			    </p:pickList>
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

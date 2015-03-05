@@ -48,5 +48,7 @@ public class UsersHasUserTypesFacade extends AbstractFacade<UsersHasUserTypes> i
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
 	}
+	
+
     
 }

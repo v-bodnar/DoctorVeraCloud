@@ -6,24 +6,20 @@
 package ua.kiev.doctorvera.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import ua.kiev.doctorvera.utils.Service;
 
@@ -118,18 +114,13 @@ public class Users implements Serializable,Identified<Integer> {
     //@JoinColumn(name = "Address", referencedColumnName = "AddressId")
     @Column(name = "Address")
     private Integer addressId;
-    
+    /*
     @OneToMany(mappedBy = "recipient")
     private Collection<Payments> paymentsCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
     private Collection<Plan> planCollection;
-    
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<UsersHasUserTypes> usersHasUserTypesCollection;
-    
-    
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
     private Collection<DoctorsHasMethod> doctorsHasMethodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
@@ -144,7 +135,7 @@ public class Users implements Serializable,Identified<Integer> {
     private Collection<Share> shareCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "assistant")
     private Collection<Share> shareCollection1;
-       
+    */
     public Users() {
     }
 
@@ -304,7 +295,7 @@ public class Users implements Serializable,Identified<Integer> {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
-
+/*
     @XmlTransient
     public Collection<Payments> getPaymentsCollection1() {
         return paymentsCollection1;
@@ -313,7 +304,7 @@ public class Users implements Serializable,Identified<Integer> {
     public void setPaymentsCollection1(Collection<Payments> paymentsCollection1) {
         this.paymentsCollection1 = paymentsCollection1;
     }
-
+*/
     public Integer getAddressId() {
         return addressId;
     }
@@ -342,7 +333,7 @@ public class Users implements Serializable,Identified<Integer> {
     public void setAddress(Address address) {
         this.addressId = address.getId();
     }
-
+/*
 	@XmlTransient
     public Collection<Plan> getPlanCollection() {
         return planCollection;
@@ -423,7 +414,7 @@ public class Users implements Serializable,Identified<Integer> {
     public void setShareCollection1(Collection<Share> shareCollection1) {
         this.shareCollection1 = shareCollection1;
     }
-    /*
+    
     private EntityManager getEntityManager(){
     	final Logger LOG = Logger.getLogger(Users.class.getName());
     	long startTime = System.nanoTime();

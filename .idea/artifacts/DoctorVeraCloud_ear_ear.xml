@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="ear" name="DoctorVeraCloud-ear:ear">
+    <output-path>$PROJECT_DIR$/DoctorVeraCloud-ear/target</output-path>
+    <root id="archive" name="DoctorVeraCloud-ear-0.0.1-SNAPSHOT.ear">
+      <element id="artifact" artifact-name="DoctorVeraCloud-ear:ear exploded" />
+    </root>
+  </artifact>
+</component>

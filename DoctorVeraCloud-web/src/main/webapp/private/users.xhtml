@@ -23,6 +23,17 @@
 	        action="#{userProfileView.init(usersTableView.selectedUser.id)}" ajax="true"
 	        oncomplete="window.location.replace('#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.USER_PROFILE_PAGE}')"/>
 	        
+	       	<p:menuitem update="usersTable growl">
+				<p:commandLink styleClass="ui-menuitem-link"
+					action="#{usersTableView.constructPickList}"
+					oncomplete="PF('addTypesToUserDialog').show();"
+					update=":addTypesToUserForm:addTypesToUserDialog"
+					process="@this">
+					<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-person" />
+					<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.USERS_ADD_USERS}" />
+				</p:commandLink>
+			</p:menuitem>
+				
 	        <p:menuitem update="usersTable growl">
 	        	<p:commandLink styleClass="ui-menuitem-link" action="#{usersTableView.deleteUser}" ajax="false" update="usersTable growl" process="@none">
 	        		<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
@@ -31,10 +42,14 @@
 	        	</p:commandLink>
 	        </p:menuitem>
 	        
+
+	        
 	    </p:contextMenu>
 	
 		<p:dataTable id="usersTable" styleClass="usersTable" var="user" widgetVar="usersTable" value="#{usersTableView.allUsers}"
 		rowKey="#{user.id}" selection="#{usersTableView.selectedUser}" selectionMode="single">
+		
+			<p:ajax event="contextMenu"  update=":addTypesToUserForm:addTypesToUserDialog" />
 
 			<p:column headerText="Id" sortBy="#{user.id}" 
 			filterBy="#{user.id}" filterMatchMode="contains">
@@ -72,6 +87,28 @@
 	        <p:commandButton value="#{MESSAGE.USERS_DELETE_CONFIRM_NO}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" process="@none"/>
 	    </p:confirmDialog>
     
+		</h:form>
+		
+		<h:form id="addTypesToUserForm">
+
+			<p:dialog header="#{MESSAGE.USERS_PICKER_TITLE}"
+				widgetVar="addTypesToUserDialog" id="addTypesToUserDialog" width="650" height="300">
+				<p:growl id="growl" showDetail="true" />
+				<p:ajax event="close" update="growl" />
+
+				<p:pickList id="addTypesToUserPickList" value="#{usersTableView.userTypesDualListModel}" var="type" effect="bounce"
+	                itemValue="#{type}" itemLabel="#{type.name}" 
+	                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker"
+	                converter = "userTypesConverter">
+	 
+			        <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.USERS_PICKER_SOURCE}"/></f:facet>
+			        <f:facet name="targetCaption"><h:outputText value="#{usersTableView.selectedUser.firstName} #{usersTableView.selectedUser.lastName}"/></f:facet>
+			 
+			        <p:ajax event="transfer" listener="#{usersTableView.onTransfer}" update="growl" />
+			 
+			    </p:pickList>
+
+			</p:dialog>
 		</h:form>
 	</ui:define>
 

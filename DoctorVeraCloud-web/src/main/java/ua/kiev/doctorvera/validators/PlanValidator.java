@@ -22,6 +22,7 @@ import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.facade.PlanFacadeLocal;
 import ua.kiev.doctorvera.facade.RoomsFacadeLocal;
+import ua.kiev.doctorvera.facade.ScheduleFacadeLocal;
 import ua.kiev.doctorvera.web.resources.Message;
 
 @ManagedBean(name = "planValidator")
@@ -39,6 +40,9 @@ public class PlanValidator implements Validator, ClientValidator {
 	
 	@EJB
 	private PlanFacadeLocal planFacade;
+	
+	@EJB
+	private ScheduleFacadeLocal scheduleFacade;
 	
 	@Override
 	public Map<String, Object> getMetadata() {
@@ -166,6 +170,7 @@ public class PlanValidator implements Validator, ClientValidator {
 		//The list of Plan records crossed with the current Plan record
 		//Must have zero size or error message should be shown
 		HashSet<Plan> plansCrossed = crossPlan(start, end, room);
+		plansCrossed.remove(currentPlan);
 		String errorMessage = null;
 		
 		if(plansCrossed.size() != 0){
@@ -240,13 +245,16 @@ public class PlanValidator implements Validator, ClientValidator {
 		HashSet<Plan> planList = new HashSet<Plan>();
 		planList.addAll(planFacade.findByRoomAndStartDate(room, start, end));
 		planList.addAll(planFacade.findByRoomAndEndDate(room, start, end));
-		planList.addAll(planFacade.findByRoomAndDatesInside(room, start, end));
+		planList.addAll(planFacade.findByRoomAndDatesInsidePlan(room, start, end));
 		return planList;
 	}
 	
-	private HashSet<Schedule> getScheduleRecords(Date dateTimeStart, Date dateTimeEnd, Rooms room){	
-		//TODO
-		return null;
+	private HashSet<Schedule> getScheduleRecords(Date start, Date end, Rooms room){	
+		HashSet<Schedule> scheduleList = new HashSet<Schedule>();
+		scheduleList.addAll(scheduleFacade.findByRoomAndStartDate(room, start, end));
+		scheduleList.addAll(scheduleFacade.findByRoomAndEndDate(room, start, end));
+		scheduleList.addAll(scheduleFacade.findByRoomAndDatesInside(room, start, end));
+		return scheduleList;
 	}
 	
 }

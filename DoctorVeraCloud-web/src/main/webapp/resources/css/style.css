@@ -107,9 +107,47 @@ font-size: 100% !important;
 	width:95%;
 	font-size: 95%;
 }
-.addPlanDialog .ui-selectonemenu{
-     width: 200px !important; 
+
+.mySelectOneMenu{
+	width: 200px !important; 
 }
-.addPlanDialog .ui-button{
-     width: 100% !important; 
+.myButton{
+	width: 200px !important; 
 }
+.mySpinner .ui-spinner-input{
+	width: 180px !important; 
+}
+.paymentsForm td:FIRST-CHILD {
+	width:20%;
+}
+.paymentsForm tr:nth-child(2){
+	width:30%;
+} 
+.outcome td{
+	background-color: gold;
+}
+
+/*---------- Schedule page ----------*/
+#scheduleForm textarea,
+#scheduleForm input{
+    width:400px !important;
+}
+
+#scheduleForm .ui-selectonemenu{
+	width:410px !important;
+}
+
+#scheduleForm input.ui-picklist-filter,
+#scheduleForm div.ui-picklist-caption 
+{
+    width:155px !important;
+}
+#scheduleForm ul.ui-picklist-list 
+{
+    width:175px !important;
+}
+.fc-event{
+	border: 1px solid gold !important;
+}
+
+

@@ -15,8 +15,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import ua.kiev.doctorvera.entities.DoctorsHasMethod;
+import ua.kiev.doctorvera.entities.Methods;
 import ua.kiev.doctorvera.entities.UserTypes;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.entities.UsersHasUserTypes;
@@ -27,9 +30,17 @@ import ua.kiev.doctorvera.entities.UsersHasUserTypes;
  */
 @Stateless
 public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLocal {
+	
+	//private final static Logger LOG = Logger.getLogger(UsersFacade.class.getName());
 		
-	//@EJB
-    //private UsersHasUserTypesFacade usersHasUserTypesFacade;
+	@EJB
+    private DoctorsHasMethodFacadeLocal doctorsHasMethodFacade;
+	
+	@EJB
+    private MethodsFacadeLocal methodsFacade;
+	
+	@EJB
+    private UsersHasUserTypesFacadeLocal usersHasUserTypesFacade;
 	
 	@EJB
     private UserTypesFacadeLocal userTypesFacade;
@@ -68,7 +79,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Users> cq = cb.createQuery(Users.class);
         Root<Users> root = cq.from(Users.class);
-        cq.select(cq.from(Users.class)).where(cb.equal(root.<String>get("FirstName"), firstName),cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(cb.equal(root.<String>get("firstName"), firstName),cb.isFalse(root.<Boolean>get("deleted")));
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList(); 
     }
@@ -78,7 +89,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Users> cq = cb.createQuery(Users.class);
         Root<Users> root = cq.from(Users.class);
-        cq.select(cq.from(Users.class)).where(cb.equal(root.<String>get("MiddleName"), middleName),cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(cb.equal(root.<String>get("middleName"), middleName),cb.isFalse(root.<Boolean>get("deleted")));
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList(); 
     }
@@ -88,7 +99,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Users> cq = cb.createQuery(Users.class);
         Root<Users> root = cq.from(Users.class);
-        cq.select(cq.from(Users.class)).where(cb.equal(root.<String>get("LastName"), lastName),cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(cb.equal(root.<String>get("lastName"), lastName),cb.isFalse(root.<Boolean>get("deleted")));
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList(); 
     }
@@ -98,7 +109,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Users> cq = cb.createQuery(Users.class);
         Root<Users> root = cq.from(Users.class);
-        cq.select(cq.from(Users.class)).where(cb.between(root.<Date>get("BirthDate"), from, to), cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(cb.between(root.<Date>get("birthDate"), from, to), cb.isFalse(root.<Boolean>get("deleted")));
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList(); 
     }
@@ -108,7 +119,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Users> cq = cb.createQuery(Users.class);
         Root<Users> root = cq.from(Users.class);
-        cq.select(cq.from(Users.class)).where(cb.equal(root.<String>get("PhoneNumberHome"), phoneNumberHome),cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(cb.equal(root.<String>get("phoneNumberHome"), phoneNumberHome),cb.isFalse(root.<Boolean>get("deleted")));
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList(); 
     }
@@ -118,9 +129,12 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Users> cq = cb.createQuery(Users.class);
         Root<Users> root = cq.from(Users.class);
-        cq.select(cq.from(Users.class)).where(cb.equal(root.<String>get("PhoneNumberMobile"), phoneNumberMobile),cb.isFalse(root.<Boolean>get("deleted")));
+        Predicate phonePredicate = cb.and(cb.equal(root.<Users>get("phoneNumberMobile"), phoneNumberMobile));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(phonePredicate, deletedPredicate);
         cq.distinct(true);
-        return getEntityManager().createQuery(cq).getResultList(); 
+        List<Users> result = getEntityManager().createQuery(cq).getResultList(); 
+        return result;
     }
 
     @Override
@@ -128,27 +142,30 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Users> cq = cb.createQuery(Users.class);
         Root<Users> root = cq.from(Users.class);
-        cq.select(cq.from(Users.class)).where(cb.equal(root.<String>get("Description"), description),cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(cb.equal(root.<String>get("description"), description),cb.isFalse(root.<Boolean>get("deleted")));
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList(); 
     }
 
     @Override
     public List<Users> findByType(UserTypes type){
-    	Collection<UsersHasUserTypes> list = type.getUsersHasUserTypesCollection();
-    	//List<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
-    	HashSet<Users> result = new HashSet<Users>();
-    	if (list!=null)
-    		for(UsersHasUserTypes entry : list) 
-    			result.add(entry.getUser());
-    	return new ArrayList<Users>(result);
+    	if(type!=null && type.getId()!=null){
+	    	Collection<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
+	    	//List<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
+	    	HashSet<Users> result = new HashSet<Users>();
+	    	if (list!=null)
+	    		for(UsersHasUserTypes entry : list) 
+	    			result.add(entry.getUser());
+	    	return new ArrayList<Users>(result);
+    	} else
+    		return null;
     }
     
     @Override
     public List<Users> findByType(String typeName){
     	UserTypes type = userTypesFacade.findByName(typeName);
     	if(type!=null){
-	    	Collection<UsersHasUserTypes> list = type.getUsersHasUserTypesCollection();
+	    	Collection<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
 	    	//List<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
 	    	HashSet<Users> result = new HashSet<Users>();
 	    	if (list!=null)
@@ -163,7 +180,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     public List<Users> findByType(Integer typeId){
     	UserTypes type = userTypesFacade.find(typeId);
     	if(type!=null){
-	    	Collection<UsersHasUserTypes> list = type.getUsersHasUserTypesCollection();
+	    	Collection<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
 	    	//List<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
 	    	HashSet<Users> result = new HashSet<Users>();
 	    	if (list!=null)
@@ -173,5 +190,114 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     	} else
     		return null;
     }
+    
+    @Override
+    public boolean addUserType(Users user, UserTypes type, Users userCreated){
+    	if(user != null && type!=null && userCreated != null){
+    		//Find all entries with the same User and UserType
+    		List<UsersHasUserTypes> alredyExists = new ArrayList<UsersHasUserTypes>();
+    		
+    		for(UsersHasUserTypes entry : usersHasUserTypesFacade.findTypesByUser(user)){
+    			if(entry.getUserType().equals(type)) alredyExists.add(entry);
+    		}
+    		
+    		//Create new entry
+    		if(alredyExists == null || alredyExists.size() == 0){
+        		UsersHasUserTypes entry = new UsersHasUserTypes();
+        		entry.setDateCreated(new Date());
+        		entry.setUser(find(user));
+        		entry.setUserType(userTypesFacade.find(type));
+        		entry.setUserCreated(find(userCreated));
+        		
+        		usersHasUserTypesFacade.create(entry);
+    		}	
+	    	return true;
+    	} else
+    		return false;
+    }
+    
+    @Override
+    public boolean removeUserType(Users user, UserTypes type){
+    	type = userTypesFacade.find(type);
+    	if(user != null && type!=null){
+    		List<UsersHasUserTypes> alredyExists = usersHasUserTypesFacade.findTypesByUser(user);
+    		for(UsersHasUserTypes entry : alredyExists){
+    			if(entry.getUserType().equals(type)) 
+    				usersHasUserTypesFacade.removeFromDB(entry);
+    		}
+    		
+	    	//Collection<UsersHasUserTypes> list = type.getUsersHasUserTypesCollection();
+	    	//list.add(entry);
+	    	//type.setUsersHasUserTypesCollection(list);
+	    	return true;
+    	} else
+    		return false;
+    }
+    
+    @Override
+    public List<Users> findByMethod(Methods method){
+    	if(method!=null && method.getId()!=null){
+	    	Collection<DoctorsHasMethod> list = doctorsHasMethodFacade.findDoctorsByMethod(method);
+	    	HashSet<Users> result = new HashSet<Users>();
+	    	if (list!=null)
+	    		for(DoctorsHasMethod entry : list) 
+	    			result.add(entry.getDoctor());
+	    	return new ArrayList<Users>(result);
+    	} else
+    		return null;
+    }
 
+    @Override
+    public List<Users> findByMethod(Integer methodId){
+    	Methods method = methodsFacade.find(methodId);
+    	if(method!=null && method.getId()!=null){
+	    	Collection<DoctorsHasMethod> list = doctorsHasMethodFacade.findDoctorsByMethod(method);
+	    	HashSet<Users> result = new HashSet<Users>();
+	    	if (list!=null)
+	    		for(DoctorsHasMethod entry : list) 
+	    			result.add(entry.getDoctor());
+	    	return new ArrayList<Users>(result);
+    	} else
+    		return null;
+    }
+    
+    @Override
+    public boolean addMethod(Users doctor, Methods method, Users userCreated){
+    	if(doctor != null && method!=null && userCreated != null){
+    		//Find all entries with the same User and UserType
+    		List<DoctorsHasMethod> alredyExists = new ArrayList<DoctorsHasMethod>();
+    		
+    		for(DoctorsHasMethod entry : doctorsHasMethodFacade.findMethodsByDoctor(doctor)){
+    			if(entry.getMethod().equals(method)) alredyExists.add(entry);
+    		}
+    		
+    		//Create new entry
+    		if(alredyExists == null || alredyExists.size() == 0){
+    			DoctorsHasMethod entry = new DoctorsHasMethod();
+        		entry.setDateCreated(new Date());
+        		entry.setDoctor(find(doctor));
+        		entry.setMethod(methodsFacade.find(method));
+        		entry.setUserCreated(find(userCreated));
+        		
+        		doctorsHasMethodFacade.create(entry);
+    		}	
+	    	return true;
+    	} else
+    		return false;
+    }
+    
+    @Override
+    public boolean removeMethod(Users doctor, Methods method){
+    	method = methodsFacade.find(method);
+    	if(doctor != null && method!=null){
+    		List<DoctorsHasMethod> alredyExists = doctorsHasMethodFacade.findMethodsByDoctor(doctor);
+    		for(DoctorsHasMethod entry : alredyExists){
+    			if(entry.getMethod().equals(method)) 
+    				doctorsHasMethodFacade.removeFromDB(entry);
+    		}
+	    	return true;
+    	} else
+    		return false;
+    }
+    
 }

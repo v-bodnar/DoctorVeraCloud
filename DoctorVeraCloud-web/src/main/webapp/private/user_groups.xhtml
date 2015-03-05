@@ -35,9 +35,10 @@
 				
 				<p:menuitem update="userTypesTable growl">
 					<p:commandLink styleClass="ui-menuitem-link"
-						actionListener="#{userAddType.setUserType(userTypesTableView.selectedType)}"
+						action="#{userTypesTableView.constructPickList}"
 						oncomplete="PF('addUsersToTypeDialog').show();"
-						update=":addUsersToTypeForm:addUsersToTypeDialog">
+						update=":addUsersToTypeForm:addUsersToTypeDialog"
+						process="@this">
 						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-person" />
 						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.USER_TYPES_ADD_USERS}" />
 					</p:commandLink>
@@ -172,14 +173,15 @@
 				<p:growl id="growl" showDetail="true" />
 				<p:ajax event="close" update="growl" />
 
-				<p:pickList id="addUsersToTypePickList" value="#{userAddType.users}" var="user" effect="bounce"
+				<p:pickList id="addUsersToTypePickList" value="#{userTypesTableView.usersDualListModel}" var="user" effect="bounce"
 	                itemValue="#{user}" itemLabel="#{user.firstName} #{user.lastName}" 
-	                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker">
+	                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker"
+	                converter = "usersConverter">
 	 
 			        <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.USER_TYPES_PICKER_SOURCE}"/></f:facet>
-			        <f:facet name="targetCaption"><h:outputText value="#{userAddType.userType.name}"/></f:facet>
+			        <f:facet name="targetCaption"><h:outputText value="#{userTypesTableView.selectedType.name}"/></f:facet>
 			 
-			        <p:ajax event="transfer" listener="#{pickListView.onTransfer}" update="growl" />
+			        <p:ajax event="transfer" listener="#{userTypesTableView.onTransfer}" update="growl" />
 			 
 
 			    </p:pickList>

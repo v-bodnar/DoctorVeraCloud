@@ -1,0 +1,290 @@
+<ui:composition template="index.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title">
+		<h:outputText value="#{MESSAGE.USERS_TITLE}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="generalScheduleForm">
+			<p:growl id="growl" showDetail="true" severity="info" />
+
+			<p:contextMenu for="scheduleTable">
+
+				<!-- Edit Schedule-->
+				<p:menuitem value="#{MESSAGE.SCHEDULE_EDIT_BUTTON}"
+					update="scheduleTable growl" icon="ui-icon-pencil"
+					action="#{generalScheduleView.onEventSelect}"
+					oncomplete="PF('addScheduleDialog').show();" />
+
+				<!-- Delete Schedule -->
+				<p:menuitem update="scheduleTable growl">
+					<p:commandLink styleClass="ui-menuitem-link"
+						action="#{generalScheduleView.editSchedule}"
+						oncomplete="PF('addTypesToUserDialog').show();"
+						update=":addTypesToUserForm:addTypesToUserDialog" process="@this">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-person" />
+						<h:outputText styleClass="ui-menuitem-text"
+							value="#{MESSAGE.USERS_ADD_USERS}" />
+					</p:commandLink>
+				</p:menuitem>
+
+				<p:menuitem update="scheduleTable growl">
+					<p:commandLink styleClass="ui-menuitem-link"
+						action="#{scheduleTableView.deleteUser}" ajax="false"
+						update="scheduleTable growl" process="@none">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+						<h:outputText styleClass="ui-menuitem-text"
+							value="#{MESSAGE.USERS_DELETE}" />
+
+					</p:commandLink>
+				</p:menuitem>
+
+
+
+			</p:contextMenu>
+
+			<p:dataTable id="scheduleTable" styleClass="scheduleTable" var="user"
+				widgetVar="scheduleTable" value="#{scheduleTableView.allUsers}"
+				rowKey="#{user.id}" selection="#{scheduleTableView.selectedUser}"
+				selectionMode="single">
+
+				<p:ajax event="contextMenu"
+					update=":addTypesToUserForm:addTypesToUserDialog" />
+
+				<p:column headerText="Id" sortBy="#{user.id}" filterBy="#{user.id}"
+					filterMatchMode="contains">
+					<h:outputText value="#{user.id}" />
+				</p:column>
+
+				<p:column headerText="#{MESSAGE.USERS_LAST_NAME}"
+					sortBy="#{user.lastName}" filterBy="#{user.lastName}"
+					filterMatchMode="contains">
+					<h:outputText value="#{user.lastName}" />
+				</p:column>
+
+				<p:column headerText="#{MESSAGE.USERS_FIRST_NAME}"
+					sortBy="#{user.firstName}" filterBy="#{user.firstName}"
+					filterMatchMode="contains">
+					<h:outputText value="#{user.firstName}" />
+				</p:column>
+
+				<p:column headerText="#{MESSAGE.USERS_BIRTH_DATE}"
+					sortBy="#{user.birthDate}" filterBy="#{user.birthDate}"
+					filterFunction="#{scheduleTableView.filterByBirthDate}">
+					<f:facet name="filter">
+						<p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter">
+							<p:ajax event="dateSelect" oncomplete="PF('scheduleTable').filter()" />
+						</p:calendar>
+					</f:facet>
+					<h:outputText value="#{user.birthDate}" />
+				</p:column>
+
+				<p:column headerText="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}"
+					sortBy="#{user.phoneNumberMobile}"
+					filterBy="#{user.phoneNumberMobile}" filterMatchMode="contains">
+					<h:outputText value="#{user.phoneNumberMobile}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+				<p:commandButton value="#{MESSAGE.USERS_DELETE_CONFIRM_YES}"
+					type="button" styleClass="ui-confirmdialog-yes"
+					icon="ui-icon-check" process="@none" />
+				<p:commandButton value="#{MESSAGE.USERS_DELETE_CONFIRM_NO}"
+					type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+					process="@none" />
+			</p:confirmDialog>
+			
+						<p:dialog header="#{generalScheduleView.schedule.id==null?MESSAGE.SCHEDULE_ADD_DIALOG_TITLE:MESSAGE.SCHEDULE_EDIT_DIALOG_TITLE} 
+			#{generalScheduleView.schedule.doctor.firstName} #{generalScheduleView.schedule.doctor.lastName}"
+				widgetVar="addScheduleDialog" id="addScheduleDialog" modal="false" showEffect="clip" 
+				styleClass="addScheduleDialog" closeOnEscape="true" width="1000" height="600">
+				
+				<p:messages id = "errorMessage" showDetail="true" style="width:800px;font-size:90%" escape="true"/>
+				
+				<h:panelGrid columns="3" cellpadding="5">
+				
+					<!-- Phone Number Mobile -->
+					<h:outputLabel for="phoneNumberMobile" value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}" />
+					<p:inputMask value="#{generalScheduleView.newUser.phoneNumberMobile}"
+						id="phoneNumberMobile" name="phoneNumberMobile"
+						mask="(999)999-99-99" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+						validator="#{usersValidator.validate}">
+						<f:attribute name="name" value="phoneNumberMobile" />
+						<p:ajax event="blur" listener="#{generalScheduleView.fillUserData}" 
+						update="phoneNumberMobileMessage growl firstName middleName lastName" />
+					</p:inputMask>
+					<p:message for="phoneNumberMobile" id="phoneNumberMobileMessage" />
+					
+					<!-- First Name -->
+					<h:outputLabel for="firstName" value="#{MESSAGE.USERS_FIRST_NAME}" />
+					<p:autoComplete value="#{generalScheduleView.newUser.firstName}"
+						id="firstName" name="firstName"
+						placeholder="#{MESSAGE.USERS_PLACEHOLDER_FIRST_NAME}"
+						completeMethod="#{addressView.allFirstNames}"
+						validator="#{usersValidator.validate}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+						<f:attribute name="name" value="firstName" />
+						<p:ajax event="blur" update="firstNameMessage growl"
+							process="firstName" />
+					</p:autoComplete>
+					<p:message for="firstName" id="firstNameMessage" />
+
+					<!-- Last Name -->
+					<h:outputLabel for="lastName" value="#{MESSAGE.USERS_LAST_NAME}" />
+					<p:autoComplete value="#{generalScheduleView.newUser.lastName}"
+						id="lastName" name="lastName"
+						placeholder="#{MESSAGE.USERS_PLACEHOLDER_LAST_NAME}"
+						completeMethod="#{addressView.allMiddleNames}"
+						validator="#{usersValidator.validate}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+						<f:attribute name="name" value="lastName" />
+						<p:ajax event="blur" update="lastNameMessage growl" />
+					</p:autoComplete>
+					<p:message for="lastName" id="lastNameMessage" />
+
+					<!-- Middle Name -->
+					<h:outputLabel for="middleName"
+						value="#{MESSAGE.USERS_MIDDLE_NAME}" />
+					<p:autoComplete value="#{generalScheduleView.newUser.middleName}"
+						id="middleName" name="middleName"
+						placeholder="#{MESSAGE.USERS_PLACEHOLDER_MIDDLE_NAME}"
+						completeMethod="#{addressView.allLastNames}"
+						validator="#{usersValidator.validate}">
+						<f:attribute name="name" value="middleName" />
+						<p:ajax event="blur" update="middleNameMessage growl" />
+					</p:autoComplete>
+					<p:message for="middleName" id="middleNameMessage" />
+					
+					<!-- Assistent -->
+                    <h:outputLabel for="assistent" value="#{MESSAGE.SCHEDULE_ASSISTENT}"/>
+                    <p:selectOneMenu id="assistent" value="#{generalScheduleView.schedule.assistent}" converter="usersConverter"
+                    	 styleClass="mySelectOneMenu">
+                        <f:selectItem itemLabel="#{MESSAGE.SCHEDULE_WITHOUT_ASSISTENT}" itemValue="#{null}" />
+                        <f:selectItems value="#{generalScheduleView.allAssistents}"  var="assistent"
+                       		itemLabel="#{assistent.firstName} #{assistent.lastName}" itemValue="#{assistent}" />
+                    </p:selectOneMenu>
+                    <p:message for="assistent" id="assistentMessage" />
+                    
+                    <!-- Partner -->
+                    <h:outputLabel for="partner" value="#{MESSAGE.SCHEDULE_PARTNER}"/>
+                    <p:selectOneMenu id="partner" value="#{generalScheduleView.schedule.doctorDirected}" converter="usersConverter"
+                    	styleClass="mySelectOneMenu">
+                    	<f:selectItem itemLabel="#{MESSAGE.SCHEDULE_WITHOUT_DOCTOR_DIRECTED}" itemValue="#{null}" />
+                        <f:selectItems value="#{generalScheduleView.allPartners}"  var="partner"
+                       		itemLabel="#{partner.firstName} #{partner.lastName}" itemValue="#{partner}" />
+                    </p:selectOneMenu>
+                    <p:message for="partner" id="partnerMessage" />
+
+                    <!-- Start time -->
+                    <h:outputLabel for="dateTimeStart" value="#{MESSAGE.SCHEDULE_TIME_START}" />
+                    <p:calendar id="dateTimeStart" value="#{generalScheduleView.schedule.dateTimeStart}"
+                                required="true" pattern="dd-MM-yyyy HH:mm"
+                                requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <f:attribute name="name" value="dateTimeStart" />
+                        <p:ajax event="blur" update="dateTimeStartMessage growl" />
+                    </p:calendar>
+                    <p:message for="dateTimeStart" id="dateTimeStartMessage" />
+                    
+                    <!-- Break Slider -->
+					<h:outputLabel for="breakSlider" id="breakSlideroutput" value="#{MESSAGE.SCHEDULE_BREAK_TIME} #{generalScheduleView.breakTime} #{MESSAGE.SCHEDULE_MINUTES}" rendered="#{generalScheduleView.schedule.id==null}"/>
+					<h:panelGroup rendered="#{generalScheduleView.schedule.id==null}">
+					<h:inputHidden id="breakSlider" value="#{generalScheduleView.breakTime}" required="true"
+						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" rendered="#{generalScheduleView.schedule.id==null}"/>
+					<p:slider for="breakSlider" display="breakSlideroutput" step="5" minValue="5" maxValue="60" 
+					displayTemplate="#{MESSAGE.SCHEDULE_BREAK_TIME} {value} #{MESSAGE.SCHEDULE_MINUTES}" rendered="#{generalScheduleView.schedule.id==null}"/>
+					</h:panelGroup>
+					<p:message for="breakSlider" id="breakSliderMessage" rendered="#{generalScheduleView.schedule.id==null}"/>
+
+                    <!--Method Types-->
+                    <h:outputLabel for="methodTypes" value="#{MESSAGE.SCHEDULE_METHOD_TYPE}"/>
+                    <p:selectOneMenu id="methodTypes" value="#{generalScheduleView.selectedMethodType}" converter="methodTypesConverter"
+                                     required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" styleClass="mySelectOneMenu">
+                        <f:selectItems value="#{generalScheduleView.allMethodTypes}"  var="methodType"
+                                       itemLabel="#{methodType.shortName}" itemValue="#{methodType}" />
+                        <p:ajax event="change" update="methods" listener="#{generalScheduleView.constructPickList}"/>
+                    </p:selectOneMenu>
+                    <p:message for="methodTypes" id="methodTypesMessage" />
+
+                    <!-- Methods-->
+                    <h:outputLabel for="methods" id="metodsLabel" escape="false" value="#{MESSAGE.SCHEDULE_METHOD}&lt;br/&gt;
+                    #{MESSAGE.SCHEDULE_TOTAL_PRICE}: #{generalScheduleView.totalPrice} #{MESSAGE.APPLICATION_CURRENCY}&lt;br\&gt;
+                    #{MESSAGE.SCHEDULE_TOTAL_TIME_LENGTH}: #{generalScheduleView.totalTime} #{MESSAGE.APPLICATION_MINUTES_SHORT}" />
+                    <p:pickList id="methods" value="#{generalScheduleView.methodsDualListModel}" var="method" effect="bounce"
+                                itemValue="#{method}" itemLabel="#{method.shortName} #{generalScheduleView.pricesFacade.findLastPrice(method).total}"
+                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker"
+                                converter="methodsConverter" required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.SCHEDULE_METHOD_AVAILABLE}"/></f:facet>
+                        <f:facet name="targetCaption"><h:outputText value="#{MESSAGE.SCHEDULE_METHOD_SELECTED}"/></f:facet>
+
+                        <p:ajax event="transfer" listener="#{generalScheduleView.onTransfer}" update="metodsLabel growl" />
+                    </p:pickList>
+                    <p:message for="methods" id="methodsMessage" />
+
+					<!-- Description -->
+					<h:outputLabel for="scheduleDescription"
+						value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+					<p:inputTextarea rows="3" cols="20" id="scheduleDescription"
+						value="#{generalScheduleView.schedule.description}">
+						<!--p:ajax event="blur" update="planDescriptionMessage" /-->
+					</p:inputTextarea>
+					<p:message for="scheduleDescription" id="scheduleDescriptionMessage" />
+
+					<!--h:outputLabel for="planSaveButton" value="" /-->
+					<p:commandButton id="scheduleSaveButton"
+						value="#{MESSAGE.SCHEDULE_ADD_BUTTON}" 
+						icon="ui-icon-plus"
+						actionListener="#{generalScheduleView.addSchedule}" 
+						update="errorMessage growl"
+						oncomplete="PF('schedule').update();"
+						rendered="#{generalScheduleView.schedule.id==null}"
+						styleClass="myButton"
+						validateClient=""
+						/>
+					<p:commandButton id="scheduleEditButton"
+						value="#{MESSAGE.SCHEDULE_EDIT_BUTTON}" 
+						icon="ui-icon-pencil"
+						actionListener="#{generalScheduleView.editSchedule}" 
+						update="errorMessage growl"
+						oncomplete="PF('schedule').update();"
+						rendered="#{generalScheduleView.schedule.id!=null}"
+						styleClass="myButton"
+						/>
+					<p:commandButton id="scheduleDeleteButton"
+						value="#{MESSAGE.SCHEDULE_DELETE_BUTTON}" 
+						icon="ui-icon-close"
+						actionListener="#{generalScheduleView.deleteSchedule}" 
+						update="errorMessage growl"
+						rendered="#{generalScheduleView.schedule.id!=null}"
+						oncomplete="PF('schedule').update(); PF('addScheduleDialog').hide();"
+						styleClass="myButton">
+						<p:confirm header="#{MESSAGE.SCHEDULE_DELETE_CONFIRM_TITLE}" 
+						message="#{MESSAGE.SCHEDULE_DELETE_CONFIRM_MESSAGE}" icon="ui-icon-alert"/>
+					</p:commandButton>
+			
+				</h:panelGrid>
+                <script>
+
+                    $("#method .ui-multiselectlistbox-listcontainer +.ui-multiselectlistbox-listcontainer li").click(
+                            function () {
+                                alert("hello");
+                                $("#updateSelectedMethod").click();
+                            }
+                    );
+
+
+                </script>
+				</p:dialog>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

@@ -49,6 +49,8 @@ public interface UsersHasUserTypesFacadeLocal {
     //@return int records count
     int count();   
     
+    public void removeFromDB(UsersHasUserTypes entity);
+    
     public List<UsersHasUserTypes> findTypesByUser(Users user);
     public List<UsersHasUserTypes> findUsersByType(UserTypes type);
     

@@ -5,6 +5,9 @@
 	<!-- Application -->
 	<entry key="APPLICATION_TITLE">Doctor Vera Cloud Storage</entry>
 	<entry key="APPLICATION_SAVED">Сохранено!</entry>
+    <entry key="APPLICATION_CURRENCY">грн</entry>
+    <entry key="APPLICATION_MINUTES_SHORT">мин.</entry>
+
 	<!-- login.xhtml -->
 	<entry key="LOGIN_TITLE">Вход</entry>
 	<entry key="LOGIN_REGISTER">Регистрация</entry>
@@ -51,6 +54,13 @@
 	<entry key="USERS_DELETE_CONFIRM_YES">Да</entry>
 	<entry key="USERS_DELETE_CONFIRM_NO">Нет</entry>
 	<entry key="USERS_DELETED">Пользователь </entry>
+	<entry key="USERS_ADD_USERS">Добавить в группу</entry>
+	<entry key="USERS_PICKER_TITLE">Добавление пользователя в группы</entry>
+	<entry key="USERS_PICKER_SOURCE">Все группы</entry>
+	<entry key="USERS_ADD_SUCCESS_START">Пользователь: </entry>
+	<entry key="USERS_ADD_SUCCESS_END">добавлен в группы: </entry>
+	<entry key="USERS_REMOVE_SUCCESS_START">Пользователь: </entry>
+	<entry key="USERS_REMOVE_SUCCESS_END">удален из групп: </entry>
 	
 	<!-- user_groups.xhtml -->
 	<entry key="USER_TYPES_TITLE">Группы пользователей</entry>
@@ -71,6 +81,10 @@
 	<entry key="USER_TYPES_ADD_USERS">Добавить пользователей!</entry>
 	<entry key="USER_TYPES_PICKER_TITLE">Добавление пользователей в группу</entry>
 	<entry key="USER_TYPES_PICKER_SOURCE">Все пользователи</entry>
+	<entry key="USER_TYPES_ADD_SUCCESS_START">Пользователли:</entry>
+	<entry key="USER_TYPES_ADD_SUCCESS_END">добавлены в группу</entry>
+	<entry key="USER_TYPES_REMOVE_SUCCESS_START">Пользователли: </entry>
+	<entry key="USER_TYPES_REMOVE_SUCCESS_END">удалены из группы: </entry>
 	
 	<!-- rooms.xhtml -->
 	<entry key="ROOMS_TITLE">Кабинеты</entry>
@@ -89,8 +103,47 @@
 	<entry key="ROOMS_SAVED">Новый кабинет создан!</entry>
 	<entry key="ROOMS_EDITED">Изменения внесены!</entry>
 	
+	<!-- methods.xhtml -->
+	<entry key="METHODS_TITLE">Методы исследований</entry>
+	<entry key="METHODS_TYPE">Тип исследования</entry>
+	<entry key="METHODS_SHORT_NAME">Аббревиатура</entry>
+	<entry key="METHODS_FULL_NAME">Полное название</entry>
+	<entry key="METHODS_SHORT_DESCRIPTION">Краткое описание</entry>
+	<entry key="METHODS_FULL_DESCRIPTION">Полное описание</entry>
+	<entry key="METHODS_TIME">Длительность исследования</entry>
+	<entry key="METHODS_ADD_DIALOG_TITLE">Добавить метод</entry>
+	<entry key="METHODS_EDIT_DIALOG_TITLE">Изменение данных о методе</entry>
+	<entry key="METHODS_ADD_BUTTON">Добавить</entry>
+	<entry key="METHODS_DELETE_BUTTON">Удалить</entry>
+	<entry key="METHODS_EDIT_BUTTON">Редактировать</entry>
+	<entry key="METHODS_SAVE_BUTTON">Сохранить</entry>
+	<entry key="METHODS_DELETE_CONFIRM_TITLE">Внимание!</entry>
+	<entry key="METHODS_DELETE_CONFIRM_MESSAGE">Вы действительно хотите удалить метод исследования?</entry>
+	<entry key="METHODS_DELETE_CONFIRM_YES">Да</entry>
+	<entry key="METHODS_DELETE_CONFIRM_NO">Нет</entry>
+	<entry key="METHODS_DELETED">Метод успешно удален!</entry>
+	<entry key="METHODS_SAVED">Новый метод создан!</entry>
+	<entry key="METHODS_EDITED">Изменения внесены!</entry>
+	<entry key="METHODS_PRICE">Стоимость, грн</entry>
+	<entry key="METHODS_PRICE_LAST">Актуальная стоимость</entry>
+	<entry key="METHODS_PRICE_DATE">Начало действия цены</entry>
+	<entry key="METHODS_PRICE_CREATED">Новая цена внесена!</entry>
+	<entry key="METHODS_PRICE_CHANGE_BUTTON">Изменить стоимость</entry>
+	<entry key="METHODS_PRICE_HISTORY">История изменения цен</entry>
+	<entry key="METHODS_DOCTORS_PICKER_SOURCE">Все доктора</entry>
+	<entry key="METHODS_ADD_DOCTORS">Назначить докторов</entry>
+	<entry key="METHODS_PICKER_TITLE">Назначение докторов для метода исследования</entry>
+	<entry key="METHODS_PICKER_SOURCE">Все доктора</entry>
+	<entry key="METHODS_ADD_SUCCESS_START">Доктора:</entry>
+	<entry key="METHODS_ADD_SUCCESS_END">назначены на метод:</entry>
+	<entry key="METHODS_REMOVE_SUCCESS_START">Доктора: </entry>
+	<entry key="METHODS_REMOVE_SUCCESS_END">сняты с метода: </entry>
+	
+
+	
 	<!-- plan.xhtml -->
 	<entry key="PLAN_TITLE">План приемов</entry>
+	<entry key="PLAN_TITLE">Полный план приемов</entry>
 	<entry key="PLAN_ADD_BUTTON">Добавить</entry>
 	<entry key="PLAN_ADD_DIALOG_TITLE">Запланировать прием</entry>
 	<entry key="PLAN_EDIT_DIALOG_TITLE">Изменение данных о запланированном приеме</entry>
@@ -108,6 +161,65 @@
 	<entry key="PLAN_VALIDATE_DATE">Конечная дата должна быть позже начальной!</entry>
 	<entry key="PLAN_VALIDATE_SCHEDULE_DELETE">Сначала удалите запланированные приемы: </entry>
 	<entry key="PLAN_VALIDATE_SCHEDULE_UPDATE">Уже есть запланированные приемы на данное время: </entry>
+	
+	<!-- schedule.xhtml -->
+	<entry key="SCHEDULE_TITLE">Расписание приемов</entry>
+	<entry key="SCHEDULE_ADD_BUTTON">Добавить</entry>
+	<entry key="SCHEDULE_ADD_DIALOG_TITLE">Добавить прием доктору: </entry>
+		<entry key="SCHEDULE_ADD_DIALOG_TITLE">Изменить прием доктора: </entry>
+	<entry key="SCHEDULE_EDIT_DIALOG_TITLE">Изменение данных о приеме</entry>
+	<entry key="SCHEDULE_DELETE_BUTTON">Удалить</entry>
+	<entry key="SCHEDULE_EDIT_BUTTON">Редактировать</entry>
+	<entry key="SCHEDULE_SAVE_BUTTON">Сохранить</entry>
+	<entry key="SCHEDULE_DELETE_CONFIRM_TITLE">Внимание!</entry>
+	<entry key="SCHEDULE_DELETE_CONFIRM_MESSAGE">Вы действительно хотите отменить прием?</entry>
+	<entry key="SCHEDULE_DELETE_CONFIRM_YES">Да</entry>
+	<entry key="SCHEDULE_DELETE_CONFIRM_NO">Нет</entry>
+	<entry key="SCHEDULE_DELETED">Прием успешно отменен!</entry>
+	<entry key="SCHEDULE_SAVED">Прием добавлен!</entry>
+	<entry key="SCHEDULE_EDITED">Изменения внесены!</entry>
+	<entry key="SCHEDULE_CHOOSE"> </entry>
+	<entry key="SCHEDULE_VALIDATE_DATE">Конечная дата должна быть позже начальной!</entry>
+	<entry key="SCHEDULE_VALIDATE_SCHEDULE_DELETE">Сначала удалите назначенные приемы: </entry>
+	<entry key="SCHEDULE_VALIDATE_SCHEDULE_UPDATE">Уже есть назначенные приемы на данное время: </entry>
+	<entry key="SCHEDULE_TIME_START">Время начала приема</entry>
+	<entry key="SCHEDULE_TIME_END">Время окончания приема </entry>
+	<entry key="SCHEDULE_BREAK_TIME">Перерыв:</entry>
+	<entry key="SCHEDULE_MINUTES">мин</entry>
+    <entry key="SCHEDULE_METHOD_TYPE">Тип исследований</entry>
+	<entry key="SCHEDULE_METHOD">Исследования</entry>
+	<entry key="SCHEDULE_TOTAL_PRICE">полная стоимость</entry>
+	<entry key="SCHEDULE_TOTAL_TIME_LENGTH">длительность</entry>
+    <entry key="SCHEDULE_METHOD_AVAILABLE">Доступные исследования</entry>
+    <entry key="SCHEDULE_METHOD_SELECTED">Выбранные исследования</entry>
+    <entry key="SCHEDULE_METHOD_ADD_SUCCESS_START">Методы:</entry>
+    <entry key="SCHEDULE_METHOD_ADD_SUCCESS_END">добавлены</entry>
+    <entry key="SCHEDULE_METHOD_REMOVE_SUCCESS_START">Методы: </entry>
+    <entry key="SCHEDULE_METHOD_REMOVE_SUCCESS_END">удалены</entry>
+    <entry key="SCHEDULE_VALIDATE_NOT_IN_PLAN">На данное время нет запланированного приема, либо длительность приема превышает запланированную</entry>
+    <entry key="SCHEDULE_VALIDATE_NOT_IN_PLAN_START">На данное время нет запланированного приема!</entry>
+    <entry key="SCHEDULE_ASSISTENT">Ассистент</entry>
+    <entry key="SCHEDULE_PARTNER">Направил</entry>
+    <entry key="SCHEDULE_WITHOUT_ASSISTENT">Без ассистента</entry>
+    <entry key="SCHEDULE_WITHOUT_DOCTOR_DIRECTED">Самообращение</entry>
+    <entry key="SCHEDULE_DELETE_CONFIRM_TITLE">Внимание!</entry>
+    <entry key="SCHEDULE_DELETE_CONFIRM_MESSAGE">Вы действительно хотите отменить этот прием?</entry>
+    <entry key="SCHEDULE_DELETE_CONFIRM_YES">Да</entry>
+	<entry key="SCHEDULE_DELETE_CONFIRM_NO">Нет</entry>
+	<entry key="SCHEDULE_DELETED">Прием отменен!</entry>
+	
+	<!-- add_payment.xhtml -->
+	<entry key="PAYMENTS_ADD_TITLE">Создание платежа</entry>
+	<entry key="PAYMENTS_TYPE">Тип:</entry>
+	<entry key="PAYMENTS_TYPE_INCOMING">Приходной</entry>
+	<entry key="PAYMENTS_TYPE_OUTOMING">Расходной</entry>
+	<entry key="PAYMENTS_TOTAL">Сумма:</entry>
+	<entry key="PAYMENTS_DATE_TIME">Дата:</entry>
+	<entry key="PAYMENTS_CASHIER">Кассир:</entry>
+	<entry key="PAYMENTS_ADD_BUTTON">Создать</entry>
+	<entry key="PAYMENTS_ADD_PRINT_BUTTON">Создать и распечатать</entry>
+	<entry key="PAYMENTS_CREATED">Платеж успешно создан!</entry>
+	
 	
 	<!-- send_sms.xhtml -->
 	<entry key="SEND_SMS_TITLE">Отправка СМС</entry>
@@ -134,15 +246,22 @@
 	<entry key="MENU_ITEM_ACCESS_RIGHTS">Права доступа</entry>
 	<entry key="MENU_ITEM_SETTINGS">Настройки</entry>
 	<!-- Manager block -->
+	<entry key="MENU_HEADER_MANAGER">Управление</entry>
 	<entry key="MENU_ITEM_PLAN">План приемов</entry>
 	<entry key="MENU_ITEM_ADD_PLAN">Запланировать прием</entry>
-	<entry key="MENU_ITEM_SCHEDULE">Расписание</entry>
 	<entry key="MENU_ITEM_ADD_SCHEDULE">Добавить прием</entry>
 	<entry key="MENU_ITEM_METHODS">Методы исследований</entry>
 	<entry key="MENU_ITEM_METHOD_TYPES">Типы методов исследований</entry>
 	<entry key="MENU_ITEM_ROOMS">Кабинеты</entry>
 	<entry key="MENU_ITEM_SEND_SMS">Отправить СМС</entry>
+	<!-- Schedule block -->
+	<entry key="MENU_HEADER_SCHEDULE">Расписание</entry>
+	<entry key="MENU_ITEM_SCHEDULE">Расписание</entry>
+	<entry key="MENU_ITEM_SCHEDULE_GENERAL">Все записи приемов</entry>
+	<entry key="MENU_ITEM_PLAN_GENERAL">Полный план приемов</entry>
+	
 	<!-- Financial block -->
+	<entry key="MENU_HEADER_FINANCE">Финансы</entry>
 	<entry key="MENU_ITEM_CASH">Касса</entry>
 	<entry key="MENU_ITEM_PAYMENTS">Платежи</entry>
 	<entry key="MENU_ITEM_CREATE_PAYMENT">Создать платеж</entry>
@@ -199,24 +318,24 @@
 	<entry key="VALIDATOR_ERROR_TITLE">Ошибка!</entry>
 	<entry key="VALIDATOR_SUCCESS_TITLE">Успешно!</entry>
 	<entry key="VALIDATOR_REQUIRED">Поле обязательно для заполнения!</entry>
-	<entry key="VALIDATOR_LITERAL_ONLY">Поле может содержать только символы русского или
-		латинского алфавита!</entry>
+	<entry key="VALIDATOR_LITERAL_ONLY">Поле может содержать только символы русского илилатинского алфавита!</entry>
 	<entry key="VALIDATOR_CYRILLIC_ONLY">Поле может содержать только символы русского алфавита!</entry>
 	<entry key="VALIDATOR_NOT_CYRILLIC">Поле не может содержать символы русского алфавита!</entry>
 	<entry key="VALIDATOR_LATIN">Поле должно содержать символы латинского алфавита!</entry>
-	<entry key="VALIDATOR_LATIN_ONLY">Поле может содержать только символы латинского
-		алфавита!</entry>
+	<entry key="VALIDATOR_LATIN_ONLY">Поле может содержать только символы латинскогоалфавита!</entry>
 	<entry key="VALIDATOR_NOT_LATIN">Поле не может содержать символы латинского алфавита!</entry>
 	<entry key="VALIDATOR_NUMBERS">Поле должно содержать цифры!</entry>
 	<entry key="VALIDATOR_NUMBERS_ONLY">Поле должно содержать только цифры!</entry>
 	<entry key="VALIDATOR_NOT_NUMBERS">Поле не может содержать цифры!</entry>
-	<entry key="VALIDATOR_PUNCT">Поле должно содержать спец символы или знаки
-		пунктуации!</entry>
-	<entry key="VALIDATOR_NOT_PUNCT">Поле не может содержать спец символы или знаки
-		пунктуации!</entry>
+	<entry key="VALIDATOR_PUNCT">Поле должно содержать спец символы или знакипунктуации!</entry>
+	<entry key="VALIDATOR_NOT_PUNCT">Поле не может содержать спец символы или знакипунктуации!</entry>
 	<entry key="VALIDATOR_PASSWORD_LESS_SIX">Пароль должен содержать как минимум 6 символов!</entry>
 	<entry key="VALIDATOR_LOGIN_IN_USE">Данный логин уже занят!</entry>
 	<entry key="VALIDATOR_EMAIL">Проверьте правильность ввода электронного адреса!</entry>
 	<entry key="VALIDATOR_PHONE">Проверьте правильность ввода номера телефона!</entry>
 	<entry key="VALIDATOR_POST_INDEX">Поле должно содержать цифры! 5 символов! </entry>
+	<entry key="VALIDATOR_METHOD_DUPLICATED_SHORT_NAME">Метод с такой аббревиатурой уже существует!</entry>
+	<entry key="VALIDATOR_METHOD_TIMEINMINUTES">Время должно быть между 1 - 180 минут! </entry>
+	<entry key="VALIDATOR_PRICE_ZERO">Цена не может быть равна 0</entry>
+	<entry key="VALIDATOR_PRICE_AFTER_NOW">Дата не может быть в прошлом</entry>
 </properties>

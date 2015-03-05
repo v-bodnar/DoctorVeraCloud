@@ -1,0 +1,304 @@
+package ua.kiev.doctorvera.managedbeans;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.TransferEvent;
+import org.primefaces.model.DualListModel;
+
+import ua.kiev.doctorvera.entities.MethodTypes;
+import ua.kiev.doctorvera.entities.Methods;
+import ua.kiev.doctorvera.entities.Prices;
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facade.MethodTypesFacadeLocal;
+import ua.kiev.doctorvera.facade.MethodsFacadeLocal;
+import ua.kiev.doctorvera.facade.PricesFacadeLocal;
+import ua.kiev.doctorvera.facade.UsersFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Message;
+
+@ManagedBean(name="methodsView")
+@ViewScoped
+public class MethodsView {
+	
+	private final static Logger LOG = Logger.getLogger(MethodsView.class.getName());
+	//TODO take Id from preferences
+	private final static Integer DOCTORS_TYPE_ID = 3;
+	
+	
+	//Facade for CRUD operations with Users
+	@EJB
+	private UsersFacadeLocal usersFacade;
+	
+	@EJB
+	private MethodsFacadeLocal methodsFacade;
+	
+	@EJB
+	private PricesFacadeLocal pricesFacade;
+	
+	@EJB
+	private MethodTypesFacadeLocal methodTypesFacade;
+	
+    @ManagedProperty(value="#{userLoginView.authorizedUser}")
+	private Users authorizedUser;
+	
+	private List<Methods> allMethods;
+	
+	private List<MethodTypes> allMethodTypes;
+	
+	private Methods selectedMethod;
+	
+	private Prices price;
+	
+	private List<Prices> prisesHistory;
+	
+	private Map<Methods, Prices> currentPrice;
+	
+	//Model for picklist PrimeFaces widget
+	private DualListModel<Users> doctorsDualListModel;
+	
+	public MethodsView(){}
+	
+	@PostConstruct
+	public void init(){
+		allMethods = methodsFacade.findAll();
+		allMethodTypes = methodTypesFacade.findAll();
+		this.price = new Prices();
+		this.selectedMethod = new Methods();
+		currentPrice = new HashMap<Methods, Prices>();
+		
+		for (Methods meth : allMethods)
+			currentPrice.put(meth, pricesFacade.findLastPrice(meth));
+		
+		constructPickList();
+	}
+	
+	public void constructPickList(){
+		if (selectedMethod != null && selectedMethod.getId() != null){
+			List<Users> allUsers = usersFacade.findByType(DOCTORS_TYPE_ID);
+			List<Users> targetUsers = usersFacade.findByMethod(selectedMethod);
+			for(Users user : targetUsers){
+				allUsers.remove(user);
+			}
+			doctorsDualListModel = new DualListModel<Users>(allUsers, targetUsers);
+		} else
+			doctorsDualListModel = new DualListModel<Users>(new ArrayList<Users>(), new ArrayList<Users>());
+	}
+	
+	public Users getAuthorizedUser() {
+		return authorizedUser;
+	}
+
+	public void setAuthorizedUser(Users authorizedUser) {
+		this.authorizedUser = authorizedUser;
+	}
+
+	public List<Methods> getAllMethods() {
+		return allMethods;
+	}
+
+	public void setAllMethods(List<Methods> allMethods) {
+		this.allMethods = allMethods;
+	}
+
+	public Methods getSelectedMethod() {
+		return selectedMethod;
+	}
+
+	public void setSelectedMethod(Methods selectedMethod) {
+		this.selectedMethod = selectedMethod;
+	}
+
+	public void initNewMethod() {
+		resetSelectedMethod();
+		resetPrice();
+	}
+
+	public List<MethodTypes> getAllMethodTypes() {
+		return allMethodTypes;
+	}
+
+	public void setAllMethodTypes(List<MethodTypes> allMethodTypes) {
+		this.allMethodTypes = allMethodTypes;
+	}
+
+	public Prices getPrice() {
+		return price;
+	}
+
+	public void setPrice(Prices price) {
+		this.price = price;
+	}
+
+	public List<Prices> getPrisesHistory() {
+		return prisesHistory;
+	}
+
+	public void setPrisesHistory(List<Prices> prisesHistory) {
+		this.prisesHistory = prisesHistory;
+	}
+
+	public Map<Methods, Prices> getCurrentPrice() {
+		return currentPrice;
+	}
+
+	public void setCurrentPrice(Map<Methods, Prices> currentPrice) {
+		this.currentPrice = currentPrice;
+	}
+	
+	public DualListModel<Users> getDoctorsDualListModel() {
+		return doctorsDualListModel;
+	}
+
+	public void setDoctorsDualListModel(DualListModel<Users> doctorsDualListModel) {
+		this.doctorsDualListModel = doctorsDualListModel;
+	}
+
+	public void deleteSelectedMethod(){
+		//Deleting MethodType if this Method is the last 
+		if(methodsFacade.findByType(selectedMethod.getMethodType()).size() == 1)
+			methodTypesFacade.remove(selectedMethod.getMethodType());
+		
+		methodsFacade.remove(selectedMethod);
+		allMethods.remove(selectedMethod);
+		LOG.info("Method " + selectedMethod.getShortName() + " with id: " + selectedMethod.getId() + "removed");
+		final String successMessage = Message.getInstance().getMessage(Message.Methods.METHODS_DELETED);
+		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+	}	
+	
+    public void saveSelectedMethod() {
+		selectedMethod.setDateCreated(new Date());
+		selectedMethod.setUserCreated(authorizedUser);
+		methodsFacade.edit(selectedMethod);
+        cleanMethodTypes();
+		LOG.info("Changed method " + selectedMethod.getShortName() + " with id: " + selectedMethod.getId());
+		final String successMessage = Message.getInstance().getMessage(Message.Methods.METHODS_EDITED);
+		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		RequestContext.getCurrentInstance().execute("PF('addMethodDialog').hide();");
+    }
+    
+	public void createNewMethod(){
+        selectedMethod.setDateCreated(new Date());
+        selectedMethod.setUserCreated(authorizedUser);
+		methodsFacade.create(selectedMethod);
+		allMethods.add(selectedMethod);
+		price.setDateCreated(new Date());
+		price.setUserCreated(authorizedUser);
+		price.setMethod(selectedMethod);
+		price.setDateTime(new Date());
+		pricesFacade.create(price);
+		LOG.info("Created new method: " + selectedMethod.getShortName());
+		final String successTitle = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
+		final String successMessage = Message.getInstance().getMessage(Message.Methods.METHODS_SAVED);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		RequestContext.getCurrentInstance().execute("PF('addMethodDialog').hide();");
+	}
+	
+    public void createNewPrice(){
+		price.setDateCreated(new Date());
+		price.setUserCreated(authorizedUser);
+		price.setMethod(selectedMethod);
+		pricesFacade.create(price);
+		LOG.info("Price " + price.getTotal() + " for method " + selectedMethod.getShortName() + " changed, changes will take place " + price.getDateTime());
+		final String successTitle = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
+		final String successMessage = Message.getInstance().getMessage(Message.Methods.METHODS_PRICE_CREATED);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		RequestContext.getCurrentInstance().execute("PF('addPriceDialog').hide();");
+    }
+    
+	//This method controls onTransfer event in the Pick List
+	public void onTransfer(TransferEvent event){
+
+		
+		//All Users from the right picker
+		List<Users> targetList = doctorsDualListModel.getTarget();
+		
+		//Indicates to add new method to user transfered or to remove method from user
+		Boolean addFlag = false;
+		
+		//Checking transfer direction
+		if(targetList != null && targetList.contains(event.getItems().get(0))) 
+			addFlag = true; //Means that user transfered from left picker to right picker
+			
+		//Constructing success message
+		final String successTitle = Message.getInstance().getMessage(Message.Methods.METHODS_SAVED);
+		String successMessage;
+		if(targetList != null && targetList.contains(event.getItems().get(0)))
+			successMessage = Message.getInstance().getMessage(Message.Methods.METHODS_ADD_SUCCESS_START);
+		else
+			successMessage = Message.getInstance().getMessage(Message.Methods.METHODS_REMOVE_SUCCESS_START);
+		
+		//Iterating each transfered user
+		for(Object userObject : event.getItems()){
+			Users userTransfered=(Users)userObject;
+			
+			//Constructing success message
+			successMessage += userTransfered.getFirstName() + " " + userTransfered.getLastName() + ", ";
+			
+			if(addFlag){
+				//Add method to user transfered
+				usersFacade.addMethod(userTransfered, selectedMethod, authorizedUser);
+				
+				//Setting time and user that made changes
+				userTransfered.setUserCreated(authorizedUser);
+				selectedMethod.setUserCreated(authorizedUser);
+				userTransfered.setDateCreated(new Date());
+				selectedMethod.setDateCreated(new Date());
+				usersFacade.edit(userTransfered);
+				methodsFacade.edit(selectedMethod);
+			}else{
+				//Remove method from user transfered
+				usersFacade.removeMethod(userTransfered, selectedMethod);
+				
+				//Setting time and user that made changes
+				userTransfered.setUserCreated(authorizedUser);
+				selectedMethod.setUserCreated(authorizedUser);
+				userTransfered.setDateCreated(new Date());
+				selectedMethod.setDateCreated(new Date());
+				usersFacade.edit(userTransfered);
+				methodsFacade.edit(selectedMethod);
+			}
+		}
+		
+		//Constructing success message
+		if(addFlag)
+			successMessage += " " + Message.getInstance().getMessage(Message.Methods.METHODS_ADD_SUCCESS_END) + " " + selectedMethod.getShortName();
+		else
+			successMessage += " " + Message.getInstance().getMessage(Message.Methods.METHODS_REMOVE_SUCCESS_END) + " " + selectedMethod.getShortName();
+		
+		LOG.info(successMessage);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+	}
+	
+    private void resetSelectedMethod() {
+    	selectedMethod = new Methods();
+    }
+    
+    public void resetPrice() {
+    	price = new Prices();
+    	prisesHistory = pricesFacade.findByMethod(selectedMethod);
+    }
+
+    private void cleanMethodTypes(){
+        for(MethodTypes type : methodTypesFacade.findAll())
+
+        if(methodsFacade.findByType(type).size() == 0)
+            methodTypesFacade.remove(type);
+    }
+    
+
+}

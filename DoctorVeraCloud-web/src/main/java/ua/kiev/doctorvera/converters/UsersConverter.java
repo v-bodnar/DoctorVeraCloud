@@ -24,6 +24,9 @@ public class UsersConverter implements Converter{
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value)
     {
+        if (value == null) 
+            return ""; // Required by spec.
+        
         return ((Users)value).getId().toString();
     }
 }

@@ -15,7 +15,7 @@
 		    
 			<p:schedule id="planSchedule" value="#{planView.eventModel}" locale="ru" view="agendaWeek" firstHour="6" slotMinutes="30" 
 			minTime="7am" maxTime="8pm" styleClass="planCalendar" timeZone="GMT+2" widgetVar="planSchedule" rightHeaderTemplate="month,agendaWeek"
-			allDaySlot="false" tooltip="false" >
+			allDaySlot="false" tooltip="false">
 				<p:ajax event="dateSelect" listener="#{planView.onDateSelect}" update="addPlanDialog" oncomplete="PF('addPlanDialog').show();" />
             	<p:ajax event="eventSelect" listener="#{planView.onEventSelect}" update="addPlanDialog" oncomplete="PF('addPlanDialog').show();" />
             	<p:ajax event="eventMove" listener="#{planView.onEventMove}" update="planSchedule growl" />
@@ -49,7 +49,7 @@
 					
 					<h:outputLabel for="planRoom" value="#{MESSAGE.PLAN_ROOM}" />
 					<p:selectOneMenu id="planRoom" value="#{planView.plan.room}" converter="roomsConverter"
-					required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" styleClass="select">
+					required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" styleClass="mySelectOneMenu">
 						<!--f:attribute name="name" value="planRoom" /-->
 						<!--f:selectItem itemLabel="#{MESSAGE.PLAN_CHOOSE}" itemValue="#{null}"/-->
 			            <f:selectItems value="#{planView.allRooms}" var="room" 
@@ -60,7 +60,7 @@
 					
 					<h:outputLabel for="planDoctor" value="#{MESSAGE.PLAN_DOCTOR}" />
 					<p:selectOneMenu id="planDoctor" value="#{planView.plan.doctor}" converter="usersConverter"
-					required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" styleClass="select"
+					required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" styleClass="mySelectOneMenu"
 					validator="#{planValidator.validate}" >
 						<!--f:attribute name="name" value="planDoctor" /-->
 						<!--f:selectItem itemLabel="#{MESSAGE.PLAN_CHOOSE}" itemValue="#{null}"/-->
@@ -86,6 +86,7 @@
 						update="errorMessage growl"
 						oncomplete="PF('planSchedule').update();"
 						rendered="#{planView.plan.id==null}"
+						styleClass="myButton"
 						/>
 					<p:commandButton id="planEditButton"
 						value="#{MESSAGE.PLAN_EDIT_BUTTON}" 
@@ -94,6 +95,7 @@
 						update="errorMessage growl"
 						oncomplete="PF('planSchedule').update();"
 						rendered="#{planView.plan.id!=null}"
+						styleClass="myButton"
 						/>
 					<p:commandButton id="planDeleteButton"
 						value="#{MESSAGE.PLAN_DELETE_BUTTON}" 
@@ -102,12 +104,16 @@
 						update="errorMessage growl"
 						rendered="#{planView.plan.id!=null}"
 						oncomplete="PF('planSchedule').update(); PF('addPlanDialog').hide();"
+						styleClass="myButton"
 						/>
 
 				</h:panelGrid>
 
 			</p:dialog>
+            <h:outputText value="#{planView.cssStyle}" escape="false"/>
 		</h:form>
+
+
 
 <script type="text/javascript">
     PrimeFaces.locales['ru'] = {
@@ -132,14 +138,6 @@
         day: 'День',
         allDayText : 'Весь день'
     };
-    
-function colorize(classes, colors) { 
-	
-	for	(i = 0; i &lt; classez.length; i++) {
-    	jQuery(classes[index]).css('background-color', colors[index]);
-	};
-	alert('colorize');
-};
 
 PrimeFaces.widget.Dialog.prototype.applyFocus = function() {
   var firstInput = this.jq.find(':not(:submit):not(:button):input:visible:enabled:first');

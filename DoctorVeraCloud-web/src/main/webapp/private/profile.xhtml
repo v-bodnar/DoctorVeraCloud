@@ -9,7 +9,7 @@
 	</ui:define>
 	<ui:define name="content">
 		<h:form id="profileAvatarForm">
-		<p:growl id="growl" showDetail="true" severity="info"/> 
+		<p:growl id="growl" showDetail="true" severity="info"/>
 				<p:panelGrid styleClass="avatarGrid" id="avatarGrid">
 					<p:row>
 						<p:column>
@@ -207,6 +207,7 @@
 				                <h:outputText value="#{MESSAGE.USERS_COLOR}" />
 				            </f:facet>
 							<p:colorPicker value="#{userProfileView.user.color}" />
+                            <p:ajax event="save" update="growl" listener="#{userProfileView.save}"/>
 						</p:inplace></p:column>
 						<p:column><p:message for="color" /></p:column>
 					</p:row>

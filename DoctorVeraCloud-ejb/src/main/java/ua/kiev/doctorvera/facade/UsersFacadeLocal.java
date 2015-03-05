@@ -11,7 +11,7 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
 
-import ua.kiev.doctorvera.entities.Plan;
+import ua.kiev.doctorvera.entities.Methods;
 import ua.kiev.doctorvera.entities.UserTypes;
 import ua.kiev.doctorvera.entities.Users;
 
@@ -39,6 +39,10 @@ public interface UsersFacadeLocal{
     //@param id Unique object identifier
     //@return T Identified existing entity represented by unique identifier 
     Users find(Integer id);
+    
+    //@param userType Unique object identifier
+    //@return T Identified existing entity represented by unique identifier 
+    Users find(Users user);
 
     //@return List<T> List of all Identified existing entities that are not marked as deleted
     List<Users> findAll();
@@ -74,6 +78,17 @@ public interface UsersFacadeLocal{
     
     public List<Users> findByType(Integer typeId);
     
+    public boolean addUserType(Users user, UserTypes type, Users userCreated);
+    
+    public boolean removeUserType(Users user, UserTypes type);
+    
+    public List<Users> findByMethod(Methods method);
+    
+    public List<Users> findByMethod(Integer methodId);
+    
+    public boolean addMethod(Users user, Methods method, Users userCreated);
+    
+    public boolean removeMethod(Users user, Methods method);
 
     
 }

@@ -111,7 +111,7 @@ public class UserLoginView {
         message = new FacesMessage(FacesMessage.SEVERITY_INFO, GOODBY_MESSAGE_TITLE, GOODBY_MESSAGE );       
         facesContext.addMessage(null, message);
     }
-    
+   /*
     public void checkAuth() {	
         RequestContext requestContext = RequestContext.getCurrentInstance();
         //FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -126,5 +126,5 @@ public class UserLoginView {
         	}
 
     }
-    
+    */
 }

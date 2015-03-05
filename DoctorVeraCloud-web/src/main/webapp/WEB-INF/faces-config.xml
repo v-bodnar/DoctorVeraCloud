@@ -21,19 +21,5 @@
 		<action-listener>org.primefaces.application.DialogActionListener</action-listener>
 		<navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
 		<view-handler>org.primefaces.application.DialogViewHandler</view-handler>
-		
-
-
 	</application>
-
-	<managed-bean>
-		<managed-bean-name>test</managed-bean-name>
-		<managed-bean-class>ua.kiev.doctorvera.managedbeans.Test</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-	<managed-bean>
-		<managed-bean-name>addressView</managed-bean-name>
-		<managed-bean-class>ua.kiev.doctorvera.managedbeans.AddressView</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
 </faces-config>

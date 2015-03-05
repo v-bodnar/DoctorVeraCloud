@@ -81,5 +81,20 @@ public interface PlanFacadeLocal {
     //@param room Rooms selected room
     //@param from Date start Date
     //@param to Date end Date
-    public List<Plan> findByRoomAndDatesInside(Rooms room, Date from, Date to);
+    public List<Plan> findByRoomAndDatesInsidePlan(Rooms room, Date from, Date to);
+    
+    //@return List<Plan> List of Plan records with room equals to room param, 
+    //and selected interval is inside of any recorded plans interval
+    //Inclusive from and to
+    //@param room Rooms selected room
+    //@param from Date start Date
+    //@param to Date end Date
+    public List<Plan> findByRoomAndDatesInsidePlanOrEqual(Rooms room, Date from, Date to);
+    
+    //@return Plan records with room equals to room param, 
+    //and date param is inside of any recorded plans interval
+    //Inclusive from and exclusive end
+    //@param room Rooms selected room
+    //@param from Date date
+    public Plan findByRoomAndDateInside(Rooms room, Date date);
 }
