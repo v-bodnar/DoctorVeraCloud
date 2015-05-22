@@ -9,5 +9,5 @@ Class-Path: hibernate-entitymanager-4.3.5.Final.jar jboss-logging-3.1.
  a-1.0-SNAPSHOT.jar south-street-1.0.10.jar itext-4.2.1.jar bctsp-jdk1
  4-1.38.jar bcprov-jdk14-1.38.jar bcmail-jdk14-1.38.jar dom4j-1.6.1.ja
  r xml-apis-1.0.b2.jar jfreechart-1.0.12.jar jcommon-1.0.15.jar pdf-re
- nderer-1.0.5.jar
+ nderer-1.0.5.jar DoctorVeraCloud-library-0.0.1-SNAPSHOT.jar
 

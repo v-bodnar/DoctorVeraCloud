@@ -1,15 +1,14 @@
 package ua.kiev.doctorvera.managedbeans;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.commons.io.FilenameUtils;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.CroppedImage;
+import org.primefaces.model.UploadedFile;
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Mapping;
+import ua.kiev.doctorvera.web.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -21,17 +20,16 @@ import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.servlet.ServletContext;
-
-import org.apache.commons.io.FilenameUtils;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.CroppedImage;
-import org.primefaces.model.UploadedFile;
-
-import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Mapping;
-import ua.kiev.doctorvera.web.resources.Message;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @ManagedBean(name="uploadImageView")
 @SessionScoped

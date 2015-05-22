@@ -4,11 +4,7 @@
  */
 package ua.kiev.doctorvera.web.resources;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Properties;

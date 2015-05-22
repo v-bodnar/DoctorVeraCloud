@@ -1,13 +1,12 @@
 package ua.kiev.doctorvera.managedbeans;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import ua.kiev.doctorvera.entities.Address;
+import ua.kiev.doctorvera.facadeLocal.AddressFacadeLocal;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-
-import ua.kiev.doctorvera.entities.Address;
-import ua.kiev.doctorvera.facade.AddressFacadeLocal;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class AddressView {
 	
@@ -20,7 +19,7 @@ public class AddressView {
 	
 	private ArrayList<String> regions;
 	
-	private ArrayList<String> cities;
+	private ArrayList<String> cities;	
 	
 	private ArrayList<String> addresses;
 	

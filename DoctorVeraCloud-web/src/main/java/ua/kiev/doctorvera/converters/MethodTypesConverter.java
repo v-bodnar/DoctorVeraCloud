@@ -1,19 +1,18 @@
 package ua.kiev.doctorvera.converters;
 
-import java.util.Date;
-import java.util.List;
+import ua.kiev.doctorvera.entities.MethodTypes;
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.MethodTypesFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.MethodsFacadeLocal;
+import ua.kiev.doctorvera.managedbeans.UserLoginView;
 
 import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-
-import ua.kiev.doctorvera.entities.MethodTypes;
-import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.MethodTypesFacadeLocal;
-import ua.kiev.doctorvera.facade.MethodsFacadeLocal;
-import ua.kiev.doctorvera.managedbeans.UserLoginView;
+import java.util.Date;
+import java.util.List;
 
 @FacesConverter(value = "methodTypesConverter")
 public class MethodTypesConverter implements Converter{

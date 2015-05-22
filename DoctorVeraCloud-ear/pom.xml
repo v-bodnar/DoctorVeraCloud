@@ -20,9 +20,7 @@
                      <addClasspath>true</addClasspath>
                   </manifest>
                </archive>
-               
             </configuration>
-  			
   		</plugin>
   		<plugin>
   			<groupId>org.apache.maven.plugins</groupId>

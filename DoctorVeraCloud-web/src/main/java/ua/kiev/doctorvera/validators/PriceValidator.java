@@ -1,7 +1,8 @@
 package ua.kiev.doctorvera.validators;
 
-import java.util.Date;
-import java.util.Map;
+import org.primefaces.validate.ClientValidator;
+import ua.kiev.doctorvera.facadeLocal.PricesFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Message;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -12,11 +13,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-
-import org.primefaces.validate.ClientValidator;
-
-import ua.kiev.doctorvera.facade.PricesFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import java.util.Date;
+import java.util.Map;
 
 @ManagedBean(name = "priceValidator")
 @ViewScoped

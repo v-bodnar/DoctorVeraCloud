@@ -85,6 +85,7 @@
 	<entry key="USER_TYPES_ADD_SUCCESS_END">добавлены в группу</entry>
 	<entry key="USER_TYPES_REMOVE_SUCCESS_START">Пользователли: </entry>
 	<entry key="USER_TYPES_REMOVE_SUCCESS_END">удалены из группы: </entry>
+
 	
 	<!-- rooms.xhtml -->
 	<entry key="ROOMS_TITLE">Кабинеты</entry>
@@ -143,7 +144,7 @@
 	
 	<!-- plan.xhtml -->
 	<entry key="PLAN_TITLE">План приемов</entry>
-	<entry key="PLAN_TITLE">Полный план приемов</entry>
+	<entry key="PLAN_TITLE_FULL">Полный план приемов</entry>
 	<entry key="PLAN_ADD_BUTTON">Добавить</entry>
 	<entry key="PLAN_ADD_DIALOG_TITLE">Запланировать прием</entry>
 	<entry key="PLAN_EDIT_DIALOG_TITLE">Изменение данных о запланированном приеме</entry>
@@ -164,9 +165,10 @@
 	
 	<!-- schedule.xhtml -->
 	<entry key="SCHEDULE_TITLE">Расписание приемов</entry>
+	<entry key="SCHEDULE_TITLE_FULL">Все записи</entry>
 	<entry key="SCHEDULE_ADD_BUTTON">Добавить</entry>
 	<entry key="SCHEDULE_ADD_DIALOG_TITLE">Добавить прием доктору: </entry>
-		<entry key="SCHEDULE_ADD_DIALOG_TITLE">Изменить прием доктора: </entry>
+	<entry key="SCHEDULE_ADD_DIALOG_TITLE">Изменить прием доктора: </entry>
 	<entry key="SCHEDULE_EDIT_DIALOG_TITLE">Изменение данных о приеме</entry>
 	<entry key="SCHEDULE_DELETE_BUTTON">Удалить</entry>
 	<entry key="SCHEDULE_EDIT_BUTTON">Редактировать</entry>
@@ -207,6 +209,8 @@
     <entry key="SCHEDULE_DELETE_CONFIRM_YES">Да</entry>
 	<entry key="SCHEDULE_DELETE_CONFIRM_NO">Нет</entry>
 	<entry key="SCHEDULE_DELETED">Прием отменен!</entry>
+	<entry key="SCHEDULE_ALL_ROOMS">Все кабинеты</entry>
+
 	
 	<!-- add_payment.xhtml -->
 	<entry key="PAYMENTS_ADD_TITLE">Создание платежа</entry>

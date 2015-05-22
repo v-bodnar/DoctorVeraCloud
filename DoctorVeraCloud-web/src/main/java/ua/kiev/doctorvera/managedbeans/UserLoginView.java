@@ -1,5 +1,10 @@
 package ua.kiev.doctorvera.managedbeans;
 
+import org.primefaces.context.RequestContext;
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Message;
+
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -7,12 +12,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
-
-import org.primefaces.context.RequestContext;
-
-import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
 
 @ManagedBean(name="userLoginView")
 @SessionScoped

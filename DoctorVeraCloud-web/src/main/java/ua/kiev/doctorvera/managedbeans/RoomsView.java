@@ -1,8 +1,9 @@
 package ua.kiev.doctorvera.managedbeans;
 
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Logger;
+import ua.kiev.doctorvera.entities.Rooms;
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -11,11 +12,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-import ua.kiev.doctorvera.entities.Rooms;
-import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.RoomsFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Logger;
 
 @ManagedBean(name="roomsView")
 @ViewScoped

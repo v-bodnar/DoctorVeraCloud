@@ -1,18 +1,12 @@
 package ua.kiev.doctorvera.filter;
 
-import java.util.logging.Logger;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import ua.kiev.doctorvera.managedbeans.UserLoginView;
 import ua.kiev.doctorvera.web.resources.Mapping;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.logging.Logger;
 
 public class AuthenFilter implements Filter {
 

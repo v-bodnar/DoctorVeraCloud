@@ -1,15 +1,14 @@
 package ua.kiev.doctorvera.validators;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Message;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-
-import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @ManagedBean(name = "validator")
 @SessionScoped
@@ -27,13 +26,13 @@ public class Validator {
 	}
 	
 	public static Boolean containsCyrillic(String string) {
-		final Pattern WORD = Pattern.compile("[À-ßà-ÿ¿¸³úüÜÚ¨¯²]",Pattern.CASE_INSENSITIVE);
+		final Pattern WORD = Pattern.compile("[Ğ-Ğ¯Ğ°-ÑÑ—Ñ‘Ñ–ÑŠÑŒĞ¬ĞªĞĞ‡Ğ†]",Pattern.CASE_INSENSITIVE);
 		Matcher wordM = WORD.matcher(string);
 		return wordM.find();
 	}
 	
 	public static Boolean isCyrillic(String string) {
-		return Pattern.matches("[À-ßà-ÿ¿¸³úüÜÚ¨¯²]*", string);
+		return Pattern.matches("[Ğ-Ğ¯Ğ°-ÑÑ—Ñ‘Ñ–ÑŠÑŒĞ¬ĞªĞĞ‡Ğ†]*", string);
 	}
 	
 	public static Boolean containsLatin(String string) {

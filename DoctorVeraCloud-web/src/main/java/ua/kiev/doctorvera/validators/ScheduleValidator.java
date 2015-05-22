@@ -1,10 +1,13 @@
 package ua.kiev.doctorvera.validators;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import org.primefaces.validate.ClientValidator;
+import ua.kiev.doctorvera.entities.Plan;
+import ua.kiev.doctorvera.entities.Rooms;
+import ua.kiev.doctorvera.entities.Schedule;
+import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Message;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -12,20 +15,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-
-import org.primefaces.validate.ClientValidator;
-
-import ua.kiev.doctorvera.entities.Plan;
-import ua.kiev.doctorvera.entities.Rooms;
-import ua.kiev.doctorvera.entities.Schedule;
-import ua.kiev.doctorvera.facade.PlanFacadeLocal;
-import ua.kiev.doctorvera.facade.RoomsFacadeLocal;
-import ua.kiev.doctorvera.facade.ScheduleFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 @ManagedBean(name = "scheduleValidator")
 @SessionScoped

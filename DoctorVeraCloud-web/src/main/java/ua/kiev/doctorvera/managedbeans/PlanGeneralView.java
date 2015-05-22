@@ -1,8 +1,15 @@
 package ua.kiev.doctorvera.managedbeans;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.LazyScheduleModel;
+import org.primefaces.model.ScheduleModel;
+import ua.kiev.doctorvera.entities.Plan;
+import ua.kiev.doctorvera.entities.Rooms;
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Mapping;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -11,18 +18,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-
-import org.primefaces.event.SelectEvent;
-import org.primefaces.model.DefaultScheduleEvent;
-import org.primefaces.model.LazyScheduleModel;
-import org.primefaces.model.ScheduleModel;
-
-import ua.kiev.doctorvera.entities.Plan;
-import ua.kiev.doctorvera.entities.Rooms;
-import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.PlanFacadeLocal;
-import ua.kiev.doctorvera.facade.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Mapping;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 @ManagedBean(name="planGeneralView")
 @ViewScoped

@@ -1,13 +1,16 @@
 package ua.kiev.doctorvera.managedbeans;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Logger;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.ScheduleEntryMoveEvent;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TransferEvent;
+import org.primefaces.model.*;
+import ua.kiev.doctorvera.entities.*;
+import ua.kiev.doctorvera.facadeLocal.*;
+import ua.kiev.doctorvera.validators.PlanValidator;
+import ua.kiev.doctorvera.validators.ScheduleValidator;
+import ua.kiev.doctorvera.web.resources.Mapping;
+import ua.kiev.doctorvera.web.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -17,37 +20,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.ScheduleEntryMoveEvent;
-import org.primefaces.event.ScheduleEntryResizeEvent;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.event.TransferEvent;
-import org.primefaces.model.DefaultScheduleEvent;
-import org.primefaces.model.DualListModel;
-import org.primefaces.model.LazyScheduleModel;
-import org.primefaces.model.ScheduleEvent;
-import org.primefaces.model.ScheduleModel;
-
-import ua.kiev.doctorvera.entities.MethodTypes;
-import ua.kiev.doctorvera.entities.Methods;
-import ua.kiev.doctorvera.entities.Plan;
-import ua.kiev.doctorvera.entities.Rooms;
-import ua.kiev.doctorvera.entities.Schedule;
-import ua.kiev.doctorvera.entities.UserTypes;
-import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.MethodTypesFacadeLocal;
-import ua.kiev.doctorvera.facade.MethodsFacadeLocal;
-import ua.kiev.doctorvera.facade.PlanFacadeLocal;
-import ua.kiev.doctorvera.facade.PricesFacadeLocal;
-import ua.kiev.doctorvera.facade.RoomsFacadeLocal;
-import ua.kiev.doctorvera.facade.ScheduleFacadeLocal;
-import ua.kiev.doctorvera.facade.UserTypesFacadeLocal;
-import ua.kiev.doctorvera.facade.UsersFacadeLocal;
-import ua.kiev.doctorvera.validators.PlanValidator;
-import ua.kiev.doctorvera.validators.ScheduleValidator;
-import ua.kiev.doctorvera.web.resources.Mapping;
-import ua.kiev.doctorvera.web.resources.Message;
+import java.util.*;
+import java.util.logging.Logger;
 
 @ManagedBean(name="scheduleView")
 @ViewScoped
@@ -85,9 +59,6 @@ public class ScheduleView {
 	
     @ManagedProperty(value="#{userLoginView.authorizedUser}")
 	private Users authorizedUser;
-    
-    @ManagedProperty(value="#{sessionParams.planRoom}")
-    private Rooms planRoom;
     
     @ManagedProperty(value="#{planValidator}")
 	private PlanValidator planValidator;
@@ -143,7 +114,6 @@ public class ScheduleView {
     //Constructor)
 	@PostConstruct
 	public void init(){
-		planRoom = currentRoom;
 		allPatients = usersFacade.findByType(PATIENTS_TYPE_ID);
 		allAssistents = usersFacade.findByType(ASSISTENTS_TYPE_ID);
 		schedule = new Schedule();
@@ -550,7 +520,7 @@ public class ScheduleView {
     }
 
     //Concrete Schedule builder
-    private class ScheduleBuilder extends ua.kiev.doctorvera.utils.ScheduleBuilder{
+    private class ScheduleBuilder extends ua.kiev.doctorvera.entities.utils.ScheduleBuilder{
     	
     	public ScheduleBuilder(){
     		super(authorizedUser);
@@ -735,11 +705,6 @@ public class ScheduleView {
 
 	public void setAllAssistents(List<Users> allAssistents) {
 		this.allAssistents = allAssistents;
-	}
-
-
-	public void setPlanRoom(Rooms planRoom) {
-		this.planRoom = planRoom;
 	}
 	
 }

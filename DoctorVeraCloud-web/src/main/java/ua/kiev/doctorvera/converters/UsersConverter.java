@@ -1,13 +1,13 @@
 package ua.kiev.doctorvera.converters;
 
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
+
 import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-
-import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.UsersFacadeLocal;
 
 @FacesConverter(value = "usersConverter")
 public class UsersConverter implements Converter{

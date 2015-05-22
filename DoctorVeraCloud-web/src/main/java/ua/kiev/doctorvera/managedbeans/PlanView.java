@@ -1,25 +1,6 @@
 package ua.kiev.doctorvera.managedbeans;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.context.Flash;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.ComponentSystemEvent;
-
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.MenuActionEvent;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
@@ -27,17 +8,27 @@ import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
-import org.primefaces.model.menu.MenuItem;
-
 import ua.kiev.doctorvera.entities.Plan;
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.PlanFacadeLocal;
-import ua.kiev.doctorvera.facade.RoomsFacadeLocal;
-import ua.kiev.doctorvera.facade.UsersFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.validators.PlanValidator;
 import ua.kiev.doctorvera.web.resources.Mapping;
 import ua.kiev.doctorvera.web.resources.Message;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Logger;
 
 @ManagedBean(name="planView")
 @ViewScoped

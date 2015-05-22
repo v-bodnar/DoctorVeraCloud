@@ -1,26 +1,24 @@
 package ua.kiev.doctorvera.managedbeans;
 
-import java.util.ArrayList;
-import java.util.logging.Logger;
+import ua.kiev.doctorvera.utils.SMSGateway;
+import ua.kiev.doctorvera.utils.Service;
+import ua.kiev.doctorvera.web.resources.Message;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-
-import ua.kiev.doctorvera.utils.SMSGateway;
-import ua.kiev.doctorvera.utils.Service;
-import ua.kiev.doctorvera.web.resources.Message;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 @ManagedBean(name="sendSMSView")
 @SessionScoped
 public class SendSMSView {
 	
 	private final static Logger LOG = Logger.getLogger(UploadImageView.class.getName());
-	
-	@EJB
-	private SMSGateway smsGateway;
+
+	private final SMSGateway smsGateway = new SMSGateway();
 	
 	private String phone;
 	

@@ -2,7 +2,7 @@ package ua.kiev.doctorvera.managedbeans;
 
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.RoomsFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -46,11 +46,6 @@ public class SessionParams {
     public void setScheduleRoom(Integer scheduleRoomId) {
         this.scheduleRoom =  roomsFacade.find(scheduleRoomId);
     }
-
-    public void setScheduleRoom(String scheduleRoomId) {
-        this.scheduleRoom =  roomsFacade.find(Integer.parseInt(scheduleRoomId));
-    }
-
 
     public Users getProfileUser() {
         return profileUser;

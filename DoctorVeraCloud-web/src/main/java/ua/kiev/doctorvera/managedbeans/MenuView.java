@@ -1,23 +1,19 @@
 package ua.kiev.doctorvera.managedbeans;
 
-import java.util.List;
+import org.primefaces.model.menu.DefaultMenuItem;
+import org.primefaces.model.menu.DefaultMenuModel;
+import org.primefaces.model.menu.DefaultSubMenu;
+import org.primefaces.model.menu.MenuModel;
+import ua.kiev.doctorvera.entities.Rooms;
+import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Mapping;
+import ua.kiev.doctorvera.web.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.context.Flash;
-
-import org.primefaces.model.menu.DefaultMenuItem;
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSubMenu;
-import org.primefaces.model.menu.MenuModel;
-
-import ua.kiev.doctorvera.entities.Rooms;
-import ua.kiev.doctorvera.facade.RoomsFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Mapping;
-import ua.kiev.doctorvera.web.resources.Message;
+import java.util.List;
  
 @ManagedBean(name = "menuView")
 @ViewScoped

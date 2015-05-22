@@ -1,7 +1,11 @@
 package ua.kiev.doctorvera.managedbeans;
 
-import java.util.Date;
-import java.util.logging.Logger;
+import ua.kiev.doctorvera.entities.Address;
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.AddressFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Mapping;
+import ua.kiev.doctorvera.web.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -9,13 +13,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-import ua.kiev.doctorvera.entities.Address;
-import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.AddressFacadeLocal;
-import ua.kiev.doctorvera.facade.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Mapping;
-import ua.kiev.doctorvera.web.resources.Message;
+import java.util.Date;
+import java.util.logging.Logger;
 
 @ManagedBean(name="userRegisterView")
 @ViewScoped

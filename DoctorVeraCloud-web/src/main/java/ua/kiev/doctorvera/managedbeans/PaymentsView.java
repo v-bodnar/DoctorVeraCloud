@@ -1,11 +1,13 @@
 package ua.kiev.doctorvera.managedbeans;
 
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Logger;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfWriter;
+import org.primefaces.context.RequestContext;
+import ua.kiev.doctorvera.entities.Payments;
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.PaymentsFacadeLocal;
+import ua.kiev.doctorvera.web.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,21 +16,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-import org.primefaces.context.RequestContext;
-
-import ua.kiev.doctorvera.entities.Payments;
-import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facade.PaymentsFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 @ManagedBean(name="paymentsView")
 @ViewScoped
