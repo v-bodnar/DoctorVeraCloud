@@ -1,284 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f983afb5-d9d3-4f04-94c8-72a3db7455dc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ear/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/AbstractFacade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Address.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/AddressFacade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/AddressFacadeLocal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/test/java/facade/AddressFacadeTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/DateUtils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/DoctorsHasMethodFacade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/DoctorsHasMethodFacadeLocal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/test/java/facade/DoctorsHasMethodFacadeTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Identified.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/exceptions/IllegalOrphanException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/MethodTypes.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/MethodTypesFacade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/MethodTypesFacadeLocal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/MethodsFacade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/MethodsFacadeLocal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/exceptions/NonexistentEntityException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Payments.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/PaymentsFacade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/PaymentsFacadeLocal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Plan.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/PlanFacade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/PlanFacadeLocal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Policy.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/PolicyHasUserTypes.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/exceptions/PreexistingEntityException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Prices.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/PricesFacade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/PricesFacadeLocal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/exceptions/RollbackFailureException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Rooms.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/RoomsFacade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/RoomsFacadeLocal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/SMSGateway.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Schedule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/entities/utils/ScheduleBuilder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/ScheduleFacade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/ScheduleFacadeLocal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/Service.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Share.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/UserTypesFacade.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/UsersFacadeLocal.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/UsersHasUserTypes.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/test/java/facade/UsersHasUserTypesFacadeTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/pom.xml" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.idea\artifacts\DoctorVeraCloud.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.idea\libraries\Java_EE_6_Java_EE_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.idea\libraries\Maven__ua_kiev_doctorvera_doctor_vera_1_0_SNAPSHOT.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.idea\scopes\scope_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.idea\uiDesigner.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.project" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.settings\oracle.eclipse.tools.webtier.ui.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.settings\org.eclipse.m2e.core.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\.project" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\.settings\org.eclipse.ltk.core.refactoring.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\.settings\org.eclipse.m2e.core.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\.settings\org.eclipse.m2e.wtp.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\.settings\org.eclipse.wst.common.component" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\.settings\org.eclipse.wst.common.project.facet.core.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\.settings\org.eclipse.wst.validation.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\target\m2e-wtp\.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\target\m2e-wtp\ear-resources\META-INF\MANIFEST.MF" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\target\m2e-wtp\ear-resources\META-INF\application.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\target\m2e-wtp\ear-resources\META-INF\maven\DoctorVera\DoctorVeraCloud-ear\pom.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ear\target\m2e-wtp\ear-resources\META-INF\maven\DoctorVera\DoctorVeraCloud-ear\pom.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.classpath" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.project" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.settings\org.eclipse.jdt.core.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.settings\org.eclipse.jpt.core.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.settings\org.eclipse.jpt.entitygen.new-mysql(0).drvera" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.settings\org.eclipse.jpt.entitygen.new-mysql.drvera" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.settings\org.eclipse.ltk.core.refactoring.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.settings\org.eclipse.m2e.core.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.settings\org.eclipse.m2e.wtp.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.settings\org.eclipse.wst.common.component" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.settings\org.eclipse.wst.common.project.facet.core.prefs.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.settings\org.eclipse.wst.common.project.facet.core.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\.settings\org.eclipse.wst.validation.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\Address.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\DoctorsHasMethod.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\Identified.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\MethodTypes.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\Methods.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\Payments.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\Plan.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\Policy.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\PolicyHasUserTypes.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\Prices.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\Rooms.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\Schedule.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\Share.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\UserTypes.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\Users.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\entities\UsersHasUserTypes.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\AbstractFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\AddressFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\AddressFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\DoctorsHasMethodFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\DoctorsHasMethodFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\GenericFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\MethodTypesFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\MethodTypesFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\MethodsFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\MethodsFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\PaymentsFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\PaymentsFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\PlanFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\PlanFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\PricesFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\PricesFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\RoomsFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\RoomsFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\ScheduleFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\ScheduleFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\UserTypesFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\UserTypesFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\UsersFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\UsersFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\UsersHasUserTypesFacade.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\UsersHasUserTypesFacadeLocal.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\exceptions\IllegalOrphanException.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\exceptions\NonexistentEntityException.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\exceptions\PreexistingEntityException.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\facade\exceptions\RollbackFailureException.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\utils\DateUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\utils\SMSGateway.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\ua\kiev\doctorvera\utils\Service.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\META-INF\maven\DoctorVera\DoctorVeraCloud-ejb\pom.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\target\classes\META-INF\maven\DoctorVera\DoctorVeraCloud-ejb\pom.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.classpath" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.metadata\src\main\webapp\WEB-INF\faces-config.pageflow" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.project" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.settings\.jsdtscope" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.settings\oracle.eclipse.tools.webtier.ui.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.settings\org.eclipse.jdt.core.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.settings\org.eclipse.m2e.core.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.settings\org.eclipse.wst.common.component" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.settings\org.eclipse.wst.common.project.facet.core.prefs.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.settings\org.eclipse.wst.common.project.facet.core.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.settings\org.eclipse.wst.jsdt.ui.superType.container" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.settings\org.eclipse.wst.jsdt.ui.superType.name" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\.settings\org.eclipse.wst.validation.prefs" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\src\main\java\ua\kiev\doctorvera\utils\ScheduleBuilder.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\src\main\webapp\WEB-INF\glassfish-web.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\utils\ScheduleBuilder.class" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\target\m2e-wtp\web-resources\.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\target\m2e-wtp\web-resources\META-INF\MANIFEST.MF" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\target\m2e-wtp\web-resources\META-INF\maven\DoctorVera\DoctorVeraCloud-web\pom.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\target\m2e-wtp\web-resources\META-INF\maven\DoctorVera\DoctorVeraCloud-web\pom.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\README.md" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/AddressValidator.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/AddressValidator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/AddressView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/AddressView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/filter/AuthenFilter.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/filter/AuthenFilter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Config$Key.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Config$Key.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Config.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Config.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/ExtendedControl.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/ExtendedControl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/filter/LogFilter.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/filter/LogFilter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping$Methods.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping$Methods.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping$Page.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping$Page.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping$Path.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping$Path.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping$UserTypes.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping$UserTypes.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping$Users.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping$Users.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Mapping.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/MenuView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/MenuView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Address.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Address.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Entity.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Entity.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Login.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Login.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Menu.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Menu.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Messages.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Messages.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Methods.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Methods.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Payments.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Payments.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Plan.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Plan.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Rooms.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Rooms.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Schedule.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Schedule.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$UserTypes.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$UserTypes.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Users.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Users.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$UsersDetails.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$UsersDetails.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Validator.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message$Validator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/Message.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/converters/MethodTypesConverter.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/converters/MethodTypesConverter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/MethodValidator.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/MethodValidator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/converters/MethodsConverter.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/converters/MethodsConverter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/MethodsView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/MethodsView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/PaymentsView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/PaymentsView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/PlanGeneralView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/PlanGeneralView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/PlanValidator.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/PlanValidator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/PlanView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/PlanView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/PriceValidator.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/PriceValidator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/converters/RoomsConverter.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/converters/RoomsConverter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/RoomsView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/RoomsView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/ScheduleGeneralView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/ScheduleGeneralView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/ScheduleValidator.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/ScheduleValidator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/ScheduleView$ScheduleBuilder.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/ScheduleView$ScheduleBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/ScheduleView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/ScheduleView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/SendSMSView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/SendSMSView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/SessionParams.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/SessionParams.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UploadImageView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UploadImageView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UserLoginView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UserLoginView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UserProfileView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UserProfileView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UserRegisterView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UserRegisterView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/converters/UserTypesConverter.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/converters/UserTypesConverter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UserTypesTableView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UserTypesTableView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UsersAddType.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UsersAddType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/converters/UsersConverter.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/converters/UsersConverter.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UsersTableView.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/managedbeans/UsersTableView.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/UsersValidator.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/UsersValidator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/Validator.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/Validator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/XMLResourceBundle.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/web/resources/XMLResourceBundle.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/AddressValidator.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/AddressValidator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/AddressView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/AddressView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/filter/AuthenFilter.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/filter/AuthenFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/Config.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ear/DoctorVeraCloud-ear.iml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ear/DoctorVeraCloud-ear.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/DoctorVeraCloud-ejb.iml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/DoctorVeraCloud-ejb.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/DoctorVeraCloud-web.iml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/DoctorVeraCloud-web.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud.iml" afterPath="$PROJECT_DIR$/DoctorVeraCloud.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_ear_ear_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_ear_ear_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_ejb_ejb_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_ejb_ejb_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_web_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/DoctorVeraCloud_web_war_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/ExtendedControl.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/ExtendedControl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/filter/LogFilter.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/filter/LogFilter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/target/classes/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/target/classes/META-INF/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/META-INF/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MenuView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MenuView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/MethodTypesConverter.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/MethodTypesConverter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/MethodValidator.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/MethodValidator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/MethodsConverter.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/MethodsConverter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MethodsView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/MethodsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PaymentsView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PaymentsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PlanGeneralView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PlanGeneralView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PlanView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/PlanView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PriceValidator.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PriceValidator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/RoomsConverter.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/RoomsConverter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/RoomsView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/RoomsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/ScheduleGeneralView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/ScheduleGeneralView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/ScheduleValidator.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/ScheduleValidator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/ScheduleView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/ScheduleView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SendSMSView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SendSMSView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SessionParams.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SessionParams.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UploadImageView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UploadImageView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserLoginView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserLoginView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserProfileView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserProfileView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserRegisterView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserRegisterView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/UserTypesConverter.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/UserTypesConverter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserTypesTableView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserTypesTableView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UsersAddType.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UsersAddType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/UsersConverter.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/converters/UsersConverter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UsersTableView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UsersTableView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/UsersValidator.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/UsersValidator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/Validator.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/Validator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ear/src/main/application/META-INF/application.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ear/src/main/application/META-INF/application.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/content.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/content.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/crop_image.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/crop_image.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/footer.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/footer.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/header.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/header.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/menu.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/menu.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/message.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/message.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/message.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/message.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/resources/META-INF/persistence.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/resources/META-INF/persistence.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/target/classes/META-INF/persistence.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/target/classes/META-INF/persistence.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/plan_general.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/plan_general.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ear/pom.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ear/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/pom.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/pom.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule_general.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule_general.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/send_sms.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/send_sms.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/test/test.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/test/test.xhtml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="f983afb5-d9d3-4f04-94c8-72a3db7455dc" name="Default" comment="Refactoring">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/DoctorVeraCloud-library.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/DoctorsHasMethod.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_10.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_1.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Methods.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/UserTypes.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/UserTypesFacadeLocal.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Users.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/UsersFacade.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/facade/UsersHasUserTypesFacade.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/UsersHasUserTypesFacadeLocal.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="DoctorVeraCloud.iws" />
@@ -306,12 +40,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="schedule.xhtml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="schedule.xhtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.562341">
-              <caret line="13" column="61" selection-start-line="13" selection-start-column="61" selection-end-line="13" selection-end-column="61" />
+            <state vertical-scroll-proportion="-9.807693">
+              <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DoctorsHasMethod.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/DoctorsHasMethod.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.16945107">
+              <caret line="28" column="7" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -927,12 +673,19 @@
       <updated>1432039017024</updated>
       <workItem from="1432039018322" duration="6503000" />
       <workItem from="1432101197041" duration="1378000" />
-      <workItem from="1432300961629" duration="707000" />
+      <workItem from="1432300961629" duration="908000" />
     </task>
+    <task id="LOCAL-00001" summary="Refactoring">
+      <created>1432301778300</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1432301778300</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8588000" />
+    <option name="totallyTimeSpent" value="8789000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1612" height="876" extended-state="0" />
@@ -981,6 +734,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1209,13 +966,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/DoctorsHasMethod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="43" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/web/resources/Config.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18046708">
@@ -1339,9 +1089,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.562341">
-          <caret line="13" column="61" selection-start-line="13" selection-start-column="61" selection-end-line="13" selection-end-column="61" />
+        <state vertical-scroll-proportion="-9.807693">
+          <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/DoctorsHasMethod.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16945107">
+          <caret line="28" column="7" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
