@@ -40,7 +40,7 @@ public class UsersHasUserTypesFacadeTest {
             usersFacade = (UsersFacadeLocal) container.getContext().lookup("java:global/classes/UsersFacade");
             usersHasUserTypesFacade = (UsersHasUserTypesFacadeLocal) container.getContext().lookup("java:global/classes/UsersHasUserTypesFacade");
         } catch (NamingException ex) {
-            Logger.getLogger(AddressFacadeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsersHasUserTypesFacadeTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         //Searching for admin user

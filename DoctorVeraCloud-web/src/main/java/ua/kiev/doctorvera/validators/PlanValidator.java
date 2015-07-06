@@ -242,17 +242,17 @@ public class PlanValidator implements Validator, ClientValidator {
 
 	private HashSet<Plan> crossPlan(Date start, Date end, Rooms room){
 		HashSet<Plan> planList = new HashSet<Plan>();
-		planList.addAll(planFacade.findByRoomAndStartDate(room, start, end));
-		planList.addAll(planFacade.findByRoomAndEndDate(room, start, end));
+		planList.addAll(planFacade.findByRoomAndStartDateBetween(room, start, end));
+		planList.addAll(planFacade.findByRoomAndEndDateBetween(room, start, end));
 		planList.addAll(planFacade.findByRoomAndDatesInsidePlan(room, start, end));
 		return planList;
 	}
 	
 	private HashSet<Schedule> getScheduleRecords(Date start, Date end, Rooms room){	
 		HashSet<Schedule> scheduleList = new HashSet<Schedule>();
-		scheduleList.addAll(scheduleFacade.findByRoomAndStartDate(room, start, end));
-		scheduleList.addAll(scheduleFacade.findByRoomAndEndDate(room, start, end));
-		scheduleList.addAll(scheduleFacade.findByRoomAndDatesInside(room, start, end));
+		scheduleList.addAll(scheduleFacade.findByRoomAndStartDateBetween(room, start, end));
+		scheduleList.addAll(scheduleFacade.findByRoomAndEndDateBetween(room, start, end));
+		scheduleList.addAll(scheduleFacade.findByRoomAndDatesInsideSchedule(room, start, end));
 		return scheduleList;
 	}
 	

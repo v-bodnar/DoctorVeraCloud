@@ -73,7 +73,7 @@ public class Schedule implements Serializable,Identified<Integer> {
     @JoinColumn(name = "Patient", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users patient;
-    @JoinColumn(name = "Assistent", referencedColumnName = "UserId")
+    @JoinColumn(name = "Assistant", referencedColumnName = "UserId")
     @ManyToOne
     private Users assistent;
     @JoinColumn(name = "Doctor", referencedColumnName = "UserId")

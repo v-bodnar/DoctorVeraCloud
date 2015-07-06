@@ -107,16 +107,16 @@ public interface PlanFacadeLocal {
     @param from - date to search from
     @param to - date to search to
     */
-    List<Plan> findByRoomAndStartDate(Rooms room, Date from, Date to);
+    List<Plan> findByRoomAndStartDateBetween(Rooms room, Date from, Date to);
 
     /**
-    Searches for all Plan records that are assigned to the given room and have end date between the given date range
+    Searches for all Plan records that are assigned to the given room and have end date between the given date range inclusive from and to
     @return List<Plan> List of existing Plan records that are not marked as deleted
     @param room - Room to search by
     @param from - date to search from
     @param to - date to search to
     */
-    List<Plan> findByRoomAndEndDate(Rooms room, Date from, Date to);
+    List<Plan> findByRoomAndEndDateBetween(Rooms room, Date from, Date to);
 
     /**
     Searches for all Plan records that are assigned to the given room and the

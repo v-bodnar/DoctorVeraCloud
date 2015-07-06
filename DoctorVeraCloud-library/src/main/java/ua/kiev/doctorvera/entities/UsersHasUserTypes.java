@@ -32,7 +32,7 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
     @ManyToOne(optional = false)
     private Users user;
     @Id
-    @JoinColumn(name = "UserType", referencedColumnName = "userTypeId")
+    @JoinColumn(name = "UserType", referencedColumnName = "UserTypeId")
     @ManyToOne(optional = false)
     private UserTypes userType;
     @Basic(optional = false)

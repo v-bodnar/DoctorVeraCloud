@@ -37,7 +37,7 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
     @param to - end date of the given range
     */
     @Override
-    public List<Schedule> findByRoomAndStartDate(Rooms room, Date from, Date to) {
+    public List<Schedule> findByRoomAndStartDateBetween(Rooms room, Date from, Date to) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
         Root<Schedule> root = cq.from(Schedule.class);
@@ -48,25 +48,24 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
         cq.select(root).where(datePredicate, datePredicate2, deletedPredicate, roomPredicate);
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
-        //ToDo Test this!!!!!
     }
 
     /**
     Searches for all Schedule records that are assigned to the given room and
-    end date is between the given date range inclusive to and exclusive from
+    end date is between the given date range inclusive from and exclusive to
     @return List<Plan> List of existing Schedule records that are not marked as deleted
     @param room - Room to search by
     @param from - start date of the given date range
     @param to - end date of the given range
     */
     @Override
-    public List<Schedule> findByRoomAndEndDate(Rooms room, Date from, Date to) {
+    public List<Schedule> findByRoomAndEndDateBetween(Rooms room, Date from, Date to) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
         Root<Schedule> root = cq.from(Schedule.class);
         Predicate roomPredicate = cb.and(cb.equal(root.<Rooms>get("room"), room));
         Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTimeEnd"), from, to));
-        Predicate datePredicate2 = cb.and(cb.notEqual(root.<Date>get("dateTimeEnd"), from));
+        Predicate datePredicate2 = cb.and(cb.notEqual(root.<Date>get("dateTimeEnd"), to));
         Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
         cq.select(root).where(datePredicate, datePredicate2, deletedPredicate, roomPredicate);
         cq.distinct(true);
@@ -82,7 +81,7 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
     @param to - end date of the given range
     */
     @Override
-    public List<Schedule> findByRoomAndDatesInside(Rooms room, Date from, Date to) {
+    public List<Schedule> findByRoomAndDatesInsideSchedule(Rooms room, Date from, Date to) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
         Root<Schedule> root = cq.from(Schedule.class);
@@ -104,7 +103,7 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
     @param to - end date of the given range
     */
     @Override
-    public List<Schedule> findByRoomAndDatesInsideOrEqual(Rooms room, Date from, Date to) {
+    public List<Schedule> findByRoomAndDatesInsideScheduleOrEqual(Rooms room, Date from, Date to) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
         Root<Schedule> root = cq.from(Schedule.class);
@@ -115,30 +114,28 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
         cq.select(root).where(datePredicateFrom, datePredicateTo, deletedPredicate, roomPredicate);
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
-        //ToDo Test This!!!!
     }
 
     /**
     Searches for all Schedule records that are assigned to the given room and
-    start date and end date of the schedule record is between the given date range inclusive this dates
+    start date and end date of the schedule record is between the given date range exclusive this dates
     @return List<Plan> List of existing Schedule records that are not marked as deleted
     @param room - Room to search by
     @param from - start date of the given date range
     @param to - end date of the given range
     */
     @Override
-    public List<Schedule> findByRoomAndDatesOutsideOrEqual(Rooms room, Date from, Date to) {
+    public List<Schedule> findByRoomAndDatesOutsideScheduleOrEqual(Rooms room, Date from, Date to) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
         Root<Schedule> root = cq.from(Schedule.class);
         Predicate roomPredicate = cb.and(cb.equal(root.<Rooms>get("room"), room));
-        Predicate datePredicateFrom = cb.and(cb.greaterThanOrEqualTo(root.<Date>get("dateTimeStart"), from));
-        Predicate datePredicateTo = cb.and(cb.lessThanOrEqualTo(root.<Date>get("dateTimeEnd"), to));
+        Predicate datePredicateFrom = cb.and(cb.greaterThan(root.<Date>get("dateTimeStart"), from));
+        Predicate datePredicateTo = cb.and(cb.lessThan(root.<Date>get("dateTimeEnd"), to));
         Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
         cq.select(root).where(datePredicateFrom, datePredicateTo, deletedPredicate, roomPredicate);
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
-        //ToDo Test This!!!!
     }
 
     /**
@@ -154,12 +151,15 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
 	    CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
 	    Root<Schedule> root = cq.from(Schedule.class);
 	    Predicate roomPredicate = cb.and(cb.equal(root.<Rooms>get("room"), room));
-	    Predicate datePredicateFrom = cb.and(cb.greaterThanOrEqualTo(root.<Date>get("dateTimeStart"), date));
-	    Predicate datePredicateTo = cb.and(cb.lessThan(root.<Date>get("dateTimeEnd"), date));
+	    Predicate datePredicateFrom = cb.and(cb.lessThanOrEqualTo(root.<Date>get("dateTimeStart"), date));
+	    Predicate datePredicateTo = cb.and(cb.greaterThan(root.<Date>get("dateTimeEnd"), date));
 	    Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
 	    cq.select(root).where(datePredicateFrom, datePredicateTo, deletedPredicate, roomPredicate);
 	    cq.distinct(true);
-	    return getEntityManager().createQuery(cq).getSingleResult(); 
+        if(getEntityManager().createQuery(cq).getResultList().isEmpty())
+            return null;
+        else
+	        return getEntityManager().createQuery(cq).getSingleResult();
 	}
 
     /**

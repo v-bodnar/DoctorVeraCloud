@@ -84,7 +84,7 @@ public class ScheduleValidator implements Validator, ClientValidator {
 	
 	//Checking if start time is inside any Plans record and not inside any Schedule record
 	private String validateStartTime(Date startTime){
-		//Checking is date is inside of any Plan record
+		//Checking if date is inside of any Plan record
 		if(planFacade.findByRoomAndDateInside(currentRoom, startTime) == null)
 			return Message.getInstance().getMessage(Message.Schedule.SCHEDULE_VALIDATE_NOT_IN_PLAN_START);
 		
@@ -149,9 +149,9 @@ public class ScheduleValidator implements Validator, ClientValidator {
 	
 	private HashSet<Schedule> crossSchedule(Rooms currentRoom, Date start, Date end){
 		HashSet<Schedule> scheduleList = new HashSet<Schedule>();
-		scheduleList.addAll(scheduleFacade.findByRoomAndStartDate(currentRoom, start, end));
-		scheduleList.addAll(scheduleFacade.findByRoomAndEndDate(currentRoom, start, end));
-		scheduleList.addAll(scheduleFacade.findByRoomAndDatesInside(currentRoom, start, end));
+		scheduleList.addAll(scheduleFacade.findByRoomAndStartDateBetween(currentRoom, start, end));
+		scheduleList.addAll(scheduleFacade.findByRoomAndEndDateBetween(currentRoom, start, end));
+		scheduleList.addAll(scheduleFacade.findByRoomAndDatesInsideSchedule(currentRoom, start, end));
 		return scheduleList;
 	};
 

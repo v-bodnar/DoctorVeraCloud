@@ -77,7 +77,7 @@ public class PlanView {
 
 			@Override
             public void loadEvents(Date start, Date end) {
-				allPlan = planFacade.findByRoomAndStartDate(currentRoom, start, end);
+				allPlan = planFacade.findByRoomAndStartDateBetween(currentRoom, start, end);
 				for(Plan plan : allPlan){
 					eventModel.addEvent(eventFromPlan(plan));
 				}

@@ -38,7 +38,7 @@ public class DoctorsHasMethodFacadeTest {
             methodsFacade = (MethodsFacadeLocal) container.getContext().lookup("java:global/classes/MethodsFacade");
             usersFacade = (UsersFacadeLocal) container.getContext().lookup("java:global/classes/UsersFacade");
         } catch (NamingException ex) {
-            Logger.getLogger(AddressFacadeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DoctorsHasMethodFacadeTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 

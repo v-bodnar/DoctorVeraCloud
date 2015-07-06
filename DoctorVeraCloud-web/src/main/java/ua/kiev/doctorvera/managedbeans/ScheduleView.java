@@ -138,12 +138,12 @@ public class ScheduleView {
 
 			@Override
             public void loadEvents(Date start, Date end) {
-				allPlan = planFacade.findByRoomAndStartDate(currentRoom, start, end);
+				allPlan = planFacade.findByRoomAndStartDateBetween(currentRoom, start, end);
 				for(Plan plan : allPlan){
 					eventModel.addEvent(eventFromPlan(plan));
 				}
 				
-				allSchedule = scheduleFacade.findByRoomAndStartDate(currentRoom, start, end);
+				allSchedule = scheduleFacade.findByRoomAndStartDateBetween(currentRoom, start, end);
 				for(Schedule schedule : allSchedule){
 					eventModel.addEvent(eventFromSchedule(schedule));
 				}
@@ -206,7 +206,7 @@ public class ScheduleView {
     
     //This method determines the earliest available time in the given Plan Record
     private Date getEarliestTime(Plan plan){
-    	List<Schedule> scheduledRecords = scheduleFacade.findByRoomAndDatesOutsideOrEqual(currentRoom, plan.getDateTimeStart(),plan.getDateTimeEnd());
+    	List<Schedule> scheduledRecords = scheduleFacade.findByRoomAndDatesOutsideScheduleOrEqual(currentRoom, plan.getDateTimeStart(),plan.getDateTimeEnd());
     	//Sorting by Date Start
     	Collections.sort(scheduledRecords, new Comparator<Schedule>() {
 	            @Override

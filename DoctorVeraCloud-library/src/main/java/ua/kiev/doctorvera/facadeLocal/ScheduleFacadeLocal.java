@@ -79,7 +79,7 @@ public interface ScheduleFacadeLocal{
     @param from - start date of the given date range
     @param to - end date of the given range
     */
-    List<Schedule> findByRoomAndStartDate(Rooms room, Date from, Date to);
+    List<Schedule> findByRoomAndStartDateBetween(Rooms room, Date from, Date to);
 
     /**
     Searches for all Schedule records that are assigned to the given room and
@@ -89,17 +89,17 @@ public interface ScheduleFacadeLocal{
     @param from - start date of the given date range
     @param to - end date of the given range
     */
-    List<Schedule> findByRoomAndEndDate(Rooms room, Date from, Date to);
+    List<Schedule> findByRoomAndEndDateBetween(Rooms room, Date from, Date to);
 
     /**
     Searches for all Schedule records that are assigned to the given room and
-    end date is between the given date range inclusive to and exclusive from
+    end date is between the given date range inclusive from and exclusive to
     @return List<Plan> List of existing Schedule records that are not marked as deleted
     @param room - Room to search by
     @param from - start date of the given date range
     @param to - end date of the given range
     */
-    List<Schedule> findByRoomAndDatesInside(Rooms room, Date from, Date to);
+    List<Schedule> findByRoomAndDatesInsideSchedule(Rooms room, Date from, Date to);
 
     /**
     Searches for all Schedule records that are assigned to the given room and
@@ -109,7 +109,7 @@ public interface ScheduleFacadeLocal{
     @param from - start date of the given date range
     @param to - end date of the given range
     */
-    List<Schedule> findByRoomAndDatesInsideOrEqual(Rooms room, Date from, Date to);
+    List<Schedule> findByRoomAndDatesInsideScheduleOrEqual(Rooms room, Date from, Date to);
 
     /**
     Searches for all Schedule records that are assigned to the given room and
@@ -119,7 +119,7 @@ public interface ScheduleFacadeLocal{
     @param from - start date of the given date range
     @param to - end date of the given range
     */
-    List<Schedule> findByRoomAndDatesOutsideOrEqual(Rooms room, Date from, Date to);
+    List<Schedule> findByRoomAndDatesOutsideScheduleOrEqual(Rooms room, Date from, Date to);
 
     /**
     Searches for all Schedule records that are assigned to the given room and
