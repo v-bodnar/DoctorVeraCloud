@@ -5,12 +5,12 @@
 	version="2.2">
 	<application>
 		<resource-bundle>
-			<base-name>ua.kiev.doctorvera.web.resources.Message</base-name>
+			<base-name>ua.kiev.doctorvera.resources.Message</base-name>
 			<var>MESSAGE</var>
 		</resource-bundle>
 
 		<resource-bundle>
-			<base-name>ua.kiev.doctorvera.web.resources.Mapping</base-name>
+			<base-name>ua.kiev.doctorvera.resources.Mapping</base-name>
 			<var>MAPPINGS</var>
 		</resource-bundle>
 

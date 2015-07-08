@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.web.resources;
+package ua.kiev.doctorvera.resources;
 
 import java.util.ListResourceBundle;
 import java.util.Locale;
@@ -21,7 +21,7 @@ public class Message extends ListResourceBundle{
 			e.printStackTrace();
 		}
 	}
-	
+	/*
 	public static enum Messages {
 		APPLICATION_TITLE,
 		APPLICATION_SAVED
@@ -307,12 +307,12 @@ public class Message extends ListResourceBundle{
 		VALIDATOR_PRICE_ZERO,
 		VALIDATOR_PRICE_AFTER_NOW
 	}
-	
+	*/
 	public static Message getInstance() {
 		if (instance == null) instance = new Message();
 		return instance;
 	}
-		
+		/*
 	@SuppressWarnings("rawtypes")
 	public String getMessage(Enum key) {
 		return (String) resource.getObject(key.toString());
@@ -321,7 +321,7 @@ public class Message extends ListResourceBundle{
 	public String getMessage(String key) {
 		return (String) resource.getObject(key);
 	}
-	
+	*/
 	public ResourceBundle getResource() {
 		return resource;
 	}
@@ -336,7 +336,7 @@ public class Message extends ListResourceBundle{
 		int i = 0;
 		for(String key : keys){
 		    entriesArray[i][0] = key;
-		    entriesArray[i][1] = getMessage(key);
+		    entriesArray[i][1] = getString(key);
 		    i++;
 		}
 	}

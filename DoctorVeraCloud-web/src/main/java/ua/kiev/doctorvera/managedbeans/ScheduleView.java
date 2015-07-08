@@ -9,8 +9,8 @@ import ua.kiev.doctorvera.entities.*;
 import ua.kiev.doctorvera.facadeLocal.*;
 import ua.kiev.doctorvera.validators.PlanValidator;
 import ua.kiev.doctorvera.validators.ScheduleValidator;
-import ua.kiev.doctorvera.web.resources.Mapping;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Mapping;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -29,10 +29,10 @@ public class ScheduleView {
 	
 	private final static Logger LOG = Logger.getLogger(ScheduleView.class.getName());
 	private final static long FIVE_MINUTES_IN_MILLIS=360000;//millisecs
-	private final Integer PATIENTS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getProperty(Mapping.UserTypes.PATIENTS_TYPE_ID));
-	private final Integer ASSISTENTS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getProperty(Mapping.UserTypes.ASSISTENTS_TYPE_ID));
-	private final Integer METHOD_BREAK_ID = Integer.parseInt(Mapping.getInstance().getProperty(Mapping.Methods.METHOD_BREAK_ID));
-	private final Integer USERS_BREAK_ID = Integer.parseInt(Mapping.getInstance().getProperty(Mapping.Users.USERS_BREAK_ID));
+	private final Integer PATIENTS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("PATIENTS_TYPE_ID"));
+	private final Integer ASSISTENTS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("ASSISTENTS_TYPE_ID"));
+	private final Integer METHOD_BREAK_ID = Integer.parseInt(Mapping.getInstance().getString("METHOD_BREAK_ID"));
+	private final Integer USERS_BREAK_ID = Integer.parseInt(Mapping.getInstance().getString("USERS_BREAK_ID"));
 	@EJB
 	private RoomsFacadeLocal roomsFacade;
 	
@@ -284,8 +284,8 @@ public class ScheduleView {
 	        	eventModel.updateEvent(event);
 	        	LOG.info("Event id: " + event.getId() + " updated");
 	        	
-	    		final String successMessage = Message.getInstance().getMessage(Message.Schedule.SCHEDULE_EDITED);
-	    		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+	    		final String successMessage = Message.getInstance().getString("SCHEDULE_EDITED");
+	    		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 	    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	    	}else
 	    		LOG.info("Validation exception. Schedule is not updated!");
@@ -299,7 +299,7 @@ public class ScheduleView {
     // and notifying user about success or error
     public void addSchedule(ActionEvent actionEvent) {
     	Boolean isValid = scheduleValidator.addScheduleValidate(schedule,  currentRoom, new Date(schedule.getDateTimeStart().getTime() + ((getTotalTime()+breakTime) * 60L * 1000L)));
-    	
+
     	if(isValid){
         	if (isNew(newUser)){
             	//Setting current timestamp and user created plan record
@@ -328,8 +328,8 @@ public class ScheduleView {
         	LOG.info("new Schedule id: " + newSchedule.getId() + " persisted");
         	
         	//Sending success message and closing dialog
-    		final String successMessage = Message.getInstance().getMessage(Message.Schedule.SCHEDULE_SAVED);
-    		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+    		final String successMessage = Message.getInstance().getString("SCHEDULE_SAVED");
+    		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     		RequestContext context = RequestContext.getCurrentInstance();
     		context.execute("PF('addScheduleDialog').hide();");
@@ -357,6 +357,7 @@ public class ScheduleView {
         	
         	for (Methods method : selectedMethods){
         		Schedule newSchedule = new ScheduleBuilder().buildFullSchedule(schedule, method, startTime);
+				newSchedule.setId(schedule.getId());
             	scheduleFacade.edit(newSchedule);
             	LOG.info("new Schedule id: " + newSchedule.getId() + " persisted");
             	
@@ -375,8 +376,8 @@ public class ScheduleView {
         	*/
         	
         	//Sending success message and closing dialog
-    		final String successMessage = Message.getInstance().getMessage(Message.Schedule.SCHEDULE_EDITED);
-    		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+    		final String successMessage = Message.getInstance().getString("SCHEDULE_EDITED");
+    		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     		RequestContext context = RequestContext.getCurrentInstance();
     		context.execute("PF('addScheduleDialog').hide();");
@@ -393,8 +394,8 @@ public class ScheduleView {
     		LOG.info("Schedule id: " + schedule.getId() + " deleted");
     		LOG.info("Event id: " + event.getId() + " deleted");
     		
-    		final String successMessage = Message.getInstance().getMessage(Message.Schedule.SCHEDULE_DELETED);
-    		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+    		final String successMessage = Message.getInstance().getString("SCHEDULE_DELETED");
+    		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     	}
     }
@@ -414,12 +415,12 @@ public class ScheduleView {
             addFlag = true; //Means that user transfered from left picker to right picker
 
         //Constructing success message
-        final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+        final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
         String successMessage;
         if(targetList != null && targetList.contains(event.getItems().get(0)))
-            successMessage = Message.getInstance().getMessage(Message.Schedule.SCHEDULE_METHOD_ADD_SUCCESS_START);
+            successMessage = Message.getInstance().getString("SCHEDULE_METHOD_ADD_SUCCESS_START");
         else
-            successMessage = Message.getInstance().getMessage(Message.Schedule.SCHEDULE_METHOD_REMOVE_SUCCESS_START);
+            successMessage = Message.getInstance().getString("SCHEDULE_METHOD_REMOVE_SUCCESS_START");
 
         //Iterating each transfered method
         for(Object methodObject : event.getItems()){
@@ -439,9 +440,9 @@ public class ScheduleView {
         /*
         //Constructing success message
         if(addFlag)
-            successMessage += Message.getInstance().getMessage(Message.Schedule.SCHEDULE_METHOD_ADD_SUCCESS_END);
+            successMessage += Message.getInstance().getMessage("SCHEDULE_METHOD_ADD_SUCCESS_END);
         else
-            successMessage += Message.getInstance().getMessage(Message.Schedule.SCHEDULE_METHOD_REMOVE_SUCCESS_END);
+            successMessage += Message.getInstance().getMessage("SCHEDULE_METHOD_REMOVE_SUCCESS_END);
 
         LOG.info(successMessage);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
@@ -472,6 +473,7 @@ public class ScheduleView {
     //Creates Schedule event from Schedule record
     private DefaultScheduleEvent eventFromSchedule(Schedule schedule){
     	DefaultScheduleEvent newEvent;
+		//If we process break record schedule will not have a patient
     	if(schedule.getPatient() != null){
 	    	newEvent = new DefaultScheduleEvent(
 	    		schedule.getMethod().getShortName() + " / " +  

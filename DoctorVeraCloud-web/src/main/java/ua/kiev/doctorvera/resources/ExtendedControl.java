@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.web.resources;
+package ua.kiev.doctorvera.resources;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

@@ -7,8 +7,8 @@ import org.primefaces.model.CroppedImage;
 import org.primefaces.model.UploadedFile;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Mapping;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Mapping;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -51,11 +51,11 @@ public class UploadImageView {
 	private String userId;
 	
 	private final static Logger LOG = Logger.getLogger(UploadImageView.class.getName());
-	private final String AVATAR_IMAGES_PATH = Mapping.getInstance().getProperty(Mapping.Path.APPLICATION_AVATAR_IMAGES_PATH);
-	private final String SUCCESS_MESSAGE = Message.getInstance().getMessage(Message.UsersDetails.PROFILE_CROP_AVATAR_SUCCESS_MESSAGE);
-	private final String SUCCESS_TITLE = Message.getInstance().getMessage(Message.UsersDetails.PROFILE_CROP_AVATAR_SUCCESS_TITLE);
-	private final String ERROR_MESSAGE = Message.getInstance().getMessage(Message.UsersDetails.PROFILE_CROP_AVATAR_ERROR_MESSAGE);
-	private final String ERROR_TITLE = Message.getInstance().getMessage(Message.UsersDetails.PROFILE_CROP_AVATAR_ERROR_TITLE);
+	private final String AVATAR_IMAGES_PATH = Mapping.getInstance().getString("APPLICATION_AVATAR_IMAGES_PATH");
+	private final String SUCCESS_MESSAGE = Message.getInstance().getString("PROFILE_CROP_AVATAR_SUCCESS_MESSAGE");
+	private final String SUCCESS_TITLE = Message.getInstance().getString("PROFILE_CROP_AVATAR_SUCCESS_TITLE");
+	private final String ERROR_MESSAGE = Message.getInstance().getString("PROFILE_CROP_AVATAR_ERROR_MESSAGE");
+	private final String ERROR_TITLE = Message.getInstance().getString("PROFILE_CROP_AVATAR_ERROR_TITLE");
 
 	public UploadImageView(){}
 	

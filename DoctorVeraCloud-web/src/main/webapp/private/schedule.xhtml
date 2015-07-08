@@ -176,6 +176,7 @@
 						update="errorMessage growl"
 						oncomplete="PF('schedule').update();"
 						rendered="#{scheduleView.schedule.id!=null}"
+									 validateClient="scheduleValidator"
 						styleClass="myButton"
 						/>
 					<p:commandButton id="scheduleDeleteButton"

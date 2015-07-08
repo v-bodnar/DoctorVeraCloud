@@ -1,7 +1,7 @@
 package ua.kiev.doctorvera.filter;
 
 import ua.kiev.doctorvera.managedbeans.UserLoginView;
-import ua.kiev.doctorvera.web.resources.Mapping;
+import ua.kiev.doctorvera.resources.Mapping;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 public class AuthenFilter implements Filter {
 
 	private final static Logger LOG = Logger.getLogger(AuthenFilter.class.getName());
-	private final String LOGIN_PAGE = Mapping.getInstance().getProperty(Mapping.Page.LOGIN_PAGE);
-	private final String REGISTER_PAGE = Mapping.getInstance().getProperty(Mapping.Page.REGISTER_PAGE);
+	private final String LOGIN_PAGE = Mapping.getInstance().getString("LOGIN_PAGE");
+	private final String REGISTER_PAGE = Mapping.getInstance().getString("REGISTER_PAGE");
 	
 	public void init(FilterConfig config) throws ServletException {
 	}

@@ -2,7 +2,7 @@ package ua.kiev.doctorvera.validators;
 
 import org.primefaces.validate.ClientValidator;
 import ua.kiev.doctorvera.utils.Service;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -19,7 +19,7 @@ import java.util.Map;
 public class UsersValidator implements Validator, ClientValidator {
 
     //private static final Logger LOG = Logger.getLogger(UsersValidator.class.getName());
-    private static final String MESSAGE_TITLE = Message.getInstance().getMessage(Message.Validator.VALIDATOR_REQUIRED);
+    private static final String MESSAGE_TITLE = Message.getInstance().getString("VALIDATOR_REQUIRED");
 
     @ManagedProperty(value = "#{validator}")
     public ua.kiev.doctorvera.validators.Validator validator;

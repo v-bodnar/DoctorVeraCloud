@@ -9,7 +9,7 @@ import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Mapping;
+import ua.kiev.doctorvera.resources.Mapping;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -26,7 +26,7 @@ import java.util.List;
 @ViewScoped
 public class PlanGeneralView {
 	
-	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getProperty(Mapping.UserTypes.DOCTORS_TYPE_ID));
+	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("DOCTORS_TYPE_ID"));
 	
 	@EJB
 	private PlanFacadeLocal planFacade;
@@ -96,7 +96,7 @@ public class PlanGeneralView {
         sessionParams.setScheduleRoom(room);
         
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        context.redirect(context.getRequestContextPath() + Mapping.getInstance().getProperty(Mapping.Page.SCHEDULE_PAGE));
+        context.redirect(context.getRequestContextPath() + Mapping.getInstance().getString("SCHEDULE_PAGE"));
     }
      
     /* --------------------------------------------*/

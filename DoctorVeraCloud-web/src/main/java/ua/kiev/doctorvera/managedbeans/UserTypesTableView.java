@@ -6,7 +6,7 @@ import ua.kiev.doctorvera.entities.UserTypes;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.UserTypesFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -118,8 +118,8 @@ public class UserTypesTableView {
 	public void deleteSelectedType(){
 		userTypesFacade.remove(selectedType);
 		allTypes.remove(selectedType);
-		final String successMessage = Message.getInstance().getMessage(Message.UserTypes.USER_TYPES_DELETED);
-		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		final String successMessage = Message.getInstance().getString("USER_TYPES_DELETED");
+		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}	
 	
@@ -128,8 +128,8 @@ public class UserTypesTableView {
 		selectedType.setDateCreated(new Date());
 		selectedType.setUserCreated(authorizedUser);
 		userTypesFacade.edit(selectedType);
-		final String successMessage = Message.getInstance().getMessage(Message.UserTypes.USER_TYPES_EDITED);
-		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		final String successMessage = Message.getInstance().getString("USER_TYPES_EDITED");
+		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
     
@@ -139,8 +139,8 @@ public class UserTypesTableView {
 		newType.setUserCreated(authorizedUser);
 		userTypesFacade.create(newType);
 		allTypes.add(newType);
-		final String successMessage = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
-		final String successTitle = Message.getInstance().getMessage(Message.UserTypes.USER_TYPES_SAVED);
+		final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
+		final String successTitle = Message.getInstance().getString("USER_TYPES_SAVED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 	
@@ -159,12 +159,12 @@ public class UserTypesTableView {
 			addFlag = true; //Means that user transfered from left picker to right picker
 			
 		//Constructing success message
-		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		String successMessage;
 		if(targetList != null && targetList.contains(event.getItems().get(0)))
-			successMessage = Message.getInstance().getMessage(Message.UserTypes.USER_TYPES_ADD_SUCCESS_START);
+			successMessage = Message.getInstance().getString("USER_TYPES_ADD_SUCCESS_START");
 		else
-			successMessage = Message.getInstance().getMessage(Message.UserTypes.USER_TYPES_REMOVE_SUCCESS_START);
+			successMessage = Message.getInstance().getString("USER_TYPES_REMOVE_SUCCESS_START");
 		
 		//Iterating each transfered user
 		for(Object userObject : event.getItems()){
@@ -200,9 +200,9 @@ public class UserTypesTableView {
 		
 		//Constructing success message
 		if(addFlag)
-			successMessage += Message.getInstance().getMessage(Message.UserTypes.USER_TYPES_ADD_SUCCESS_END) + " " + selectedType.getName();
+			successMessage += Message.getInstance().getString("USER_TYPES_ADD_SUCCESS_END") + " " + selectedType.getName();
 		else
-			successMessage += Message.getInstance().getMessage(Message.UserTypes.USER_TYPES_REMOVE_SUCCESS_END) + " " + selectedType.getName();
+			successMessage += Message.getInstance().getString("USER_TYPES_REMOVE_SUCCESS_END") + " " + selectedType.getName();
 		
 		LOG.info(successMessage);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));

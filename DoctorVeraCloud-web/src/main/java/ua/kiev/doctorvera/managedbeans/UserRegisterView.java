@@ -4,8 +4,8 @@ import ua.kiev.doctorvera.entities.Address;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.AddressFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Mapping;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Mapping;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -34,7 +34,7 @@ public class UserRegisterView {
 	public void init() {
 		user = new Users();
 		user.setUserCreated(usersFacade.findByUsername("root"));
-		user.setAvatarImage(Mapping.getInstance().getProperty(Mapping.Path.APPLICATION_AVATAR_DEFAULT));
+		user.setAvatarImage(Mapping.getInstance().getString("APPLICATION_AVATAR_DEFAULT"));
 		address = new Address();
 		address.setUserCreated(usersFacade.findByUsername("root"));
 		
@@ -64,8 +64,8 @@ public class UserRegisterView {
 		usersFacade.create(user);
 		user.setAddress(address);
 		usersFacade.edit(user);
-		final String successMessage = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
-		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
+		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 }

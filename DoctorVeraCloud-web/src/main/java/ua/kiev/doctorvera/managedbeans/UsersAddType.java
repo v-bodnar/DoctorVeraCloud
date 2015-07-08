@@ -4,7 +4,7 @@ import org.primefaces.model.DualListModel;
 import ua.kiev.doctorvera.entities.UserTypes;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -68,8 +68,8 @@ public class UsersAddType {
 	}
 	
 	public void onTransfer(){
-		final String successMessage = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
-		final String successTitle = Message.getInstance().getMessage(Message.UserTypes.USER_TYPES_SAVED);
+		final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
+		final String successTitle = Message.getInstance().getString("USER_TYPES_SAVED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 

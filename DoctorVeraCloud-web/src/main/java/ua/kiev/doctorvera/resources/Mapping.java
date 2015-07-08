@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.web.resources;
+package ua.kiev.doctorvera.resources;
 
 import java.util.ListResourceBundle;
 import java.util.Locale;
@@ -16,7 +16,7 @@ public class Mapping extends ListResourceBundle{
 		resource = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault(), new ExtendedControl());
 		setList();
 	}
-
+/*
     public static enum Page { 
     	MAIN_PAGE, 
     	LOGIN_PAGE,
@@ -47,7 +47,7 @@ public class Mapping extends ListResourceBundle{
     	APPLICATION_ROOT_PATH,
     	APPLICATION_AVATAR_DEFAULT
     }
-    
+
     public static enum UserTypes{
     	DOCTORS_TYPE_ID,
     	PATIENTS_TYPE_ID,
@@ -61,14 +61,14 @@ public class Mapping extends ListResourceBundle{
     public static enum Users{
     	USERS_BREAK_ID
     }
-    
+      */
 	public static Mapping getInstance() {
 		if (instance == null) {
 			instance = new Mapping();
 		}
 		return instance;
 	}
-
+/*
 	@SuppressWarnings("rawtypes")
 	public String getProperty(Enum key) {
 		return (String) resource.getObject(key.toString());
@@ -77,11 +77,11 @@ public class Mapping extends ListResourceBundle{
 	public String getProperty(String key) {
 		return (String) resource.getObject(key);
 	}
-	
+	*/
 	public ResourceBundle getResource() {
 		return resource;
 	}
-	
+
 	public Object[][] getContents() {
 		return entriesArray;
 	}
@@ -92,7 +92,7 @@ public class Mapping extends ListResourceBundle{
 		int i = 0;
 		for(String key : keys){
 		    entriesArray[i][0] = key;
-		    entriesArray[i][1] = getProperty(key);
+		    entriesArray[i][1] = getString(key);
 		    i++;
 		}
 	}

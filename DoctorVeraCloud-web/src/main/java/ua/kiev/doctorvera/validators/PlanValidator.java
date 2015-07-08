@@ -7,7 +7,7 @@ import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -30,8 +30,8 @@ public class PlanValidator implements Validator, ClientValidator {
     //@ManagedProperty(value="#{planView.plan}")
 	//private Plan plan;
 	
-	private final String errorTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_ERROR_TITLE) + "\n";
-	private final String errorUpdateMessage = Message.getInstance().getMessage(Message.Plan.PLAN_VALIDATE_SCHEDULE_UPDATE);
+	private final String errorTitle = Message.getInstance().getString("VALIDATOR_ERROR_TITLE") + "\n";
+	private final String errorUpdateMessage = Message.getInstance().getString("PLAN_VALIDATE_SCHEDULE_UPDATE");
 	
 	@EJB
 	private RoomsFacadeLocal roomsFacade;
@@ -64,7 +64,7 @@ public class PlanValidator implements Validator, ClientValidator {
 		String message = "";
 
 		if(start != null && end != null && !start.before(end)) 
-			message = Message.getInstance().getMessage(Message.Plan.PLAN_VALIDATE_DATE);
+			message = Message.getInstance().getString("PLAN_VALIDATE_DATE");
 		
 		if(message.equals(""))
 			return;
@@ -80,7 +80,7 @@ public class PlanValidator implements Validator, ClientValidator {
 		String errorMessage = null;
 		
 		if(plansCrossed.size() != 0){
-			errorMessage = Message.getInstance().getMessage(Message.Plan.PLAN_VALIDATE_SCHEDULE_UPDATE);
+			errorMessage = Message.getInstance().getString("PLAN_VALIDATE_SCHEDULE_UPDATE");
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorTitle , errorMessage);
 			context.addMessage(null, fMessage);

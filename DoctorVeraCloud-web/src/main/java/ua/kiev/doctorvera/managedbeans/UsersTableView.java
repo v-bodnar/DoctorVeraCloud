@@ -7,7 +7,7 @@ import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.AddressFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UserTypesFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -102,8 +102,8 @@ public class UsersTableView {
 		addressFacade.remove(addressFacade.find(selectedUser.getAddressId()));
 		usersFacade.remove(selectedUser);
 		allUsers.remove(selectedUser);
-		final String successMessage = Message.getInstance().getMessage(Message.UsersDetails.USERS_DELETE_CONFIRM_TITLE);
-		final String successTitle = Message.getInstance().getMessage(Message.UsersDetails.USERS_DELETED);
+		final String successMessage = Message.getInstance().getString("USERS_DELETE_CONFIRM_TITLE");
+		final String successTitle = Message.getInstance().getString("USERS_DELETED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 	
@@ -135,16 +135,16 @@ public class UsersTableView {
 			addFlag = true; //Means that user transfered from left picker to right picker
 			
 		//Constructing success message
-		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		String successMessage;
 		if(targetList != null && targetList.contains(event.getItems().get(0)))
-			successMessage = Message.getInstance().getMessage(Message.Users.USERS_ADD_SUCCESS_START) + " " +
+			successMessage = Message.getInstance().getString("USERS_ADD_SUCCESS_START") + " " +
 				selectedUser.getFirstName() + " " + selectedUser.getFirstName() +
-				Message.getInstance().getMessage(Message.Users.USERS_ADD_SUCCESS_END)+ " ";
+				Message.getInstance().getString("USERS_ADD_SUCCESS_END")+ " ";
 		else
-			successMessage = Message.getInstance().getMessage(Message.Users.USERS_REMOVE_SUCCESS_START) + " " +
+			successMessage = Message.getInstance().getString("USERS_REMOVE_SUCCESS_START") + " " +
 				selectedUser.getFirstName() + " " + selectedUser.getFirstName() +
-				Message.getInstance().getMessage(Message.Users.USERS_REMOVE_SUCCESS_END) + " ";
+				Message.getInstance().getString("USERS_REMOVE_SUCCESS_END") + " ";
 
 		//Iterating each transfered user
 		for(Object userTypeObject : event.getItems()){

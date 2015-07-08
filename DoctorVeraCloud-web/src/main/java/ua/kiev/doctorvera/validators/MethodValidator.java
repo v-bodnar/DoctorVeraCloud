@@ -3,7 +3,7 @@ package ua.kiev.doctorvera.validators;
 import org.primefaces.validate.ClientValidator;
 import ua.kiev.doctorvera.entities.Methods;
 import ua.kiev.doctorvera.facadeLocal.MethodsFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class MethodValidator implements Validator, ClientValidator {
 
 	//private static final Logger LOG = Logger.getLogger(UsersValidator.class.getName());
-	private static final String MESSAGE_TITLE = Message.getInstance().getMessage(Message.Validator.VALIDATOR_ERROR_TITLE);
+	private static final String MESSAGE_TITLE = Message.getInstance().getString("VALIDATOR_ERROR_TITLE");
 
 	@EJB
 	private MethodsFacadeLocal methodsFacade;
@@ -61,13 +61,13 @@ public class MethodValidator implements Validator, ClientValidator {
 			case "shortName":
                 Methods methodByShortName = methodsFacade.findByShortName((String)value);
                 if( id == null && methodByShortName != null)
-                    message = Message.getInstance().getMessage(Message.Validator.VALIDATOR_METHOD_DUPLICATED_SHORT_NAME);
+                    message = Message.getInstance().getString("VALIDATOR_METHOD_DUPLICATED_SHORT_NAME");
                 else if(id != null && methodByShortName != null && !methodByShortName.equals(methodsFacade.find(id)))
-                    message = Message.getInstance().getMessage(Message.Validator.VALIDATOR_METHOD_DUPLICATED_SHORT_NAME);
+                    message = Message.getInstance().getString("VALIDATOR_METHOD_DUPLICATED_SHORT_NAME");
 				break;
 			case "timeInMinutes":
 				if((Integer)value == 0 || (Integer)value < 0 || (Integer)value > 180)
-					message = Message.getInstance().getMessage(Message.Validator.VALIDATOR_METHOD_TIMEINMINUTES);
+					message = Message.getInstance().getString("VALIDATOR_METHOD_TIMEINMINUTES");
 		}
 
 		if(message.equals("")) {

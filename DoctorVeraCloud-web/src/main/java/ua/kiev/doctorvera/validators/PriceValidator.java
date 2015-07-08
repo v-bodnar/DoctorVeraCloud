@@ -2,7 +2,7 @@ package ua.kiev.doctorvera.validators;
 
 import org.primefaces.validate.ClientValidator;
 import ua.kiev.doctorvera.facadeLocal.PricesFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class PriceValidator implements Validator, ClientValidator {
 	
 	//private static final Logger LOG = Logger.getLogger(UsersValidator.class.getName());
-	private static final String MESSAGE_TITLE = Message.getInstance().getMessage(Message.Validator.VALIDATOR_ERROR_TITLE);
+	private static final String MESSAGE_TITLE = Message.getInstance().getString("VALIDATOR_ERROR_TITLE");
 	
 	@EJB
 	private PricesFacadeLocal pricesFacade;
@@ -59,11 +59,11 @@ public class PriceValidator implements Validator, ClientValidator {
 		switch(fieldName){
 			case "notZero":
 				if((Float)value==0)
-					message = Message.getInstance().getMessage(Message.Validator.VALIDATOR_PRICE_ZERO);
+					message = Message.getInstance().getString("VALIDATOR_PRICE_ZERO");
 				break;
 			case "date":
 				if(((Date)value).after(new Date()))
-					message = Message.getInstance().getMessage(Message.Validator.VALIDATOR_PRICE_AFTER_NOW);
+					message = Message.getInstance().getString("VALIDATOR_PRICE_AFTER_NOW");
 				
 				break;	
 				

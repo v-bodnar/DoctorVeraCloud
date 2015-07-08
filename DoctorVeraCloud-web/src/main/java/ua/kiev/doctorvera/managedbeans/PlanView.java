@@ -15,8 +15,8 @@ import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.validators.PlanValidator;
-import ua.kiev.doctorvera.web.resources.Mapping;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Mapping;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 public class PlanView {
 	
 	private final static Logger LOG = Logger.getLogger(PlanView.class.getName());
-	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getProperty(Mapping.UserTypes.DOCTORS_TYPE_ID));
+	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("DOCTORS_TYPE_ID"));
 	@EJB
 	private RoomsFacadeLocal roomsFacade;
 	
@@ -198,8 +198,8 @@ public class PlanView {
     	LOG.info("Event id: " + event.getId() + " updated");
     	
     	
-		final String successMessage = Message.getInstance().getMessage(Message.Plan.PLAN_EDITED);
-		final String successTitle = Message.getInstance().getMessage(Message.Plan.PLAN_ADD_DIALOG_TITLE);
+		final String successMessage = Message.getInstance().getString("PLAN_EDITED");
+		final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
      
@@ -223,8 +223,8 @@ public class PlanView {
     	eventModel.updateEvent(event);
     	LOG.info("Event id: " + event.getId() + " updated");
     	
-		final String successMessage = Message.getInstance().getMessage(Message.Plan.PLAN_EDITED);
-		final String successTitle = Message.getInstance().getMessage(Message.Plan.PLAN_ADD_DIALOG_TITLE);
+		final String successMessage = Message.getInstance().getString("PLAN_EDITED");
+		final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
 
@@ -250,8 +250,8 @@ public class PlanView {
             eventModel.addEvent(event);
             LOG.info("new event id: " + event.getId() + " scheduled");
             
-    		final String successMessage = Message.getInstance().getMessage(Message.Plan.PLAN_SAVED);
-    		final String successTitle = Message.getInstance().getMessage(Message.Plan.PLAN_ADD_DIALOG_TITLE);
+    		final String successMessage = Message.getInstance().getString("PLAN_SAVED");
+    		final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     		RequestContext context = RequestContext.getCurrentInstance();
     		context.execute("PF('addPlanDialog').hide();");
@@ -281,8 +281,8 @@ public class PlanView {
             eventModel.updateEvent(event);
             LOG.info("Event id: " + event.getId() + " updated");
             
-    		final String successMessage = Message.getInstance().getMessage(Message.Plan.PLAN_EDITED);
-    		final String successTitle = Message.getInstance().getMessage(Message.Plan.PLAN_ADD_DIALOG_TITLE);
+    		final String successMessage = Message.getInstance().getString("PLAN_EDITED");
+    		final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     	}
 
@@ -300,8 +300,8 @@ public class PlanView {
     		LOG.info("Plan id: " + plan.getId() + " deleted");
     		LOG.info("Event id: " + event.getId() + " deleted");
     		
-    		final String successMessage = Message.getInstance().getMessage(Message.Plan.PLAN_DELETED);
-    		final String successTitle = Message.getInstance().getMessage(Message.Plan.PLAN_ADD_DIALOG_TITLE);
+    		final String successMessage = Message.getInstance().getString("PLAN_DELETED");
+    		final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     	}
     }

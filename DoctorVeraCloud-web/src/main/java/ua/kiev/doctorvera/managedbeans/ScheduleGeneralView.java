@@ -9,7 +9,7 @@ import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Mapping;
+import ua.kiev.doctorvera.resources.Mapping;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -75,7 +75,7 @@ public class ScheduleGeneralView {
 		sessionParams.setScheduleRoom(room);
 
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-		context.redirect(context.getRequestContextPath() + Mapping.getInstance().getProperty(Mapping.Page.SCHEDULE_PAGE));
+		context.redirect(context.getRequestContextPath() + Mapping.getInstance().getString("SCHEDULE_PAGE"));
 	}
 
 	//Creates Schedule event from Schedule record

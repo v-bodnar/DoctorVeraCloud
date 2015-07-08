@@ -7,7 +7,7 @@ import org.primefaces.context.RequestContext;
 import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PaymentsFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -103,8 +103,8 @@ public class PaymentsView {
 		newPayment.setUserCreated(authorizedUser);
 		paymentsFacade.create(newPayment);
 		allPayments.add(newPayment);
-		final String successMessage = Message.getInstance().getMessage(Message.Payments.PAYMENTS_CREATED);
-		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		final String successMessage = Message.getInstance().getString("PAYMENTS_CREATED");
+		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 		RequestContext.getCurrentInstance().execute("PF('addPaymentDialog').hide();");
 		LOG.info(successTitle);

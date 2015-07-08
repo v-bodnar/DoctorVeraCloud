@@ -2,9 +2,8 @@ package ua.kiev.doctorvera.managedbeans;
 
 import ua.kiev.doctorvera.utils.SMSGateway;
 import ua.kiev.doctorvera.utils.Service;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -47,8 +46,8 @@ public class SendSMSView {
 		phone = Service.stripPhone(phone);
 		ArrayList<String> result = smsGateway.send(phone, text);
 		LOG.info("SMS sent, tracking id: " + result.get(0) + " Status: " + result.get(2));
-		final String successMessage = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
-		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		final String successMessage = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 

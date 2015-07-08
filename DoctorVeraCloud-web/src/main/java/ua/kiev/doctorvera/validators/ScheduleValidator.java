@@ -7,7 +7,7 @@ import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -19,10 +19,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @ManagedBean(name = "scheduleValidator")
 @SessionScoped
@@ -31,9 +28,9 @@ public class ScheduleValidator implements Validator, ClientValidator {
     //@ManagedProperty(value="#{planView.plan}")
 	//private Plan plan;
 	
-	private final String ERROR_TITLE = Message.getInstance().getMessage(Message.Validator.VALIDATOR_ERROR_TITLE) + "\n";
-	private final String ERROR_UPDATE_MESSAGE = Message.getInstance().getMessage(Message.Plan.PLAN_VALIDATE_SCHEDULE_UPDATE);
-	
+	private final String ERROR_TITLE = Message.getInstance().getString("VALIDATOR_ERROR_TITLE") + "\n";
+	private final String ERROR_UPDATE_MESSAGE = Message.getInstance().getString("PLAN_VALIDATE_SCHEDULE_UPDATE");
+
 	@EJB
 	private RoomsFacadeLocal roomsFacade;
 	
@@ -86,13 +83,13 @@ public class ScheduleValidator implements Validator, ClientValidator {
 	private String validateStartTime(Date startTime){
 		//Checking if date is inside of any Plan record
 		if(planFacade.findByRoomAndDateInside(currentRoom, startTime) == null)
-			return Message.getInstance().getMessage(Message.Schedule.SCHEDULE_VALIDATE_NOT_IN_PLAN_START);
+			return Message.getInstance().getString("SCHEDULE_VALIDATE_NOT_IN_PLAN_START");
 		
 		//Checking if date is not crossed with any existing schedule record
 		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Schedule scheduleCrossed = scheduleFacade.findByRoomAndDateInside(currentRoom, startTime);
 		if(scheduleCrossed != null)
-			return Message.getInstance().getMessage(Message.Schedule.SCHEDULE_VALIDATE_SCHEDULE_UPDATE)+
+			return Message.getInstance().getString("SCHEDULE_VALIDATE_SCHEDULE_UPDATE")+
 					formater.format(scheduleCrossed.getDateTimeStart()) + " - " + 
 					formater.format(scheduleCrossed.getDateTimeEnd()) + " " + 
 					scheduleCrossed.getDoctor().getFirstName() + scheduleCrossed.getDoctor().getLastName() + "\n";
@@ -108,7 +105,7 @@ public class ScheduleValidator implements Validator, ClientValidator {
 		
 		//Schedule event start and end time must be inside plans record time interval 
 		if(!isInsidePlan(currentSchedule, currentRoom, end)){
-			errorMessage = Message.getInstance().getMessage(Message.Schedule.SCHEDULE_VALIDATE_NOT_IN_PLAN);
+			errorMessage = Message.getInstance().getString("SCHEDULE_VALIDATE_NOT_IN_PLAN");
 			FacesMessage fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, ERROR_TITLE , errorMessage);
 			context.addMessage(null, fMessage);
 			return false;
@@ -116,11 +113,13 @@ public class ScheduleValidator implements Validator, ClientValidator {
 		
 		//Must have zero size or error message should be shown(means other Schedule events are recorded already)
 		HashSet<Schedule> schedulesCrossed = crossSchedule(currentRoom, currentSchedule.getDateTimeStart(), end);
-		if (currentSchedule.getId() != null)
-			schedulesCrossed.remove(currentSchedule);
-		
+		for(Schedule schedule : schedulesCrossed) {
+			if (currentSchedule.getId() != null && schedule.getId().equals(currentSchedule.getId()))
+				schedulesCrossed.remove(schedule);
+		}
+
 		if(schedulesCrossed.size() != 0){
-			errorMessage = Message.getInstance().getMessage(Message.Schedule.SCHEDULE_VALIDATE_SCHEDULE_UPDATE);
+			errorMessage = Message.getInstance().getString("SCHEDULE_VALIDATE_SCHEDULE_UPDATE");
 			FacesMessage fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, ERROR_TITLE , errorMessage);
 			context.addMessage(null, fMessage);
 			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -148,12 +147,12 @@ public class ScheduleValidator implements Validator, ClientValidator {
 	}
 	
 	private HashSet<Schedule> crossSchedule(Rooms currentRoom, Date start, Date end){
-		HashSet<Schedule> scheduleList = new HashSet<Schedule>();
+		HashSet<Schedule> scheduleList = new HashSet<>();
 		scheduleList.addAll(scheduleFacade.findByRoomAndStartDateBetween(currentRoom, start, end));
 		scheduleList.addAll(scheduleFacade.findByRoomAndEndDateBetween(currentRoom, start, end));
 		scheduleList.addAll(scheduleFacade.findByRoomAndDatesInsideSchedule(currentRoom, start, end));
 		return scheduleList;
-	};
+	}
 
 	
 	

@@ -3,7 +3,7 @@ package ua.kiev.doctorvera.managedbeans;
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -83,8 +83,8 @@ public class RoomsView {
 	public void deleteSelectedRoom(){
 		roomsFacade.remove(selectedRoom);
 		allRooms.remove(selectedRoom);
-		final String successMessage = Message.getInstance().getMessage(Message.Rooms.ROOMS_DELETED);
-		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		final String successMessage = Message.getInstance().getString("ROOMS_DELETED");
+		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}	
 	
@@ -92,8 +92,8 @@ public class RoomsView {
 		selectedRoom.setDateCreated(new Date());
 		selectedRoom.setUserCreated(authorizedUser);
 		roomsFacade.edit(selectedRoom);
-		final String successMessage = Message.getInstance().getMessage(Message.Rooms.ROOMS_EDITED);
-		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		final String successMessage = Message.getInstance().getString("ROOMS_EDITED");
+		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
     
@@ -102,8 +102,8 @@ public class RoomsView {
 		newRoom.setUserCreated(authorizedUser);
 		roomsFacade.create(newRoom);
 		allRooms.add(newRoom);
-		final String successMessage = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
-		final String successTitle = Message.getInstance().getMessage(Message.Rooms.ROOMS_SAVED);
+		final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
+		final String successTitle = Message.getInstance().getString("ROOMS_SAVED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 

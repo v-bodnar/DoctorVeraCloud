@@ -3,7 +3,7 @@ package ua.kiev.doctorvera.managedbeans;
 import org.primefaces.context.RequestContext;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.web.resources.Message;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -23,12 +23,12 @@ public class UserLoginView {
     private Users authorizedUser;
     private Boolean render = false;
     
-    private final String ERROR_MESSAGE = Message.getInstance().getMessage(Message.Login.LOGIN_ERROR);
-    private final String WELCOME_MESSAGE = Message.getInstance().getMessage(Message.Login.LOGIN_WELCOME);
-    private final String ERROR_MESSAGE_TITLE = Message.getInstance().getMessage(Message.Login.LOGIN_ERROR_TITLE);
-    private final String WELCOME_MESSAGE_TITLE = Message.getInstance().getMessage(Message.Login.LOGIN_WELCOME_TITLE);
-    private final String GOODBY_MESSAGE_TITLE = Message.getInstance().getMessage(Message.Login.LOGIN_GOODBY_TITLE);
-    private final String GOODBY_MESSAGE = Message.getInstance().getMessage(Message.Login.LOGIN_GOODBY);
+    private final String ERROR_MESSAGE = Message.getInstance().getString("LOGIN_ERROR");
+    private final String WELCOME_MESSAGE = Message.getInstance().getString("LOGIN_WELCOME");
+    private final String ERROR_MESSAGE_TITLE = Message.getInstance().getString("LOGIN_ERROR_TITLE");
+    private final String WELCOME_MESSAGE_TITLE = Message.getInstance().getString("LOGIN_WELCOME_TITLE");
+    private final String GOODBY_MESSAGE_TITLE = Message.getInstance().getString("LOGIN_GOODBY_TITLE");
+    private final String GOODBY_MESSAGE = Message.getInstance().getString("LOGIN_GOODBY");
         
     public UserLoginView(){};
     
