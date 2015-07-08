@@ -138,12 +138,12 @@ public class ScheduleView {
 
 			@Override
             public void loadEvents(Date start, Date end) {
-				allPlan = planFacade.findByRoomAndStartDateBetween(currentRoom, start, end);
+				allPlan = planFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end);
 				for(Plan plan : allPlan){
 					eventModel.addEvent(eventFromPlan(plan));
 				}
 				
-				allSchedule = scheduleFacade.findByRoomAndStartDateBetween(currentRoom, start, end);
+				allSchedule = scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end);
 				for(Schedule schedule : allSchedule){
 					eventModel.addEvent(eventFromSchedule(schedule));
 				}
@@ -325,6 +325,8 @@ public class ScheduleView {
         	}
         	Schedule newSchedule = new ScheduleBuilder().buildBreakSchedule(schedule, startTime);
         	scheduleFacade.create(newSchedule);
+			event = eventFromSchedule(newSchedule);
+			eventModel.addEvent(event);
         	LOG.info("new Schedule id: " + newSchedule.getId() + " persisted");
         	
         	//Sending success message and closing dialog

@@ -141,49 +141,49 @@ public class ScheduleFacadeTest{
         }
     }
     @Test
-    public void testFindByRoomAndStartDateBetween() throws Exception {
+    public void testFindByRoomAndStartDateBetweenExclusiveTo() throws Exception {
         //StartDate of plan is equals to given startDate
         GregorianCalendar calendarTimeStart = new GregorianCalendar(2015, 05, 27, 10, 0, 0);
         GregorianCalendar calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 12, 0, 0);
-        Assert.assertFalse(scheduleFacade.findByRoomAndStartDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertFalse(scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //StartDate of schedule is between given dates
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 9, 0, 0);
         calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 11, 0, 0);
-        Assert.assertFalse(scheduleFacade.findByRoomAndStartDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertFalse(scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //StartDate of schedule is equals to given endDate
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 9, 0, 0);
         calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 10, 0, 0);
-        Assert.assertTrue(scheduleFacade.findByRoomAndStartDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertTrue(scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //StartDate of schedule is not between givenDates
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 11, 0, 0);
         calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 13, 0, 0);
-        Assert.assertTrue(scheduleFacade.findByRoomAndStartDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertTrue(scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
     }
 
     @Test
-    public void testFindByRoomAndEndDateBetween() throws Exception {
+    public void testFindByRoomAndEndDateBetweenExclusiveFrom() throws Exception {
         //EndDate of schedule is equals to given startDate
         GregorianCalendar calendarTimeStart = new GregorianCalendar(2015, 05, 27, 12, 0, 0);
         GregorianCalendar calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 13, 0, 0);
-        Assert.assertFalse(scheduleFacade.findByRoomAndEndDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertTrue(scheduleFacade.findByRoomAndEndDateBetweenExclusiveFrom(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //EndDate of schedule is between given dates
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 9, 0, 0);
         calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 13, 0, 0);
-        Assert.assertFalse(scheduleFacade.findByRoomAndEndDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertFalse(scheduleFacade.findByRoomAndEndDateBetweenExclusiveFrom(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //EndDate of schedule is equals to given endDate
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 9, 0, 0);
         calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 12, 0, 0);
-        Assert.assertTrue(scheduleFacade.findByRoomAndEndDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertTrue(scheduleFacade.findByRoomAndEndDateBetweenExclusiveFrom(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //EndDate of schedule is not between givenDates
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 10, 0, 0);
         calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 11, 0, 0);
-        Assert.assertTrue(scheduleFacade.findByRoomAndEndDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertTrue(scheduleFacade.findByRoomAndEndDateBetweenExclusiveFrom(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
     }
 
     @Test

@@ -87,12 +87,12 @@ public class Mapping extends ListResourceBundle{
 	}
 	
 	private void setList(){
-		Set<String> keys = getResource().keySet();
+		Set<String> keys = resource.keySet();
 		entriesArray = new Object[keys.size()][2];
 		int i = 0;
 		for(String key : keys){
 		    entriesArray[i][0] = key;
-		    entriesArray[i][1] = getString(key);
+		    entriesArray[i][1] = resource.getObject(key);
 		    i++;
 		}
 	}

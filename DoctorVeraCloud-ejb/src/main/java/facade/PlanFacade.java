@@ -65,7 +65,6 @@ public class PlanFacade extends AbstractFacade<Plan> implements PlanFacadeLocal 
         List<Plan> resultList = getEntityManager().createQuery(cq).getResultList();
         if (resultList.size() == 1) return resultList.get(0);
         else return null;
-        //ToDo Test this!!!!!
     }
 
     /**
@@ -98,7 +97,7 @@ public class PlanFacade extends AbstractFacade<Plan> implements PlanFacadeLocal 
 
     /**
      * Searches for all Plan records that are assigned to the given room and have starting date between the given date range
-     * inclusive from and exclusive to
+     *  exclusive from and to
      *
      * @param room - Room to search by
      * @param from - date to search from
@@ -106,7 +105,7 @@ public class PlanFacade extends AbstractFacade<Plan> implements PlanFacadeLocal 
      * @return List<Plan> List of existing Plan records that are not marked as deleted
      */
     @Override
-    public List<Plan> findByRoomAndStartDateBetween(Rooms room, Date from, Date to) {
+    public List<Plan> findByRoomAndStartDateBetweenExclusiveTo(Rooms room, Date from, Date to) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Plan> cq = cb.createQuery(Plan.class);
         Root<Plan> root = cq.from(Plan.class);
@@ -118,9 +117,8 @@ public class PlanFacade extends AbstractFacade<Plan> implements PlanFacadeLocal 
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
     }
-
     /**
-     * Searches for all Plan records that are assigned to the given room and have end date between the given date range inclusive from and to
+     * Searches for all Plan records that are assigned to the given room and have end date between the given date range exclusive from and to
      *
      * @param room - Room to search by
      * @param from - date to search from
@@ -128,15 +126,15 @@ public class PlanFacade extends AbstractFacade<Plan> implements PlanFacadeLocal 
      * @return List<Plan> List of existing Plan records that are not marked as deleted
      */
     @Override
-    public List<Plan> findByRoomAndEndDateBetween(Rooms room, Date from, Date to) {
+    public List<Plan> findByRoomAndEndDateBetweenExclusiveFrom(Rooms room, Date from, Date to) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Plan> cq = cb.createQuery(Plan.class);
         Root<Plan> root = cq.from(Plan.class);
         Predicate roomPredicate = cb.and(cb.equal(root.<Rooms>get("room"), room));
         Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTimeEnd"), from, to));
-        //Predicate datePredicate2 = cb.and(cb.notEqual(root.<Date>get("dateTimeEnd"), to));
+        Predicate datePredicate2 = cb.and(cb.notEqual(root.<Date>get("dateTimeEnd"), from));
         Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
-        cq.select(root).where(datePredicate, deletedPredicate, roomPredicate);
+        cq.select(root).where(datePredicate, deletedPredicate,datePredicate2, roomPredicate);
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
     }

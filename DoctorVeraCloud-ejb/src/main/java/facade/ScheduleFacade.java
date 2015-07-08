@@ -37,7 +37,7 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
     @param to - end date of the given range
     */
     @Override
-    public List<Schedule> findByRoomAndStartDateBetween(Rooms room, Date from, Date to) {
+    public List<Schedule> findByRoomAndStartDateBetweenExclusiveTo(Rooms room, Date from, Date to) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
         Root<Schedule> root = cq.from(Schedule.class);
@@ -52,20 +52,20 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
 
     /**
     Searches for all Schedule records that are assigned to the given room and
-    end date is between the given date range inclusive from and exclusive to
+    end date is between the given date range exclusive from and to
     @return List<Plan> List of existing Schedule records that are not marked as deleted
     @param room - Room to search by
     @param from - start date of the given date range
     @param to - end date of the given range
     */
     @Override
-    public List<Schedule> findByRoomAndEndDateBetween(Rooms room, Date from, Date to) {
+    public List<Schedule> findByRoomAndEndDateBetweenExclusiveFrom(Rooms room, Date from, Date to) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
         Root<Schedule> root = cq.from(Schedule.class);
         Predicate roomPredicate = cb.and(cb.equal(root.<Rooms>get("room"), room));
         Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTimeEnd"), from, to));
-        Predicate datePredicate2 = cb.and(cb.notEqual(root.<Date>get("dateTimeEnd"), to));
+        Predicate datePredicate2 = cb.and(cb.notEqual(root.<Date>get("dateTimeEnd"), from));
         Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
         cq.select(root).where(datePredicate, datePredicate2, deletedPredicate, roomPredicate);
         cq.distinct(true);

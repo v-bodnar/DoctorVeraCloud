@@ -79,6 +79,8 @@ public interface PlanFacadeLocal {
     */
     List<Plan> findByStartDateBetween(Date from, Date to);
 
+
+
     /**
     Searches for Plan record that have starting date exactly the same as the given one
     @return Plan record that is not marked as deleted
@@ -107,16 +109,16 @@ public interface PlanFacadeLocal {
     @param from - date to search from
     @param to - date to search to
     */
-    List<Plan> findByRoomAndStartDateBetween(Rooms room, Date from, Date to);
+    List<Plan> findByRoomAndStartDateBetweenExclusiveTo(Rooms room, Date from, Date to);
 
     /**
-    Searches for all Plan records that are assigned to the given room and have end date between the given date range inclusive from and to
+    Searches for all Plan records that are assigned to the given room and have end date between the given date range inclusive to and exclusive from
     @return List<Plan> List of existing Plan records that are not marked as deleted
     @param room - Room to search by
     @param from - date to search from
     @param to - date to search to
     */
-    List<Plan> findByRoomAndEndDateBetween(Rooms room, Date from, Date to);
+    List<Plan> findByRoomAndEndDateBetweenExclusiveFrom(Rooms room, Date from, Date to);
 
     /**
     Searches for all Plan records that are assigned to the given room and the

@@ -148,8 +148,8 @@ public class ScheduleValidator implements Validator, ClientValidator {
 	
 	private HashSet<Schedule> crossSchedule(Rooms currentRoom, Date start, Date end){
 		HashSet<Schedule> scheduleList = new HashSet<>();
-		scheduleList.addAll(scheduleFacade.findByRoomAndStartDateBetween(currentRoom, start, end));
-		scheduleList.addAll(scheduleFacade.findByRoomAndEndDateBetween(currentRoom, start, end));
+		scheduleList.addAll(scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end));
+		scheduleList.addAll(scheduleFacade.findByRoomAndEndDateBetweenExclusiveFrom(currentRoom, start, end));
 		scheduleList.addAll(scheduleFacade.findByRoomAndDatesInsideSchedule(currentRoom, start, end));
 		return scheduleList;
 	}

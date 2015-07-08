@@ -79,7 +79,7 @@ public interface ScheduleFacadeLocal{
     @param from - start date of the given date range
     @param to - end date of the given range
     */
-    List<Schedule> findByRoomAndStartDateBetween(Rooms room, Date from, Date to);
+    List<Schedule> findByRoomAndStartDateBetweenExclusiveTo(Rooms room, Date from, Date to);
 
     /**
     Searches for all Schedule records that are assigned to the given room and
@@ -89,7 +89,7 @@ public interface ScheduleFacadeLocal{
     @param from - start date of the given date range
     @param to - end date of the given range
     */
-    List<Schedule> findByRoomAndEndDateBetween(Rooms room, Date from, Date to);
+    List<Schedule> findByRoomAndEndDateBetweenExclusiveFrom(Rooms room, Date from, Date to);
 
     /**
     Searches for all Schedule records that are assigned to the given room and

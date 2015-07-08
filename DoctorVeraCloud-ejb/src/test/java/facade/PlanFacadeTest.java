@@ -30,6 +30,7 @@ public class PlanFacadeTest{
     private static UsersFacadeLocal usersFacade;
     private static RoomsFacadeLocal roomsFacade;
     private static Rooms existingRoom;
+    private static Users someUser;
     public static final String DOCTOR_LOGIN = "root";
     public static final Integer ROOM_ID_FOR_TEST = 1;
     public static final Date NOW = new Date();
@@ -66,24 +67,40 @@ public class PlanFacadeTest{
     }
 
     private static void populatePlanForTest(){
-
+        someUser = usersFacade.findByUsername(DOCTOR_LOGIN);
         existingRoom = roomsFacade.find(ROOM_ID_FOR_TEST);
-
-        if(planFacade.findByStartDateBetween(new GregorianCalendar(2015, 05, 27, 9, 0, 0).getTime(), new GregorianCalendar(2015, 05, 27, 11, 0, 0).getTime()).isEmpty()){
+        if(planFacade.findByStartDateBetween(new GregorianCalendar(2015, 05, 27, 10, 0, 0).getTime(), new GregorianCalendar(2015, 05, 29, 11, 0, 0).getTime()).isEmpty()){
             //Creating plan record
             LOG.info("Creating Plan record for test");
-            Plan planRecordForTest = new Plan();
-            Users someUser = usersFacade.findByUsername(DOCTOR_LOGIN);
-            planRecordForTest.setDateCreated(NOW);
-            planRecordForTest.setDateTimeStart(new GregorianCalendar(2015, 05, 27, 10, 0, 0).getTime());
-            planRecordForTest.setDateTimeEnd(new GregorianCalendar(2015, 05, 27, 12, 0, 0).getTime());
-            planRecordForTest.setRoom(existingRoom);
-            planRecordForTest.setDoctor(someUser);
-            planRecordForTest.setUserCreated(someUser);
-            planFacade.create(planRecordForTest);
+            createNewPlan(new GregorianCalendar(2015, 05, 27, 10, 0, 0), new GregorianCalendar(2015, 05, 27, 11, 0, 0));
+
+            //for crossPlanTest
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 8, 0, 0),new GregorianCalendar(2015, 05, 28, 9, 0, 0));
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 8, 0, 0),new GregorianCalendar(2015, 05, 28, 10, 0, 0));
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 8, 0, 0),new GregorianCalendar(2015, 05, 28, 11, 0, 0));
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 8, 0, 0),new GregorianCalendar(2015, 05, 28, 12, 0, 0));
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 10, 0, 0),new GregorianCalendar(2015, 05, 28, 11, 0, 0));
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 10, 0, 0),new GregorianCalendar(2015, 05, 28, 12, 0, 0));
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 10, 0, 0),new GregorianCalendar(2015, 05, 28, 13, 0, 0));
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 11, 0, 0),new GregorianCalendar(2015, 05, 28, 12, 0, 0));
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 11, 0, 0),new GregorianCalendar(2015, 05, 28, 13, 0, 0));
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 12, 0, 0),new GregorianCalendar(2015, 05, 28, 13, 0, 0));
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 13, 0, 0),new GregorianCalendar(2015, 05, 28, 14, 0, 0));
+            createNewPlan(new GregorianCalendar(2015, 05, 28, 9, 0, 0),new GregorianCalendar(2015, 05, 28, 13, 0, 0));
         }else {
             LOG.info("Test Plan record is already created");
         }
+    }
+
+    private static void createNewPlan(GregorianCalendar from, GregorianCalendar to){
+        Plan planRecordForTest = new Plan();
+        planRecordForTest.setDateCreated(NOW);
+        planRecordForTest.setDateTimeStart(from.getTime());
+        planRecordForTest.setDateTimeEnd(to.getTime());
+        planRecordForTest.setRoom(existingRoom);
+        planRecordForTest.setDoctor(someUser);
+        planRecordForTest.setUserCreated(someUser);
+        planFacade.create(planRecordForTest);
     }
 
     @Test
@@ -134,49 +151,49 @@ public class PlanFacadeTest{
     }
 
     @Test
-    public void testFindByRoomAndStartDateBetween() throws Exception {
+    public void testFindByRoomAndStartDateBetweenExclusiveTo() throws Exception {
         //StartDate of plan is equals to given startDate
         GregorianCalendar calendarTimeStart = new GregorianCalendar(2015, 05, 27, 10, 0, 0);
         GregorianCalendar calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 12, 0, 0);
-        Assert.assertFalse(planFacade.findByRoomAndStartDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertFalse(planFacade.findByRoomAndStartDateBetweenExclusiveTo(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //StartDate of plan is between given dates
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 9, 0, 0);
         calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 11, 0, 0);
-        Assert.assertFalse(planFacade.findByRoomAndStartDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertFalse(planFacade.findByRoomAndStartDateBetweenExclusiveTo(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //StartDate of plan is equals to given endDate
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 9, 0, 0);
         calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 10, 0, 0);
-        Assert.assertTrue(planFacade.findByRoomAndStartDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertTrue(planFacade.findByRoomAndStartDateBetweenExclusiveTo(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //StartDate of plan is not between givenDates
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 11, 0, 0);
         calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 13, 0, 0);
-        Assert.assertTrue(planFacade.findByRoomAndStartDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertTrue(planFacade.findByRoomAndStartDateBetweenExclusiveTo(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
     }
 
     @Test
-    public void testFindByRoomAndEndDateBetween() throws Exception {
+    public void testFindByRoomAndEndDateBetweenExclusiveFrom() throws Exception {
         //EndDate of plan is equals to given startDate
-        GregorianCalendar calendarTimeStart = new GregorianCalendar(2015, 05, 27, 12, 0, 0);
+        GregorianCalendar calendarTimeStart = new GregorianCalendar(2015, 05, 27, 11, 0, 0);
         GregorianCalendar calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 13, 0, 0);
-        Assert.assertFalse(planFacade.findByRoomAndEndDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertTrue(planFacade.findByRoomAndEndDateBetweenExclusiveFrom(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //EndDate of plan is between given dates
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 9, 0, 0);
         calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 13, 0, 0);
-        Assert.assertFalse(planFacade.findByRoomAndEndDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        Assert.assertFalse(planFacade.findByRoomAndEndDateBetweenExclusiveFrom(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //EndDate of plan is equals to given endDate
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 9, 0, 0);
-        calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 12, 0, 0);
-        Assert.assertFalse(planFacade.findByRoomAndEndDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 11, 0, 0);
+        Assert.assertTrue(planFacade.findByRoomAndEndDateBetweenExclusiveFrom(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
 
         //EndDate of plan is not between givenDates
-        calendarTimeStart = new GregorianCalendar(2015, 05, 27, 10, 0, 0);
-        calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 11, 0, 0);
-        Assert.assertTrue(planFacade.findByRoomAndEndDateBetween(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
+        calendarTimeStart = new GregorianCalendar(2015, 05, 27, 9, 0, 0);
+        calendarTimeEnd = new GregorianCalendar(2015, 05, 27, 10, 0, 0);
+        Assert.assertTrue(planFacade.findByRoomAndEndDateBetweenExclusiveFrom(existingRoom, calendarTimeStart.getTime(), calendarTimeEnd.getTime()).isEmpty());
     }
 
     @Test
@@ -263,6 +280,12 @@ public class PlanFacadeTest{
         //Date is outside the range of Plan record dates
         calendarTimeStart = new GregorianCalendar(2015, 05, 27, 13, 0, 0);
         Assert.assertNull(planFacade.findByRoomAndDateInside(existingRoom, calendarTimeStart.getTime()));
+
+    }
+
+    @Test
+    public void crossPlanTest() throws Exception {
+
 
     }
 }

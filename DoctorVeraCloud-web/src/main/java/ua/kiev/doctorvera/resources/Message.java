@@ -8,7 +8,7 @@ import java.util.Set;
 public class Message extends ListResourceBundle{
 
 	private static Message instance;
-	private ResourceBundle resource;
+	private static ResourceBundle resource;
 	private static final String BUNDLE_NAME = "/message";
 	private static Object[][] entriesArray;
 	
@@ -321,7 +321,7 @@ public class Message extends ListResourceBundle{
 	public String getMessage(String key) {
 		return (String) resource.getObject(key);
 	}
-	*/
+*/
 	public ResourceBundle getResource() {
 		return resource;
 	}
@@ -331,13 +331,13 @@ public class Message extends ListResourceBundle{
 	}
 	
 	private void setList(){
-		Set<String> keys = getResource().keySet();
+		Set<String> keys = resource.keySet();
 		entriesArray = new Object[keys.size()][2];
 		int i = 0;
 		for(String key : keys){
 		    entriesArray[i][0] = key;
-		    entriesArray[i][1] = getString(key);
-		    i++;
+		    entriesArray[i][1] = resource.getString(key);
+			i++;
 		}
 	}
 	/*
