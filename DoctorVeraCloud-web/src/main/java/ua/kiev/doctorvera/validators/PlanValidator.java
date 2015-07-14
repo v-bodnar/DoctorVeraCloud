@@ -10,24 +10,25 @@ import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 
-@ManagedBean(name = "planValidator")
+@Named(value = "planValidator")
 @SessionScoped
-public class PlanValidator implements Validator, ClientValidator {
+public class PlanValidator implements Validator, ClientValidator,Serializable {
 	
-    //@ManagedProperty(value="#{planView.plan}")
+    //@Named(value="#{planView.plan}")
 	//private Plan plan;
 	
 	private final String errorTitle = Message.getInstance().getString("VALIDATOR_ERROR_TITLE") + "\n";

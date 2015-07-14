@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
@@ -13,18 +13,19 @@ import ua.kiev.doctorvera.resources.Mapping;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@ManagedBean(name="planGeneralView")
+@Named(value="planGeneralView")
 @ViewScoped
-public class PlanGeneralView {
+public class PlanGeneralView implements Serializable {
 	
 	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("DOCTORS_TYPE_ID"));
 	
@@ -33,8 +34,8 @@ public class PlanGeneralView {
 	
 	@EJB
 	private UsersFacadeLocal usersFacade;
-	
-    @ManagedProperty(value="#{sessionParams}")
+
+    @Inject
     private SessionParams sessionParams;
 	
 	private List<Plan> allPlan;

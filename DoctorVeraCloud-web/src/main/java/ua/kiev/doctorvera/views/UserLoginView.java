@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import org.primefaces.context.RequestContext;
 import ua.kiev.doctorvera.entities.Users;
@@ -7,22 +7,27 @@ import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 
-@ManagedBean(name="userLoginView")
-@SessionScoped
-public class UserLoginView {
+@Named(value="userLoginView")
+@ViewScoped
+public class UserLoginView implements Serializable {
 	@EJB
 	private UsersFacadeLocal usersFacade;
 	
     private Users incomingUser = new Users();
-    private Users authorizedUser;
     private Boolean render = false;
-    
+
+    @Inject
+    private SessionParams sessionParams;
+
     private final String ERROR_MESSAGE = Message.getInstance().getString("LOGIN_ERROR");
     private final String WELCOME_MESSAGE = Message.getInstance().getString("LOGIN_WELCOME");
     private final String ERROR_MESSAGE_TITLE = Message.getInstance().getString("LOGIN_ERROR_TITLE");
@@ -42,14 +47,6 @@ public class UserLoginView {
 
 	public void setRender(Boolean render) {
 		this.render = render;
-	}
-
-	public Users getAuthorizedUser() {
-		return authorizedUser;
-	}
-
-	public void setAuthorizedUser(Users authorizedUser) {
-		this.authorizedUser = authorizedUser;
 	}
 
 	public Users getIncomingUser() {
@@ -80,7 +77,7 @@ public class UserLoginView {
     }
    */
     public void refresh(){
-    	authorizedUser = usersFacade.find(authorizedUser.getId());
+    	sessionParams.setAuthorizedUser(usersFacade.find(sessionParams.getAuthorizedUser().getId()));
     }
     
     public void login(ActionEvent event) {
@@ -88,11 +85,11 @@ public class UserLoginView {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         FacesMessage message = null;
         boolean loggedIn = false;
-        authorizedUser = usersFacade.findByCred(incomingUser.getUsername(), incomingUser.getPassword());
+        sessionParams.setAuthorizedUser(usersFacade.findByCred(incomingUser.getUsername(), incomingUser.getPassword()));
 
-        if(incomingUser.getUsername() != null && incomingUser.getPassword() != null && authorizedUser != null) {
+        if(incomingUser.getUsername() != null && incomingUser.getPassword() != null && sessionParams.getAuthorizedUser() != null) {
             loggedIn = true;
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, WELCOME_MESSAGE_TITLE, WELCOME_MESSAGE + authorizedUser.getFirstName() + " " + authorizedUser.getLastName());
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, WELCOME_MESSAGE_TITLE, WELCOME_MESSAGE + sessionParams.getAuthorizedUser().getFirstName() + " " + sessionParams.getAuthorizedUser().getLastName());
         } else {
             loggedIn = false;
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, ERROR_MESSAGE_TITLE, ERROR_MESSAGE);
@@ -106,7 +103,7 @@ public class UserLoginView {
         FacesMessage message = null;
         HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
         request.getSession().invalidate();
-        authorizedUser = null;
+        sessionParams.setAuthorizedUser(null);
         message = new FacesMessage(FacesMessage.SEVERITY_INFO, GOODBY_MESSAGE_TITLE, GOODBY_MESSAGE );       
         facesContext.addMessage(null, message);
     }

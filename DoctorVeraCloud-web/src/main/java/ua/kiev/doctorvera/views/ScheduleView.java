@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.ScheduleEntryMoveEvent;
@@ -7,25 +7,27 @@ import org.primefaces.event.TransferEvent;
 import org.primefaces.model.*;
 import ua.kiev.doctorvera.entities.*;
 import ua.kiev.doctorvera.facadeLocal.*;
-import ua.kiev.doctorvera.validators.PlanValidator;
-import ua.kiev.doctorvera.validators.ScheduleValidator;
 import ua.kiev.doctorvera.resources.Mapping;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.validators.PlanValidator;
+import ua.kiev.doctorvera.validators.ScheduleValidator;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 
-@ManagedBean(name="scheduleView")
+@Named(value="scheduleView")
 @ViewScoped
-public class ScheduleView {
+public class ScheduleView implements Serializable {
 	
 	private final static Logger LOG = Logger.getLogger(ScheduleView.class.getName());
 	private final static long FIVE_MINUTES_IN_MILLIS=360000;//millisecs
@@ -33,6 +35,7 @@ public class ScheduleView {
 	private final Integer ASSISTENTS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("ASSISTENTS_TYPE_ID"));
 	private final Integer METHOD_BREAK_ID = Integer.parseInt(Mapping.getInstance().getString("METHOD_BREAK_ID"));
 	private final Integer USERS_BREAK_ID = Integer.parseInt(Mapping.getInstance().getString("USERS_BREAK_ID"));
+	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("DOCTORS_TYPE_ID"));
 	@EJB
 	private RoomsFacadeLocal roomsFacade;
 	
@@ -56,18 +59,19 @@ public class ScheduleView {
 
     @EJB
     private MethodTypesFacadeLocal methodTypesFacade;
-	
-    @ManagedProperty(value="#{userLoginView.authorizedUser}")
-	private Users authorizedUser;
-    
-    @ManagedProperty(value="#{planValidator}")
+
+	@Inject
+	private SessionParams sessionParams;
+
+	@Inject
 	private PlanValidator planValidator;
-    
-    @ManagedProperty(value="#{scheduleValidator}")
+
+	@Inject
 	private ScheduleValidator scheduleValidator;
 
-    @ManagedProperty(value="#{sessionParams.scheduleRoom}")
-    private Rooms currentRoom;
+	private Users authorizedUser;
+
+	private Rooms currentRoom;
 
     //Data for Schedule Form Autocomplete inputs
     private final Set<String> allFirstNames = new HashSet<String>() ;
@@ -96,6 +100,13 @@ public class ScheduleView {
 	//Schedule Entity to manipulate
 	private Schedule schedule;
 
+	//For creation new plan
+	private Plan plan = new Plan();
+
+	private List<Rooms> allRooms;
+
+	private List<Users> allDoctors;
+
     private MethodTypes selectedMethodType;
 
     private List<Methods> selectedMethods;
@@ -114,6 +125,10 @@ public class ScheduleView {
     //Constructor)
 	@PostConstruct
 	public void init(){
+		authorizedUser = sessionParams.getAuthorizedUser();
+		currentRoom = sessionParams.getScheduleRoom();
+		allRooms = roomsFacade.findAll();
+		allDoctors = usersFacade.findByType(DOCTORS_TYPE_ID);
 		allPatients = usersFacade.findByType(PATIENTS_TYPE_ID);
 		allAssistents = usersFacade.findByType(ASSISTENTS_TYPE_ID);
 		schedule = new Schedule();
@@ -206,7 +221,7 @@ public class ScheduleView {
     
     //This method determines the earliest available time in the given Plan Record
     private Date getEarliestTime(Plan plan){
-    	List<Schedule> scheduledRecords = scheduleFacade.findByRoomAndDatesOutsideScheduleOrEqual(currentRoom, plan.getDateTimeStart(),plan.getDateTimeEnd());
+    	List<Schedule> scheduledRecords = scheduleFacade.findByRoomAndDatesOutsideScheduleOrEqual(currentRoom, plan.getDateTimeStart(), plan.getDateTimeEnd());
     	//Sorting by Date Start
     	Collections.sort(scheduledRecords, new Comparator<Schedule>() {
 	            @Override
@@ -246,10 +261,10 @@ public class ScheduleView {
     //When any empty date in the schedule is clicked 
     //this method have to control data from addPlanDialog
     public void onDateSelect(SelectEvent selectEvent) {
-    	event = new DefaultScheduleEvent();
-    	//plan = new Plan();
-    	//plan.setDateTimeStart(((Date)selectEvent.getObject()));
-    	//plan.setDateTimeEnd(((Date)selectEvent.getObject()));
+    	//event = new DefaultScheduleEvent();
+    	plan = new Plan();
+    	plan.setDateTimeStart(((Date)selectEvent.getObject()));
+    	plan.setDateTimeEnd(((Date) selectEvent.getObject()));
     }
     
     //Fills users data if phone number fits existing one
@@ -401,6 +416,36 @@ public class ScheduleView {
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     	}
     }
+
+	// This method is add Plan form listener form schedule.xhtml
+	// It contains creating and persisting Plan record, creating schedule event and updating schedule
+	// and notifying user about success or error
+	public void addPlan(ActionEvent actionEvent) {
+		//Setting current timestamp and user created plan record
+		plan.setDateCreated(new Date());
+		plan.setUserCreated(authorizedUser);
+
+		//When we create new Plan record Id of Plan and event are null
+		if(plan.getId() == null || event.getId() == null){
+			//Validation for crossing other Plan records
+			if(planValidator.addPlanValidate(plan.getDateTimeStart(),
+					plan.getDateTimeEnd(), currentRoom, null)) return;
+
+			planFacade.create(plan);
+			LOG.info("new plan id: " + plan.getId() + " persisted");
+
+			event = eventFromPlan(plan);
+			eventModel.addEvent(event);
+			LOG.info("new event id: " + event.getId() + " scheduled");
+
+			final String successMessage = Message.getInstance().getString("PLAN_SAVED");
+			final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage));
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("PF('addPlanDialog').hide();");
+		}else
+			LOG.info("Something goes wrong event Id:" + event.getId() + " Plan entity: " + plan);
+	}
 
     //This method controls onTransfer event in the Methods Pick List
     public void onTransfer(TransferEvent event){
@@ -558,15 +603,6 @@ public class ScheduleView {
     /* --------------------------------------------*/
     /* --------- Setters && Getters ---------------*/
     /* --------------------------------------------*/
-    
-	public Rooms getCurrentRoom() {
-		return currentRoom;
-	}
-
-	public void setCurrentRoom(Rooms currentRoom) {
-		this.currentRoom = currentRoom;
-	}
-
 	public PlanValidator getPlanValidator() {
 		return planValidator;
 	}
@@ -575,13 +611,6 @@ public class ScheduleView {
 		this.planValidator = planValidator;
 	}
 
-	public Users getAuthorizedUser() {
-		return authorizedUser;
-	}
-
-	public void setAuthorizedUser(Users authorizedUser) {
-		this.authorizedUser = authorizedUser;
-	}
 	
     public ScheduleValidator getScheduleValidator() {
 		return scheduleValidator;
@@ -710,5 +739,44 @@ public class ScheduleView {
 	public void setAllAssistents(List<Users> allAssistents) {
 		this.allAssistents = allAssistents;
 	}
-	
+
+	public Plan getPlan() {
+		return plan;
+	}
+
+	public void setPlan(Plan plan) {
+		this.plan = plan;
+	}
+
+	public List<Rooms> getAllRooms() {
+		return allRooms;
+	}
+
+	public void setAllRooms(List<Rooms> allRooms) {
+		this.allRooms = allRooms;
+	}
+
+	public List<Users> getAllDoctors() {
+		return allDoctors;
+	}
+
+	public void setAllDoctors(List<Users> allDoctors) {
+		this.allDoctors = allDoctors;
+	}
+
+	public Users getAuthorizedUser() {
+		return authorizedUser;
+	}
+
+	public void setAuthorizedUser(Users authorizedUser) {
+		this.authorizedUser = authorizedUser;
+	}
+
+	public Rooms getCurrentRoom() {
+		return currentRoom;
+	}
+
+	public void setCurrentRoom(Rooms currentRoom) {
+		this.currentRoom = currentRoom;
+	}
 }

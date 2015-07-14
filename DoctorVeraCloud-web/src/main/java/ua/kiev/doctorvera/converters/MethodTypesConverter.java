@@ -4,7 +4,7 @@ import ua.kiev.doctorvera.entities.MethodTypes;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.MethodTypesFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.MethodsFacadeLocal;
-import ua.kiev.doctorvera.managedbeans.UserLoginView;
+import ua.kiev.doctorvera.views.SessionParams;
 
 import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
@@ -29,7 +29,7 @@ public class MethodTypesConverter implements Converter{
     @SuppressWarnings({"deprecation" })
 	@Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-    	authorizedUser = ((UserLoginView)FacesContext.getCurrentInstance().getApplication().getVariableResolver().resolveVariable(context,"userLoginView")).getAuthorizedUser();
+    	authorizedUser = ((SessionParams)FacesContext.getCurrentInstance().getApplication().getVariableResolver().resolveVariable(context,"sessionParams")).getAuthorizedUser();
     	//Checking for null and empty value
     	if(value != null && value instanceof String && value !=""){
     		

@@ -18,12 +18,12 @@
 
 		<p:panel>
 			<p:remoteCommand
-				action="#{uploadImageView.setCurrentUserId(userLoginView.authorizedUser.id)}"
+				action="#{uploadImageView.setCurrentUserId(sessionParams.authorizedUser.id)}"
 				autoRun="true" />
 
 			<h:panelGrid columnClasses="columnCentered" styleClass="avatarGrid" column="2" id="status">
 				<p:graphicImage width="75" height="100"
-					value="#{MAPPINGS.APPLICATION_AVATAR_IMAGES_PATH}#{userLoginView.authorizedUser.avatarImage}" />
+					value="#{MAPPINGS.APPLICATION_AVATAR_IMAGES_PATH}#{sessionParams.authorizedUser.avatarImage}" />
 					
 				<p:fileUpload
 					fileUploadListener="#{uploadImageView.handleFileUpload}"

@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.ScheduleEntryMoveEvent;
@@ -14,25 +14,27 @@ import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.validators.PlanValidator;
 import ua.kiev.doctorvera.resources.Mapping;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.validators.PlanValidator;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ManagedBean(name="planView")
+@Named(value="planView")
 @ViewScoped
-public class PlanView {
+public class PlanView implements Serializable {
 	
 	private final static Logger LOG = Logger.getLogger(PlanView.class.getName());
 	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("DOCTORS_TYPE_ID"));
@@ -44,14 +46,15 @@ public class PlanView {
 	
 	@EJB
 	private PlanFacadeLocal planFacade;
-	
-    @ManagedProperty(value="#{userLoginView.authorizedUser}")
-	private Users authorizedUser;
-    
-    @ManagedProperty(value="#{planValidator}")
+
+	@Inject
+	private SessionParams sessionParams;
+
+	@Inject
 	private PlanValidator planValidator;
 
-    @ManagedProperty(value="#{sessionParams.planRoom}")
+	private Users authorizedUser;
+
     private Rooms currentRoom;
 	
 	private List<Rooms> allRooms;
@@ -72,6 +75,8 @@ public class PlanView {
 	
 	@PostConstruct
 	public void init(){
+		authorizedUser = sessionParams.getAuthorizedUser();
+		currentRoom = sessionParams.getPlanRoom();
 		eventModel = new LazyScheduleModel() {
 			private static final long serialVersionUID = 8535371059490008142L;
 

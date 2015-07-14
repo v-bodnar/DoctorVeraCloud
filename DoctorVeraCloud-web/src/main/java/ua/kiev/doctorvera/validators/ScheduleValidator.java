@@ -8,24 +8,30 @@ import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.views.SessionParams;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
-@ManagedBean(name = "scheduleValidator")
-@SessionScoped
-public class ScheduleValidator implements Validator, ClientValidator {
+@Named(value = "scheduleValidator")
+@ViewScoped
+public class ScheduleValidator implements Validator, ClientValidator,Serializable {
 	
-    //@ManagedProperty(value="#{planView.plan}")
+    //@Named(value="#{planView.plan}")
 	//private Plan plan;
 	
 	private final String ERROR_TITLE = Message.getInstance().getString("VALIDATOR_ERROR_TITLE") + "\n";
@@ -40,9 +46,16 @@ public class ScheduleValidator implements Validator, ClientValidator {
 	@EJB
 	private ScheduleFacadeLocal scheduleFacade;
 	
-    @ManagedProperty(value="#{sessionParams.scheduleRoom}")
+    @Inject
+	private SessionParams sessionParams;
+
     private Rooms currentRoom;
-	
+
+	@PostConstruct
+	public void init(){
+		currentRoom = sessionParams.getScheduleRoom();
+	}
+
 	@Override
 	public Map<String, Object> getMetadata() {
 		return null;
@@ -51,10 +64,6 @@ public class ScheduleValidator implements Validator, ClientValidator {
 	@Override
 	public String getValidatorId() {
 		return "scheduleValidator";
-	}
-
-	public void setCurrentRoom(Rooms currentRoom) {
-		this.currentRoom = currentRoom;
 	}
 
 	//Validating plan form so that start date can't be after end date

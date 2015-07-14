@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import org.primefaces.context.RequestContext;
 import ua.kiev.doctorvera.entities.Address;
@@ -8,16 +8,17 @@ import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-@ManagedBean(name="userProfileView")
+@Named(value="userProfileView")
 @SessionScoped
-public class UserProfileView {
+public class UserProfileView implements Serializable{
 	
 	@EJB
 	private UsersFacadeLocal usersFacade;

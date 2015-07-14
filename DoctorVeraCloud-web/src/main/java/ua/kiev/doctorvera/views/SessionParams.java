@@ -1,39 +1,29 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  * Created by Volodymyr Bodnar on 10.02.2015.
  * This class is responsible for holding SessionScoped data to be used by ViewScoped views
  */
-@ManagedBean(name = "sessionParams")
+@Named(value = "sessionParams")
 @SessionScoped
-public class SessionParams {
+public class SessionParams implements Serializable {
 
     @EJB
     private RoomsFacadeLocal roomsFacade;
 
+    private Users authorizedUser;
     private Rooms planRoom;
     private Rooms scheduleRoom;
     private Users profileUser;
-
-    public Rooms getPlanRoom() {
-        return planRoom;
-    }
-
-    public void setPlanRoom(Rooms planRoom) {
-        this.planRoom = planRoom;
-    }
-
-    public void setPlanRoom(Integer planRoomId) {
-        this.planRoom =  roomsFacade.find(planRoomId);
-    }
 
     public Rooms getScheduleRoom() {
         return scheduleRoom;
@@ -46,6 +36,17 @@ public class SessionParams {
     public void setScheduleRoom(Integer scheduleRoomId) {
         this.scheduleRoom =  roomsFacade.find(scheduleRoomId);
     }
+    public Rooms getPlanRoom() {
+        return planRoom;
+    }
+
+    public void setPlanRoom(Rooms planRoom) {
+        this.planRoom = planRoom;
+    }
+
+    public void setPlanRoom(Integer planRoomId) {
+        this.planRoom =  roomsFacade.find(planRoomId);
+    }
 
     public Users getProfileUser() {
         return profileUser;
@@ -53,5 +54,13 @@ public class SessionParams {
 
     public void setProfileUser(Users profileUser) {
         this.profileUser = profileUser;
+    }
+
+    public Users getAuthorizedUser() {
+        return authorizedUser;
+    }
+
+    public void setAuthorizedUser(Users authorizedUser) {
+        this.authorizedUser = authorizedUser;
     }
 }

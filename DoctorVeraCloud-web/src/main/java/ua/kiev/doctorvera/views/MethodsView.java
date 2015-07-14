@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.TransferEvent;
@@ -16,16 +16,18 @@ import ua.kiev.doctorvera.resources.Message;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 
-@ManagedBean(name="methodsView")
+@Named(value="methodsView")
 @ViewScoped
-public class MethodsView {
+public class MethodsView implements Serializable {
 	
 	private final static Logger LOG = Logger.getLogger(MethodsView.class.getName());
 	//TODO take Id from preferences
@@ -44,8 +46,10 @@ public class MethodsView {
 	
 	@EJB
 	private MethodTypesFacadeLocal methodTypesFacade;
-	
-    @ManagedProperty(value="#{userLoginView.authorizedUser}")
+
+	@Inject
+	private SessionParams sessionParams;
+
 	private Users authorizedUser;
 	
 	private List<Methods> allMethods;
@@ -67,6 +71,7 @@ public class MethodsView {
 	
 	@PostConstruct
 	public void init(){
+		authorizedUser = sessionParams.getAuthorizedUser();
 		allMethods = methodsFacade.findAll();
 		allMethodTypes = methodTypesFacade.findAll();
 		this.price = new Prices();
@@ -90,7 +95,7 @@ public class MethodsView {
 		} else
 			doctorsDualListModel = new DualListModel<Users>(new ArrayList<Users>(), new ArrayList<Users>());
 	}
-	
+
 	public Users getAuthorizedUser() {
 		return authorizedUser;
 	}

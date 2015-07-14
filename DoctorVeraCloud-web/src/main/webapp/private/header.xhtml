@@ -23,19 +23,19 @@
 					</p:column>
 					<p:column rowspan="3">
 						<p:graphicImage width="75" height="100"
-							value="#{MAPPINGS.APPLICATION_AVATAR_IMAGES_PATH}#{userLoginView.authorizedUser.avatarImage}" />
+							value="#{MAPPINGS.APPLICATION_AVATAR_IMAGES_PATH}#{sessionParams.authorizedUser.avatarImage}" />
 					</p:column>
 				</p:row>
 				<p:row>
 					<p:column colspan="2">
 						<h:outputText
-							value="#{userLoginView.authorizedUser.firstName} #{userLoginView.authorizedUser.middleName}" />
+							value="#{sessionParams.authorizedUser.firstName} #{sessionParams.authorizedUser.middleName}" />
 					</p:column>
 				</p:row>
 				<p:row>
 					<p:column>
 						<p:commandLink
-							action="#{userProfileView.init(userLoginView.authorizedUser.id)}"
+							action="#{userProfileView.init(sessionParams.authorizedUser.id)}"
 							value="#{MESSAGE.LOGIN_USER_PROFILE}"
 							oncomplete="window.location = '#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.USER_PROFILE_PAGE}';" />
 					</p:column>

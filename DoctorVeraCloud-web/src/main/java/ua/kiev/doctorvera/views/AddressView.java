@@ -1,14 +1,15 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import ua.kiev.doctorvera.entities.Address;
 import ua.kiev.doctorvera.facadeLocal.AddressFacadeLocal;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class AddressView {
+public class AddressView implements Serializable {
 	
 	@EJB
 	private AddressFacadeLocal addressFacade;

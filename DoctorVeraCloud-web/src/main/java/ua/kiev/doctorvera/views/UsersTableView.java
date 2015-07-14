@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
@@ -12,10 +12,12 @@ import ua.kiev.doctorvera.resources.Message;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,9 +25,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-@ManagedBean(name="usersTableView")
+@Named(value="usersTableView")
 @ViewScoped
-public class UsersTableView {
+public class UsersTableView implements Serializable {
 	
 	private final static Logger LOG = Logger.getLogger(UserTypesTableView.class.getName());
 	
@@ -37,9 +39,10 @@ public class UsersTableView {
 	
 	@EJB
 	private AddressFacadeLocal addressFacade;
-	
-	//Authorized User
-    @ManagedProperty(value="#{userLoginView.authorizedUser}")
+
+	@Inject
+	private SessionParams sessionParams;
+
 	private Users authorizedUser;
 	
 	private List<Users> allUsers;
@@ -53,6 +56,7 @@ public class UsersTableView {
 	
 	@PostConstruct
 	public void init(){
+		authorizedUser = sessionParams.getAuthorizedUser();
 		allUsers = usersFacade.findAll();
 		//System.out.println(addressFacade.toString());
 		constructPickList();

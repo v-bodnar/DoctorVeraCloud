@@ -4,17 +4,18 @@ import org.primefaces.validate.ClientValidator;
 import ua.kiev.doctorvera.resources.Message;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Map;
 
-@ManagedBean(name = "addressValidator")
+@Named(value = "addressValidator")
 @ViewScoped
-public class AddressValidator implements Validator, ClientValidator {
+public class AddressValidator implements Validator, ClientValidator, Serializable {
 	
 	//private static final Logger LOG = Logger.getLogger(UsersValidator.class.getName());
 	private static final String MESSAGE_TITLE = Message.getInstance().getString("VALIDATOR_REQUIRED");

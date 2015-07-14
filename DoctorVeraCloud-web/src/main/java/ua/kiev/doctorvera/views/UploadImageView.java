@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.context.RequestContext;
@@ -12,37 +12,44 @@ import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletContext;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@ManagedBean(name="uploadImageView")
+@Named(value="uploadImageView")
 @SessionScoped
-public class UploadImageView {
+public class UploadImageView implements Serializable {
 	
 	@EJB
 	private UsersFacadeLocal usersFacade;
-	
-    @ManagedProperty(value="#{userLoginView}")
+
+	@Inject
     private UserLoginView userLogin;
-    
-    @ManagedProperty(value="#{userProfileView}")
-    UserProfileView userProfile;
+
+    @Inject
+	private UserProfileView userProfile;
+
+	@Inject
+	private SessionParams sessionParams;
+
+	private Users authorizedUser;
     
 	private CroppedImage croppedImage;
 
@@ -58,9 +65,10 @@ public class UploadImageView {
 	private final String ERROR_TITLE = Message.getInstance().getString("PROFILE_CROP_AVATAR_ERROR_TITLE");
 
 	public UploadImageView(){}
-	
+
 	@PostConstruct
 	public void init(){
+		authorizedUser = sessionParams.getAuthorizedUser();
 		LOG.info(userLogin.getClass() +" injected into" + this.getClass() + "!");
 		LOG.info(userProfile.getClass() +" injected into"+ this.getClass() + "!");
 	}
@@ -167,7 +175,7 @@ public class UploadImageView {
 		
 		LOG.info("Avatar image Cropped");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, SUCCESS_TITLE, SUCCESS_MESSAGE));
-		if(userId.equals(userLogin.getAuthorizedUser().getId().toString()))userLogin.refresh();
+		if(userId.equals(authorizedUser.getId().toString()))userLogin.refresh();
 		userProfile.refresh();
 		RequestContext.getCurrentInstance().closeDialog(null);
 	}

@@ -5,14 +5,15 @@ import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@ManagedBean(name = "validator")
+@Named(value = "validator")
 @SessionScoped
-public class Validator {
+public class Validator implements Serializable {
 	
 	
 	@EJB

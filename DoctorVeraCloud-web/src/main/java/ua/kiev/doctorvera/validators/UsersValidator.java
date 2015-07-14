@@ -1,28 +1,29 @@
 package ua.kiev.doctorvera.validators;
 
 import org.primefaces.validate.ClientValidator;
-import ua.kiev.doctorvera.utils.Service;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.utils.Service;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Map;
 
-@ManagedBean(name = "usersValidator")
+@Named(value = "usersValidator")
 @ViewScoped
-public class UsersValidator implements Validator, ClientValidator {
+public class UsersValidator implements Validator, ClientValidator,Serializable {
 
     //private static final Logger LOG = Logger.getLogger(UsersValidator.class.getName());
     private static final String MESSAGE_TITLE = Message.getInstance().getString("VALIDATOR_REQUIRED");
 
-    @ManagedProperty(value = "#{validator}")
-    public ua.kiev.doctorvera.validators.Validator validator;
+    @Inject
+    private ua.kiev.doctorvera.validators.Validator validator;
 
 
     public ua.kiev.doctorvera.validators.Validator getValidator() {

@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import ua.kiev.doctorvera.entities.Address;
 import ua.kiev.doctorvera.entities.Users;
@@ -10,15 +10,16 @@ import ua.kiev.doctorvera.resources.Message;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Logger;
 
-@ManagedBean(name="userRegisterView")
+@Named(value="userRegisterView")
 @ViewScoped
-public class UserRegisterView {
+public class UserRegisterView implements Serializable {
 	
 	@EJB
 	private UsersFacadeLocal usersFacade;

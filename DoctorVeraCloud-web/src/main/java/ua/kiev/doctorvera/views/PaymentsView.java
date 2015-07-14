@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.BaseFont;
@@ -12,27 +12,31 @@ import ua.kiev.doctorvera.resources.Message;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.FileOutputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-@ManagedBean(name="paymentsView")
+@Named(value="paymentsView")
 @ViewScoped
-public class PaymentsView {
+public class PaymentsView implements Serializable {
 	
 	private final static Logger LOG = Logger.getLogger(PaymentsView.class.getName());
 	
 	@EJB
 	private PaymentsFacadeLocal paymentsFacade;
-	
-    @ManagedProperty(value="#{userLoginView.authorizedUser}")
+
+	@Inject
+	private SessionParams sessionParams;
+
 	private Users authorizedUser;
     
     private List<Payments> allPayments;
@@ -47,6 +51,7 @@ public class PaymentsView {
 	
 	@PostConstruct
 	public void init(){
+		authorizedUser = sessionParams.getAuthorizedUser();
 		allPayments = paymentsFacade.findAll();
 		newPayment = new Payments();
 		isPositive = new Boolean(true);

@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
@@ -8,24 +8,28 @@ import ua.kiev.doctorvera.resources.Message;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ManagedBean(name="roomsView")
+@Named(value="roomsView")
 @ViewScoped
-public class RoomsView {
+public class RoomsView implements Serializable {
 	
 	private final static Logger LOG = Logger.getLogger(RoomsView.class.getName());
 	
 	@EJB
 	private RoomsFacadeLocal roomsFacade;
-	
-    @ManagedProperty(value="#{userLoginView.authorizedUser}")
+
+	@Inject
+	private SessionParams sessionParams;
+
 	private Users authorizedUser;
 	
 	private List<Rooms> allRooms;
@@ -38,6 +42,7 @@ public class RoomsView {
 	
 	@PostConstruct
 	public void init(){
+		authorizedUser = sessionParams.getAuthorizedUser();
 		allRooms = roomsFacade.findAll();
 		this.newRoom = new Rooms();
 		this.selectedRoom = new Rooms();

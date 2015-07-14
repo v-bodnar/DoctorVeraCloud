@@ -1,4 +1,4 @@
-package ua.kiev.doctorvera.managedbeans;
+package ua.kiev.doctorvera.views;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
@@ -13,19 +13,21 @@ import ua.kiev.doctorvera.resources.Mapping;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ManagedBean(name="scheduleGeneralView")
+@Named(value="scheduleGeneralView")
 @ViewScoped
-public class ScheduleGeneralView {
+public class ScheduleGeneralView implements Serializable {
 	private final static Logger LOG = Logger.getLogger(ScheduleView.class.getName());
 
 	@EJB
@@ -34,10 +36,9 @@ public class ScheduleGeneralView {
 	@EJB
 	private ScheduleFacadeLocal scheduleFacade;
 
-	@ManagedProperty(value="#{userLoginView.authorizedUser}")
 	private Users authorizedUser;
 
-	@ManagedProperty(value="#{sessionParams}")
+	@Inject
 	private SessionParams sessionParams;
 
 	//All Schedule Items
@@ -50,6 +51,7 @@ public class ScheduleGeneralView {
 	//Constructor)
 	@PostConstruct
 	public void init(){
+		authorizedUser = sessionParams.getAuthorizedUser();
 		//Schedule populating
 		eventModel = new LazyScheduleModel() {
 			private static final long serialVersionUID = 8535371059490008142L;

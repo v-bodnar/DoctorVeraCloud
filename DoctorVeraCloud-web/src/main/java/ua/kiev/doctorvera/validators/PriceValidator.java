@@ -6,19 +6,20 @@ import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
-@ManagedBean(name = "priceValidator")
+@Named(value = "priceValidator")
 @ViewScoped
-public class PriceValidator implements Validator, ClientValidator {
+public class PriceValidator implements Validator, ClientValidator,Serializable {
 	
 	//private static final Logger LOG = Logger.getLogger(UsersValidator.class.getName());
 	private static final String MESSAGE_TITLE = Message.getInstance().getString("VALIDATOR_ERROR_TITLE");
@@ -26,8 +27,8 @@ public class PriceValidator implements Validator, ClientValidator {
 	@EJB
 	private PricesFacadeLocal pricesFacade;
 	
-	@ManagedProperty(value = "#{validator}")
-	public ua.kiev.doctorvera.validators.Validator validator;
+	@Inject
+	private ua.kiev.doctorvera.validators.Validator validator;
 	
 	public ua.kiev.doctorvera.validators.Validator getValidator() {
 		return validator;

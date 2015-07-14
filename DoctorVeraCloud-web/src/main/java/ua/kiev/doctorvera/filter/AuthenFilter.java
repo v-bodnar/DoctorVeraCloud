@@ -1,8 +1,9 @@
 package ua.kiev.doctorvera.filter;
 
-import ua.kiev.doctorvera.managedbeans.UserLoginView;
 import ua.kiev.doctorvera.resources.Mapping;
+import ua.kiev.doctorvera.views.SessionParams;
 
+import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,8 @@ import java.util.logging.Logger;
 
 public class AuthenFilter implements Filter {
 
+	@Inject
+	private SessionParams sessionparams;
 	private final static Logger LOG = Logger.getLogger(AuthenFilter.class.getName());
 	private final String LOGIN_PAGE = Mapping.getInstance().getString("LOGIN_PAGE");
 	private final String REGISTER_PAGE = Mapping.getInstance().getString("REGISTER_PAGE");
@@ -31,7 +34,7 @@ public class AuthenFilter implements Filter {
 			// bruteReveal(request);
 			// Pass request back down the filter chain
 			chain.doFilter(request, response);
-		} else if (isAuththenticated(request)){
+		} else if (sessionparams != null && sessionparams.getAuthorizedUser() != null){
 			LOG.info("Session is authorised");
 			chain.doFilter(request, response);
 		} else{
@@ -39,14 +42,6 @@ public class AuthenFilter implements Filter {
 			response.sendRedirect(LOGIN_PAGE);
 		}
 		
-	}
-	
-	//Checks if user is authenticated in session
-	private Boolean isAuththenticated(HttpServletRequest request){
-		UserLoginView bean = (UserLoginView) request.getSession().getAttribute("userLoginView");
-		if ( bean != null && bean.getAuthorizedUser() != null) return true;
-		else 
-			return false;
 	}
 
 	/*
