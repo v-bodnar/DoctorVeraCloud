@@ -5,10 +5,14 @@ import ua.kiev.doctorvera.facadeLocal.AddressFacadeLocal;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+@Named(value = "addressView")
+@ViewScoped
 public class AddressView implements Serializable {
 	
 	@EJB

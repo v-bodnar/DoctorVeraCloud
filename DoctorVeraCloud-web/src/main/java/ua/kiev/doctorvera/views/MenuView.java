@@ -10,8 +10,10 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -56,6 +58,9 @@ public class MenuView implements Serializable {
 
     @EJB
     private RoomsFacadeLocal roomsFacade;
+
+    @Inject
+    SessionParams sessionParams;
 
     @PostConstruct
     public void init() {
@@ -141,8 +146,7 @@ public class MenuView implements Serializable {
         for (Rooms room : allRooms) {
             item = new DefaultMenuItem(room.getName());
             item.setIcon("ui-icon-calendar");
-            item.setCommand("#{sessionParams.setPlanRoom(" + room.getId() + ")}");
-            item.setOncomplete("window.location.replace('" + planPageUrl + "');");
+            item.setCommand("#{menuView.redirectToPlan(" + room.getId() + ")}");
             planSubmenu.addElement(item);
         }
 
@@ -158,8 +162,7 @@ public class MenuView implements Serializable {
         for (Rooms room : allRooms) {
             item = new DefaultMenuItem(room.getName());
             item.setIcon("ui-icon-calendar");
-            item.setCommand("#{sessionParams.setScheduleRoom(1)}");
-            item.setOncomplete("window.location.replace('" + schedulePageUrl + "');");
+            item.setCommand("#{menuView.redirectToSchedule(" + room.getId() + ")}");
             scheduleSubmenu.addElement(item);
         }
 
@@ -182,8 +185,21 @@ public class MenuView implements Serializable {
         return menuModel;
     }
 
-    public void redirect(Integer i){
-        System.out.println("" + i);
+    public void redirectToSchedule(Integer roomId){
+        sessionParams.setScheduleRoom(roomId);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(schedulePageUrl);
+        } catch (IOException e) {
+            LOG.severe(e.getMessage());
+        }
     }
 
+    public void redirectToPlan(Integer roomId){
+        sessionParams.setPlanRoom(roomId);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(planPageUrl);
+        } catch (IOException e) {
+            LOG.severe(e.getMessage());
+        }
+    }
 }

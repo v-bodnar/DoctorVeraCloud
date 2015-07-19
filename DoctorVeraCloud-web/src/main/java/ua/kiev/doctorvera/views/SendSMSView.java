@@ -2,7 +2,7 @@ package ua.kiev.doctorvera.views;
 
 import ua.kiev.doctorvera.resources.Message;
 import ua.kiev.doctorvera.utils.SMSGateway;
-import ua.kiev.doctorvera.utils.Service;
+import ua.kiev.doctorvera.utils.Utils;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -44,7 +44,7 @@ public class SendSMSView implements Serializable {
 	}
 
 	public void sendSMS(){
-		phone = Service.stripPhone(phone);
+		phone = Utils.stripPhone(phone);
 		ArrayList<String> result = smsGateway.send(phone, text);
 		LOG.info("SMS sent, tracking id: " + result.get(0) + " Status: " + result.get(2));
 		final String successMessage = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");

@@ -24,4 +24,12 @@
   	<module>DoctorVeraCloud-ear</module>
     <module>DoctorVeraCloud-library</module>
   </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>javaee</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>5</version>
+    </dependency>
+  </dependencies>
 </project>

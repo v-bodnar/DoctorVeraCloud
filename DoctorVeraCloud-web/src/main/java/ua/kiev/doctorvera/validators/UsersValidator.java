@@ -2,7 +2,7 @@ package ua.kiev.doctorvera.validators;
 
 import org.primefaces.validate.ClientValidator;
 import ua.kiev.doctorvera.resources.Message;
-import ua.kiev.doctorvera.utils.Service;
+import ua.kiev.doctorvera.utils.Utils;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -80,10 +80,10 @@ public class UsersValidator implements Validator, ClientValidator,Serializable {
                 message = ua.kiev.doctorvera.validators.Validator.checkPassword((String) value);
                 break;
             case "phoneNumberHome":
-                message = ua.kiev.doctorvera.validators.Validator.checkPhoneOrNull(Service.stripPhone((String) value));
+                message = ua.kiev.doctorvera.validators.Validator.checkPhoneOrNull(Utils.stripPhone((String) value));
                 break;
             case "phoneNumberMobile":
-                message = ua.kiev.doctorvera.validators.Validator.checkPhone(Service.stripPhone((String) value));
+                message = ua.kiev.doctorvera.validators.Validator.checkPhone(Utils.stripPhone((String) value));
                 break;
 
         }

@@ -20,7 +20,7 @@
                 <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="addScheduleDialog"
                         oncomplete="PF('addScheduleDialog').show();"/>
                 <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update="schedule growl"/>
-                <p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}" update=":planForm:addPlanDialog schedule"
+                <p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}" update=":planForm:addPlanDialog"
                         oncomplete="PF('addPlanDialog').show();"/>
                 <!--  p:ajax event="eventResize" listener="#{scheduleView.onEventResize}" update="schedule growl" /-->
             </p:schedule>
@@ -53,7 +53,7 @@
                     <p:autoComplete value="#{scheduleView.newUser.firstName}"
                                     id="firstName" name="firstName"
                                     placeholder="#{MESSAGE.USERS_PLACEHOLDER_FIRST_NAME}"
-                                    completeMethod="#{addressView.allFirstNames}"
+                                    completeMethod="#{scheduleView.allFirstNames}"
                                     validator="#{usersValidator.validate}" required="true"
                                     requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                         <f:attribute name="name" value="firstName"/>
@@ -67,7 +67,7 @@
                     <p:autoComplete value="#{scheduleView.newUser.lastName}"
                                     id="lastName" name="lastName"
                                     placeholder="#{MESSAGE.USERS_PLACEHOLDER_LAST_NAME}"
-                                    completeMethod="#{addressView.allMiddleNames}"
+                                    completeMethod="#{scheduleView.allMiddleNames}"
                                     validator="#{usersValidator.validate}" required="true"
                                     requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                         <f:attribute name="name" value="lastName"/>
@@ -81,7 +81,7 @@
                     <p:autoComplete value="#{scheduleView.newUser.middleName}"
                                     id="middleName" name="middleName"
                                     placeholder="#{MESSAGE.USERS_PLACEHOLDER_MIDDLE_NAME}"
-                                    completeMethod="#{addressView.allLastNames}"
+                                    completeMethod="#{scheduleView.allLastNames}"
                                     validator="#{usersValidator.validate}">
                         <f:attribute name="name" value="middleName"/>
                         <p:ajax event="blur" update="middleNameMessage growl"/>
@@ -158,7 +158,7 @@
                                 showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
                                 styleClass="typePicker"
                                 converter="methodsConverter" required="true"
-                                requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                requiredMessage="#{MESSAGE.SCHEDULE_METHOD}">
                         <f:facet name="sourceCaption"><h:outputText
                                 value="#{MESSAGE.SCHEDULE_METHOD_AVAILABLE}"/></f:facet>
                         <f:facet name="targetCaption"><h:outputText
@@ -298,8 +298,8 @@
                                      value="#{MESSAGE.PLAN_ADD_BUTTON}"
                                      icon="ui-icon-plus"
                                      actionListener="#{scheduleView.addPlan}"
-                                     update="errorMessage growl :scheduleForm:schedule"
-                                     oncomplete="PF(':scheduleForm:schedule').update();"
+                                     update="errorMessage growl"
+                                     oncomplete="PF('schedule').update(); PF('addPlanDialog').hide();"
                                      styleClass="myButton" />
 
                 </h:panelGrid>

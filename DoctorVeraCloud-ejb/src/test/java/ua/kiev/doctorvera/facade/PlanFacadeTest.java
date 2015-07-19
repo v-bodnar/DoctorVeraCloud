@@ -1,10 +1,7 @@
-package facade;
+package ua.kiev.doctorvera.facade;
 
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import ua.kiev.doctorvera.entities.Plan;
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
@@ -23,6 +20,7 @@ import java.util.logging.Logger;
 /**
  * Created by volodymyr.bodnar on 22.05.2015.
  */
+@Ignore
 public class PlanFacadeTest{
 
     private static EJBContainer container;

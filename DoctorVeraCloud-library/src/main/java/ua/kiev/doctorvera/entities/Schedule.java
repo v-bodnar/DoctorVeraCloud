@@ -85,6 +85,9 @@ public class Schedule implements Serializable,Identified<Integer> {
     @JoinColumn(name = "UserCreated", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users userCreated;
+    @JoinColumn(name = "ParentSchedule", referencedColumnName = "ScheduleId")
+    @ManyToOne
+    private Schedule parentSchedle;
 
     public Schedule() {
     }
@@ -99,6 +102,19 @@ public class Schedule implements Serializable,Identified<Integer> {
         this.dateTimeEnd = dateTimeEnd;
         this.dateCreated = dateCreated;
         this.deleted = deleted;
+    }
+
+    public Schedule(Schedule schedule, Methods method, Date startTime, Users patient, Rooms room, Users authorizedUser ){
+        this.doctor = schedule.getDoctor();
+        this.patient = patient;
+        this.assistent = schedule.getAssistent();
+        this.doctorDirected = schedule.getDoctorDirected();
+        this.room = room;
+        this.method = method;
+        this.dateTimeStart = startTime;
+        this.dateTimeEnd = new Date(startTime.getTime() + (method.getTimeInMinutes() * 60L * 1000L));
+        this.dateCreated = new Date();
+        this.userCreated = authorizedUser;
     }
 
     public Integer getScheduleId() {
@@ -127,6 +143,14 @@ public class Schedule implements Serializable,Identified<Integer> {
 
     public String getDescription() {
         return description;
+    }
+
+    public Schedule getParentSchedle() {
+        return parentSchedle;
+    }
+
+    public void setParentSchedle(Schedule parentSchedle) {
+        this.parentSchedle = parentSchedle;
     }
 
     public void setDescription(String description) {

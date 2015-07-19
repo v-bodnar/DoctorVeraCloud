@@ -1,4 +1,4 @@
-package facade.exceptions;
+package ua.kiev.doctorvera.facade.exceptions;
 
 public class PreexistingEntityException extends Exception {
 	private static final long serialVersionUID = -8431348345805856824L;

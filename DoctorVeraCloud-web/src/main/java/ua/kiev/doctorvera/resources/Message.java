@@ -1,11 +1,14 @@
 package ua.kiev.doctorvera.resources;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import java.io.Serializable;
 import java.util.ListResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public class Message extends ListResourceBundle{
+public class Message extends ListResourceBundle implements Serializable{
 
 	private static Message instance;
 	private static ResourceBundle resource;
@@ -339,6 +342,12 @@ public class Message extends ListResourceBundle{
 		    entriesArray[i][1] = resource.getString(key);
 			i++;
 		}
+	}
+
+	public static void showMessage(String title, String message){
+		final String successMessage = Message.getInstance().getString(title);
+		final String successTitle = Message.getInstance().getString(message);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage));
 	}
 	/*
 	@Override

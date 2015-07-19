@@ -1,7 +1,8 @@
-package facade;
+package ua.kiev.doctorvera.facade;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import ua.kiev.doctorvera.entities.UserTypes;
 import ua.kiev.doctorvera.entities.Users;
@@ -21,6 +22,7 @@ import static org.junit.Assert.*;
 /**
  * Created by volodymyr.bodnar on 02.05.2015.
  */
+@Ignore
 public class UsersHasUserTypesFacadeTest {
     private static EJBContainer container;
     private static UsersHasUserTypesFacadeLocal usersHasUserTypesFacade;

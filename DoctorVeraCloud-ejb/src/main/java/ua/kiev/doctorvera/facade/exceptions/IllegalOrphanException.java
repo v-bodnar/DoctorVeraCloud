@@ -1,4 +1,4 @@
-package facade.exceptions;
+package ua.kiev.doctorvera.facade.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

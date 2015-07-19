@@ -1,9 +1,6 @@
-package facade;
+package ua.kiev.doctorvera.facade;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import ua.kiev.doctorvera.entities.*;
 import ua.kiev.doctorvera.facadeLocal.*;
 
@@ -19,6 +16,7 @@ import java.util.logging.Logger;
 /**
  * Created by volodymyr.bodnar on 05.07.2015.
  */
+@Ignore
 public class ScheduleFacadeTest{
 
     private static EJBContainer container;

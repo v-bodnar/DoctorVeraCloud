@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package facade;
+package ua.kiev.doctorvera.facade;
 
 import ua.kiev.doctorvera.entities.Methods;
 import ua.kiev.doctorvera.entities.Prices;

@@ -21,13 +21,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ua.kiev.doctorvera.utils.Service;
+import org.hibernate.annotations.DynamicInsert;
+import ua.kiev.doctorvera.utils.Utils;
 
 /**
  * Entity class Describes User
  * @author Volodymyr Bodnar
  */
 @Entity
+@DynamicInsert
 @Table(name = "Users")
 @XmlRootElement
 /*
@@ -104,12 +106,11 @@ public class Users implements Serializable,Identified<Integer> {
     private boolean deleted;
     @Basic(optional = false)
     @Size(max = 150)
-    @Column(name = "AvatarImage", columnDefinition="default default_male_avatar.png")
+    @Column(name = "AvatarImage", nullable=false, columnDefinition="varchar(100) default 'default_male_avatar.png'")
     private String avatarImage;
     @Basic(optional = false)
-    @NotNull
     @Size(max = 10)
-    @Column(name = "Color")
+    @Column(name = "Color", nullable=false, columnDefinition="varchar(150) default 'ffffff'")
     private String color;
     //@JoinColumn(name = "Address", referencedColumnName = "AddressId")
     @Column(name = "Address")
@@ -195,7 +196,7 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     public void setPassword(String password) {
-        this.password = Service.encrypt(password);
+        this.password = Utils.encrypt(password);
     }
 
     public String getFirstName() {
@@ -203,7 +204,7 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = Service.firstUpperCase(firstName);
+        this.firstName = Utils.firstUpperCase(firstName);
     }
 
     public String getMiddleName() {
@@ -211,7 +212,7 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     public void setMiddleName(String middleName) {
-        this.middleName = Service.firstUpperCase(middleName);
+        this.middleName = Utils.firstUpperCase(middleName);
     }
 
     public String getLastName() {
@@ -219,7 +220,7 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = Service.firstUpperCase(lastName);
+        this.lastName = Utils.firstUpperCase(lastName);
     }
 
     public Date getBirthDate() {
@@ -235,7 +236,7 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     public void setPhoneNumberHome(String phoneNumberHome) {
-        this.phoneNumberHome = Service.stripPhone(phoneNumberHome);
+        this.phoneNumberHome = Utils.stripPhone(phoneNumberHome);
     }
 
     public String getPhoneNumberMobile() {
@@ -243,7 +244,7 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     public void setPhoneNumberMobile(String phoneNumberMobile) {
-        this.phoneNumberMobile = Service.stripPhone(phoneNumberMobile);
+        this.phoneNumberMobile = Utils.stripPhone(phoneNumberMobile);
     }
 
     public String getDescription() {

@@ -1,4 +1,4 @@
-package facade.exceptions;
+package ua.kiev.doctorvera.facade.exceptions;
 
 public class RollbackFailureException extends Exception {
 	private static final long serialVersionUID = -6313061291320659252L;
