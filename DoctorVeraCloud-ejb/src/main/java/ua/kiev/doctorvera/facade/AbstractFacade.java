@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Class for implementing main operations with Generic (Identified) entity
@@ -20,6 +21,9 @@ import java.util.List;
  * @author Volodymyr Bodnar
  */
 public abstract class AbstractFacade<T extends Identified<Integer>> {
+
+    private final static Logger LOG = Logger.getLogger(AbstractFacade.class.getName());
+
     /*
      * Entity manager got by JNDI from container
      */
@@ -40,6 +44,8 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
         this.entityClass = entityClass;
     }
 
+    protected AbstractFacade() {}
+
     /**
      * @return Entity manager
      */
@@ -54,6 +60,7 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
      */
     public void create(T entity) {
         getEntityManager().persist(entity);
+        LOG.info("Entity " + entity.getClass() + " id: " + entity.getId() + " persisted");
     }
 
     /**
@@ -63,6 +70,7 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
      */
     public void edit(T entity) {
         getEntityManager().merge(entity);
+        LOG.info("Entity " + entity.getClass() + " id: " + entity.getId() + " updated");
     }
 
     /**
@@ -73,6 +81,7 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
     public void remove(T entity) {
         entity.setDeleted(true);
         getEntityManager().merge(entity);
+        LOG.info("Entity " + entity.getClass() + " id: " + entity.getId() + " marked as removed");
     }
 
     /**

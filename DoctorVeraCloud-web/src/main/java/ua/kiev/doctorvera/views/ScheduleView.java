@@ -2,6 +2,7 @@ package ua.kiev.doctorvera.views;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.ScheduleEntryMoveEvent;
+import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.*;
@@ -26,14 +27,14 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static ua.kiev.doctorvera.resources.Message.Messages.*;
+
 @Named(value = "scheduleView")
 @ViewScoped
 public class ScheduleView implements Serializable {
 
     private final static Logger LOG = Logger.getLogger(ScheduleView.class.getName());
     private final static long FIVE_MINUTES_IN_MILLIS = 360000;//millisecs
-    private final static String SCHEDULE_SAVED = "SCHEDULE_SAVED";
-    private final static String VALIDATOR_SUCCESS_TITLE = "VALIDATOR_SUCCESS_TITLE";
 
     private final Integer PATIENTS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("PATIENTS_TYPE_ID"));
     private final Integer ASSISTENTS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("ASSISTENTS_TYPE_ID"));
@@ -83,7 +84,7 @@ public class ScheduleView implements Serializable {
     private final Set<String> allLastNames = new HashSet<String>();
 
     //New User
-    private Users newUser;
+    private Users patient;
 
     private Integer breakTime;
 
@@ -136,10 +137,10 @@ public class ScheduleView implements Serializable {
         allPatients = usersFacade.findByType(PATIENTS_TYPE_ID);
         allAssistents = usersFacade.findByType(ASSISTENTS_TYPE_ID);
         schedule = new Schedule();
-        newUser = new Users();
+        patient = new Users();
         selectedMethods = new ArrayList<Methods>();
         allMethodTypes = methodTypesFacade.findAll();
-        selectedMethodType = findFirstMethodType();
+        selectedMethodType = methodTypesFacade.findAll().get(0);
         breakTime = 5;
 
         constructPickList();
@@ -164,7 +165,11 @@ public class ScheduleView implements Serializable {
 
                 allSchedule = scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end);
                 for (Schedule schedule : allSchedule) {
-                    eventModel.addEvent(eventFromSchedule(schedule));
+                    DefaultScheduleEvent event = eventFromSchedule(schedule);
+                    if (isBreakSchedule(schedule)) {
+                        event.setEditable(false);
+                    }
+                    eventModel.addEvent(event);
                 }
 
             }
@@ -172,16 +177,185 @@ public class ScheduleView implements Serializable {
         generateCss();
     }
 
+    /**
+     * When any empty date in the schedule is clicked
+     * this method have to control data from addPlanDialog
+     */
+    public void onDateSelect(SelectEvent selectEvent) {
+        plan = new Plan();
+        plan.setDateTimeStart(((Date) selectEvent.getObject()));
+        plan.setDateTimeEnd(((Date) selectEvent.getObject()));
+    }
 
-    public MethodTypes findFirstMethodType() {
+    /**
+     * When some schedule record was clicked this method is called
+     *
+     * @param selectEvent selected schedule record
+     */
+    public void onEventSelect(SelectEvent selectEvent) {
+        event = (DefaultScheduleEvent) selectEvent.getObject();
+        Object data = event.getData();
+        selectedMethods.clear();
+
+        //If Plan Event was clicked we create new Schedule Event
+        // and prepare all fields for addSchedule Dialog Window
+        if (data instanceof Plan) {
+            Plan plan = planFacade.find(((Plan) event.getData()).getId());
+            schedule = new Schedule();
+            patient = new Users();
+            selectedMethodType = null;
+            schedule.setDoctor(plan.getDoctor());
+            schedule.setDateTimeStart(getEarliestTime(plan));
+            selectedMethods.clear();
+            selectedMethodType = methodTypesFacade.findAll().get(0);
+            constructPickList();
+            event = new DefaultScheduleEvent();
+
+            // Else if Schedule event was clicked we update existing Schedule event
+            // and preparing fields for addPlan Dialog Window
+        } else if (data instanceof Schedule) {
+            schedule = scheduleFacade.find(((Schedule) event.getData()).getId());
+            patient = schedule.getPatient();
+            selectedMethodType = schedule.getMethod().getMethodType();
+            selectedMethods.add(schedule.getMethod());
+            constructPickList();
+        }
+    }
+
+    //Checks dates of moved Schedule event and updates persistent state of this record
+    public void onEventMove(ScheduleEntryMoveEvent selectEvent) {
+        event = (DefaultScheduleEvent) selectEvent.getScheduleEvent();
+        Object data = event.getData();
+
+        //If Schedule Event was clicked we check dates and update
+        //corresponding schedule record in the persistence storage
+        if (data instanceof Schedule) {
+            schedule = (Schedule) data;
+            List<Schedule> nextSchedule = scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(schedule.getRoom(), event.getEndDate(), new Date(event.getEndDate().getTime() + 10l));
+            nextSchedule.remove(scheduleFacade.find(schedule.getId()));
+            nextSchedule.remove(scheduleFacade.findChildSchedule(schedule));
+            Schedule breakSchedule = scheduleFacade.findChildSchedule(schedule);
+            Boolean nextScheduleHasSamePatient = nextSchedule.size() == 1 && nextSchedule.get(0).getPatient().equals(schedule.getPatient());
+            Boolean isValid;
+            Long breakTime = 5l;
+            if(breakSchedule != null) {
+                breakTime= breakSchedule.getDateTimeEnd().getTime() - breakSchedule.getDateTimeStart().getTime();
+            }
+            //If next schedule record is for the same patient, there is no need for break
+            if (nextScheduleHasSamePatient) {
+                isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, event.getEndDate());
+            } else if (breakSchedule == null) {
+                isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, new Date(event.getEndDate().getTime() + (breakTime * 60L * 1000L)));
+            } else {
+                isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, new Date(event.getEndDate().getTime() + breakTime));
+            }
+
+            if (isValid) {
+                schedule.setDateTimeStart(event.getStartDate());
+                schedule.setDateTimeEnd(event.getEndDate());
+                schedule.setDateCreated(new Date());
+                schedule.setUserCreated(authorizedUser);
+                scheduleFacade.edit(schedule);
+
+                //Creating corresponding Schedule event
+                //event = eventFromSchedule(schedule);
+                //eventModel.updateEvent(event);
+
+                //If next schedule record is for the same patient, there is no need for break
+                if (breakSchedule == null && !nextScheduleHasSamePatient) {
+                    //Creating break schedule record for current methods group
+                    Schedule newSchedule = createBreakSchedule(schedule.getDateTimeEnd());
+                    schedule = scheduleFacade.find(schedule.getId());
+                    newSchedule.setParentSchedule(schedule);
+                    scheduleFacade.create(newSchedule);
+
+                    //Creating corresponding Schedule event
+                    event = eventFromSchedule(newSchedule);
+                    event.setEditable(false);
+                    eventModel.addEvent(event);
+                } else if (breakSchedule != null && !nextScheduleHasSamePatient) {
+                    DefaultScheduleEvent breakEvent = findScheduleEvent(breakSchedule);
+                    breakSchedule.setDateTimeStart(event.getEndDate());
+                    breakSchedule.setDateTimeEnd(new Date(event.getEndDate().getTime() + breakTime));
+                    breakEvent.setStartDate(event.getEndDate());
+                    breakEvent.setEndDate(new Date(event.getEndDate().getTime() + breakTime));
+                    scheduleFacade.edit(breakSchedule);
+                    //eventModel.updateEvent(breakEvent);
+                } else if (breakSchedule != null && nextScheduleHasSamePatient) {
+                    DefaultScheduleEvent breakEvent = findScheduleEvent(breakSchedule);
+                    scheduleFacade.remove(breakSchedule);
+                }
+
+                Message.showMessage(VALIDATOR_SUCCESS_TITLE, SCHEDULE_EDITED);//Sending success message
+                RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').hide();");
+            } else {
+                LOG.info("Validation exception. New Schedule is not persisted!");
+            }
+        } else if(data instanceof Plan){
+            event = (DefaultScheduleEvent)selectEvent.getScheduleEvent();
+            plan = planFacade.find(((Plan)event.getData()).getId());
+
+            //Validation for crossing other Plan records
+            //Check if changes are legal (if there are no scheduled records in time intervals changed)
+            if(planValidator.resizePlanValidate(event.getStartDate(), event.getEndDate(),plan.getDateTimeStart(), plan.getDateTimeEnd(), currentRoom, plan)) return;
+            plan.setDateCreated(new Date());
+            plan.setUserCreated(authorizedUser);
+            plan.setDateTimeStart(event.getStartDate());
+            plan.setDateTimeEnd(event.getEndDate());
+
+            planFacade.edit(plan);
+            LOG.info("Plan id: " + plan.getId() + " updated");
+
+            eventModel.updateEvent(event);
+            LOG.info("Event id: " + event.getId() + " updated");
+
+            Message.showMessage(PLAN_ADD_DIALOG_TITLE, PLAN_EDITED);//Sending success message
+        }
+    }
+
+    public void onEventResize(ScheduleEntryResizeEvent selectEvent) {
+        event = (DefaultScheduleEvent) selectEvent.getScheduleEvent();
+        Object data = event.getData();
+
+        //If Schedule Event was clicked we check dates and update
+        //corresponding schedule record in the persistence storage
+        if (data instanceof Plan) {
+            plan = planFacade.find(((Plan) event.getData()).getId());
+
+            //Validation for crossing other Plan records
+            //Check if changes are legal (if there are no scheduled records in time intervals changed)
+            if (planValidator.resizePlanValidate(event.getStartDate(), event.getEndDate(), plan.getDateTimeStart(), plan.getDateTimeEnd(), currentRoom, plan))
+                return;
+
+            plan.setDateCreated(new Date());
+            plan.setUserCreated(authorizedUser);
+            plan.setDateTimeStart(event.getStartDate());
+            plan.setDateTimeEnd(event.getEndDate());
+
+            planFacade.edit(plan);
+
+            eventModel.updateEvent(event);
+            Message.showMessage(PLAN_ADD_DIALOG_TITLE, PLAN_EDITED);//Sending success message
+        }
+    }
+
+    /*
+     * Method searches for first created methodType in the db
+     * @return first created methodType
+
+    private MethodTypes methodTypesFacade.findAll().get(0)() {
         try {
             return methodTypesFacade.findAll().get(0);
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
+    }*/
 
-    }
-
+    /**
+     * Method returns sum of selected methods prices
+     *
+     * @return sum of selected methods prices
+     */
     public Float getTotalPrice() {
         Float totalPrice = new Float(0);
         for (Methods method : selectedMethods) {
@@ -190,6 +364,11 @@ public class ScheduleView implements Serializable {
         return totalPrice;
     }
 
+    /**
+     * Method returns full time that selected methods will take
+     *
+     * @return full time that selected methods will take
+     */
     public Integer getTotalTime() {
         Integer totalTime = 0;
         for (Methods method : selectedMethods) {
@@ -198,35 +377,12 @@ public class ScheduleView implements Serializable {
         return totalTime;
     }
 
-    //When event is clicked method prepares data for addSchedule dialog
-    public void onEventSelect(SelectEvent selectEvent) {
-        event = (DefaultScheduleEvent) selectEvent.getObject();
-        Object data = event.getData();
-        selectedMethods.clear();
-
-        //If Plan Event was clicked we create new Schedule Event
-        if (data instanceof Plan) {
-            Plan plan = planFacade.find(((Plan) event.getData()).getId());
-            schedule = new Schedule();
-            newUser = new Users();
-            selectedMethodType = null;
-            schedule.setDoctor(plan.getDoctor());
-            schedule.setDateTimeStart(getEarliestTime(plan));
-            selectedMethods.clear();
-            selectedMethodType = findFirstMethodType();
-            constructPickList();
-            event = new DefaultScheduleEvent();
-            // else if Schedule event was clicked we update existing Schedule event
-        } else if (data instanceof Schedule) {
-            schedule = scheduleFacade.find(((Schedule) event.getData()).getId());
-            newUser = schedule.getPatient();
-            selectedMethodType = schedule.getMethod().getMethodType();
-            selectedMethods.add(schedule.getMethod());
-            constructPickList();
-        }
-    }
-
-    //This method determines the earliest available time in the given Plan Record
+    /**
+     * This method determines the earliest available time in the given Plan Record
+     *
+     * @param plan plan record in which to search for first available time
+     * @return date and time of the last scheduled record in the given plan or start date and time of the given plan record
+     */
     private Date getEarliestTime(Plan plan) {
         List<Schedule> scheduledRecords = scheduleFacade.findByRoomAndEndDateBetweenExclusiveFrom(currentRoom, plan.getDateTimeStart(), plan.getDateTimeEnd());
         //Sorting by Date Start
@@ -241,11 +397,13 @@ public class ScheduleView implements Serializable {
         if (scheduledRecords.size() == 0)
             return plan.getDateTimeStart();
         else {
-            return scheduledRecords.get(scheduledRecords.size()-1).getDateTimeEnd();
+            return scheduledRecords.get(scheduledRecords.size() - 1).getDateTimeEnd();
         }
     }
 
-    //Constructs Methods Picklist 
+    /**
+     * Constructs Methods Picklist
+     */
     public void constructPickList() {
         if (selectedMethodType != null && selectedMethodType.getId() != null) {
             List<Methods> allMethods = methodsFacade.findByType(selectedMethodType);
@@ -258,60 +416,21 @@ public class ScheduleView implements Serializable {
             methodsDualListModel = new DualListModel<Methods>(new ArrayList<Methods>(), new ArrayList<Methods>());
     }
 
-    //When any empty date in the schedule is clicked 
-    //this method have to control data from addPlanDialog
-    public void onDateSelect(SelectEvent selectEvent) {
-        //event = new DefaultScheduleEvent();
-        plan = new Plan();
-        plan.setDateTimeStart(((Date) selectEvent.getObject()));
-        plan.setDateTimeEnd(((Date) selectEvent.getObject()));
-    }
 
-    //Fills users data if phone number fits existing one
+    /**
+     * Fills users data if phone number fits existing one
+     */
     public void fillUserData() {
-        List<Users> usersByPhone = usersFacade.findByPhoneNumberMobile(newUser.getPhoneNumberMobile());
+        List<Users> usersByPhone = usersFacade.findByPhoneNumberMobile(patient.getPhoneNumberMobile());
 
         if (usersByPhone.size() == 1)
-            newUser = usersByPhone.get(0);
+            patient = usersByPhone.get(0);
     }
 
-    //Checks dates of moved Schedule event and updates persistent state of this record
-    public void onEventMove(ScheduleEntryMoveEvent selectEvent) {
-        event = (DefaultScheduleEvent) selectEvent.getScheduleEvent();
-        Object data = event.getData();
-
-        //If Schedule Event was clicked we check dates and update
-        //corresponding schedule record in the persistence storage
-        if (data instanceof Schedule) {
-            schedule = scheduleFacade.find(((Schedule) data).getId());
-            schedule.setDateTimeStart(event.getStartDate());
-            Date endTime = new Date(schedule.getDateTimeStart().getTime() + (schedule.getMethod().getTimeInMinutes() * 60L * 1000L));
-            schedule.setDateTimeEnd(endTime);
-
-            Boolean isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, endTime);
-
-            if (isValid) {
-                schedule.setDateCreated(new Date());
-                schedule.setUserCreated(authorizedUser);
-                scheduleFacade.edit(schedule);
-                LOG.info("Schedule id: " + schedule.getId() + " updated");
-
-                eventModel.updateEvent(event);
-                LOG.info("Event id: " + event.getId() + " updated");
-
-                final String successMessage = Message.getInstance().getString("SCHEDULE_EDITED");
-                final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage));
-            } else
-                LOG.info("Validation exception. Schedule is not updated!");
-        }
-
-
-    }
-
-    /** This method is addSchedule listener form Schedule.xhtml
-     It contains creating and persisting Schedule record, creating schedule event and updating schedule
-     and notifying user about success or error
+    /**
+     * This method is addSchedule listener form Schedule.xhtml
+     * It contains creating and persisting Schedule record, break record, creating schedule event and updating schedule
+     * and notifying user about success or error
      */
     public void addSchedule(ActionEvent actionEvent) {
         //Dates validation
@@ -319,10 +438,10 @@ public class ScheduleView implements Serializable {
 
         if (isValid) {
 
-            if (isNew(newUser)) { // Creating new user
-                createNewUser(newUser, authorizedUser);
-                usersFacade.create(newUser);
-                usersFacade.addUserType(newUser, userTypesFacade.find(PATIENTS_TYPE_ID), authorizedUser);
+            if (isNew(patient)) { // Creating new user
+                createpatient(patient, authorizedUser);
+                usersFacade.create(patient);
+                usersFacade.addUserType(patient, userTypesFacade.find(PATIENTS_TYPE_ID), authorizedUser);
                 //TODO send email with password
             }
 
@@ -332,7 +451,6 @@ public class ScheduleView implements Serializable {
                 createNewSchedule(method, startTime);
                 startTime = schedule.getDateTimeEnd();
                 scheduleFacade.create(schedule);
-                LOG.info("new Schedule id: " + schedule.getId() + " persisted");
 
                 //Creating corresponding Schedule event
                 event = eventFromSchedule(schedule);
@@ -341,14 +459,15 @@ public class ScheduleView implements Serializable {
 
             //Creating break schedule record for current methods group
             Schedule newSchedule = createBreakSchedule(startTime);
-            newSchedule.setParentSchedle(schedule);
+            newSchedule.setParentSchedule(schedule);
             scheduleFacade.create(newSchedule);
 
+            //Creating corresponding Schedule event
             event = eventFromSchedule(newSchedule);
+            event.setEditable(false);
             eventModel.addEvent(event);
-            LOG.info("new Schedule id: " + newSchedule.getId() + " persisted");
 
-            Message.showMessage(SCHEDULE_SAVED,VALIDATOR_SUCCESS_TITLE);//Sending success message
+            Message.showMessage(VALIDATOR_SUCCESS_TITLE, SCHEDULE_SAVED);//Sending success message
             RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').hide();"); //Closing dialog window
         } else {
             LOG.warning("Validation exception. New Schedule is not persisted!");
@@ -356,64 +475,107 @@ public class ScheduleView implements Serializable {
 
     }
 
-    // This method is edit Schedule form listener form schedule.xhtml
-    // It contains updating Schedule record, updating Schedule event and updating PF.schedule
-    // and notifying user about success or error
+    /**
+     * This method is edit Schedule form listener form schedule.xhtml
+     * It contains updating Schedule record, corresponing break record, updating Schedule event and updating PF.schedule
+     * and notifying user about success or error
+     *
+     * @param actionEvent
+     */
     public void editSchedule(ActionEvent actionEvent) {
-        Boolean isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, new Date(schedule.getDateTimeStart().getTime() + ((getTotalTime() + breakTime) * 60L * 1000L)));
+        Long validationEndDate = schedule.getDateTimeStart().getTime() + getTotalTime() * 60L * 1000L;
+        List<Schedule> nextSchedule = scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(schedule.getRoom(), new Date(validationEndDate), new Date(validationEndDate + 10l));
+        nextSchedule.remove(scheduleFacade.find(schedule.getId()));
+        nextSchedule.remove(scheduleFacade.findChildSchedule(schedule));
+        Boolean isValid;
+        Boolean nextScheduleHasSamePatient = nextSchedule.size() == 1 && nextSchedule.get(0).getPatient().equals(schedule.getPatient());
+        //If next schedule record is for the same patient, there is no need for break
+        if (nextScheduleHasSamePatient) {
+            isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, new Date(schedule.getDateTimeStart().getTime() + (getTotalTime() * 60L * 1000L)));
+        } else {
+            isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, new Date(schedule.getDateTimeStart().getTime() + ((getTotalTime() + breakTime) * 60L * 1000L)));
+        }
 
         if (isValid) {
-            if (isNew(newUser)) {
-                //Setting current timestamp and user created plan record
-                newUser.setDateCreated(new Date());
-                newUser.setUserCreated(authorizedUser);
-                usersFacade.create(newUser);
-                usersFacade.addUserType(newUser, userTypesFacade.find(PATIENTS_TYPE_ID), authorizedUser);
+            if (isNew(patient)) { // Creating new user
+                createpatient(patient, authorizedUser);
+                usersFacade.create(patient);
+                usersFacade.addUserType(patient, userTypesFacade.find(PATIENTS_TYPE_ID), authorizedUser);
+                //TODO send email with password
             }
 
+            // In case that more than one method is selected we delete edited record
+            // and create new schedule records for each method
             Date startTime = schedule.getDateTimeStart();
+            if (selectedMethods.size() > 1) {
+                Schedule breakSchedule = schedule.getParentSchedule();
 
-            for (Methods method : selectedMethods) {
-                createNewSchedule(method, startTime);
+                //Removing current schedule record
+                scheduleFacade.remove(schedule);
+                for (Methods method : selectedMethods) {
+                    //Creating schedule record for current method
+                    createNewSchedule(method, startTime);
+                    startTime = schedule.getDateTimeEnd();
+                    scheduleFacade.create(schedule);
+
+                    //Creating corresponding Schedule event
+                    event = eventFromSchedule(schedule);
+                    eventModel.addEvent(event);
+                }
+                schedule.setParentSchedule(breakSchedule);
+
+            } else {
+                editSchedule();
                 scheduleFacade.edit(schedule);
-                LOG.info("new Schedule id: " + schedule.getId() + " persisted");
 
                 //Creating corresponding Schedule event
                 event = eventFromSchedule(schedule);
                 eventModel.addEvent(event);
 
                 startTime = schedule.getDateTimeEnd();
-
             }
-            /*
-        	//We don't have to create break after edited record it is already created
-        	Schedule newSchedule = new ScheduleBuilder().buildBreakSchedule(schedule, startTime);
-        	scheduleFacade.create(newSchedule);
-        	LOG.info("new Schedule id: " + newSchedule.getId() + " persisted");
-        	*/
 
-            //Sending success message and closing dialog
-            final String successMessage = Message.getInstance().getString("SCHEDULE_EDITED");
-            final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage));
-            RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('addScheduleDialog').hide();");
+            //If next schedule record is for the same patient, there is no need for break
+            Schedule breakSchedule = scheduleFacade.findChildSchedule(schedule);
+            if (breakSchedule == null && !nextScheduleHasSamePatient) {
+                //Creating break schedule record for current methods group
+                Schedule newSchedule = createBreakSchedule(startTime);
+                schedule = scheduleFacade.find(schedule.getId());
+                newSchedule.setParentSchedule(schedule);
+                scheduleFacade.create(newSchedule);
+
+                //Creating corresponding Schedule event
+                event = eventFromSchedule(newSchedule);
+                event.setEditable(false);
+                eventModel.addEvent(event);
+            } else if (breakSchedule != null && !nextScheduleHasSamePatient) {
+                breakSchedule.setDateTimeStart(new Date(schedule.getDateTimeStart().getTime() + getTotalTime() * 60L * 1000L));
+                breakSchedule.setDateTimeEnd(new Date(startTime.getTime() + (breakTime * 60L * 1000L)));
+                scheduleFacade.edit(breakSchedule);
+            } else if (breakSchedule != null && nextScheduleHasSamePatient){
+                DefaultScheduleEvent breakEvent = findScheduleEvent(breakSchedule);
+                scheduleFacade.remove(breakSchedule);
+            }
+
+            Message.showMessage(VALIDATOR_SUCCESS_TITLE, SCHEDULE_EDITED);//Sending success message
+            RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').hide();");
         } else
             LOG.info("Validation exception. New Schedule is not persisted!");
     }
 
     public void deleteSchedule(ActionEvent actionEvent) {
         if (schedule != null && event != null) {
-
+            Schedule breakRecord = scheduleFacade.findChildSchedule(schedule);
+            if (breakRecord != null) {
+                scheduleFacade.remove(breakRecord);
+            }
             scheduleFacade.remove(schedule);
             eventModel.deleteEvent(event);
 
             LOG.info("Schedule id: " + schedule.getId() + " deleted");
             LOG.info("Event id: " + event.getId() + " deleted");
 
-            final String successMessage = Message.getInstance().getString("SCHEDULE_DELETED");
-            final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage));
+            Message.showMessage(VALIDATOR_SUCCESS_TITLE, SCHEDULE_DELETED);
         }
     }
 
@@ -428,21 +590,15 @@ public class ScheduleView implements Serializable {
         //When we create new Plan record Id of Plan and event are null
         if (plan.getId() == null || event.getId() == null) {
             //Validation for crossing other Plan records
-            if (planValidator.addPlanValidate(plan.getDateTimeStart(),
-                    plan.getDateTimeEnd(), currentRoom, null)) return;
+            if (planValidator.addPlanValidate(plan.getDateTimeStart(), plan.getDateTimeEnd(), currentRoom, null))
+                return;
 
             planFacade.create(plan);
-            LOG.info("new plan id: " + plan.getId() + " persisted");
-
             event = eventFromPlan(plan);
             eventModel.addEvent(event);
-            LOG.info("new event id: " + event.getId() + " scheduled");
 
-            final String successMessage = Message.getInstance().getString("PLAN_SAVED");
-            final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage));
-            RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('addPlanDialog').hide();");
+            Message.showMessage(PLAN_ADD_DIALOG_TITLE, PLAN_SAVED);
+            RequestContext.getCurrentInstance().execute("PF('addPlanDialog').hide();");
         } else
             LOG.info("Something goes wrong event Id:" + event.getId() + " Plan entity: " + plan);
     }
@@ -568,23 +724,41 @@ public class ScheduleView implements Serializable {
         cssStyle += "</style>";
     }
 
+    public DefaultScheduleEvent findScheduleEvent(Schedule schedule) {
+        List<ScheduleEvent> events = eventModel.getEvents();
+        for (ScheduleEvent event : events) {
+            if (event.getData().equals(schedule)) return (DefaultScheduleEvent) event;
+        }
+        return null;
+    }
 
-    public void createNewUser(Users newUser, Users authorizedUser) {
-        newUser.setDateCreated(new Date());
-        newUser.setUserCreated(authorizedUser);
-        newUser.setUsername(Utils.generateUsername(newUser.getLastName(), newUser.getFirstName()));
-        newUser.setPassword(RandomPasswordGenerator.generatePswd(8, 10, 2, 2, 1).toString());
+
+    public void createpatient(Users patient, Users authorizedUser) {
+        patient.setDateCreated(new Date());
+        patient.setUserCreated(authorizedUser);
+        patient.setUsername(Utils.generateUsername(patient.getLastName(), patient.getFirstName()));
+        patient.setPassword(RandomPasswordGenerator.generatePswd(8, 10, 2, 2, 1).toString());
     }
 
     public void createNewSchedule(Methods method, Date startTime) {
         schedule.setId(null);
-        schedule.setPatient(newUser);
+        schedule.setPatient(patient);
         schedule.setRoom(currentRoom);
         schedule.setMethod(method);
         schedule.setDateTimeStart(startTime);
         schedule.setDateTimeEnd(new Date(startTime.getTime() + (method.getTimeInMinutes() * 60L * 1000L)));
         schedule.setUserCreated(authorizedUser);
         schedule.setDateCreated(new Date());
+        schedule.setDeleted(false);
+    }
+
+    public void editSchedule() {
+        schedule.setPatient(patient);
+        schedule.setRoom(currentRoom);
+        schedule.setDateTimeEnd(new Date(schedule.getDateTimeStart().getTime() + (schedule.getMethod().getTimeInMinutes() * 60L * 1000L)));
+        schedule.setUserCreated(authorizedUser);
+        schedule.setDateCreated(new Date());
+        schedule.setDeleted(false);
     }
 
     public Schedule createBreakSchedule(Date startTime) {
@@ -599,6 +773,10 @@ public class ScheduleView implements Serializable {
         schedule.setUserCreated(authorizedUser);
         schedule.setDateCreated(new Date());
         return schedule;
+    }
+
+    private boolean isBreakSchedule(Schedule schedule) {
+        return (schedule.getParentSchedule() != null);
     }
 
 
@@ -642,12 +820,12 @@ public class ScheduleView implements Serializable {
         return allLastNames;
     }
 
-    public Users getNewUser() {
-        return newUser;
+    public Users getpatient() {
+        return patient;
     }
 
-    public void setNewUser(Users newUser) {
-        this.newUser = newUser;
+    public void setpatient(Users patient) {
+        this.patient = patient;
     }
 
     public ScheduleEvent getEvent() {
@@ -674,7 +852,7 @@ public class ScheduleView implements Serializable {
         return breakTime;
     }
 
-    public void setBreakTime(Integer lbreakTime) {
+    public void setBreakTime(Integer breakTime) {
         this.breakTime = breakTime;
     }
 

@@ -22,10 +22,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import static ua.kiev.doctorvera.resources.Message.Messages.*;
 
 @Named(value = "scheduleValidator")
 @ViewScoped
@@ -109,37 +107,38 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 	
 	//Validation on addSchedule event and part of validation on update event
 	public Boolean addScheduleValidate(Schedule currentSchedule, Rooms currentRoom, Date end){
-		FacesContext context = FacesContext.getCurrentInstance();
-		String errorMessage = null;
 		
 		//Schedule event start and end time must be inside plans record time interval 
 		if(!isInsidePlan(currentSchedule, currentRoom, end)){
-			errorMessage = Message.getInstance().getString("SCHEDULE_VALIDATE_NOT_IN_PLAN");
-			FacesMessage fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, ERROR_TITLE , errorMessage);
-			context.addMessage(null, fMessage);
+			Message.showError(ERROR_TITLE, SCHEDULE_VALIDATE_NOT_IN_PLAN);
 			return false;
 		}
 		
 		//Must have zero size or error message should be shown(means other Schedule events are recorded already)
 		HashSet<Schedule> schedulesCrossed = crossSchedule(currentRoom, currentSchedule.getDateTimeStart(), end);
-		for(Schedule schedule : schedulesCrossed) {
-			if (currentSchedule.getId() != null && schedule.getId().equals(currentSchedule.getId()))
-				schedulesCrossed.remove(schedule);
+		for(Iterator<Schedule> iter = schedulesCrossed.iterator(); iter.hasNext();) {
+			Schedule schedule = iter.next();
+			//Current schedule can't cross itself
+			if (currentSchedule.getId() != null && (currentSchedule.getId().equals(schedule.getId()))) {
+				iter.remove();
+			}
+			//Current schedule record can't cross it's break record
+			if ((schedule.getParentSchedule()!= null && currentSchedule.getId().equals(schedule.getParentSchedule().getId()))){
+				iter.remove();
+			}
 		}
 
 		if(schedulesCrossed.size() != 0){
-			errorMessage = Message.getInstance().getString("SCHEDULE_VALIDATE_SCHEDULE_UPDATE");
-			FacesMessage fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, ERROR_TITLE , errorMessage);
-			context.addMessage(null, fMessage);
+			Message.showError(ERROR_TITLE, SCHEDULE_VALIDATE_SCHEDULE_UPDATE);
+
 			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			
 			for (Schedule scheduleCrossed : schedulesCrossed){
-				errorMessage =
+				String errorMessage =
 					formater.format(scheduleCrossed.getDateTimeStart()) + " - " + 
 					formater.format(scheduleCrossed.getDateTimeEnd()) + " " + 
 					scheduleCrossed.getDoctor().getFirstName() + scheduleCrossed.getDoctor().getLastName() + "\n";
-				fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, ERROR_TITLE , errorMessage);
-				context.addMessage(null, fMessage);
+				Message.showError(ERROR_TITLE, errorMessage);
 
 			}
 			return false;

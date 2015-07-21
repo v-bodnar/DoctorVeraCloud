@@ -35,10 +35,16 @@ public class Utils {
         return word.substring(0, 1).toUpperCase() + word.substring(1);
     }
 
+    //This method is used to set value to Users entity!!!
     public static String stripPhone(String phone) {
+        //TODO internationalize
         if (phone == null || phone.isEmpty() || phone.equals("(___)___-__-__"))
             return "";
-        phone = "+38" + phone.replaceAll("\\D*", "");
+        if(phone.startsWith("+38")){
+            phone = "+" + phone.replaceAll("\\D*", "");
+        }else {
+            phone = "+38" + phone.replaceAll("\\D*", "");
+        }
         return phone;
     }
 

@@ -11,18 +11,16 @@
         <h1><h:outputText value="#{scheduleView.currentRoom.name}"/></h1>
         <h:form id="scheduleForm">
 
-            <p:growl id="growl" showDetail="true" severity="info"/>
+            <p:growl id="growl" showDetail="true" severity="info,warn,error"/>
 
             <p:schedule id="schedule" value="#{scheduleView.eventModel}" locale="ru" view="agendaWeek" firstHour="6"
                         minTime="7am" maxTime="8pm" styleClass="scheduleCalendar" timeZone="GMT+2" widgetVar="schedule"
                         rightHeaderTemplate="agendaDay,agendaWeek"
                         allDaySlot="false" tooltip="false">
-                <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="addScheduleDialog"
-                        oncomplete="PF('addScheduleDialog').show();"/>
-                <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update="schedule growl"/>
-                <p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}" update=":planForm:addPlanDialog"
-                        oncomplete="PF('addPlanDialog').show();"/>
-                <!--  p:ajax event="eventResize" listener="#{scheduleView.onEventResize}" update="schedule growl" /-->
+                <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="addScheduleDialog" oncomplete="PF('addScheduleDialog').show();"/>
+                <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update="growl" oncomplete="PF('schedule').update();" />
+                <p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}"  update=":planForm:addPlanDialog" oncomplete="PF('addPlanDialog').show();"/>
+                <p:ajax event="eventResize" listener="#{scheduleView.onEventResize}" update="growl" oncomplete="PF('schedule').update();" />
             </p:schedule>
 
             <p:dialog
@@ -37,9 +35,9 @@
 
                     <!-- Phone Number Mobile -->
                     <h:outputLabel for="phoneNumberMobile" value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}"/>
-                    <p:inputMask value="#{scheduleView.newUser.phoneNumberMobile}"
+                    <p:inputMask value="#{scheduleView.patient.phoneNumberMobile}"
                                  id="phoneNumberMobile" name="phoneNumberMobile"
-                                 mask="(999)999-99-99" required="true"
+                                 mask="+38(999)999-99-99" required="true"
                                  requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
                                  validator="#{usersValidator.validate}">
                         <f:attribute name="name" value="phoneNumberMobile"/>
@@ -50,7 +48,7 @@
 
                     <!-- First Name -->
                     <h:outputLabel for="firstName" value="#{MESSAGE.USERS_FIRST_NAME}"/>
-                    <p:autoComplete value="#{scheduleView.newUser.firstName}"
+                    <p:autoComplete value="#{scheduleView.patient.firstName}"
                                     id="firstName" name="firstName"
                                     placeholder="#{MESSAGE.USERS_PLACEHOLDER_FIRST_NAME}"
                                     completeMethod="#{scheduleView.allFirstNames}"
@@ -64,7 +62,7 @@
 
                     <!-- Last Name -->
                     <h:outputLabel for="lastName" value="#{MESSAGE.USERS_LAST_NAME}"/>
-                    <p:autoComplete value="#{scheduleView.newUser.lastName}"
+                    <p:autoComplete value="#{scheduleView.patient.lastName}"
                                     id="lastName" name="lastName"
                                     placeholder="#{MESSAGE.USERS_PLACEHOLDER_LAST_NAME}"
                                     completeMethod="#{scheduleView.allMiddleNames}"
@@ -78,7 +76,7 @@
                     <!-- Middle Name -->
                     <h:outputLabel for="middleName"
                                    value="#{MESSAGE.USERS_MIDDLE_NAME}"/>
-                    <p:autoComplete value="#{scheduleView.newUser.middleName}"
+                    <p:autoComplete value="#{scheduleView.patient.middleName}"
                                     id="middleName" name="middleName"
                                     placeholder="#{MESSAGE.USERS_PLACEHOLDER_MIDDLE_NAME}"
                                     completeMethod="#{scheduleView.allLastNames}"
@@ -124,16 +122,15 @@
                     <!-- Break Slider -->
                     <h:outputLabel for="breakSlider" id="breakSlideroutput"
                                    value="#{MESSAGE.SCHEDULE_BREAK_TIME} #{scheduleView.breakTime} #{MESSAGE.SCHEDULE_MINUTES}"
-                                   rendered="#{scheduleView.schedule.id==null}"/>
-                    <h:panelGroup rendered="#{scheduleView.schedule.id==null}">
+                                   />
+                    <h:panelGroup>
                         <h:inputHidden id="breakSlider" value="#{scheduleView.breakTime}" required="true"
                                        requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
-                                       rendered="#{scheduleView.schedule.id==null}"/>
+                                       />
                         <p:slider for="breakSlider" display="breakSlideroutput" step="5" minValue="5" maxValue="60"
-                                  displayTemplate="#{MESSAGE.SCHEDULE_BREAK_TIME} {value} #{MESSAGE.SCHEDULE_MINUTES}"
-                                  rendered="#{scheduleView.schedule.id==null}"/>
+                                  displayTemplate="#{MESSAGE.SCHEDULE_BREAK_TIME} {value} #{MESSAGE.SCHEDULE_MINUTES}"/>
                     </h:panelGroup>
-                    <p:message for="breakSlider" id="breakSliderMessage" rendered="#{scheduleView.schedule.id==null}"/>
+                    <p:message for="breakSlider" id="breakSliderMessage"/>
 
                     <!--Method Types-->
                     <h:outputLabel for="methodTypes" value="#{MESSAGE.SCHEDULE_METHOD_TYPE}"/>
@@ -300,7 +297,7 @@
                                      actionListener="#{scheduleView.addPlan}"
                                      update="errorMessage growl"
                                      oncomplete="PF('schedule').update(); PF('addPlanDialog').hide();"
-                                     styleClass="myButton" />
+                                     styleClass="myButton"/>
 
                 </h:panelGrid>
 

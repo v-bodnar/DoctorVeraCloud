@@ -2,57 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f983afb5-d9d3-4f04-94c8-72a3db7455dc" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/RandomPasswordGenerator.java" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.idea\artifacts\DoctorVeraCloud_ear_ear.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.idea\artifacts\DoctorVeraCloud_ear_ear_exploded.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.idea\artifacts\DoctorVeraCloud_ejb_ejb.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.idea\artifacts\DoctorVeraCloud_ejb_ejb_exploded.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.idea\artifacts\DoctorVeraCloud_web_war.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\.idea\artifacts\DoctorVeraCloud_web_war_exploded.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\src\main\java\ua\kiev\doctorvera\entities\utils\ScheduleBuilder.java" afterPath="" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\AbstractFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/AbstractFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\AddressFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/AddressFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\DoctorsHasMethodFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/DoctorsHasMethodFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\MethodTypesFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/MethodTypesFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\MethodsFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/MethodsFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\PaymentsFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/PaymentsFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\PlanFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/PlanFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\PricesFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/PricesFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\RoomsFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/RoomsFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\ScheduleFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/ScheduleFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\UserTypesFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UserTypesFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\UsersFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UsersFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\UsersHasUserTypesFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UsersHasUserTypesFacade.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\exceptions\IllegalOrphanException.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/exceptions/IllegalOrphanException.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\exceptions\NonexistentEntityException.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/exceptions/NonexistentEntityException.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\exceptions\PreexistingEntityException.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/exceptions/PreexistingEntityException.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\main\java\facade\exceptions\RollbackFailureException.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/exceptions/RollbackFailureException.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\test\java\facade\DoctorsHasMethodFacadeTest.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/test/java/ua/kiev/doctorvera/facade/DoctorsHasMethodFacadeTest.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\test\java\facade\PlanFacadeTest.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/test/java/ua/kiev/doctorvera/facade/PlanFacadeTest.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\test\java\facade\ScheduleFacadeTest.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/test/java/ua/kiev/doctorvera/facade/ScheduleFacadeTest.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-ejb\src\test\java\facade\UsersHasUserTypesFacadeTest.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/test/java/ua/kiev/doctorvera/facade/UsersHasUserTypesFacadeTest.java" />
-      <change type="MOVED" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-library\src\main\java\ua\kiev\doctorvera\utils\Service.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/Utils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/UsersValidator.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/UsersValidator.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/AddressView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/AddressView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ear/DoctorVeraCloud-ear.iml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ear/DoctorVeraCloud-ear.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/DoctorVeraCloud-ejb.iml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/DoctorVeraCloud-ejb.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-library/DoctorVeraCloud-library.iml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/DoctorVeraCloud-library.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/DoctorVeraCloud-web.iml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/DoctorVeraCloud-web.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud.iml" afterPath="$PROJECT_DIR$/DoctorVeraCloud.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/META-INF/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/MenuView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/MenuView.java" />
+      <change type="MODIFICATION" beforePath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\validators\PlanValidator.class" afterPath="C:\Projects\DoctorVeraCloud\DoctorVeraCloud-web\target\classes\ua\kiev\doctorvera\validators\PlanValidator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/ScheduleValidator.class" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/ua/kiev/doctorvera/validators/ScheduleValidator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/AbstractFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/AbstractFacade.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/resources/Message.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/resources/Message.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/PlanView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/PlanView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Schedule.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Schedule.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/ScheduleFacade.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/ScheduleFacade.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/ScheduleFacadeLocal.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/ScheduleFacadeLocal.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/ScheduleValidator.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/ScheduleValidator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/SendSMSView.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/SendSMSView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Users.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Users.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/UsersValidator.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/UsersValidator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/mapping.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/mapping.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/mapping.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/target/classes/mapping.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-ear/pom.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-ear/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-library/pom.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/pom.xml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/Utils.java" afterPath="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/Utils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml" afterPath="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -84,169 +45,31 @@
       <file leaf-file-name="ScheduleView.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6312849">
-              <caret line="339" column="13" selection-start-line="339" selection-start-column="13" selection-end-line="339" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.89299613">
+              <caret line="292" column="13" selection-start-line="292" selection-start-column="13" selection-end-line="292" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#24810#24811#0" expanded="true" />
-                <element signature="e#24846#24847#0" expanded="true" />
-                <element signature="e#24911#24912#0" expanded="true" />
-                <element signature="e#24961#24962#0" expanded="true" />
-                <element signature="e#25017#25018#0" expanded="true" />
-                <element signature="e#25057#25058#0" expanded="true" />
-                <element signature="e#25229#25230#0" expanded="true" />
-                <element signature="e#25260#25261#0" expanded="true" />
-                <element signature="e#25310#25311#0" expanded="true" />
-                <element signature="e#25350#25351#0" expanded="true" />
-                <element signature="e#25395#25396#0" expanded="true" />
-                <element signature="e#25431#25432#0" expanded="true" />
-                <element signature="e#25477#25478#0" expanded="true" />
-                <element signature="e#25514#25515#0" expanded="true" />
-                <element signature="e#25558#25559#0" expanded="true" />
-                <element signature="e#25593#25594#0" expanded="true" />
-                <element signature="e#25626#25627#0" expanded="true" />
-                <element signature="e#25656#25657#0" expanded="true" />
-                <element signature="e#25701#25702#0" expanded="true" />
-                <element signature="e#25739#25740#0" expanded="true" />
-                <element signature="e#25778#25779#0" expanded="true" />
-                <element signature="e#25806#25807#0" expanded="true" />
-                <element signature="e#25855#25856#0" expanded="true" />
-                <element signature="e#25912#25913#0" expanded="true" />
-                <element signature="e#25956#25957#0" expanded="true" />
-                <element signature="e#25989#25990#0" expanded="true" />
-                <element signature="e#26032#26033#0" expanded="true" />
-                <element signature="e#26066#26067#0" expanded="true" />
-                <element signature="e#26125#26126#0" expanded="true" />
-                <element signature="e#26171#26172#0" expanded="true" />
-                <element signature="e#26208#26209#0" expanded="true" />
-                <element signature="e#26240#26241#0" expanded="true" />
-                <element signature="e#26292#26293#0" expanded="true" />
-                <element signature="e#26334#26335#0" expanded="true" />
-                <element signature="e#26369#26370#0" expanded="true" />
-                <element signature="e#26400#26401#0" expanded="true" />
-                <element signature="e#26448#26449#0" expanded="true" />
-                <element signature="e#26488#26489#0" expanded="true" />
-                <element signature="e#26537#26538#0" expanded="true" />
-                <element signature="e#26575#26576#0" expanded="true" />
-                <element signature="e#26644#26645#0" expanded="true" />
-                <element signature="e#26698#26699#0" expanded="true" />
-                <element signature="e#26748#26749#0" expanded="true" />
-                <element signature="e#26783#26784#0" expanded="true" />
-                <element signature="e#26850#26851#0" expanded="true" />
-                <element signature="e#26898#26899#0" expanded="true" />
-                <element signature="e#26961#26962#0" expanded="true" />
-                <element signature="e#27004#27005#0" expanded="true" />
-                <element signature="e#27208#27209#0" expanded="true" />
-                <element signature="e#27245#27246#0" expanded="true" />
-                <element signature="e#27316#27317#0" expanded="true" />
-                <element signature="e#27368#27369#0" expanded="true" />
-                <element signature="e#27418#27419#0" expanded="true" />
-                <element signature="e#27459#27460#0" expanded="true" />
-                <element signature="e#27532#27533#0" expanded="true" />
-                <element signature="e#27592#27593#0" expanded="true" />
-                <element signature="e#27635#27636#0" expanded="true" />
-                <element signature="e#27669#27670#0" expanded="true" />
-                <element signature="e#27728#27729#0" expanded="true" />
-                <element signature="e#27774#27775#0" expanded="true" />
-                <element signature="e#27819#27820#0" expanded="true" />
-                <element signature="e#27855#27856#0" expanded="true" />
-                <element signature="e#27918#27919#0" expanded="true" />
-                <element signature="e#27968#27969#0" expanded="true" />
-                <element signature="e#27997#27998#0" expanded="true" />
-                <element signature="e#28024#28025#0" expanded="true" />
-                <element signature="e#28062#28063#0" expanded="true" />
-                <element signature="e#28094#28095#0" expanded="true" />
-                <element signature="e#28134#28135#0" expanded="true" />
-                <element signature="e#28165#28166#0" expanded="true" />
-                <element signature="e#28218#28219#0" expanded="true" />
-                <element signature="e#28258#28259#0" expanded="true" />
-                <element signature="e#28300#28301#0" expanded="true" />
-                <element signature="e#28333#28334#0" expanded="true" />
-                <element signature="e#28390#28391#0" expanded="true" />
-                <element signature="e#28434#28435#0" expanded="true" />
-                <element signature="e#28474#28475#0" expanded="true" />
-                <element signature="e#28511#28512#0" expanded="true" />
-                <element signature="e#28570#28571#0" expanded="true" />
-                <element signature="e#28622#28623#0" expanded="true" />
-                <element signature="e#28659#28660#0" expanded="true" />
-                <element signature="e#28693#28694#0" expanded="true" />
-                <element signature="e#28746#28747#0" expanded="true" />
-                <element signature="e#28792#28793#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mapping.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/mapping.xml">
+      <file leaf-file-name="Utils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/Utils.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="4" />
+              <caret line="37" column="57" selection-start-line="37" selection-start-column="57" selection-end-line="37" selection-end-column="57" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MethodsFacade.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/MethodsFacade.java">
+      <file leaf-file-name="UsersValidator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/UsersValidator.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+              <caret line="71" column="77" selection-start-line="71" selection-start-column="77" selection-end-line="71" selection-end-column="77" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Users.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Users.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="33" column="15" selection-start-line="33" selection-start-column="15" selection-end-line="33" selection-end-column="15" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#setPhoneNumberMobile#0;class#Users#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RandomPasswordGenerator.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/RandomPasswordGenerator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="28" column="37" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="37" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Schedule.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Schedule.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="87" column="38" selection-start-line="87" selection-start-column="38" selection-end-line="87" selection-end-column="38" />
-              <folding>
-                <element signature="e#4683#4684#0" expanded="true" />
-                <element signature="e#4719#4720#0" expanded="true" />
-                <element signature="e#4779#4780#0" expanded="true" />
-                <element signature="e#4829#4830#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Message.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/resources/Message.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.12">
-              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#7696#7697#0" expanded="true" />
-                <element signature="e#7718#7719#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -254,9 +77,115 @@
       <file leaf-file-name="schedule.xhtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
+            <state vertical-scroll-proportion="-3.9285715">
+              <caret line="54" column="65" selection-start-line="54" selection-start-column="65" selection-end-line="54" selection-end-column="65" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Message.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/resources/Message.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="322" column="32" selection-start-line="322" selection-start-column="23" selection-end-line="322" selection-end-column="32" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#7249#7250#0" expanded="false" />
+                <element signature="e#7271#7272#0" expanded="false" />
+                <element signature="e#7307#7308#0" expanded="false" />
+                <element signature="e#7333#7334#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlanView.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/PlanView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="202" column="59" selection-start-line="202" selection-start-column="59" selection-end-line="202" selection-end-column="59" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#2824#2825#0" expanded="false" />
+                <element signature="e#2849#2850#0" expanded="false" />
+                <element signature="e#2899#2900#0" expanded="false" />
+                <element signature="e#2936#2937#0" expanded="false" />
+                <element signature="e#2980#2981#0" expanded="false" />
+                <element signature="e#3007#3008#0" expanded="false" />
+                <element signature="e#3069#3070#0" expanded="false" />
+                <element signature="e#3110#3111#0" expanded="false" />
+                <element signature="e#3148#3149#0" expanded="false" />
+                <element signature="e#3176#3177#0" expanded="false" />
+                <element signature="e#3232#3233#0" expanded="false" />
+                <element signature="e#3275#3276#0" expanded="false" />
+                <element signature="e#3312#3313#0" expanded="false" />
+                <element signature="e#3334#3335#0" expanded="false" />
+                <element signature="e#3384#3385#0" expanded="false" />
+                <element signature="e#3415#3416#0" expanded="false" />
+                <element signature="e#3446#3447#0" expanded="false" />
+                <element signature="e#3475#3476#0" expanded="false" />
+                <element signature="e#3514#3515#0" expanded="false" />
+                <element signature="e#3538#3539#0" expanded="false" />
+                <element signature="e#3592#3593#0" expanded="false" />
+                <element signature="e#3627#3628#0" expanded="false" />
+                <element signature="e#3653#3654#0" expanded="false" />
+                <element signature="e#3671#3672#0" expanded="false" />
+                <element signature="e#3706#3707#0" expanded="false" />
+                <element signature="e#3729#3730#0" expanded="false" />
+                <element signature="e#3769#3770#0" expanded="false" />
+                <element signature="e#3788#3789#0" expanded="false" />
+                <element signature="e#3834#3835#0" expanded="false" />
+                <element signature="e#3881#3882#0" expanded="false" />
+                <element signature="e#3922#3923#0" expanded="false" />
+                <element signature="e#3955#3956#0" expanded="false" />
+                <element signature="e#3990#3991#0" expanded="false" />
+                <element signature="e#4021#4022#0" expanded="false" />
+                <element signature="e#4069#4070#0" expanded="false" />
+                <element signature="e#4109#4110#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlanValidator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="77" column="30" selection-start-line="77" selection-start-column="30" selection-end-line="77" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Users.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Users.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.810345">
+              <caret line="245" column="43" selection-start-line="245" selection-start-column="43" selection-end-line="245" selection-end-column="43" />
+              <folding>
+                <element signature="e#8311#8312#0" expanded="true" />
+                <element signature="e#8351#8352#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScheduleValidator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/ScheduleValidator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="111" column="19" selection-start-line="111" selection-start-column="19" selection-end-line="111" selection-end-column="19" />
+              <folding>
+                <element signature="e#1669#1670#0" expanded="false" />
+                <element signature="e#1721#1722#0" expanded="false" />
+                <element signature="e#1777#1778#0" expanded="false" />
+                <element signature="e#1795#1796#0" expanded="false" />
+                <element signature="e#1841#1842#0" expanded="false" />
+                <element signature="e#1874#1875#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -283,9 +212,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SendSMSView.java" />
-        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserRegisterView.java" />
-        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UsersAddType.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/UserTypesTableView.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/AddressValidator.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/managedbeans/SessionParams.java" />
@@ -296,7 +222,6 @@
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/filter/AuthenFilter.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/UserProfileView.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/SendSMSView.java" />
-        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/Validator.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/UserLoginView.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/SessionParams.java" />
@@ -304,10 +229,8 @@
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PriceValidator.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/MethodValidator.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/UsersValidator.java" />
-        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/ScheduleValidator.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/MethodsView.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/PaymentsView.java" />
-        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/PlanView.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/RoomsView.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleGeneralView.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/UploadImageView.java" />
@@ -324,16 +247,22 @@
         <option value="$PROJECT_DIR$/DoctorVeraCloud-library/pom.xml" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/pom.xml" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-ejb/pom.xml" />
-        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/RandomPasswordGenerator.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/utils/EntityUtils.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Users.java" />
-        <option value="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/Utils.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/resources/Utils.java" />
-        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/resources/Message.java" />
-        <option value="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Schedule.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/resources/mapping.xml" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/ScheduleFacadeLocal.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/ScheduleFacade.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Schedule.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/AbstractFacade.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/PlanView.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/resources/Message.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/ScheduleValidator.java" />
         <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleView.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/Utils.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java" />
+        <option value="$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml" />
       </list>
     </option>
   </component>
@@ -465,10 +394,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
+    <option name="x" value="1592" />
     <option name="y" value="-8" />
-    <option name="width" value="1616" />
-    <option name="height" value="876" />
+    <option name="width" value="1696" />
+    <option name="height" value="1026" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -666,6 +595,44 @@
               <option name="myItemId" value="doctorvera" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="doctorvera" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="validators" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -711,21 +678,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="DoctorVeraCloud-ejb" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DoctorVeraCloud" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DoctorVeraCloud" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DoctorVeraCloud-ejb" />
+              <option name="myItemId" value="DoctorVeraCloud-web" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -733,11 +686,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
+              <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="doctorvera" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -751,7 +708,39 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="DoctorVeraCloud-ejb" />
+              <option name="myItemId" value="DoctorVeraCloud-library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-library" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -773,7 +762,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="DoctorVeraCloud-ejb" />
+              <option name="myItemId" value="DoctorVeraCloud-library" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -789,15 +778,49 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="facade" />
+              <option name="myItemId" value="doctorvera" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DoctorVeraCloud-library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="doctorvera" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="entities" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -815,6 +838,11 @@
     <property name="FullScreen" value="false" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit3" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -1295,7 +1323,11 @@
       <workItem from="1437221393974" duration="5290000" />
       <workItem from="1437235139712" duration="5747000" />
       <workItem from="1437243220054" duration="1244000" />
-      <workItem from="1437301682955" duration="4391000" />
+      <workItem from="1437301682955" duration="14538000" />
+      <workItem from="1437324670733" duration="6612000" />
+      <workItem from="1437373824860" duration="16507000" />
+      <workItem from="1437459184133" duration="7614000" />
+      <workItem from="1437480425124" duration="3028000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring">
       <created>1432301778300</created>
@@ -1333,11 +1365,17 @@
       <option name="project" value="LOCAL" />
       <updated>1436868122210</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Refactored code">
+      <created>1437307693538</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1437307693538</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="167796000" />
+    <option name="totallyTimeSpent" value="211704000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1349,34 +1387,33 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
+    <frame x="1592" y="-8" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50403225" sideWeight="0.5025707" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29753914" sideWeight="0.502445" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293011" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840616" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3294621" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20565553" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15322581" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.393736" sideWeight="0.49755502" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293011" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.55241936" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5514541" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293011" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32997763" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4126344" sideWeight="0.4974293" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17609255" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17603911" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26209676" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="EJB" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="JavaEE:App" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1385,6 +1422,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6420582" sideWeight="0.49633253" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1393,30 +1431,30 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50403225" sideWeight="0.5025707" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293011" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925257" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840616" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20565553" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35887095" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32123655" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33333334" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293011" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.55241936" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293011" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42058167" sideWeight="0.4974293" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32997763" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4126344" sideWeight="0.4974293" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17866324" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17609255" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32258064" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26075268" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="EJB" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="JavaEE:App" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -1439,50 +1477,81 @@
     <MESSAGE value="Refactored String constants. Removed enums from resource bundles" />
     <MESSAGE value="Logic fixed" />
     <MESSAGE value="Refactored code&#10;Implemented CDI Injection" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored code&#10;Implemented CDI Injection" />
+    <MESSAGE value="Refactored code" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleView.java</url>
-          <line>351</line>
+          <line>299</line>
           <properties />
-          <option name="timeStamp" value="90" />
+          <option name="timeStamp" value="166" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleView.java</url>
-          <line>333</line>
+          <line>326</line>
           <properties />
-          <option name="timeStamp" value="95" />
+          <option name="timeStamp" value="168" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java</url>
+          <line>124</line>
+          <properties />
+          <option name="timeStamp" value="169" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleView.java</url>
-          <line>344</line>
+          <line>329</line>
           <properties />
-          <option name="timeStamp" value="97" />
+          <option name="timeStamp" value="170" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleView.java</url>
-          <line>592</line>
+          <url>file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java</url>
+          <line>129</line>
           <properties />
-          <option name="timeStamp" value="98" />
+          <option name="timeStamp" value="173" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java</url>
+          <line>131</line>
+          <properties />
+          <option name="timeStamp" value="174" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java</url>
+          <line>133</line>
+          <properties />
+          <option name="timeStamp" value="176" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java</url>
+          <line>135</line>
+          <properties />
+          <option name="timeStamp" value="178" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java</url>
+          <line>136</line>
+          <properties />
+          <option name="timeStamp" value="179" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="99" />
+      <option name="time" value="180" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="GlassfishConfiguration">
-        <watch expression="new Random().nextInt(9)" language="JAVA" custom="" />
-        <watch expression="schedule" language="JAVA" custom="" />
-        <watch expression="newSchedule" language="JAVA" custom="" />
-        <watch expression="breakUser" language="JAVA" custom="" />
-        <watch expression="usersFacade.find(USERS_BREAK_ID)" language="JAVA" custom="" />
-        <watch expression="usersFacade" language="JAVA" custom="" />
-        <watch expression="USERS_BREAK_ID" language="JAVA" custom="" />
+        <watch expression="planValidator.resizePlanValidate(event.getStartDate(), event.getEndDate(), plan.getDateTimeStart(), plan.getDateTimeEnd(), currentRoom, plan)" language="JAVA" custom="" />
+        <watch expression="errorMessage" language="JAVA" custom="" />
+        <watch expression="nextSchedule.get(0).getPatient().equals(schedule.getPatient())" language="JAVA" custom="" />
+        <watch expression="nextSchedule.get(0).getPatient()" language="JAVA" custom="" />
+        <watch expression="schedule.getPatient()" language="JAVA" custom="" />
+        <watch expression="new Date(schedule.getDateTimeEnd().getTime() + 10l)" language="JAVA" custom="" />
+        <watch expression="schedule.getDateTimeEnd()" language="JAVA" custom="" />
       </configuration>
       <configuration name="JUnit">
         <watch expression="ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault(), new ExtendedControl())" language="JAVA" custom="" />
@@ -1499,111 +1568,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/AddressValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="81" selection-start-line="17" selection-start-column="69" selection-end-line="17" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/MethodValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="4" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PriceValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="31" column="4" selection-start-line="31" selection-start-column="4" selection-end-line="31" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/Validator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="19" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/UsersValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="11" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/PaymentsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.16">
-          <caret line="53" column="59" selection-start-line="53" selection-start-column="59" selection-end-line="53" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/PlanGeneralView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="38" column="32" selection-start-line="38" selection-start-column="32" selection-end-line="38" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/MethodsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.8313253">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="50" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/PlanView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.76">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="50" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/RoomsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.8">
-          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleGeneralView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.76">
-          <caret line="53" column="59" selection-start-line="53" selection-start-column="59" selection-end-line="53" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/SendSMSView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="18" selection-start-line="45" selection-start-column="18" selection-end-line="45" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/UploadImageView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.24">
-          <caret line="49" column="40" selection-start-line="49" selection-start-column="40" selection-end-line="49" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/UserLoginView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/UserProfileView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1650,13 +1614,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="22" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/ScheduleFacade.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="8" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -1710,7 +1667,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="12" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="12" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1718,7 +1674,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1726,7 +1681,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="85" column="21" selection-start-line="85" selection-start-column="21" selection-end-line="85" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1756,15 +1710,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="66" column="37" selection-start-line="66" selection-start-column="37" selection-end-line="66" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/ScheduleValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1784,38 +1729,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/Utils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.678487">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/UsersFacade.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.643026">
           <caret line="29" column="29" selection-start-line="29" selection-start-column="29" selection-end-line="29" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Users.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="15" selection-start-line="33" selection-start-column="15" selection-end-line="33" selection-end-column="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#setPhoneNumberMobile#0;class#Users#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="33" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1824,7 +1741,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="28" column="37" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="37" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1833,40 +1750,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="111" column="22" selection-start-line="111" selection-start-column="22" selection-end-line="111" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/resources/Message.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.12">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#7696#7697#0" expanded="true" />
-            <element signature="e#7718#7719#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Schedule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="87" column="38" selection-start-line="87" selection-start-column="38" selection-end-line="87" selection-end-column="38" />
-          <folding>
-            <element signature="e#4683#4684#0" expanded="true" />
-            <element signature="e#4719#4720#0" expanded="true" />
-            <element signature="e#4779#4780#0" expanded="true" />
-            <element signature="e#4829#4830#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/AbstractFacade.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5779037">
-          <caret line="83" column="36" selection-start-line="83" selection-start-column="36" selection-end-line="83" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1874,7 +1757,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1886,96 +1768,243 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleView.java">
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/MethodsFacadeLocal.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6312849">
-          <caret line="339" column="13" selection-start-line="339" selection-start-column="13" selection-end-line="339" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.37988827">
+          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/ScheduleFacadeLocal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="140" column="7" selection-start-line="140" selection-start-column="7" selection-end-line="140" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../glassfish4/glassfish/modules/weld-osgi-bundle.jar!/org/jboss/weld/el/WeldMethodExpression.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35214448">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/tomcat-catalina/7.0.55/tomcat-catalina-7.0.55.jar!/org/apache/catalina/core/StandardWrapper.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../glassfish4/glassfish/modules/weld-osgi-bundle.jar!/org/jboss/weld/util/el/ForwardingMethodExpression.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35308057">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/AbstractFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="85" column="0" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../glassfish4/glassfish/modules/weld-osgi-bundle.jar!/org/jboss/weld/bean/proxy/InterceptionDecorationContext.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.58354753">
+          <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/facadeLocal/PlanFacadeLocal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="111" column="15" selection-start-line="111" selection-start-column="15" selection-end-line="111" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/PlanFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="113" column="51" selection-start-line="113" selection-start-column="51" selection-end-line="113" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Plan.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
+          <folding>
+            <element signature="e#3646#3647#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Schedule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="207" column="5" selection-start-line="207" selection-start-column="5" selection-end-line="207" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/primefaces/primefaces/5.1/primefaces-5.1-sources.jar!/org/primefaces/model/ScheduleModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.425">
+          <caret line="29" column="16" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/primefaces/primefaces/5.1/primefaces-5.1-sources.jar!/org/primefaces/model/DefaultScheduleEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.1342812">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/resources/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="322" column="32" selection-start-line="322" selection-start-column="23" selection-end-line="322" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#7249#7250#0" expanded="false" />
+            <element signature="e#7271#7272#0" expanded="false" />
+            <element signature="e#7307#7308#0" expanded="false" />
+            <element signature="e#7333#7334#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-ejb/src/main/java/ua/kiev/doctorvera/facade/ScheduleFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13097073">
+          <caret line="47" column="23" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/ScheduleValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="111" column="19" selection-start-line="111" selection-start-column="19" selection-end-line="111" selection-end-column="19" />
+          <folding>
+            <element signature="e#1669#1670#0" expanded="false" />
+            <element signature="e#1721#1722#0" expanded="false" />
+            <element signature="e#1777#1778#0" expanded="false" />
+            <element signature="e#1795#1796#0" expanded="false" />
+            <element signature="e#1841#1842#0" expanded="false" />
+            <element signature="e#1874#1875#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/PlanView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="202" column="59" selection-start-line="202" selection-start-column="59" selection-end-line="202" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2824#2825#0" expanded="false" />
+            <element signature="e#2849#2850#0" expanded="false" />
+            <element signature="e#2899#2900#0" expanded="false" />
+            <element signature="e#2936#2937#0" expanded="false" />
+            <element signature="e#2980#2981#0" expanded="false" />
+            <element signature="e#3007#3008#0" expanded="false" />
+            <element signature="e#3069#3070#0" expanded="false" />
+            <element signature="e#3110#3111#0" expanded="false" />
+            <element signature="e#3148#3149#0" expanded="false" />
+            <element signature="e#3176#3177#0" expanded="false" />
+            <element signature="e#3232#3233#0" expanded="false" />
+            <element signature="e#3275#3276#0" expanded="false" />
+            <element signature="e#3312#3313#0" expanded="false" />
+            <element signature="e#3334#3335#0" expanded="false" />
+            <element signature="e#3384#3385#0" expanded="false" />
+            <element signature="e#3415#3416#0" expanded="false" />
+            <element signature="e#3446#3447#0" expanded="false" />
+            <element signature="e#3475#3476#0" expanded="false" />
+            <element signature="e#3514#3515#0" expanded="false" />
+            <element signature="e#3538#3539#0" expanded="false" />
+            <element signature="e#3592#3593#0" expanded="false" />
+            <element signature="e#3627#3628#0" expanded="false" />
+            <element signature="e#3653#3654#0" expanded="false" />
+            <element signature="e#3671#3672#0" expanded="false" />
+            <element signature="e#3706#3707#0" expanded="false" />
+            <element signature="e#3729#3730#0" expanded="false" />
+            <element signature="e#3769#3770#0" expanded="false" />
+            <element signature="e#3788#3789#0" expanded="false" />
+            <element signature="e#3834#3835#0" expanded="false" />
+            <element signature="e#3881#3882#0" expanded="false" />
+            <element signature="e#3922#3923#0" expanded="false" />
+            <element signature="e#3955#3956#0" expanded="false" />
+            <element signature="e#3990#3991#0" expanded="false" />
+            <element signature="e#4021#4022#0" expanded="false" />
+            <element signature="e#4069#4070#0" expanded="false" />
+            <element signature="e#4109#4110#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/entities/Users.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.810345">
+          <caret line="245" column="43" selection-start-line="245" selection-start-column="43" selection-end-line="245" selection-end-column="43" />
+          <folding>
+            <element signature="e#8311#8312#0" expanded="true" />
+            <element signature="e#8351#8352#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-library/src/main/java/ua/kiev/doctorvera/utils/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="37" column="57" selection-start-line="37" selection-start-column="57" selection-end-line="37" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/PlanValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="77" column="30" selection-start-line="77" selection-start-column="30" selection-end-line="77" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#24810#24811#0" expanded="true" />
-            <element signature="e#24846#24847#0" expanded="true" />
-            <element signature="e#24911#24912#0" expanded="true" />
-            <element signature="e#24961#24962#0" expanded="true" />
-            <element signature="e#25017#25018#0" expanded="true" />
-            <element signature="e#25057#25058#0" expanded="true" />
-            <element signature="e#25229#25230#0" expanded="true" />
-            <element signature="e#25260#25261#0" expanded="true" />
-            <element signature="e#25310#25311#0" expanded="true" />
-            <element signature="e#25350#25351#0" expanded="true" />
-            <element signature="e#25395#25396#0" expanded="true" />
-            <element signature="e#25431#25432#0" expanded="true" />
-            <element signature="e#25477#25478#0" expanded="true" />
-            <element signature="e#25514#25515#0" expanded="true" />
-            <element signature="e#25558#25559#0" expanded="true" />
-            <element signature="e#25593#25594#0" expanded="true" />
-            <element signature="e#25626#25627#0" expanded="true" />
-            <element signature="e#25656#25657#0" expanded="true" />
-            <element signature="e#25701#25702#0" expanded="true" />
-            <element signature="e#25739#25740#0" expanded="true" />
-            <element signature="e#25778#25779#0" expanded="true" />
-            <element signature="e#25806#25807#0" expanded="true" />
-            <element signature="e#25855#25856#0" expanded="true" />
-            <element signature="e#25912#25913#0" expanded="true" />
-            <element signature="e#25956#25957#0" expanded="true" />
-            <element signature="e#25989#25990#0" expanded="true" />
-            <element signature="e#26032#26033#0" expanded="true" />
-            <element signature="e#26066#26067#0" expanded="true" />
-            <element signature="e#26125#26126#0" expanded="true" />
-            <element signature="e#26171#26172#0" expanded="true" />
-            <element signature="e#26208#26209#0" expanded="true" />
-            <element signature="e#26240#26241#0" expanded="true" />
-            <element signature="e#26292#26293#0" expanded="true" />
-            <element signature="e#26334#26335#0" expanded="true" />
-            <element signature="e#26369#26370#0" expanded="true" />
-            <element signature="e#26400#26401#0" expanded="true" />
-            <element signature="e#26448#26449#0" expanded="true" />
-            <element signature="e#26488#26489#0" expanded="true" />
-            <element signature="e#26537#26538#0" expanded="true" />
-            <element signature="e#26575#26576#0" expanded="true" />
-            <element signature="e#26644#26645#0" expanded="true" />
-            <element signature="e#26698#26699#0" expanded="true" />
-            <element signature="e#26748#26749#0" expanded="true" />
-            <element signature="e#26783#26784#0" expanded="true" />
-            <element signature="e#26850#26851#0" expanded="true" />
-            <element signature="e#26898#26899#0" expanded="true" />
-            <element signature="e#26961#26962#0" expanded="true" />
-            <element signature="e#27004#27005#0" expanded="true" />
-            <element signature="e#27208#27209#0" expanded="true" />
-            <element signature="e#27245#27246#0" expanded="true" />
-            <element signature="e#27316#27317#0" expanded="true" />
-            <element signature="e#27368#27369#0" expanded="true" />
-            <element signature="e#27418#27419#0" expanded="true" />
-            <element signature="e#27459#27460#0" expanded="true" />
-            <element signature="e#27532#27533#0" expanded="true" />
-            <element signature="e#27592#27593#0" expanded="true" />
-            <element signature="e#27635#27636#0" expanded="true" />
-            <element signature="e#27669#27670#0" expanded="true" />
-            <element signature="e#27728#27729#0" expanded="true" />
-            <element signature="e#27774#27775#0" expanded="true" />
-            <element signature="e#27819#27820#0" expanded="true" />
-            <element signature="e#27855#27856#0" expanded="true" />
-            <element signature="e#27918#27919#0" expanded="true" />
-            <element signature="e#27968#27969#0" expanded="true" />
-            <element signature="e#27997#27998#0" expanded="true" />
-            <element signature="e#28024#28025#0" expanded="true" />
-            <element signature="e#28062#28063#0" expanded="true" />
-            <element signature="e#28094#28095#0" expanded="true" />
-            <element signature="e#28134#28135#0" expanded="true" />
-            <element signature="e#28165#28166#0" expanded="true" />
-            <element signature="e#28218#28219#0" expanded="true" />
-            <element signature="e#28258#28259#0" expanded="true" />
-            <element signature="e#28300#28301#0" expanded="true" />
-            <element signature="e#28333#28334#0" expanded="true" />
-            <element signature="e#28390#28391#0" expanded="true" />
-            <element signature="e#28434#28435#0" expanded="true" />
-            <element signature="e#28474#28475#0" expanded="true" />
-            <element signature="e#28511#28512#0" expanded="true" />
-            <element signature="e#28570#28571#0" expanded="true" />
-            <element signature="e#28622#28623#0" expanded="true" />
-            <element signature="e#28659#28660#0" expanded="true" />
-            <element signature="e#28693#28694#0" expanded="true" />
-            <element signature="e#28746#28747#0" expanded="true" />
-            <element signature="e#28792#28793#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/webapp/private/schedule.xhtml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.9285715">
+          <caret line="54" column="65" selection-start-line="54" selection-start-column="65" selection-end-line="54" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/UsersValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="71" column="77" selection-start-line="71" selection-start-column="77" selection-end-line="71" selection-end-column="77" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/validators/Validator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33268481">
+          <caret line="68" column="25" selection-start-line="68" selection-start-column="25" selection-end-line="68" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DoctorVeraCloud-web/src/main/java/ua/kiev/doctorvera/views/ScheduleView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.89299613">
+          <caret line="292" column="13" selection-start-line="292" selection-start-column="13" selection-end-line="292" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

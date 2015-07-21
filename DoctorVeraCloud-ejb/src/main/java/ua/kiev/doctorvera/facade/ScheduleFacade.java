@@ -179,6 +179,26 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
     }
+
+    /**
+     Searches for current Schedule records child
+     @return Schedule child record
+     @param schedule - record whose child to search
+     */
+    @Override
+    public Schedule findChildSchedule(Schedule schedule){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
+        Root<Schedule> root = cq.from(Schedule.class);
+        Predicate parentPredicate = cb.and(cb.equal(root.<Schedule>get("parentSchedule"), schedule));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(parentPredicate, deletedPredicate);
+        cq.distinct(true);
+        if(getEntityManager().createQuery(cq).getResultList().isEmpty())
+            return null;
+        else
+            return getEntityManager().createQuery(cq).getSingleResult();
+    }
     
 
 }

@@ -188,8 +188,8 @@ public class PlanView implements Serializable {
         
 		//Validation for crossing other Plan records
 		//Check if changes are legal (if there are no scheduled records in time intervals changed)
-		if(planValidator.resizePlanValidate(plan.getDateTimeStart(), plan.getDateTimeEnd(), 
-				event.getStartDate(), event.getEndDate(), currentRoom, plan)) return;
+		if(planValidator.resizePlanValidate(
+				event.getStartDate(), event.getEndDate(),plan.getDateTimeStart(), plan.getDateTimeEnd(), currentRoom, plan)) return;
     	
     	plan.setDateCreated(new Date());
     	plan.setUserCreated(authorizedUser);
@@ -214,8 +214,8 @@ public class PlanView implements Serializable {
         
 		//Validation for crossing other Plan records
 		//Check if changes are legal (if there are no scheduled records in time intervals changed)
-		if(planValidator.resizePlanValidate(plan.getDateTimeStart(), plan.getDateTimeEnd(), 
-				event.getStartDate(), event.getEndDate(), currentRoom, plan)) return;
+		if(planValidator.resizePlanValidate(
+				event.getStartDate(), event.getEndDate(),plan.getDateTimeStart(), plan.getDateTimeEnd(), currentRoom, plan)) return;
     	
     	plan.setDateCreated(new Date());
     	plan.setUserCreated(authorizedUser);

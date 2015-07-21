@@ -62,8 +62,6 @@ public class Schedule implements Serializable,Identified<Integer> {
     @NotNull
     @Column(name = "Deleted")
     private boolean deleted;
-    @OneToMany(mappedBy = "schedule")
-    private Collection<Payments> paymentsCollection;
     @JoinColumn(name = "Method", referencedColumnName = "MethodId")
     @ManyToOne(optional = false)
     private Methods method;
@@ -87,7 +85,7 @@ public class Schedule implements Serializable,Identified<Integer> {
     private Users userCreated;
     @JoinColumn(name = "ParentSchedule", referencedColumnName = "ScheduleId")
     @ManyToOne
-    private Schedule parentSchedle;
+    private Schedule parentSchedule;
 
     public Schedule() {
     }
@@ -145,12 +143,12 @@ public class Schedule implements Serializable,Identified<Integer> {
         return description;
     }
 
-    public Schedule getParentSchedle() {
-        return parentSchedle;
+    public Schedule getParentSchedule() {
+        return parentSchedule;
     }
 
-    public void setParentSchedle(Schedule parentSchedle) {
-        this.parentSchedle = parentSchedle;
+    public void setParentSchedule(Schedule parentSchedule) {
+        this.parentSchedule = parentSchedule;
     }
 
     public void setDescription(String description) {
@@ -171,15 +169,6 @@ public class Schedule implements Serializable,Identified<Integer> {
     @Override
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
-    }
-
-    @XmlTransient
-    public Collection<Payments> getPaymentsCollection() {
-        return paymentsCollection;
-    }
-
-    public void setPaymentsCollection(Collection<Payments> paymentsCollection) {
-        this.paymentsCollection = paymentsCollection;
     }
 
     public Methods getMethod() {

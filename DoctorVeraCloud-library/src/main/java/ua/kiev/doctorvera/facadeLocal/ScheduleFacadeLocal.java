@@ -137,5 +137,11 @@ public interface ScheduleFacadeLocal{
     @param to - date to search to
     */
     List<Schedule> findByStartDateBetween(Date from, Date to);
-    
+
+    /**
+     Searches for current Schedule records child
+     @return Schedule child record
+     @param schedule - record whose child to search
+     */
+    public Schedule findChildSchedule(Schedule schedule);
 }

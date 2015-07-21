@@ -24,13 +24,10 @@ public class Message extends ListResourceBundle implements Serializable{
 			e.printStackTrace();
 		}
 	}
-	/*
-	public static enum Messages {
+
+	public enum Messages {
 		APPLICATION_TITLE,
-		APPLICATION_SAVED
-		
-	}
-	public static enum Login {
+		APPLICATION_SAVED,
 		LOGIN_TITLE,
 		LOGIN_ERROR_TITLE,
 		LOGIN_ERROR,
@@ -41,9 +38,7 @@ public class Message extends ListResourceBundle implements Serializable{
 		LOGIN_LOGIN_BUTTON,
 		LOGIN_GOODBY_TITLE,
 		LOGIN_GOODBY,
-		LOGIN_USER_PROFILE
-	}
-	public static enum Payments{
+		LOGIN_USER_PROFILE,
 		PAYMENTS_ADD_TITLE,
 		PAYMENTS_TYPE,
 		PAYMENTS_TYPE_INCOMING,
@@ -53,10 +48,7 @@ public class Message extends ListResourceBundle implements Serializable{
 		PAYMENTS_CASHIER,
 		PAYMENTS_ADD_BUTTON,
 		PAYMENTS_ADD_PRINT_BUTTON,
-		PAYMENTS_CREATED
-	}
-	
-	public static enum UsersDetails{
+		PAYMENTS_CREATED,
 		SHOW_USERS_TITLE,
 		SHOW_USERS_ACTIONS,
 		ADD_USER_FORM_LEGEND_DETAILS,
@@ -78,9 +70,6 @@ public class Message extends ListResourceBundle implements Serializable{
 		USERS_DELETE_CONFIRM_YES,
 		USERS_DELETE_CONFIRM_NO,
 		USERS_DELETED,
-	}
-	
-	public static enum UserTypes{
 		USER_TYPES_TITLE,
 		USER_TYPES_ADD_BUTTON,
 		USER_TYPES_NAME,
@@ -102,10 +91,7 @@ public class Message extends ListResourceBundle implements Serializable{
 		USER_TYPES_ADD_SUCCESS_START,
 		USER_TYPES_ADD_SUCCESS_END,
 		USER_TYPES_REMOVE_SUCCESS_START,
-		USER_TYPES_REMOVE_SUCCESS_END
-	}
-	
-	public static enum Rooms{
+		USER_TYPES_REMOVE_SUCCESS_END,
 		ROOMS_TITLE,
 		ROOMS_ADD_BUTTON,
 		ROOMS_NAME,
@@ -118,10 +104,7 @@ public class Message extends ListResourceBundle implements Serializable{
 		ROOMS_DELETED,
 		ROOMS_SAVED,
 		ROOMS_EDIT_CANCELED,
-		ROOMS_EDITED
-	}
-	
-	public static enum Methods{
+		ROOMS_EDITED,
 		METHODS_TITLE,
 		METHODS_ADD_BUTTON,
 		METHODS_NAME,
@@ -142,11 +125,7 @@ public class Message extends ListResourceBundle implements Serializable{
 		METHODS_ADD_SUCCESS_START,
 		METHODS_ADD_SUCCESS_END,
 		METHODS_REMOVE_SUCCESS_START,
-		METHODS_REMOVE_SUCCESS_END
-		
-	}
-	
-	public static enum Plan{
+		METHODS_REMOVE_SUCCESS_END,
 		PLAN_TITLE,
 		PLAN_ADD_BUTTON,
 		PLAN_NAME,
@@ -163,9 +142,7 @@ public class Message extends ListResourceBundle implements Serializable{
 		PLAN_VALIDATE_DATE,
 		PLAN_VALIDATE_SCHEDULE,
 		PLAN_VALIDATE_SCHEDULE_DELETE,
-		PLAN_VALIDATE_SCHEDULE_UPDATE
-	}
-	public static enum Schedule{
+		PLAN_VALIDATE_SCHEDULE_UPDATE,
 		SCHEDULE_TITLE,
 		SCHEDULE_ADD_BUTTON,
 		SCHEDULE_ADD_DIALOG_TITLE,
@@ -196,10 +173,7 @@ public class Message extends ListResourceBundle implements Serializable{
         SCHEDULE_METHOD_REMOVE_SUCCESS_START,
         SCHEDULE_METHOD_REMOVE_SUCCESS_END,
         SCHEDULE_VALIDATE_NOT_IN_PLAN,
-        SCHEDULE_VALIDATE_NOT_IN_PLAN_START
-	}
-	
-	public static enum Menu{
+        SCHEDULE_VALIDATE_NOT_IN_PLAN_START,
 		MENU_HEADER,
 		ADMIN_BLOCK_HEADER,
 		MANAGER_BLOCK_HEADER,
@@ -231,18 +205,11 @@ public class Message extends ListResourceBundle implements Serializable{
 		MENU_HEADER_FINANCE,
 		MENU_HEADER_SCHEDULE,
 		MENU_ITEM_PLAN_GENERAL,
-		MENU_ITEM_SCHEDULE_GENERAL
-		
-	}
-
-	public static enum Entity{
+		MENU_ITEM_SCHEDULE_GENERAL,
 		ENTITY_ID,
 		ENTITY_DATE_CREATED,
 		ENTITY_USER_CREATED,
-		ENTITY_DESCRIPTION
-	}
-
-	public static enum Users{
+		ENTITY_DESCRIPTION,
 		USERS_LAST_NAME,
 		USERS_FIRST_NAME,
 		USERS_MIDDLE_NAME,
@@ -267,11 +234,7 @@ public class Message extends ListResourceBundle implements Serializable{
 		USERS_ADD_SUCCESS_START,
 		USERS_ADD_SUCCESS_END,
 		USERS_REMOVE_SUCCESS_START,
-		USERS_REMOVE_SUCCESS_END
-		
-	}
-	
-	public static enum Address{
+		USERS_REMOVE_SUCCESS_END,
 		ADDRESS_COUNTRY,
 		ADDRESS_REGION,
 		ADDRESS_CITY,
@@ -283,10 +246,7 @@ public class Message extends ListResourceBundle implements Serializable{
 		ADDRESS_PLACEHOLDER_CITY,
 		ADDRESS_PLACEHOLDER_ADDRESS,
 		ADDRESS_PLACEHOLDER_STREET,
-		ADDRESS_PLACEHOLDER_INDEX
-		
-	}
-	public static enum Validator{
+		ADDRESS_PLACEHOLDER_INDEX,
 		VALIDATOR_ERROR_TITLE,
 		VALIDATOR_REQUIRED,
 		VALIDATOR_CYRILLIC_ONLY,
@@ -310,7 +270,7 @@ public class Message extends ListResourceBundle implements Serializable{
 		VALIDATOR_PRICE_ZERO,
 		VALIDATOR_PRICE_AFTER_NOW
 	}
-	*/
+
 	public static Message getInstance() {
 		if (instance == null) instance = new Message();
 		return instance;
@@ -344,10 +304,37 @@ public class Message extends ListResourceBundle implements Serializable{
 		}
 	}
 
-	public static void showMessage(String title, String message){
-		final String successMessage = Message.getInstance().getString(title);
-		final String successTitle = Message.getInstance().getString(message);
+	public static void showMessage(Messages title, Messages message){
+		final String successTitle = Message.getInstance().getString(title.name());
+		final String successMessage = Message.getInstance().getString(message.name());
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage));
+	}
+	public static void showMessage(Messages title, String message){
+		final String successTitle = Message.getInstance().getString(title.name());
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, message));
+	}
+	public static void showMessage(String title, Messages message){
+		final String successMessage = Message.getInstance().getString(message.name());
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, title, successMessage));
+	}
+	public static void showMessage(String title, String message){
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, title, message));
+	}
+	public static void showError(Messages title, Messages message){
+		final String successTitle = Message.getInstance().getString(title.name());
+		final String successMessage = Message.getInstance().getString(message.name());
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, successTitle, successMessage));
+	}
+	public static void showError(Messages title, String message){
+		final String successTitle = Message.getInstance().getString(title.name());
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, successTitle, message));
+	}
+	public static void showError(String title, Messages message){
+		final String successMessage = Message.getInstance().getString(message.name());
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, title, successMessage));
+	}
+	public static void showError(String title, String message){
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, title, message));
 	}
 	/*
 	@Override

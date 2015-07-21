@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
+import static ua.kiev.doctorvera.resources.Message.Messages.*;
 
 @Named(value = "planValidator")
 @SessionScoped
@@ -92,8 +93,7 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
 					formater.format(plan.getDateTimeStart()) + " - " + 
 					formater.format(plan.getDateTimeEnd()) + " " + 
 					plan.getDoctor().getFirstName() + plan.getDoctor().getLastName() + "\n";
-				fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorTitle , errorMessage);
-				context.addMessage(null, fMessage);
+				Message.showError(errorTitle, errorMessage);
 				return true;
 			}
 			
@@ -105,7 +105,7 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
     public boolean updatePlanValidate(Date newStart, Date newEnd, Date oldStart, Date oldEnd, Rooms currentRoom, Plan currentPlan){
 		//Validation for crossing other Plan records
 		Boolean error = addPlanValidate(newStart, newEnd, currentRoom, currentPlan);
-		if(error) return true;
+		if(error) return error;
 		
 		//Check if changes are legal (if there are no scheduled records in time intervals changed)
 		if(oldStart.before(newStart))
@@ -127,12 +127,12 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
 		
 		//Check if changes are legal (if there are no scheduled records in time intervals changed)
 		if(oldStart.before(newStart))
-			error = crossScheduleValidateOnResize(oldStart, newStart, currentRoom);
-		else if(oldStart.after(newStart))
+ 			error = crossScheduleValidateOnResize(oldStart, newStart, currentRoom);
+		else if(!error && oldStart.after(newStart))
 			error = crossScheduleValidateOnResize(newStart, oldStart, currentRoom);
-		if(oldEnd.before(newEnd))	
+		if(!error && oldEnd.before(newEnd))
 			error = crossScheduleValidateOnResize(oldEnd, newEnd, currentRoom);
-		else if(oldEnd.after(newEnd))	
+		else if(!error && oldEnd.after(newEnd))
 			error = crossScheduleValidateOnResize(newEnd, oldEnd, currentRoom);
 		if(error)  return true;
 		return false;
@@ -155,8 +155,7 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
 					formater.format(schedule.getDateTimeStart()) + " - " + 
 					formater.format(schedule.getDateTimeEnd()) + " " + 
 					schedule.getDoctor().getFirstName() + schedule.getDoctor().getLastName() + "\n";
-				fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorTitle , errorMessage);
-				context.addMessage(null, fMessage);
+				Message.showError(errorTitle, errorMessage);
 			}
 			return true;
     		//throw new ValidatorException(fMessage);
@@ -183,8 +182,7 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
 					formater.format(plan.getDateTimeEnd()) + " " + 
 					plan.getDoctor().getFirstName() + plan.getDoctor().getLastName() + "\n";
 			}
-			FacesMessage fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorTitle , errorMessage);
-			FacesContext.getCurrentInstance().addMessage(null, fMessage);
+			Message.showError(VALIDATOR_ERROR_TITLE, errorMessage);
 			return true;
     		//throw new ValidatorException(fMessage);
 		}
@@ -207,8 +205,7 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
 					formater.format(schedule.getDateTimeStart()) + " - " + 
 					formater.format(schedule.getDateTimeEnd()) + " " + 
 					schedule.getDoctor().getFirstName() + schedule.getDoctor().getLastName() + "\n";
-				fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorTitle , errorMessage);
-				context.addMessage(null, fMessage);
+				Message.showError(errorTitle, errorMessage);
 			}
 			return true;
     		//throw new ValidatorException(fMessage);
@@ -232,9 +229,7 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
 					formater.format(schedule.getDateTimeEnd()) + " " + 
 					schedule.getDoctor().getFirstName() + schedule.getDoctor().getLastName() + "\n";
 			}
-			
-			FacesMessage fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorTitle , errorMessage);
-			FacesContext.getCurrentInstance().addMessage(null, fMessage);
+			Message.showError(errorTitle, errorMessage);
 			return true;
     		//throw new ValidatorException(fMessage);
 		}
