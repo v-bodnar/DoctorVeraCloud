@@ -113,6 +113,7 @@ public class ScheduleGeneralView implements Serializable {
 			);
 		}
 		newEvent.setStyleClass("doc" + schedule.getDoctor().getId());
+		newEvent.setEditable(false);
 		return newEvent;
 	}
 

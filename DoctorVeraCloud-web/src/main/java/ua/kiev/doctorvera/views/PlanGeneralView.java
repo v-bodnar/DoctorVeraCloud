@@ -81,6 +81,7 @@ public class PlanGeneralView implements Serializable {
     		plan.getDescription()
     		);
     	newEvent.setStyleClass("doc" + plan.getDoctor().getId());
+		newEvent.setEditable(false);
     	return newEvent;
     }
 	
