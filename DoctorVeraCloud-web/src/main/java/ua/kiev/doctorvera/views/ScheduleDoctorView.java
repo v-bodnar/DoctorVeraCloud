@@ -24,9 +24,9 @@ import java.util.logging.Logger;
 
 import static ua.kiev.doctorvera.resources.Message.Messages.*;
 
-@Named(value = "scheduleView")
+@Named(value = "scheduleDoctorView")
 @ViewScoped
-public class ScheduleView implements Serializable {
+public class ScheduleDoctorView implements Serializable {
 
     private final static Logger LOG = Logger.getLogger(ScheduleView.class.getName());
     private final static long FIVE_MINUTES_IN_MILLIS = 360000;//millisecs
@@ -775,7 +775,7 @@ public class ScheduleView implements Serializable {
     }
 
     public String onFlowProcess(FlowEvent event) {
-            return event.getNewStep();
+        return event.getNewStep();
     }
 
     /* --------------------------------------------*/

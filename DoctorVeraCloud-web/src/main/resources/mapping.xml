@@ -18,6 +18,8 @@
  	<entry key="SCHEDULE_PAGE">/private/schedule.xhtml</entry>
  	<entry key="SCHEDULE_GENERAL_PAGE">/private/schedule_general.xhtml</entry>
  	<entry key="PLAN_GENERAL_PAGE">/private/plan_general.xhtml</entry>
+	<entry key="SCHEDULE_PERSONAL_PAGE">/private/schedule_doctor.xhtml</entry>
+
 
  	<!-- Path-->
  	<entry key="APPLICATION_LOGO">/logo.png</entry>

@@ -53,6 +53,8 @@ public class MenuView implements Serializable {
     private final String planGeneralPageUrl = Mapping.getInstance().getString("PLAN_GENERAL_PAGE");
     private final String scheduleGeneralPageValue = Message.getInstance().getString("MENU_ITEM_SCHEDULE_GENERAL");
     private final String scheduleGeneralPageUrl = Mapping.getInstance().getString("SCHEDULE_GENERAL_PAGE");
+    private final String schedulePersonalPageValue = Message.getInstance().getString("MENU_ITEM_PERSONAL_SCHEDULE");
+    private final String schedulePersonalPageUrl = Mapping.getInstance().getString("SCHEDULE_PERSONAL_PAGE");
     private static final String APPLICATION_ROOT_URL = Mapping.getInstance().getString("APPLICATION_ROOT_PATH");
     private static final Logger LOG = Logger.getLogger(MenuView.class.getName());
 
@@ -84,6 +86,13 @@ public class MenuView implements Serializable {
         }
         mainSubmenu.addElement(item);
 
+        item = new DefaultMenuItem(schedulePersonalPageValue);
+        item.setUrl(schedulePersonalPageUrl);
+        item.setIcon("ui-icon-calendar");
+        if (url != null && url.equals(APPLICATION_ROOT_URL + schedulePersonalPageUrl)) {
+            item.setStyleClass("ui-state-active");
+        }
+        mainSubmenu.addElement(item);
 
         item = new DefaultMenuItem(usersPageValue);
         item.setUrl(usersPageUrl);
@@ -141,7 +150,11 @@ public class MenuView implements Serializable {
         item = new DefaultMenuItem(planGeneralPageValue);
         item.setUrl(planGeneralPageUrl);
         item.setIcon("ui-icon-calendar");
+        if (url != null && url.equals(APPLICATION_ROOT_URL + planGeneralPageUrl)) {
+            item.setStyleClass("ui-state-active");
+        }
         planSubmenu.addElement(item);
+
 
         for (Rooms room : allRooms) {
             item = new DefaultMenuItem(room.getName());
@@ -157,6 +170,9 @@ public class MenuView implements Serializable {
         item = new DefaultMenuItem(scheduleGeneralPageValue);
         item.setUrl(scheduleGeneralPageUrl);
         item.setIcon("ui-icon-calendar");
+        if (url != null && url.equals(APPLICATION_ROOT_URL + scheduleGeneralPageUrl)) {
+            item.setStyleClass("ui-state-active");
+        }
         scheduleSubmenu.addElement(item);
 
         for (Rooms room : allRooms) {

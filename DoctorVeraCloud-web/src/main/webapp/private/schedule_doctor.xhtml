@@ -8,56 +8,56 @@
         <h:outputText value="#{MESSAGE.SCHEDULE_TITLE}"/>
     </ui:define>
     <ui:define name="content">
-        <h1><h:outputText value="#{scheduleView.currentRoom.name}"/></h1>
+        <h1><h:outputText value="#{scheduleDoctorView.currentRoom.name}"/></h1>
         <h:form id="scheduleForm">
 
             <p:growl id="growl" showDetail="true" severity="info,warn,error"/>
 
-            <p:schedule id="schedule" value="#{scheduleView.eventModel}" locale="ru" view="agendaWeek" firstHour="6"
+            <p:schedule id="schedule" value="#{scheduleDoctorView.eventModel}" locale="ru" view="agendaWeek" firstHour="6"
                         minTime="7am" maxTime="8pm" styleClass="scheduleCalendar" timeZone="GMT+2" widgetVar="schedule"
                         rightHeaderTemplate="agendaDay,agendaWeek"
                         allDaySlot="false" tooltip="false">
-                <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="addScheduleDialog"
+                <p:ajax event="eventSelect" listener="#{scheduleDoctorView.onEventSelect}" update="addScheduleDialog"
                         oncomplete="PF('addScheduleDialog').show();"/>
-                <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update="growl"
+                <p:ajax event="eventMove" listener="#{scheduleDoctorView.onEventMove}" update="growl"
                         oncomplete="PF('schedule').update();"/>
-                <p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}" update=":planForm:addPlanDialog"
+                <p:ajax event="dateSelect" listener="#{scheduleDoctorView.onDateSelect}" update=":planForm:addPlanDialog"
                         oncomplete="PF('addPlanDialog').show();"/>
-                <p:ajax event="eventResize" listener="#{scheduleView.onEventResize}" update="growl"
+                <p:ajax event="eventResize" listener="#{scheduleDoctorView.onEventResize}" update="growl"
                         oncomplete="PF('schedule').update();"/>
             </p:schedule>
 
             <p:dialog
-                    header="#{scheduleView.schedule.id==null?MESSAGE.SCHEDULE_ADD_DIALOG_TITLE:MESSAGE.SCHEDULE_EDIT_DIALOG_TITLE}
-			        #{scheduleView.schedule.doctor.firstName} #{scheduleView.schedule.doctor.lastName}"
+                    header="#{scheduleDoctorView.schedule.id==null?MESSAGE.SCHEDULE_ADD_DIALOG_TITLE:MESSAGE.SCHEDULE_EDIT_DIALOG_TITLE}
+			        #{scheduleDoctorView.schedule.doctor.firstName} #{scheduleDoctorView.schedule.doctor.lastName}"
                     widgetVar="addScheduleDialog" id="addScheduleDialog" modal="false" showEffect="clip"
                     styleClass="addScheduleDialog" closeOnEscape="true" width="1000" height="630">
 
                 <p:messages id="errorMessage" showDetail="true" style="width:800px;font-size:90%" escape="true"/>
 
-                <p:wizard flowListener="#{scheduleView.onFlowProcess}">
+                <p:wizard flowListener="#{scheduleDoctorView.onFlowProcess}">
                     <p:tab id="personalTab" title="#{MESSAGE.SCHEDULE_TAB_PERSONAL}">
                         <h:panelGrid columns="3" cellpadding="5">
 
                             <!-- Phone Number Mobile -->
                             <h:outputLabel for="phoneNumberMobile" value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}"/>
-                            <p:inputMask value="#{scheduleView.patient.phoneNumberMobile}"
+                            <p:inputMask value="#{scheduleDoctorView.patient.phoneNumberMobile}"
                                          id="phoneNumberMobile" name="phoneNumberMobile"
                                          mask="+38(999)999-99-99" required="true"
                                          requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
                                          validator="#{usersValidator.validate}">
                                 <f:attribute name="name" value="phoneNumberMobile"/>
-                                <p:ajax event="blur" listener="#{scheduleView.fillUserData}"
+                                <p:ajax event="blur" listener="#{scheduleDoctorView.fillUserData}"
                                         update="phoneNumberMobileMessage growl firstName middleName lastName"/>
                             </p:inputMask>
                             <p:message for="phoneNumberMobile" id="phoneNumberMobileMessage"/>
 
                             <!-- First Name -->
                             <h:outputLabel for="firstName" value="#{MESSAGE.USERS_FIRST_NAME}"/>
-                            <p:autoComplete value="#{scheduleView.patient.firstName}"
+                            <p:autoComplete value="#{scheduleDoctorView.patient.firstName}"
                                             id="firstName" name="firstName"
                                             placeholder="#{MESSAGE.USERS_PLACEHOLDER_FIRST_NAME}"
-                                            completeMethod="#{scheduleView.allFirstNames}"
+                                            completeMethod="#{scheduleDoctorView.allFirstNames}"
                                             validator="#{usersValidator.validate}" required="true"
                                             requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                                 <f:attribute name="name" value="firstName"/>
@@ -68,10 +68,10 @@
 
                             <!-- Last Name -->
                             <h:outputLabel for="lastName" value="#{MESSAGE.USERS_LAST_NAME}"/>
-                            <p:autoComplete value="#{scheduleView.patient.lastName}"
+                            <p:autoComplete value="#{scheduleDoctorView.patient.lastName}"
                                             id="lastName" name="lastName"
                                             placeholder="#{MESSAGE.USERS_PLACEHOLDER_LAST_NAME}"
-                                            completeMethod="#{scheduleView.allMiddleNames}"
+                                            completeMethod="#{scheduleDoctorView.allMiddleNames}"
                                             validator="#{usersValidator.validate}" required="true"
                                             requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                                 <f:attribute name="name" value="lastName"/>
@@ -82,10 +82,10 @@
                             <!-- Middle Name -->
                             <h:outputLabel for="middleName"
                                            value="#{MESSAGE.USERS_MIDDLE_NAME}"/>
-                            <p:autoComplete value="#{scheduleView.patient.middleName}"
+                            <p:autoComplete value="#{scheduleDoctorView.patient.middleName}"
                                             id="middleName" name="middleName"
                                             placeholder="#{MESSAGE.USERS_PLACEHOLDER_MIDDLE_NAME}"
-                                            completeMethod="#{scheduleView.allLastNames}"
+                                            completeMethod="#{scheduleDoctorView.allLastNames}"
                                             validator="#{usersValidator.validate}">
                                 <f:attribute name="name" value="middleName"/>
                                 <p:ajax event="blur" update="middleNameMessage growl"/>
@@ -96,7 +96,7 @@
                             <h:outputLabel for="scheduleDescription"
                                            value="#{MESSAGE.ENTITY_DESCRIPTION}"/>
                             <p:inputTextarea rows="7" cols="20" id="scheduleDescription"
-                                             value="#{scheduleView.schedule.description}">
+                                             value="#{scheduleDoctorView.schedule.description}">
                                 <!--p:ajax event="blur" update="planDescriptionMessage" /-->
                             </p:inputTextarea>
                             <p:message for="scheduleDescription" id="scheduleDescriptionMessage"/>
@@ -104,12 +104,12 @@
 
                         <p:fieldset legend="#{MESSAGE.SCHEDULE_TAB_DOCUMENTS}" toggleable="true" toggleSpeed="500">
                             <h:panelGrid columns="1" cellpadding="5">
-                                    <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_FORM}" title="#{MESSAGE.SCHEDULE_PRINT_FORM}"
-                                                     actionListener="#{scheduleView.printForm}" icon="ui-icon-print" update="growl" style="width:300px"/>
-                                    <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}" title="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}"
-                                                     actionListener="#{scheduleView.printSecureAgreement}" icon="ui-icon-print" update="growl" style="width:300px"/>
-                                    <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}" title="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}"
-                                                     actionListener="#{scheduleView.printPrintIncomeForm}" icon="ui-icon-print" update="growl" style="width:300px"/>
+                                <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_FORM}" title="#{MESSAGE.SCHEDULE_PRINT_FORM}"
+                                                 actionListener="#{scheduleDoctorView.printForm}" icon="ui-icon-print" update="growl" style="width:300px"/>
+                                <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}" title="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}"
+                                                 actionListener="#{scheduleDoctorView.printSecureAgreement}" icon="ui-icon-print" update="growl" style="width:300px"/>
+                                <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}" title="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}"
+                                                 actionListener="#{scheduleDoctorView.printPrintIncomeForm}" icon="ui-icon-print" update="growl" style="width:300px"/>
 
                             </h:panelGrid>
                         </p:fieldset>
@@ -120,11 +120,11 @@
 
                             <!-- Assistent -->
                             <h:outputLabel for="assistent" value="#{MESSAGE.SCHEDULE_ASSISTENT}"/>
-                            <p:selectOneMenu id="assistent" value="#{scheduleView.schedule.assistant}"
+                            <p:selectOneMenu id="assistent" value="#{scheduleDoctorView.schedule.assistant}"
                                              converter="usersConverter"
                                              styleClass="mySelectOneMenu">
                                 <f:selectItem itemLabel="#{MESSAGE.SCHEDULE_WITHOUT_ASSISTENT}" itemValue="#{null}"/>
-                                <f:selectItems value="#{scheduleView.allAssistents}" var="assistent"
+                                <f:selectItems value="#{scheduleDoctorView.allAssistents}" var="assistent"
                                                itemLabel="#{assistent.firstName} #{assistent.lastName}"
                                                itemValue="#{assistent}"/>
                             </p:selectOneMenu>
@@ -132,12 +132,12 @@
 
                             <!-- Partner -->
                             <h:outputLabel for="partner" value="#{MESSAGE.SCHEDULE_PARTNER}"/>
-                            <p:selectOneMenu id="partner" value="#{scheduleView.schedule.doctorDirected}"
+                            <p:selectOneMenu id="partner" value="#{scheduleDoctorView.schedule.doctorDirected}"
                                              converter="usersConverter"
                                              styleClass="mySelectOneMenu">
                                 <f:selectItem itemLabel="#{MESSAGE.SCHEDULE_WITHOUT_DOCTOR_DIRECTED}"
                                               itemValue="#{null}"/>
-                                <f:selectItems value="#{scheduleView.allPartners}" var="partner"
+                                <f:selectItems value="#{scheduleDoctorView.allPartners}" var="partner"
                                                itemLabel="#{partner.firstName} #{partner.lastName}"
                                                itemValue="#{partner}"/>
                             </p:selectOneMenu>
@@ -145,7 +145,7 @@
 
                             <!-- Start time -->
                             <h:outputLabel for="dateTimeStart" value="#{MESSAGE.SCHEDULE_TIME_START}"/>
-                            <p:calendar id="dateTimeStart" value="#{scheduleView.schedule.dateTimeStart}"
+                            <p:calendar id="dateTimeStart" value="#{scheduleDoctorView.schedule.dateTimeStart}"
                                         required="true" pattern="dd-MM-yyyy HH:mm"
                                         requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
                                         validator="#{scheduleValidator.validate}">
@@ -156,10 +156,10 @@
 
                             <!-- Break Slider -->
                             <h:outputLabel for="breakSlider" id="breakSlideroutput"
-                                           value="#{MESSAGE.SCHEDULE_BREAK_TIME} #{scheduleView.breakTime} #{MESSAGE.SCHEDULE_MINUTES}"
+                                           value="#{MESSAGE.SCHEDULE_BREAK_TIME} #{scheduleDoctorView.breakTime} #{MESSAGE.SCHEDULE_MINUTES}"
                                     />
                             <h:panelGroup>
-                                <h:inputHidden id="breakSlider" value="#{scheduleView.breakTime}" required="true"
+                                <h:inputHidden id="breakSlider" value="#{scheduleDoctorView.breakTime}" required="true"
                                                requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
                                         />
                                 <p:slider for="breakSlider" display="breakSlideroutput" step="5" minValue="5"
@@ -170,25 +170,25 @@
 
                             <!--Method Types-->
                             <h:outputLabel for="methodTypes" value="#{MESSAGE.SCHEDULE_METHOD_TYPE}"/>
-                            <p:selectOneMenu id="methodTypes" value="#{scheduleView.selectedMethodType}"
+                            <p:selectOneMenu id="methodTypes" value="#{scheduleDoctorView.selectedMethodType}"
                                              converter="methodTypesConverter"
                                              required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
                                              styleClass="mySelectOneMenu">
-                                <f:selectItems value="#{scheduleView.allMethodTypes}" var="methodType"
+                                <f:selectItems value="#{scheduleDoctorView.allMethodTypes}" var="methodType"
                                                itemLabel="#{methodType.shortName}" itemValue="#{methodType}"/>
-                                <p:ajax event="change" update="methods" listener="#{scheduleView.constructPickList}"/>
+                                <p:ajax event="change" update="methods" listener="#{scheduleDoctorView.constructPickList}"/>
                             </p:selectOneMenu>
                             <p:message for="methodTypes" id="methodTypesMessage"/>
 
                             <!-- Methods-->
                             <h:outputLabel for="methods" id="metodsLabel" escape="false"
                                            value="#{MESSAGE.SCHEDULE_METHOD}&lt;br/&gt;
-                    #{MESSAGE.SCHEDULE_TOTAL_PRICE}: #{scheduleView.totalPrice} #{MESSAGE.APPLICATION_CURRENCY}&lt;br\&gt;
-                    #{MESSAGE.SCHEDULE_TOTAL_TIME_LENGTH}: #{scheduleView.totalTime} #{MESSAGE.APPLICATION_MINUTES_SHORT}"/>
-                            <p:pickList id="methods" value="#{scheduleView.methodsDualListModel}" var="method"
+                    #{MESSAGE.SCHEDULE_TOTAL_PRICE}: #{scheduleDoctorView.totalPrice} #{MESSAGE.APPLICATION_CURRENCY}&lt;br\&gt;
+                    #{MESSAGE.SCHEDULE_TOTAL_TIME_LENGTH}: #{scheduleDoctorView.totalTime} #{MESSAGE.APPLICATION_MINUTES_SHORT}"/>
+                            <p:pickList id="methods" value="#{scheduleDoctorView.methodsDualListModel}" var="method"
                                         effect="bounce"
                                         itemValue="#{method}"
-                                        itemLabel="#{method.shortName} #{scheduleView.pricesFacade.findLastPrice(method).total}"
+                                        itemLabel="#{method.shortName} #{scheduleDoctorView.pricesFacade.findLastPrice(method).total}"
                                         showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
                                         styleClass="typePicker"
                                         converter="methodsConverter" required="true"
@@ -198,7 +198,7 @@
                                 <f:facet name="targetCaption"><h:outputText
                                         value="#{MESSAGE.SCHEDULE_METHOD_SELECTED}"/></f:facet>
 
-                                <p:ajax event="transfer" listener="#{scheduleView.onTransfer}"
+                                <p:ajax event="transfer" listener="#{scheduleDoctorView.onTransfer}"
                                         update="metodsLabel growl"/>
                             </p:pickList>
                             <p:message for="methods" id="methodsMessage"/>
@@ -207,29 +207,29 @@
                             <p:commandButton id="scheduleSaveButton"
                                              value="#{MESSAGE.SCHEDULE_ADD_BUTTON}"
                                              icon="ui-icon-plus"
-                                             actionListener="#{scheduleView.addSchedule}"
+                                             actionListener="#{scheduleDoctorView.addSchedule}"
                                              update="errorMessage growl"
                                              oncomplete="PF('schedule').update();"
-                                             rendered="#{scheduleView.schedule.id==null}"
+                                             rendered="#{scheduleDoctorView.schedule.id==null}"
                                              styleClass="myButton"
                                              validateClient=""
                                     />
                             <p:commandButton id="scheduleEditButton"
                                              value="#{MESSAGE.SCHEDULE_EDIT_BUTTON}"
                                              icon="ui-icon-pencil"
-                                             actionListener="#{scheduleView.editSchedule}"
+                                             actionListener="#{scheduleDoctorView.editSchedule}"
                                              update="errorMessage growl"
                                              oncomplete="PF('schedule').update();"
-                                             rendered="#{scheduleView.schedule.id!=null}"
+                                             rendered="#{scheduleDoctorView.schedule.id!=null}"
                                              validateClient="scheduleValidator"
                                              styleClass="myButton"
                                     />
                             <p:commandButton id="scheduleDeleteButton"
                                              value="#{MESSAGE.SCHEDULE_DELETE_BUTTON}"
                                              icon="ui-icon-close"
-                                             actionListener="#{scheduleView.deleteSchedule}"
+                                             actionListener="#{scheduleDoctorView.deleteSchedule}"
                                              update="errorMessage growl"
-                                             rendered="#{scheduleView.schedule.id!=null}"
+                                             rendered="#{scheduleDoctorView.schedule.id!=null}"
                                              oncomplete="PF('schedule').update(); PF('addScheduleDialog').hide();"
                                              styleClass="myButton">
                                 <p:confirm header="#{MESSAGE.SCHEDULE_DELETE_CONFIRM_TITLE}"
@@ -252,7 +252,7 @@
 
                 </script>
             </p:dialog>
-            <h:outputText value="#{scheduleView.cssStyle}" escape="false"/>
+            <h:outputText value="#{scheduleDoctorView.cssStyle}" escape="false"/>
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
                 <p:commandButton value="#{MESSAGE.SCHEDULE_DELETE_CONFIRM_YES}" type="button"
@@ -272,7 +272,7 @@
                 <h:panelGrid columns="2" cellpadding="5">
 
                     <h:outputLabel for="dateTimeStart" value="#{MESSAGE.PLAN_TIME_START}"/>
-                    <p:calendar id="dateTimeStart" value="#{scheduleView.plan.dateTimeStart}"
+                    <p:calendar id="dateTimeStart" value="#{scheduleDoctorView.plan.dateTimeStart}"
                                 required="true" pattern="dd-MM-yyyy HH:mm"
                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                         <!--f:attribute name="name" value="dateTimeStart" /-->
@@ -281,7 +281,7 @@
                     <!--p:message for="dateTimeStart" id="dateTimeStartMessage" /-->
 
                     <h:outputLabel for="dateTimeEnd" value="#{MESSAGE.PLAN_TIME_END}"/>
-                    <p:calendar id="dateTimeEnd" value="#{scheduleView.plan.dateTimeEnd}"
+                    <p:calendar id="dateTimeEnd" value="#{scheduleDoctorView.plan.dateTimeEnd}"
                                 required="true" pattern="dd-MM-yyyy HH:mm"
                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                         <!--f:attribute name="name" value="dateTimeEnd" /-->
@@ -290,25 +290,25 @@
                     <!--p:message for="dateTimeEnd" id="dateTimeEndMessage" /-->
 
                     <h:outputLabel for="planRoom" value="#{MESSAGE.PLAN_ROOM}"/>
-                    <p:selectOneMenu id="planRoom" value="#{scheduleView.plan.room}" converter="roomsConverter"
+                    <p:selectOneMenu id="planRoom" value="#{scheduleDoctorView.plan.room}" converter="roomsConverter"
                                      required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
                                      styleClass="mySelectOneMenu">
                         <!--f:attribute name="name" value="planRoom" /-->
                         <!--f:selectItem itemLabel="#{MESSAGE.PLAN_CHOOSE}" itemValue="#{null}"/-->
-                        <f:selectItems value="#{scheduleView.allRooms}" var="room"
+                        <f:selectItems value="#{scheduleDoctorView.allRooms}" var="room"
                                        itemLabel="#{room.name}" itemValue="#{room}"/>
                         <!-- p:ajax event="change" update="planRoomMessage" /-->
                     </p:selectOneMenu>
                     <!--p:message for="planRoom" id="planRoomMessage" /-->
 
                     <h:outputLabel for="planDoctor" value="#{MESSAGE.PLAN_DOCTOR}"/>
-                    <p:selectOneMenu id="planDoctor" value="#{scheduleView.plan.doctor}" converter="usersConverter"
+                    <p:selectOneMenu id="planDoctor" value="#{scheduleDoctorView.plan.doctor}" converter="usersConverter"
                                      required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
                                      styleClass="mySelectOneMenu"
                                      validator="#{planValidator.validate}">
                         <!--f:attribute name="name" value="planDoctor" /-->
                         <!--f:selectItem itemLabel="#{MESSAGE.PLAN_CHOOSE}" itemValue="#{null}"/-->
-                        <f:selectItems value="#{scheduleView.allDoctors}" var="doctor"
+                        <f:selectItems value="#{scheduleDoctorView.allDoctors}" var="doctor"
                                        itemLabel="#{doctor.firstName} #{doctor.lastName}" itemValue="#{doctor}"/>
                         <!-- p:ajax event="change" update="planDoctorMessage" /-->
                     </p:selectOneMenu>
@@ -317,7 +317,7 @@
                     <h:outputLabel for="planDescription"
                                    value="#{MESSAGE.ENTITY_DESCRIPTION}"/>
                     <p:inputTextarea rows="6" cols="20" id="planDescription"
-                                     value="#{scheduleView.plan.description}">
+                                     value="#{scheduleDoctorView.plan.description}">
                         <!--p:ajax event="blur" update="planDescriptionMessage" /-->
                     </p:inputTextarea>
                     <!--p:message for="planDescription" id="planDescriptionMessage" /-->
@@ -326,7 +326,7 @@
                     <p:commandButton id="planSaveButton"
                                      value="#{MESSAGE.PLAN_ADD_BUTTON}"
                                      icon="ui-icon-plus"
-                                     actionListener="#{scheduleView.addPlan}"
+                                     actionListener="#{scheduleDoctorView.addPlan}"
                                      update="errorMessage growl"
                                      oncomplete="PF('schedule').update(); PF('addPlanDialog').hide();"
                                      styleClass="myButton"/>

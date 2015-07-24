@@ -7,6 +7,9 @@
 	<entry key="APPLICATION_SAVED">Сохранено!</entry>
     <entry key="APPLICATION_CURRENCY">грн</entry>
     <entry key="APPLICATION_MINUTES_SHORT">мин.</entry>
+	<entry key="APPLICATION_NOT_IMPLEMENTED">Еще не имплементировано</entry>
+	<entry key="APPLICATION_SUCCESSFUL_TITLE">Успешно!</entry>
+	<entry key="APPLICATION_ERROR_TITLE">Ошибка!</entry>
 
 	<!-- login.xhtml -->
 	<entry key="LOGIN_TITLE">Вход</entry>
@@ -210,6 +213,12 @@
 	<entry key="SCHEDULE_DELETE_CONFIRM_NO">Нет</entry>
 	<entry key="SCHEDULE_DELETED">Прием отменен!</entry>
 	<entry key="SCHEDULE_ALL_ROOMS">Все кабинеты</entry>
+	<entry key="SCHEDULE_TAB_PERSONAL">Пациент</entry>
+	<entry key="SCHEDULE_TAB_APPOINTMENT">Прием</entry>
+	<entry key="SCHEDULE_TAB_DOCUMENTS">Документы</entry>
+	<entry key="SCHEDULE_PRINT_FORM">Распечатать анкету</entry>
+	<entry key="SCHEDULE_PRINT_SECURE_AGREEMENT">Распечатать соглашение на обработку данных</entry>
+	<entry key="SCHEDULE_PRINT_INCOME_FORM">Распечатать приходный ордер</entry>
 
 	
 	<!-- add_payment.xhtml -->
@@ -297,6 +306,10 @@
 	<entry key="MENU_ITEM_APPOINTMENTS">Статистика приемов</entry>
 	<entry key="MENU_ITEM_FINANCE">Финансовая статистика</entry>
 	<entry key="MENU_ITEM_TIME">Временная статистика</entry>
+
+	<entry key="MENU_ITEM_PERSONAL_SCHEDULE">Мое расписание</entry>
+
+
 	<!-- Generic Entity -->
 	<entry key="ENTITY_ID">№</entry>
 	<entry key="ENTITY_DATE_CREATED">Дата создания</entry>

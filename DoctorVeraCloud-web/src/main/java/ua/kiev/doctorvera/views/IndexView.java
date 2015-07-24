@@ -68,9 +68,9 @@ public class IndexView implements Serializable{
 
     private Integer appointmentsCountYear;
 
-    private Integer averageAppointmentsCountPerDay;
+    private Float averageAppointmentsCountPerDay;
 
-    private Integer averageAppointmentsCountPerMonth;
+    private Float averageAppointmentsCountPerMonth;
 
     private Integer maxAppointmentsPerDay;
 
@@ -296,15 +296,15 @@ public class IndexView implements Serializable{
         appointmentsCountYear = yearAppointments.size();
 
         if(getWorkingDays(monthAppointments) == 0){
-            averageAppointmentsCountPerDay = 0;
+            averageAppointmentsCountPerDay = 0f;
         }else {
-            averageAppointmentsCountPerDay = (monthAppointments.size() / getWorkingDays(monthAppointments));
+            averageAppointmentsCountPerDay = ((float)monthAppointments.size() / (float)getWorkingDays(monthAppointments));
         }
 
         if(getWorkingDays(yearAppointments) == 0) {
-            averageAppointmentsCountPerMonth = 0;
+            averageAppointmentsCountPerMonth = 0f;
         }else{
-            averageAppointmentsCountPerMonth = (yearAppointments.size() / getWorkingDays(yearAppointments));
+            averageAppointmentsCountPerMonth = ((float)yearAppointments.size() / (float)getWorkingDays(yearAppointments));
         }
         maxAppointmentsPerDay = getMaxAppointmentsPerDay(monthAppointments);
 
@@ -347,8 +347,9 @@ public class IndexView implements Serializable{
 
     private Integer getMinAppointmentsPerDay(List<Schedule> appointments){
         HashMap<Integer, Integer> appointmentPerDay = new HashMap<>();
+        Integer count;
         for(Schedule schedule : appointments){
-            Integer count = appointmentPerDay.get(new DateTime(schedule.getDateTimeStart()).getDayOfYear());
+            count = appointmentPerDay.get(new DateTime(schedule.getDateTimeStart()).getDayOfYear());
             if (count == null) count = 0;
             appointmentPerDay.put(new DateTime(schedule.getDateTimeStart()).getDayOfYear()
                     , count + 1);
@@ -362,8 +363,9 @@ public class IndexView implements Serializable{
 
     private Integer getMaxAppointmentsPerDay(List<Schedule> appointments){
         HashMap<Integer, Integer> appointmentPerDay = new HashMap<>();
+        Integer count;
         for(Schedule schedule : appointments){
-            Integer count = appointmentPerDay.get(new DateTime(schedule.getDateTimeStart()).getDayOfYear());
+            count = appointmentPerDay.get(new DateTime(schedule.getDateTimeStart()).getDayOfYear());
             if (count == null) count = 0;
             appointmentPerDay.put(new DateTime(schedule.getDateTimeStart()).getDayOfYear()
                     , count + 1);
@@ -377,8 +379,9 @@ public class IndexView implements Serializable{
 
     private Integer getMinAppointmentsPerMonth(List<Schedule> appointments){
         HashMap<Integer, Integer> appointmentPerMonth = new HashMap<>();
+        Integer count;
         for(Schedule schedule : appointments){
-            Integer count = appointmentPerMonth.get(monthNames.get("CALENDAR_MONTH_" + new DateTime(schedule.getDateTimeStart()).getMonthOfYear()));
+            count = appointmentPerMonth.get(monthNames.get("CALENDAR_MONTH_" + new DateTime(schedule.getDateTimeStart()).getMonthOfYear()));
             if (count == null) count = 0;
             appointmentPerMonth.put(monthNames.get(new DateTime(schedule.getDateTimeStart()).getMonthOfYear())
                     , count + 1);
@@ -392,8 +395,9 @@ public class IndexView implements Serializable{
 
     private Integer getMaxAppointmentsPerMonth(List<Schedule> appointments){
         HashMap<Integer, Integer> appointmentPerMonth = new HashMap<>();
+        Integer count;
         for(Schedule schedule : appointments){
-            Integer count = appointmentPerMonth.get(monthNames.get("CALENDAR_MONTH_" + new DateTime(schedule.getDateTimeStart()).getMonthOfYear()));
+            count = appointmentPerMonth.get(monthNames.get("CALENDAR_MONTH_" + new DateTime(schedule.getDateTimeStart()).getMonthOfYear()));
             if (count == null) count = 0;
             appointmentPerMonth.put(monthNames.get(new DateTime(schedule.getDateTimeStart()).getMonthOfYear())
                     , count + 1);
@@ -407,8 +411,9 @@ public class IndexView implements Serializable{
 
     private float getSalarySum(List<Schedule> appointments){
         float salarySum = 0f; //Sum of payments
+        Payments payment;
         for(Schedule schedule : appointments) {
-            Payments payment = paymentsFacade.findBySchedule(schedule);
+            payment = paymentsFacade.findBySchedule(schedule);
             if(payment != null) {
                 salarySum +=payment.getTotal();
             }
@@ -525,19 +530,19 @@ public class IndexView implements Serializable{
         this.appointmentsCountYear = appointmentsCountYear;
     }
 
-    public Integer getAverageAppointmentsCountPerDay() {
+    public Float getAverageAppointmentsCountPerDay() {
         return averageAppointmentsCountPerDay;
     }
 
-    public void setAverageAppointmentsCountPerDay(Integer averageAppointmentsCountPerDay) {
+    public void setAverageAppointmentsCountPerDay(Float averageAppointmentsCountPerDay) {
         this.averageAppointmentsCountPerDay = averageAppointmentsCountPerDay;
     }
 
-    public Integer getAverageAppointmentsCountPerMonth() {
+    public Float getAverageAppointmentsCountPerMonth() {
         return averageAppointmentsCountPerMonth;
     }
 
-    public void setAverageAppointmentsCountPerMonth(Integer averageAppointmentsCountPerMonth) {
+    public void setAverageAppointmentsCountPerMonth(Float averageAppointmentsCountPerMonth) {
         this.averageAppointmentsCountPerMonth = averageAppointmentsCountPerMonth;
     }
 
