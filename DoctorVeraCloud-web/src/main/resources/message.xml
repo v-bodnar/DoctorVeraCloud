@@ -231,6 +231,29 @@
 	<entry key="SEND_SMS_PHONE">Номер телефона</entry>
 	<entry key="SEND_SMS_TEXT">Текст СМС</entry>
 
+
+	<!-- index.xhtml -->
+	<entry key="INDEX_APPOINTMENTS_COUNT">Количество приемов</entry>
+	<entry key="INDEX_MONTH_SALARY_CUR">Заработано за месяц, грн</entry>
+	<entry key="INDEX_YEAR_SALARY_CUR">Заработано за год, грн</entry>
+	<entry key="INDEX_DAY_OF_MONTH">Дни</entry>
+	<entry key="INDEX_MONTH_OF_YEAR">Месяцы</entry>
+	<entry key="INDEX_MONTH_STATISTICS">Статистика за месяц</entry>
+	<entry key="INDEX_YEAR_STATISTICS">Статистика за год</entry>
+	<entry key="INDEX_TOTAL_APPOINTMENTS">Всего проведено приемов</entry>
+	<entry key="INDEX_AVERAGE_APPOINTMENTS_PER_DAY">Среднее количество приемов в день</entry>
+	<entry key="INDEX_AVERAGE_APPOINTMENTS_PER_MONTH">Среднее количество приемов в месяц</entry>
+	<entry key="INDEX_BEST_DAY">Лучший день</entry>
+	<entry key="INDEX_WORST_DAY">Худший день</entry>
+	<entry key="INDEX_BEST_MONTH">Лучший месяц</entry>
+	<entry key="INDEX_WORST_MONTH">Худший месяц</entry>
+	<entry key="INDEX_TOTAL_MONTH_WORK_DAYS">Всего работали в этом месяце дней</entry>
+	<entry key="INDEX_TOTAL_YEAR_WORK_DAYS">Всего работали в этом году дней</entry>
+	<entry key="INDEX_MONTH_SALARY">Заработано за месяц</entry>
+	<entry key="INDEX_AVERAGE_DAY_SALARY">Средний зароботок в день</entry>
+	<entry key="INDEX_AVERAGE_MONTH_SALARY">Средний зароботок в месяц</entry>
+	<entry key="INDEX_YEAR_SALARY">Заработано за год</entry>
+
 	<!-- add_users.jsp -->
 	<entry key="ADD_USER_TITLE">Добавить пользователя</entry>
 	<entry key="ADD_USER_FORM_LEGEND_DETAILS">Данные о пользователе</entry>
@@ -342,4 +365,20 @@
 	<entry key="VALIDATOR_METHOD_TIMEINMINUTES">Время должно быть между 1 - 180 минут! </entry>
 	<entry key="VALIDATOR_PRICE_ZERO">Цена не может быть равна 0</entry>
 	<entry key="VALIDATOR_PRICE_AFTER_NOW">Дата не может быть в прошлом</entry>
+
+	<!-- Locale Calendar -->
+	<entry key="CALENDAR_MONTH_1">Январь</entry>
+	<entry key="CALENDAR_MONTH_2">Февраль</entry>
+	<entry key="CALENDAR_MONTH_3">Март</entry>
+	<entry key="CALENDAR_MONTH_4">Апрель</entry>
+	<entry key="CALENDAR_MONTH_5">Май</entry>
+	<entry key="CALENDAR_MONTH_6">Июнь</entry>
+	<entry key="CALENDAR_MONTH_7">Июль</entry>
+	<entry key="CALENDAR_MONTH_8">Август</entry>
+	<entry key="CALENDAR_MONTH_9">Сентябрь</entry>
+	<entry key="CALENDAR_MONTH_10">Октябрь</entry>
+	<entry key="CALENDAR_MONTH_11">Ноябрь</entry>
+	<entry key="CALENDAR_MONTH_12">Декабрь</entry>
+
+
 </properties>
