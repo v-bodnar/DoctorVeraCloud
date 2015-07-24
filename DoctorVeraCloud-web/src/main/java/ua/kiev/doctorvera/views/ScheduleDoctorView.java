@@ -153,12 +153,12 @@ public class ScheduleDoctorView implements Serializable {
 
             @Override
             public void loadEvents(Date start, Date end) {
-                allPlan = planFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end);
+                allPlan = planFacade.findByDoctorAndStartDateBetweenExclusiveTo(authorizedUser, start, end);
                 for (Plan plan : allPlan) {
                     eventModel.addEvent(eventFromPlan(plan));
                 }
 
-                allSchedule = scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end);
+                allSchedule = scheduleFacade.findByEmployeeAndStartDateBetweenExclusiveTo(authorizedUser, start, end);
                 for (Schedule schedule : allSchedule) {
                     DefaultScheduleEvent event = eventFromSchedule(schedule);
                     if (isBreakSchedule(schedule)) {
@@ -379,7 +379,7 @@ public class ScheduleDoctorView implements Serializable {
      * @return date and time of the last scheduled record in the given plan or start date and time of the given plan record
      */
     private Date getEarliestTime(Plan plan) {
-        List<Schedule> scheduledRecords = scheduleFacade.findByRoomAndEndDateBetweenExclusiveFrom(currentRoom, plan.getDateTimeStart(), plan.getDateTimeEnd());
+        List<Schedule> scheduledRecords = scheduleFacade.findByRoomAndEndDateBetweenExclusiveFrom(plan.getRoom(), plan.getDateTimeStart(), plan.getDateTimeEnd());
         //Sorting by Date Start
         Collections.sort(scheduledRecords, new Comparator<Schedule>() {
             @Override

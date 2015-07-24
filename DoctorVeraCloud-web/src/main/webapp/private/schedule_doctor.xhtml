@@ -5,10 +5,9 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="title">
-        <h:outputText value="#{MESSAGE.SCHEDULE_TITLE}"/>
+        <h:outputText value="#{MESSAGE.MENU_ITEM_PERSONAL_SCHEDULE}"/>
     </ui:define>
     <ui:define name="content">
-        <h1><h:outputText value="#{scheduleDoctorView.currentRoom.name}"/></h1>
         <h:form id="scheduleForm">
 
             <p:growl id="growl" showDetail="true" severity="info,warn,error"/>

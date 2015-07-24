@@ -7,9 +7,12 @@ package ua.kiev.doctorvera.facade;
 
 import ua.kiev.doctorvera.entities.Plan;
 import ua.kiev.doctorvera.entities.Rooms;
+import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.utils.DateUtils;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -208,6 +211,29 @@ public class PlanFacade extends AbstractFacade<Plan> implements PlanFacadeLocal 
             return null;
         else
             return getEntityManager().createQuery(cq).getSingleResult();
+    }
+
+    /**
+     * Searches for all Plan records that are assigned to the given employee and have starting date between the given date range
+     *  exclusive from and to
+     *
+     * @param employee - Employee to search by
+     * @param from - date to search from
+     * @param to   - date to search to
+     * @return List<Plan> List of existing Plan records that are not marked as deleted
+     */
+    @Override
+    public List<Plan> findByDoctorAndStartDateBetweenExclusiveTo(Users employee, Date from, Date to) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Plan> cq = cb.createQuery(Plan.class);
+        Root<Plan> root = cq.from(Plan.class);
+        Predicate doctorPredicate = cb.and(cb.equal(root.<Users>get("doctor"), employee));
+        Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTimeStart"), from, to));
+        Predicate datePredicate2 = cb.and(cb.notEqual(root.<Date>get("dateTimeStart"), to));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(datePredicate, datePredicate2, deletedPredicate, doctorPredicate);
+        cq.distinct(true);
+        return getEntityManager().createQuery(cq).getResultList();
     }
 
 }

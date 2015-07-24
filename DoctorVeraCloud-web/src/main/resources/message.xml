@@ -220,6 +220,8 @@
 	<entry key="SCHEDULE_PRINT_SECURE_AGREEMENT">Распечатать соглашение на обработку данных</entry>
 	<entry key="SCHEDULE_PRINT_INCOME_FORM">Распечатать приходный ордер</entry>
 
+	<!-- schedule_doctor.xhtml -->
+	<entry key="SCHEDULE_DOCTOR_TITLE">Ваше расписание</entry>
 	
 	<!-- add_payment.xhtml -->
 	<entry key="PAYMENTS_ADD_TITLE">Создание платежа</entry>
