@@ -7,6 +7,7 @@ package ua.kiev.doctorvera.facade;
 
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Schedule;
+import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
 
 import javax.ejb.Stateless;
@@ -198,6 +199,29 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
             return null;
         else
             return getEntityManager().createQuery(cq).getSingleResult();
+    }
+
+    /**
+     * Searches for all Schedule records that have starting date between the given date range
+     * And with the given doctor
+     * @param employee Employee to search for
+     * @param from
+     * @param to
+     * @return List<Schedule> List of existing Schedule records that are not marked as deleted
+     */
+    @Override
+    public List<Schedule>findByEmployeeAndDateBetween(Users employee, Date from, Date to){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
+        Root<Schedule> root = cq.from(Schedule.class);
+        Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTimeStart"), from, to));
+        Predicate doctorPredicate = cb.and(cb.equal(root.<Users>get("doctor"), employee));
+        Predicate assistantPredicate = cb.and(cb.equal(root.<Users>get("assistant"), employee));
+        Predicate doctorDirectedPredicate = cb.and(cb.equal(root.<Users>get("doctorDirected"), employee));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(datePredicate, deletedPredicate, cb.or(doctorPredicate, assistantPredicate, doctorDirectedPredicate));
+        cq.distinct(true);
+        return getEntityManager().createQuery(cq).getResultList();
     }
     
 

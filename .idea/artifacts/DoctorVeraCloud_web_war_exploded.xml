@@ -44,6 +44,7 @@
           <element id="library" level="project" name="Maven: javax.el:javax.el-api:3.0.0" />
           <element id="library" level="project" name="Maven: javax.interceptor:javax.interceptor-api:1.2" />
           <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
+          <element id="library" level="project" name="Maven: joda-time:joda-time:2.8.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">

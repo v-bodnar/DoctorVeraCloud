@@ -11,18 +11,13 @@ import java.util.Set;
 public class Message extends ListResourceBundle implements Serializable{
 
 	private static Message instance;
-	private static ResourceBundle resource;
 	private static final String BUNDLE_NAME = "/message";
+	private static final ResourceBundle resource = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault(), new ExtendedControl());;
 	private static Object[][] entriesArray;
 	
 	public Message(){
 		super();
-		try{
-			resource = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault(), new ExtendedControl());
 			setList();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
 	}
 
 	public enum Messages {
@@ -268,20 +263,59 @@ public class Message extends ListResourceBundle implements Serializable{
 		VALIDATOR_METHOD_DUPLICATED_SHORT_NAME,
 		VALIDATOR_METHOD_TIMEINMINUTES,
 		VALIDATOR_PRICE_ZERO,
-		VALIDATOR_PRICE_AFTER_NOW
+		VALIDATOR_PRICE_AFTER_NOW,
+		INDEX_APPOINTMENTS_COUNT,
+		INDEX_DAY_OF_MONTH,
+		INDEX_MONTH_OF_YEAR,
+		INDEX_MONTH_SALARY_CUR,
+		INDEX_YEAR_SALARY_CUR,
+		INDEX_MONTH_STATISTICS,
+		INDEX_YEAR_STATISTICS,
+		INDEX_TOTAL_APPOINTMENTS,
+		INDEX_AVERAGE_APPOINTMENTS_PER_DAY,
+		INDEX_AVERAGE_APPOINTMENTS_PER_MONTH,
+		INDEX_BEST_DAY,
+		INDEX_WORST_DAY,
+		INDEX_BEST_MONTH,
+		INDEX_WORST_MONTH,
+		INDEX_TOTAL_MONTH_WORK_DAYS,
+		INDEX_TOTAL_YEAR_WORK_DAYS,
+		INDEX_MONTH_SALARY,
+		INDEX_AVERAGE_DAY_SALARY,
+		INDEX_AVERAGE_MONTH_SALARY,
+		INDEX_YEAR_SALARY,
+		CALENDAR_MONTH_1,
+		CALENDAR_MONTH_2,
+		CALENDAR_MONTH_3,
+		CALENDAR_MONTH_4,
+		CALENDAR_MONTH_5,
+		CALENDAR_MONTH_6,
+		CALENDAR_MONTH_7,
+		CALENDAR_MONTH_8,
+		CALENDAR_MONTH_9,
+		CALENDAR_MONTH_10,
+		CALENDAR_MONTH_11,
+		CALENDAR_MONTH_12;
+
+
+
+		@Override
+		public String toString() {
+			return Message.getString(this);
+		}
 	}
 
 	public static Message getInstance() {
 		if (instance == null) instance = new Message();
 		return instance;
 	}
-		/*
-	@SuppressWarnings("rawtypes")
-	public String getMessage(Enum key) {
-		return (String) resource.getObject(key.toString());
-	}
 
-	public String getMessage(String key) {
+	@SuppressWarnings("rawtypes")
+	public static String getString(Enum key) {
+		return (String) resource.getObject(key.name());
+	}
+/*
+	public static String getMessage(String key) {
 		return (String) resource.getObject(key);
 	}
 */

@@ -1,11 +1,258 @@
 <ui:composition
-		xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:ui="http://java.sun.com/jsf/facelets"
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:p="http://primefaces.org/ui">
-		<h:form>
-			<p:panel>
-				<h:graphicImage value="#{MAPPINGS.APPLICATION_IMAGES_PATH}/chart.png"/>
-			</p:panel>
-		</h:form>
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form>
+        <p:dashboard id="dashboard" model="#{indexView.dashboard}">
+            <p:ajax event="reorder"/>
+
+            <p:panel id="monthAppointments" header="#{MESSAGE.INDEX_MONTH_STATISTICS}" toggleable="true" closable="true">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column style="width:25%">
+                            <h:outputText value="#{MESSAGE.INDEX_APPOINTMENTS_COUNT}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{indexView.appointmentsCountMonth}"/>
+                        </p:column>
+                        <p:column rowspan="6" style="width:70%">
+                            <p:chart id="monthAppointmentsChart" type="line" model="#{indexView.monthAppointments}"
+                                     responsive="true"/>
+                            <h:outputText value="." style="visibility:hidden"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_AVERAGE_APPOINTMENTS_PER_DAY}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{indexView.averageAppointmentsCountPerDay}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_BEST_DAY}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{indexView.maxAppointmentsPerDay}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_WORST_DAY}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{indexView.minAppointmentsPerDay}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_TOTAL_MONTH_WORK_DAYS}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{indexView.workingDaysInMonth}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:selectOneMenu value="#{indexView.selectedMonth}" style="width:100%">
+                                <p:ajax event="change" listener="#{indexView.init}"
+                                        update="monthAppointments"/>
+                                <f:selectItems value="#{indexView.monthNames}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+
+
+            <p:panel id="monthSalary" header="#{MESSAGE.INDEX_MONTH_STATISTICS}" toggleable="true" closable="true">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column style="width:25%">
+                            <h:outputText value="#{MESSAGE.INDEX_MONTH_SALARY}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="0"/>
+                        </p:column>
+                        <p:column rowspan="6" style="width:69%">
+                            <p:chart id="monthSalaryChart" type="line" model="#{indexView.monthSalary}"
+                                     responsive="true"/>
+                            <h:outputText value="." style="visibility:hidden"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_AVERAGE_DAY_SALARY}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="0, грн"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_BEST_DAY}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="0, грн"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_WORST_DAY}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="0, грн"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_TOTAL_MONTH_WORK_DAYS}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="0, дней"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:selectOneMenu value="#{indexView.selectedMonth}" style="width:100%">
+                                <p:ajax event="change" listener="#{indexView.init}"
+                                        update="monthSalary"/>
+                                <f:selectItems value="#{indexView.monthNames}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+
+
+            <p:panel id="yearAppointments" header="#{MESSAGE.INDEX_YEAR_STATISTICS}" toggleable="true" closable="true">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column style="width:25%">
+                            <h:outputText value="#{MESSAGE.INDEX_APPOINTMENTS_COUNT}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{indexView.appointmentsCountMonth}"/>
+                        </p:column>
+                        <p:column rowspan="6" style="width:70%">
+                            <p:chart id="yearAppointmentsChart" type="line" model="#{indexView.yearAppointments}"
+                                     responsive="true"/>
+                            <h:outputText value="." style="visibility:hidden"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_AVERAGE_APPOINTMENTS_PER_MONTH}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{indexView.averageAppointmentsCountPerMonth}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_BEST_MONTH}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{indexView.maxAppointmentsPerMonth}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_WORST_MONTH}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{indexView.minAppointmentsPerMonth}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_TOTAL_YEAR_WORK_DAYS}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{indexView.workingDaysInYear}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:selectOneMenu value="#{indexView.selectedYear}" style="width:100%">
+                                <p:ajax event="change" listener="#{indexView.init}"
+                                        update="yearAppointments"/>
+                                <f:selectItems value="#{indexView.years}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+
+
+            <p:panel id="yearSalary" header="#{MESSAGE.INDEX_YEAR_STATISTICS}" toggleable="true" closable="true">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column style="width:25%">
+                            <h:outputText value="#{MESSAGE.INDEX_MONTH_SALARY}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="0"/>
+                        </p:column>
+                        <p:column rowspan="6" style="width:69%">
+                            <p:chart id="yearSalaryChart" type="line" model="#{indexView.yearSalary}" responsive="true"/>
+                            <h:outputText value="." style="visibility:hidden"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_AVERAGE_MONTH_SALARY}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="0, грн"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_BEST_MONTH}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="0, грн"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_WORST_MONTH}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="0, грн"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{MESSAGE.INDEX_TOTAL_YEAR_WORK_DAYS}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="0, дней"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:selectOneMenu value="#{indexView.selectedYear}" style="width:100%">
+                                <p:ajax event="change" listener="#{indexView.init}"
+                                        update="yearSalary"/>
+                                <f:selectItems value="#{indexView.years}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+
+        </p:dashboard>
+        <!--h:panelGrid columns="1" columnClasses="left,right" style="width:100%">
+            <p:chart type="line" model="#{indexView.monthAppointments}" datatipFormat="#{indexView.datatipFormat}" />
+            <p:chart type="line" model="#{indexView.yearAppointments}" datatipFormat="#{indexView.datatipFormat}"/>
+            <p:chart type="line" model="#{indexView.monthSalary}" datatipFormat="#{indexView.datatipFormat}"/>
+            <p:chart type="line" model="#{indexView.yearSalary}" datatipFormat="#{indexView.datatipFormat}"/>
+        </h:panelGrid-->
+    </h:form>
 </ui:composition>

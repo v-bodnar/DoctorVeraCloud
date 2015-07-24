@@ -6,7 +6,6 @@
 package ua.kiev.doctorvera.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -17,14 +16,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entity class Describes User
@@ -73,7 +70,7 @@ public class Schedule implements Serializable,Identified<Integer> {
     private Users patient;
     @JoinColumn(name = "Assistant", referencedColumnName = "UserId")
     @ManyToOne
-    private Users assistent;
+    private Users assistant;
     @JoinColumn(name = "Doctor", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users doctor;
@@ -105,7 +102,7 @@ public class Schedule implements Serializable,Identified<Integer> {
     public Schedule(Schedule schedule, Methods method, Date startTime, Users patient, Rooms room, Users authorizedUser ){
         this.doctor = schedule.getDoctor();
         this.patient = patient;
-        this.assistent = schedule.getAssistent();
+        this.assistant = schedule.getAssistant();
         this.doctorDirected = schedule.getDoctorDirected();
         this.room = room;
         this.method = method;
@@ -195,12 +192,12 @@ public class Schedule implements Serializable,Identified<Integer> {
         this.patient = patient;
     }
 
-    public Users getAssistent() {
-        return assistent;
+    public Users getAssistant() {
+        return assistant;
     }
 
-    public void setAssistent(Users assistent) {
-        this.assistent = assistent;
+    public void setAssistant(Users assistent) {
+        this.assistant = assistent;
     }
 
     public Users getDoctor() {
@@ -232,7 +229,7 @@ public class Schedule implements Serializable,Identified<Integer> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((assistent == null) ? 0 : assistent.hashCode());
+				+ ((assistant == null) ? 0 : assistant.hashCode());
 		result = prime * result
 				+ ((dateCreated == null) ? 0 : dateCreated.hashCode());
 		result = prime * result
@@ -264,10 +261,10 @@ public class Schedule implements Serializable,Identified<Integer> {
 		if (getClass() != obj.getClass())
 			return false;
 		Schedule other = (Schedule) obj;
-		if (assistent == null) {
-			if (other.assistent != null)
+		if (assistant == null) {
+			if (other.assistant != null)
 				return false;
-		} else if (!assistent.equals(other.assistent))
+		} else if (!assistant.equals(other.assistant))
 			return false;
 		if (dateCreated == null) {
 			if (other.dateCreated != null)
@@ -336,7 +333,7 @@ public class Schedule implements Serializable,Identified<Integer> {
 				+ ", description=" + description + ", dateCreated="
 				+ dateCreated + ", deleted=" + deleted + ", method=" + method
 				+ ", room=" + room + ", patient=" + patient + ", assistent="
-				+ assistent + ", doctor=" + doctor + ", doctorDirected="
+				+ assistant + ", doctor=" + doctor + ", doctorDirected="
 				+ doctorDirected + ", userCreated=" + userCreated + "]";
 	}
 

@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Schedule;
+import ua.kiev.doctorvera.entities.Users;
 
 /**
  * Interface for declaring main operations with Generic (Identified) entity
@@ -143,5 +144,15 @@ public interface ScheduleFacadeLocal{
      @return Schedule child record
      @param schedule - record whose child to search
      */
-    public Schedule findChildSchedule(Schedule schedule);
+    Schedule findChildSchedule(Schedule schedule);
+
+    /**
+     * Searches for all Schedule records that have starting date between the given date range
+     * And with the given doctor
+     * @param employee Employee to search for
+     * @param from
+     * @param to
+     * @return List<Schedule> List of existing Schedule records that are not marked as deleted
+     */
+    List<Schedule>findByEmployeeAndDateBetween(Users employee, Date from, Date to);
 }
