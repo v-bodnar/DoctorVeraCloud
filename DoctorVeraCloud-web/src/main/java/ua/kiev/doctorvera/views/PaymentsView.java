@@ -1,8 +1,8 @@
 package ua.kiev.doctorvera.views;
 
-import com.lowagie.text.*;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.primefaces.context.RequestContext;
 import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Users;
@@ -129,7 +129,7 @@ public class PaymentsView implements Serializable {
 
             //FontFactory.register("\\resources\\fonts\\ARIALUNI.ttf","Arial Unicode MS");
             //FontFactory.register("/resources/fonts/ARIALUNI.ttf","Arial Unicode MS");
-            FontFactory.register("C:\\Windows\\Fonts\\ARIALUNI.ttf","Arial Unicode MS");
+            FontFactory.register("C:\\Windows\\Fonts\\ARIALUNI.ttf", "Arial Unicode MS");
             //FontFactory.register("C:/Windows/Fonts/ARIALUNI.ttf","Arial Unicode MS");
             Set<String> fonts = FontFactory.getRegisteredFonts();
             for (String font : fonts)

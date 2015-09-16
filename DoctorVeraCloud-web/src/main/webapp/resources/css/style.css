@@ -146,8 +146,12 @@ font-size: 100% !important;
 {
     width:175px !important;
 }
-.fc-event{
-	border: 1px solid gold !important;
+.fc-plan {
+	opacity: 0.5;
+}
+
+.fc-schedule{
+	left:0% !important;
 }
 
 

@@ -205,7 +205,7 @@ public class ScheduleDoctorView implements Serializable {
             selectedMethodType = methodTypesFacade.findAll().get(0);
             constructPickList();
             event = new DefaultScheduleEvent();
-
+            RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').show()");
             // Else if Schedule event was clicked we update existing Schedule event
             // and preparing fields for addPlan Dialog Window
         } else if (data instanceof Schedule) {
@@ -214,6 +214,9 @@ public class ScheduleDoctorView implements Serializable {
             selectedMethodType = schedule.getMethod().getMethodType();
             selectedMethods.add(schedule.getMethod());
             constructPickList();
+            if(!isBreakSchedule(schedule)){
+                RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').show()");
+            }
         }
     }
 

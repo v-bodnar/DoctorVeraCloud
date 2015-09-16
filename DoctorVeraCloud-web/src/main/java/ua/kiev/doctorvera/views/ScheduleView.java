@@ -205,7 +205,7 @@ public class ScheduleView implements Serializable {
             selectedMethodType = methodTypesFacade.findAll().get(0);
             constructPickList();
             event = new DefaultScheduleEvent();
-
+            RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').show()");
             // Else if Schedule event was clicked we update existing Schedule event
             // and preparing fields for addPlan Dialog Window
         } else if (data instanceof Schedule) {
@@ -214,6 +214,9 @@ public class ScheduleView implements Serializable {
             selectedMethodType = schedule.getMethod().getMethodType();
             selectedMethods.add(schedule.getMethod());
             constructPickList();
+            if(!isBreakSchedule(schedule)){
+                RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').show()");
+            }
         }
     }
 
@@ -234,7 +237,7 @@ public class ScheduleView implements Serializable {
             Boolean isValid;
             Long breakTime = 5l;
             if(breakSchedule != null) {
-                breakTime= breakSchedule.getDateTimeEnd().getTime() - breakSchedule.getDateTimeStart().getTime();
+                breakTime = breakSchedule.getDateTimeEnd().getTime() - breakSchedule.getDateTimeStart().getTime();
             }
             //If next schedule record is for the same patient, there is no need for break
             if (nextScheduleHasSamePatient) {
@@ -662,7 +665,7 @@ public class ScheduleView implements Serializable {
                         plan.getRoom().getName() + " / " +
                         plan.getDescription()
         );
-        newEvent.setStyleClass("doc" + plan.getDoctor().getId());
+        newEvent.setStyleClass("fc-plan doc" + plan.getDoctor().getId());
         if (event != null && event.getId() != null)
             newEvent.setId(event.getId());
         return newEvent;
@@ -701,7 +704,7 @@ public class ScheduleView implements Serializable {
                             schedule.getDescription()
             );
         }
-        newEvent.setStyleClass("doc" + schedule.getDoctor().getId());
+        newEvent.setStyleClass("fc-schedule doc" + schedule.getDoctor().getId());
         if (event != null && event.getId() != null)
             newEvent.setId(event.getId());
         return newEvent;

@@ -23,6 +23,7 @@
   	<module>DoctorVeraCloud-ejb</module>
   	<module>DoctorVeraCloud-ear</module>
     <module>DoctorVeraCloud-library</module>
+<!--    <module>Libraries/primefaces</module>-->
   </modules>
 
   <dependencies>

@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.validators;
 
+import org.joda.time.DateTime;
 import org.primefaces.validate.ClientValidator;
 import ua.kiev.doctorvera.entities.Plan;
 import ua.kiev.doctorvera.entities.Rooms;
@@ -65,16 +66,9 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 	}
 
 	//Validating plan form so that start date can't be after end date
-	@Override
-	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-		String fieldName = (String)component.getAttributes().get("name");
-		String message = "";
-
-		switch(fieldName){
-			case "dateTimeStart":
-				message = validateStartTime((Date)value);
-				break;
-		}
+	public void validateStartDate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+		Schedule schedule = (Schedule)component.getAttributes().get("schedule");
+		String message = validateStartTime((Date)value, scheduleFacade.find(schedule.getId()));
 		 
 		if(message.equals("")) {
 			return;
@@ -85,23 +79,49 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 		
 		
 	}
-	
+
+	@Override
+	public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
+
+	}
+
 	//Checking if start time is inside any Plans record and not inside any Schedule record
-	private String validateStartTime(Date startTime){
+	private String validateStartTime(Date startDate, Schedule schedule){
+		String message = "";
 		//Checking if date is inside of any Plan record
-		if(planFacade.findByRoomAndDateInside(currentRoom, startTime) == null)
+		if(planFacade.findByRoomAndDateInside(currentRoom, startDate) == null)
 			return Message.getInstance().getString("SCHEDULE_VALIDATE_NOT_IN_PLAN_START");
 		
 		//Checking if date is not crossed with any existing schedule record
 		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		Schedule scheduleCrossed = scheduleFacade.findByRoomAndDateInside(currentRoom, startTime);
-		if(scheduleCrossed != null)
-			return Message.getInstance().getString("SCHEDULE_VALIDATE_SCHEDULE_UPDATE")+
-					formater.format(scheduleCrossed.getDateTimeStart()) + " - " + 
-					formater.format(scheduleCrossed.getDateTimeEnd()) + " " + 
+		Schedule scheduleCrossed = scheduleFacade.findByRoomAndDateInside(currentRoom, startDate);
+		if (scheduleCrossed == null) return "";
+		//Creating Validation Error message for crossed schedule
+		Schedule breakSchedule = scheduleFacade.findChildSchedule(schedule);
+		if (!scheduleCrossed.equals(schedule) && !scheduleCrossed.equals(breakSchedule)) {
+			message += Message.getInstance().getString("SCHEDULE_VALIDATE_SCHEDULE_UPDATE") +
+					formater.format(scheduleCrossed.getDateTimeStart()) + " - " +
+					formater.format(scheduleCrossed.getDateTimeEnd()) + " " +
 					scheduleCrossed.getDoctor().getFirstName() + scheduleCrossed.getDoctor().getLastName() + "\n";
-		
-		return "";
+		}
+		if (breakSchedule==null) return message;
+
+		startDate = computeBreakStartDate(startDate, schedule);
+		scheduleCrossed = scheduleFacade.findByRoomAndDateInside(currentRoom, startDate);
+		if (scheduleCrossed == null) return "";
+		if (!scheduleCrossed.equals(schedule) && !scheduleCrossed.equals(breakSchedule)) {
+			message += Message.getInstance().getString("SCHEDULE_VALIDATE_SCHEDULE_UPDATE") +
+					formater.format(scheduleCrossed.getDateTimeStart()) + " - " +
+					formater.format(scheduleCrossed.getDateTimeEnd()) + " " +
+					scheduleCrossed.getDoctor().getFirstName() + scheduleCrossed.getDoctor().getLastName() + "\n";
+		}
+		return message;
+	}
+
+	//Calculates end time of the scheduled record depending on methods duration. This will be the start of the break
+	private Date computeBreakStartDate(Date startDate, Schedule schedule){
+		DateTime startTime = new DateTime(startDate);
+		return (startTime.plusMinutes(schedule.getMethod().getTimeInMinutes())).toDate();
 	}
 	
 	

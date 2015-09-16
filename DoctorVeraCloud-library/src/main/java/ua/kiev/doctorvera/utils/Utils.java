@@ -40,11 +40,7 @@ public class Utils {
         //TODO internationalize
         if (phone == null || phone.isEmpty() || phone.equals("(___)___-__-__"))
             return "";
-        if(phone.startsWith("+38")){
-            phone = "+" + phone.replaceAll("\\D*", "");
-        }else {
-            phone = "+38" + phone.replaceAll("\\D*", "");
-        }
+        phone = "+" + phone.replaceAll("\\D*", "");
         return phone;
     }
 

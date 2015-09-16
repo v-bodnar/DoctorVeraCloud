@@ -11,9 +11,9 @@
 
 			<p:growl id="growl" showDetail="true"/>
 		    
-			<p:schedule id="planSchedule" value="#{planGeneralView.eventModel}" locale="ru" view="month" firstHour="6" slotMinutes="180" 
-			minTime="7am" maxTime="8pm" styleClass="planCalendar" timeZone="GMT+2" widgetVar="planSchedule" rightHeaderTemplate="month,agendaWeek"
-			allDaySlot="false" tooltip="false">
+			<p:schedule id="planSchedule" value="#{planGeneralView.eventModel}" locale="ru" view="month" firstHour="6" slotMinutes="180"
+                        minTime="7:00" maxTime="20:00" styleClass="planCalendar" timeZone="GMT+2" widgetVar="planSchedule" rightHeaderTemplate="month,agendaWeek"
+			allDaySlot="false" tooltip="false" columnFormat="dddd,DD, MMMM">
             	<p:ajax event="eventSelect" listener="#{planGeneralView.onEventSelect}" />
             </p:schedule>
             <h:outputText value="#{planGeneralView.cssStyle}" escape="false"/>

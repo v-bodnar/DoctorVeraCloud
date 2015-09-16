@@ -24,12 +24,12 @@ public class AuthenFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		final String url = request.getRequestURL().toString();
-		
+
 		//Setting request encoding
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		System.setProperty("file.encoding", "UTF-8");
-		
+
 		if (url.contains(LOGIN_PAGE) || url.contains(REGISTER_PAGE)) {
 			// bruteReveal(request);
 			// Pass request back down the filter chain

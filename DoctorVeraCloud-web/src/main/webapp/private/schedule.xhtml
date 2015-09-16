@@ -13,19 +13,20 @@
 
             <p:growl id="growl" showDetail="true" severity="info,warn,error"/>
 
-            <p:schedule id="schedule" value="#{scheduleView.eventModel}" locale="ru" view="agendaWeek" firstHour="6"
-                        minTime="7am" maxTime="8pm" styleClass="scheduleCalendar" timeZone="GMT+2" widgetVar="schedule"
-                        rightHeaderTemplate="agendaDay,agendaWeek"
-                        allDaySlot="false" tooltip="false">
-                <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="addScheduleDialog"
-                        oncomplete="PF('addScheduleDialog').show();"/>
+            <p:schedule id="schedule" value="#{scheduleView.eventModel}" locale="ru" view="agendaWeek" styleClass="scheduleCalendar" timeZone="GMT+2" widgetVar="schedule"
+                        rightHeaderTemplate="agendaDay,agendaWeek" firstHour="7" minTime="7:00" maxTime="20:00"
+                        allDaySlot="false" slotMinutes="15" columnFormat="dddd,DD, MMMM" >
+                <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="addScheduleDialog"/>
                 <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update="growl"
                         oncomplete="PF('schedule').update();"/>
                 <p:ajax event="dateSelect" listener="#{scheduleView.onDateSelect}" update=":planForm:addPlanDialog"
                         oncomplete="PF('addPlanDialog').show();"/>
                 <p:ajax event="eventResize" listener="#{scheduleView.onEventResize}" update="growl"
                         oncomplete="PF('schedule').update();"/>
+
             </p:schedule>
+
+            <p:tooltip globalSelector="true" adjustX="-292" adjustY="-142"/>
 
             <p:dialog
                     header="#{scheduleView.schedule.id==null?MESSAGE.SCHEDULE_ADD_DIALOG_TITLE:MESSAGE.SCHEDULE_EDIT_DIALOG_TITLE}
@@ -43,10 +44,11 @@
                             <h:outputLabel for="phoneNumberMobile" value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}"/>
                             <p:inputMask value="#{scheduleView.patient.phoneNumberMobile}"
                                          id="phoneNumberMobile" name="phoneNumberMobile"
-                                         mask="+38(999)999-99-99" required="true"
+                                         mask="+99(999)99999999" required="true"
                                          requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
                                          validator="#{usersValidator.validate}">
                                 <f:attribute name="name" value="phoneNumberMobile"/>
+                                <f:validateLength minimum="13" maximum="16" />
                                 <p:ajax event="blur" listener="#{scheduleView.fillUserData}"
                                         update="phoneNumberMobileMessage growl firstName middleName lastName"/>
                             </p:inputMask>
@@ -146,11 +148,11 @@
                             <!-- Start time -->
                             <h:outputLabel for="dateTimeStart" value="#{MESSAGE.SCHEDULE_TIME_START}"/>
                             <p:calendar id="dateTimeStart" value="#{scheduleView.schedule.dateTimeStart}"
-                                        required="true" pattern="dd-MM-yyyy HH:mm"
+                                        required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
                                         requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
-                                        validator="#{scheduleValidator.validate}">
-                                <f:attribute name="name" value="dateTimeStart"/>
-                                <p:ajax event="blur" update="dateTimeStartMessage growl"/>
+                                        validator="#{scheduleValidator.validateStartDate}">
+                                <f:attribute name="schedule" value="#{scheduleView.schedule}"/>
+                                <p:ajax event="dateSelect" update="dateTimeStartMessage growl"/>
                             </p:calendar>
                             <p:message for="dateTimeStart" id="dateTimeStartMessage"/>
 
@@ -273,7 +275,7 @@
 
                     <h:outputLabel for="dateTimeStart" value="#{MESSAGE.PLAN_TIME_START}"/>
                     <p:calendar id="dateTimeStart" value="#{scheduleView.plan.dateTimeStart}"
-                                required="true" pattern="dd-MM-yyyy HH:mm"
+                                required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                         <!--f:attribute name="name" value="dateTimeStart" /-->
                         <!-- p:ajax event="blur" update="dateTimeStartMessage" /-->
@@ -282,7 +284,7 @@
 
                     <h:outputLabel for="dateTimeEnd" value="#{MESSAGE.PLAN_TIME_END}"/>
                     <p:calendar id="dateTimeEnd" value="#{scheduleView.plan.dateTimeEnd}"
-                                required="true" pattern="dd-MM-yyyy HH:mm"
+                                required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                         <!--f:attribute name="name" value="dateTimeEnd" /-->
                         <!--p:ajax event="blur" update="dateTimeStartMessage" /-->
@@ -337,6 +339,7 @@
         </h:form>
 
         <script type="text/javascript">
+
             PrimeFaces.locales['ru'] = {
                 closeText: 'закрыть',
                 prevText: 'назад',
@@ -346,7 +349,7 @@
                     'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
                 monthNamesShort: ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь',
                     'Июль', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
-                dayNames: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
+                dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
                 dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
                 dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
                 weekHeader: 'Пн',
@@ -366,6 +369,7 @@
                     firstInput.focus();
                 }
             }
+
         </script>
 
 

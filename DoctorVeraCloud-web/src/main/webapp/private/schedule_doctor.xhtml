@@ -12,12 +12,11 @@
 
             <p:growl id="growl" showDetail="true" severity="info,warn,error"/>
 
-            <p:schedule id="schedule" value="#{scheduleDoctorView.eventModel}" locale="ru" view="agendaWeek" firstHour="6"
-                        minTime="7am" maxTime="8pm" styleClass="scheduleCalendar" timeZone="GMT+2" widgetVar="schedule"
+            <p:schedule id="schedule" value="#{scheduleDoctorView.eventModel}" locale="ru" view="agendaWeek" firstHour="7"
+                        minTime="7:00" maxTime="20:00" styleClass="scheduleCalendar" timeZone="GMT+2" widgetVar="schedule"
                         rightHeaderTemplate="agendaDay,agendaWeek"
-                        allDaySlot="false" tooltip="false">
-                <p:ajax event="eventSelect" listener="#{scheduleDoctorView.onEventSelect}" update="addScheduleDialog"
-                        oncomplete="PF('addScheduleDialog').show();"/>
+                        allDaySlot="false" tooltip="false" columnFormat="dddd,DD, MMMM">
+                <p:ajax event="eventSelect" listener="#{scheduleDoctorView.onEventSelect}" update="addScheduleDialog"/>
                 <p:ajax event="eventMove" listener="#{scheduleDoctorView.onEventMove}" update="growl"
                         oncomplete="PF('schedule').update();"/>
                 <p:ajax event="dateSelect" listener="#{scheduleDoctorView.onDateSelect}" update=":planForm:addPlanDialog"
@@ -145,11 +144,11 @@
                             <!-- Start time -->
                             <h:outputLabel for="dateTimeStart" value="#{MESSAGE.SCHEDULE_TIME_START}"/>
                             <p:calendar id="dateTimeStart" value="#{scheduleDoctorView.schedule.dateTimeStart}"
-                                        required="true" pattern="dd-MM-yyyy HH:mm"
+                                        required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
                                         requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
                                         validator="#{scheduleValidator.validate}">
-                                <f:attribute name="name" value="dateTimeStart"/>
-                                <p:ajax event="blur" update="dateTimeStartMessage growl"/>
+                                <f:attribute name="schedule" value="#{scheduleView.schedule}"/>
+                                <p:ajax event="dateSelect" update="dateTimeStartMessage growl"/>
                             </p:calendar>
                             <p:message for="dateTimeStart" id="dateTimeStartMessage"/>
 
@@ -272,7 +271,7 @@
 
                     <h:outputLabel for="dateTimeStart" value="#{MESSAGE.PLAN_TIME_START}"/>
                     <p:calendar id="dateTimeStart" value="#{scheduleDoctorView.plan.dateTimeStart}"
-                                required="true" pattern="dd-MM-yyyy HH:mm"
+                                required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                         <!--f:attribute name="name" value="dateTimeStart" /-->
                         <!-- p:ajax event="blur" update="dateTimeStartMessage" /-->
@@ -281,7 +280,7 @@
 
                     <h:outputLabel for="dateTimeEnd" value="#{MESSAGE.PLAN_TIME_END}"/>
                     <p:calendar id="dateTimeEnd" value="#{scheduleDoctorView.plan.dateTimeEnd}"
-                                required="true" pattern="dd-MM-yyyy HH:mm"
+                                required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                         <!--f:attribute name="name" value="dateTimeEnd" /-->
                         <!--p:ajax event="blur" update="dateTimeStartMessage" /-->

@@ -5,24 +5,21 @@
  */
 package ua.kiev.doctorvera.entities;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
+import org.apache.commons.io.IOUtils;
+import org.hibernate.annotations.DynamicInsert;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import ua.kiev.doctorvera.utils.Utils;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.faces.context.FacesContext;
+import javax.persistence.*;
+import javax.servlet.ServletContext;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.hibernate.annotations.DynamicInsert;
-import ua.kiev.doctorvera.utils.Utils;
+import java.io.*;
+import java.util.Date;
 
 /**
  * Entity class Describes User
@@ -104,10 +101,11 @@ public class Users implements Serializable,Identified<Integer> {
     @NotNull
     @Column(name = "Deleted")
     private boolean deleted;
-    @Basic(optional = false)
-    @Size(max = 150)
-    @Column(name = "AvatarImage", nullable=false, columnDefinition="varchar(100) default 'default_male_avatar.png'")
-    private String avatarImage;
+/*    @Column(name = "AvatarImage", nullable=false, columnDefinition="varchar(100) default 'default_male_avatar.png'")
+    private String avatarImage;*/
+    @Lob
+    @Column(name = "AvatarImage")
+    private byte[] avatarImage;
     @Basic(optional = false)
     @Size(max = 10)
     @Column(name = "Color", nullable=false, columnDefinition="varchar(150) default 'ffffff'")
@@ -144,7 +142,7 @@ public class Users implements Serializable,Identified<Integer> {
         this.userId = userId;
     }
 
-    public Users(Integer userId, String username, String password, String firstName, String lastName, Integer userCreatedId, Date dateCreated,Integer addressId, boolean deleted, String color,String avatarImage) {
+    public Users(Integer userId, String username, String password, String firstName, String lastName, Integer userCreatedId, Date dateCreated,Integer addressId, boolean deleted, String color,byte [] avatarImage) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -158,16 +156,43 @@ public class Users implements Serializable,Identified<Integer> {
         this.avatarImage = avatarImage;
     }
 
-    public String getAvatarImage() {
+/*    public String getAvatarImage() {
 		if (avatarImage == null || avatarImage.equals("")) return "default_male_avatar.png";
 		else return avatarImage;
 	}
 
 	public void setAvatarImage(String avatarImage) {
 		this.avatarImage = avatarImage;
-	}
+	}*/
 
-	public String getColor() {
+    public byte[] getAvatarImage() throws IOException {
+        if (avatarImage != null && avatarImage.length != 0){
+            return avatarImage;
+        }else{
+            final ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            final String DEFAULT_AVATAR_IMAGE_PATH = "/resources/images/avatar/default_male_avatar.png";
+            return IOUtils.toByteArray(new FileInputStream(new File(servletContext.getRealPath("") + File.separator + DEFAULT_AVATAR_IMAGE_PATH)));
+        }
+    }
+
+    public void setAvatarImage(byte[] avatarImage) throws IOException {
+        if (avatarImage != null && avatarImage.length != 0){
+            this.avatarImage = avatarImage;
+        }else{
+            final ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            final String DEFAULT_AVATAR_IMAGE_PATH = "/resources/images/avatar/default_male_avatar.png";
+            this.avatarImage =  IOUtils.toByteArray(new FileInputStream(new File(servletContext.getRealPath("") + File.separator + DEFAULT_AVATAR_IMAGE_PATH)));
+        }
+    }
+
+    public StreamedContent getAvatarImageStream() throws IOException {
+        //final ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        //final String DEFAULT_AVATAR_IMAGE_PATH = "/resources/images/avatar/default_male_avatar.png";
+        //DefaultStreamedContent image = new DefaultStreamedContent(new FileInputStream(new File(servletContext.getRealPath("") + File.separator + DEFAULT_AVATAR_IMAGE_PATH)),"image/png","test.png");
+        return new DefaultStreamedContent(new ByteArrayInputStream(getAvatarImage()));
+    }
+
+    public String getColor() {
 		return color;
 	}
 

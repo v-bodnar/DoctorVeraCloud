@@ -138,7 +138,7 @@ public interface ScheduleFacadeLocal {
      *
      * @param room - Room to search by
      * @param date - start date of the given date range
-     * @return List<Plan> List of existing Schedule records that are not marked as deleted
+     * @return chedule List of existing Schedule records that are not marked as deleted
      */
     Schedule findByRoomAndDateInside(Rooms room, Date date);
 

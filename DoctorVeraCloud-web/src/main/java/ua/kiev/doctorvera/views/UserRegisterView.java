@@ -35,7 +35,7 @@ public class UserRegisterView implements Serializable {
 	public void init() {
 		user = new Users();
 		user.setUserCreated(usersFacade.findByUsername("root"));
-		user.setAvatarImage(Mapping.getInstance().getString("APPLICATION_AVATAR_DEFAULT"));
+		//user.setAvatarImage(Mapping.getInstance().getString("APPLICATION_AVATAR_DEFAULT"));
 		address = new Address();
 		address.setUserCreated(usersFacade.findByUsername("root"));
 		

@@ -12,9 +12,9 @@
         <h1><h:outputText value="#{MESSAGE.SCHEDULE_ALL_ROOMS}"/></h1>
         <h:form id="scheduleForm">
 
-            <p:schedule id="schedule" value="#{scheduleGeneralView.eventModel}" locale="ru" view="agendaWeek" firstHour="6"
-                        minTime="7am" maxTime="8pm" styleClass="scheduleCalendar" timeZone="GMT+2" widgetVar="schedule"
-                        rightHeaderTemplate="month,agendaDay,agendaWeek" allDaySlot="false" tooltip="false">
+            <p:schedule id="schedule" value="#{scheduleGeneralView.eventModel}" locale="ru" view="agendaWeek" firstHour="7"
+                        minTime="7:00" maxTime="20:00" styleClass="scheduleCalendar" timeZone="GMT+2" widgetVar="schedule"
+                        rightHeaderTemplate="month,agendaDay,agendaWeek" allDaySlot="false" tooltip="false" columnFormat="dddd,DD, MMMM">
                 <p:ajax event="eventSelect" listener="#{scheduleGeneralView.onEventSelect}" oncomplete=""/>
             </p:schedule>
             <h:outputText value="#{scheduleGeneralView.cssStyle}" escape="false"/>
