@@ -312,14 +312,14 @@ public class PlanView implements Serializable {
     }
     private DefaultScheduleEvent eventFromPlan(Plan plan){
     	DefaultScheduleEvent newEvent = new DefaultScheduleEvent(
-			plan.getDoctor().getFirstName() + 
+			plan.getDoctor().getFirstName() +  " " +
 			plan.getDoctor().getLastName() + " / " +  
 			plan.getDescription(), 
 			plan.getDateTimeStart(), 
 			plan.getDateTimeEnd(),
 			plan);
     	newEvent.setDescription(
-    		plan.getDoctor().getFirstName() +
+    		plan.getDoctor().getFirstName() + " " +
     		plan.getDoctor().getLastName() + " / " +
     		plan.getRoom().getName() + " / " +
     		plan.getDescription()

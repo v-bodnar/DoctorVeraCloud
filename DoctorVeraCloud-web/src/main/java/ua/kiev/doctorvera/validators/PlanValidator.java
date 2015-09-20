@@ -79,7 +79,9 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
 		//The list of Plan records crossed with the current Plan record
 		//Must have zero size or error message should be shown
 		HashSet<Plan> plansCrossed = crossPlan(start, end, room);
-		plansCrossed.remove(planFacade.find(currentPlan.getId()));
+		if (currentPlan != null) {
+			plansCrossed.remove(planFacade.find(currentPlan.getId()));
+		}
 		String errorMessage = null;
 		
 		if(plansCrossed.size() != 0){

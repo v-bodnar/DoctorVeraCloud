@@ -653,14 +653,14 @@ public class ScheduleView implements Serializable {
     //Creates Plan event from Plan record
     private DefaultScheduleEvent eventFromPlan(Plan plan) {
         DefaultScheduleEvent newEvent = new DefaultScheduleEvent(
-                plan.getDoctor().getFirstName() +
+                plan.getDoctor().getFirstName() + " " +
                         plan.getDoctor().getLastName() + " / " +
                         plan.getDescription(),
                 plan.getDateTimeStart(),
                 plan.getDateTimeEnd(),
                 plan);
         newEvent.setDescription(
-                plan.getDoctor().getFirstName() +
+                plan.getDoctor().getFirstName() + " " +
                         plan.getDoctor().getLastName() + " / " +
                         plan.getRoom().getName() + " / " +
                         plan.getDescription()
@@ -678,7 +678,7 @@ public class ScheduleView implements Serializable {
         if (schedule.getPatient() != null) {
             newEvent = new DefaultScheduleEvent(
                     schedule.getMethod().getShortName() + " / " +
-                            schedule.getPatient().getFirstName() +
+                            schedule.getPatient().getFirstName() + " " +
                             schedule.getPatient().getLastName() + " / " +
                             schedule.getDescription(),
                     schedule.getDateTimeStart(),
@@ -687,7 +687,7 @@ public class ScheduleView implements Serializable {
             );
             newEvent.setDescription(
                     schedule.getMethod().getShortName() + " / " +
-                            schedule.getPatient().getFirstName() +
+                            schedule.getPatient().getFirstName() + " " +
                             schedule.getPatient().getLastName() + " / " +
                             schedule.getDescription()
             );

@@ -71,8 +71,6 @@ public class ScheduleDoctorView implements Serializable {
 
     private Users authorizedUser;
 
-    private Rooms currentRoom;
-
     //Data for Schedule Form Autocomplete inputs
     private final Set<String> allFirstNames = new HashSet<String>();
     private final Set<String> allMiddleNames = new HashSet<String>();
@@ -126,7 +124,6 @@ public class ScheduleDoctorView implements Serializable {
     @PostConstruct
     public void init() {
         authorizedUser = sessionParams.getAuthorizedUser();
-        currentRoom = sessionParams.getScheduleRoom();
         allRooms = roomsFacade.findAll();
         allDoctors = usersFacade.findByType(DOCTORS_TYPE_ID);
         allPatients = usersFacade.findByType(PATIENTS_TYPE_ID);
@@ -195,7 +192,7 @@ public class ScheduleDoctorView implements Serializable {
         //If Plan Event was clicked we create new Schedule Event
         // and prepare all fields for addSchedule Dialog Window
         if (data instanceof Plan) {
-            Plan plan = planFacade.find(((Plan) event.getData()).getId());
+            this.plan = planFacade.find(((Plan) event.getData()).getId());
             schedule = new Schedule();
             patient = new Users();
             selectedMethodType = null;
@@ -241,11 +238,11 @@ public class ScheduleDoctorView implements Serializable {
             }
             //If next schedule record is for the same patient, there is no need for break
             if (nextScheduleHasSamePatient) {
-                isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, event.getEndDate());
+                isValid = scheduleValidator.addScheduleValidate(schedule, schedule.getRoom(), event.getEndDate());
             } else if (breakSchedule == null) {
-                isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, new Date(event.getEndDate().getTime() + (breakTime * 60L * 1000L)));
+                isValid = scheduleValidator.addScheduleValidate(schedule, schedule.getRoom(), new Date(event.getEndDate().getTime() + (breakTime * 60L * 1000L)));
             } else {
-                isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, new Date(event.getEndDate().getTime() + breakTime));
+                isValid = scheduleValidator.addScheduleValidate(schedule, schedule.getRoom(), new Date(event.getEndDate().getTime() + breakTime));
             }
 
             if (isValid) {
@@ -295,7 +292,7 @@ public class ScheduleDoctorView implements Serializable {
 
             //Validation for crossing other Plan records
             //Check if changes are legal (if there are no scheduled records in time intervals changed)
-            if(planValidator.resizePlanValidate(event.getStartDate(), event.getEndDate(),plan.getDateTimeStart(), plan.getDateTimeEnd(), currentRoom, plan)) return;
+            if(planValidator.resizePlanValidate(event.getStartDate(), event.getEndDate(),plan.getDateTimeStart(), plan.getDateTimeEnd(), plan.getRoom(), plan)) return;
             plan.setDateCreated(new Date());
             plan.setUserCreated(authorizedUser);
             plan.setDateTimeStart(event.getStartDate());
@@ -322,7 +319,7 @@ public class ScheduleDoctorView implements Serializable {
 
             //Validation for crossing other Plan records
             //Check if changes are legal (if there are no scheduled records in time intervals changed)
-            if (planValidator.resizePlanValidate(event.getStartDate(), event.getEndDate(), plan.getDateTimeStart(), plan.getDateTimeEnd(), currentRoom, plan))
+            if (planValidator.resizePlanValidate(event.getStartDate(), event.getEndDate(), plan.getDateTimeStart(), plan.getDateTimeEnd(), plan.getRoom(), plan))
                 return;
 
             plan.setDateCreated(new Date());
@@ -432,7 +429,7 @@ public class ScheduleDoctorView implements Serializable {
      */
     public void addSchedule(ActionEvent actionEvent) {
         //Dates validation
-        Boolean isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, new Date(schedule.getDateTimeStart().getTime() + ((getTotalTime() + breakTime) * 60L * 1000L)));
+        Boolean isValid = scheduleValidator.addScheduleValidate(schedule, plan.getRoom(), new Date(schedule.getDateTimeStart().getTime() + ((getTotalTime() + breakTime) * 60L * 1000L)));
 
         if (isValid) {
 
@@ -489,9 +486,9 @@ public class ScheduleDoctorView implements Serializable {
         Boolean nextScheduleHasSamePatient = nextSchedule.size() == 1 && nextSchedule.get(0).getPatient().equals(schedule.getPatient());
         //If next schedule record is for the same patient, there is no need for break
         if (nextScheduleHasSamePatient) {
-            isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, new Date(schedule.getDateTimeStart().getTime() + (getTotalTime() * 60L * 1000L)));
+            isValid = scheduleValidator.addScheduleValidate(schedule, schedule.getRoom(), new Date(schedule.getDateTimeStart().getTime() + (getTotalTime() * 60L * 1000L)));
         } else {
-            isValid = scheduleValidator.addScheduleValidate(schedule, currentRoom, new Date(schedule.getDateTimeStart().getTime() + ((getTotalTime() + breakTime) * 60L * 1000L)));
+            isValid = scheduleValidator.addScheduleValidate(schedule, schedule.getRoom(), new Date(schedule.getDateTimeStart().getTime() + ((getTotalTime() + breakTime) * 60L * 1000L)));
         }
 
         if (isValid) {
@@ -584,11 +581,10 @@ public class ScheduleDoctorView implements Serializable {
         //Setting current timestamp and user created plan record
         plan.setDateCreated(new Date());
         plan.setUserCreated(authorizedUser);
-
         //When we create new Plan record Id of Plan and event are null
         if (plan.getId() == null || event.getId() == null) {
             //Validation for crossing other Plan records
-            if (planValidator.addPlanValidate(plan.getDateTimeStart(), plan.getDateTimeEnd(), currentRoom, null))
+            if (planValidator.addPlanValidate(plan.getDateTimeStart(), plan.getDateTimeEnd(), plan.getRoom(), null))
                 return;
 
             planFacade.create(plan);
@@ -653,14 +649,14 @@ public class ScheduleDoctorView implements Serializable {
     //Creates Plan event from Plan record
     private DefaultScheduleEvent eventFromPlan(Plan plan) {
         DefaultScheduleEvent newEvent = new DefaultScheduleEvent(
-                plan.getDoctor().getFirstName() +
+                plan.getDoctor().getFirstName() + " " +
                         plan.getDoctor().getLastName() + " / " +
                         plan.getDescription(),
                 plan.getDateTimeStart(),
                 plan.getDateTimeEnd(),
                 plan);
         newEvent.setDescription(
-                plan.getDoctor().getFirstName() +
+                plan.getDoctor().getFirstName() + " " +
                         plan.getDoctor().getLastName() + " / " +
                         plan.getRoom().getName() + " / " +
                         plan.getDescription()
@@ -678,7 +674,7 @@ public class ScheduleDoctorView implements Serializable {
         if (schedule.getPatient() != null) {
             newEvent = new DefaultScheduleEvent(
                     schedule.getMethod().getShortName() + " / " +
-                            schedule.getPatient().getFirstName() +
+                            schedule.getPatient().getFirstName() + " " +
                             schedule.getPatient().getLastName() + " / " +
                             schedule.getDescription(),
                     schedule.getDateTimeStart(),
@@ -687,7 +683,7 @@ public class ScheduleDoctorView implements Serializable {
             );
             newEvent.setDescription(
                     schedule.getMethod().getShortName() + " / " +
-                            schedule.getPatient().getFirstName() +
+                            schedule.getPatient().getFirstName() + " " +
                             schedule.getPatient().getLastName() + " / " +
                             schedule.getDescription()
             );
@@ -704,7 +700,7 @@ public class ScheduleDoctorView implements Serializable {
                             schedule.getDescription()
             );
         }
-        newEvent.setStyleClass("doc" + schedule.getDoctor().getId());
+        newEvent.setStyleClass("fc-schedule doc" + schedule.getDoctor().getId());
         if (event != null && event.getId() != null)
             newEvent.setId(event.getId());
         return newEvent;
@@ -741,7 +737,7 @@ public class ScheduleDoctorView implements Serializable {
     public void createNewSchedule(Methods method, Date startTime) {
         schedule.setId(null);
         schedule.setPatient(patient);
-        schedule.setRoom(currentRoom);
+        schedule.setRoom(plan.getRoom());
         schedule.setMethod(method);
         schedule.setDateTimeStart(startTime);
         schedule.setDateTimeEnd(new Date(startTime.getTime() + (method.getTimeInMinutes() * 60L * 1000L)));
@@ -752,7 +748,6 @@ public class ScheduleDoctorView implements Serializable {
 
     public void editSchedule() {
         schedule.setPatient(patient);
-        schedule.setRoom(currentRoom);
         schedule.setDateTimeEnd(new Date(schedule.getDateTimeStart().getTime() + (schedule.getMethod().getTimeInMinutes() * 60L * 1000L)));
         schedule.setUserCreated(authorizedUser);
         schedule.setDateCreated(new Date());
@@ -763,7 +758,7 @@ public class ScheduleDoctorView implements Serializable {
         Schedule schedule = new Schedule();
         Users breakUser = usersFacade.find(USERS_BREAK_ID);
         schedule.setDoctor(breakUser);
-        schedule.setRoom(currentRoom);
+        schedule.setRoom(this.schedule.getRoom());
         schedule.setPatient(breakUser);
         schedule.setMethod(methodsFacade.find(METHOD_BREAK_ID));
         schedule.setDateTimeStart(startTime);
@@ -966,13 +961,5 @@ public class ScheduleDoctorView implements Serializable {
 
     public void setAuthorizedUser(Users authorizedUser) {
         this.authorizedUser = authorizedUser;
-    }
-
-    public Rooms getCurrentRoom() {
-        return currentRoom;
-    }
-
-    public void setCurrentRoom(Rooms currentRoom) {
-        this.currentRoom = currentRoom;
     }
 }

@@ -12,7 +12,7 @@
 
             <p:growl id="growl" showDetail="true" severity="info,warn,error"/>
 
-            <p:schedule id="schedule" value="#{scheduleDoctorView.eventModel}" locale="ru" view="agendaWeek" firstHour="7"
+            <p:schedule id="schedule" value="#{scheduleDoctorView.eventModel}" locale="ru" view="agendaWeek"
                         minTime="7:00" maxTime="20:00" styleClass="scheduleCalendar" timeZone="GMT+2" widgetVar="schedule"
                         rightHeaderTemplate="agendaDay,agendaWeek"
                         allDaySlot="false" tooltip="false" columnFormat="dddd,DD, MMMM">
@@ -264,7 +264,7 @@
             <p:dialog header="#{MESSAGE.PLAN_ADD_DIALOG_TITLE}"
                       widgetVar="addPlanDialog" id="addPlanDialog" modal="false" showEffect="clip"
                       styleClass="addPlanDialog">
-                <p:growl id="growl" showDetail="true" severity="info"/>
+                <p:growl id="growl" showDetail="true" severity="info,error"/>
                 <p:messages id="errorMessage" showDetail="true" style="width:400px;font-size:90%" escape="true"/>
 
                 <h:panelGrid columns="2" cellpadding="5">
