@@ -34,22 +34,21 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Volodymyr Bodnar
  */
 @Entity
-@Table(name = "UserTypes")
+@Table(name = "UserGroups")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UserTypes.findAll", query = "SELECT u FROM UserTypes u"),
-    @NamedQuery(name = "UserTypes.findByUserTypeId", query = "SELECT u FROM UserTypes u WHERE u.userTypeId = :userTypeId"),
-    @NamedQuery(name = "UserTypes.findByName", query = "SELECT u FROM UserTypes u WHERE u.name = :name"),
-    @NamedQuery(name = "UserTypes.findByDescription", query = "SELECT u FROM UserTypes u WHERE u.description = :description"),
-    @NamedQuery(name = "UserTypes.findByDateCreated", query = "SELECT u FROM UserTypes u WHERE u.dateCreated = :dateCreated"),
-    @NamedQuery(name = "UserTypes.findByDeleted", query = "SELECT u FROM UserTypes u WHERE u.deleted = :deleted")})
-public class UserTypes implements Serializable,Identified<Integer> {
+    @NamedQuery(name = "UserGroups.findAll", query = "SELECT u FROM UserGroups u"),
+    @NamedQuery(name = "UserGroups.UserGroupId", query = "SELECT u FROM UserGroups u WHERE u.userGroupId = :userGroupId"),
+    @NamedQuery(name = "UserGroups.findByName", query = "SELECT u FROM UserGroups u WHERE u.name = :name"),
+    @NamedQuery(name = "UserGroups.findByDescription", query = "SELECT u FROM UserGroups u WHERE u.description = :description"),
+    @NamedQuery(name = "UserGroups.findByDateCreated", query = "SELECT u FROM UserGroups u WHERE u.dateCreated = :dateCreated"),
+    @NamedQuery(name = "UserGroups.findByDeleted", query = "SELECT u FROM UserGroups u WHERE u.deleted = :deleted")})
+public class UserGroups implements Serializable,Identified<Integer> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "UserTypeId")
-    private Integer userTypeId;
+    @Column(name = "UserGroupId")
+    private Integer userGroupId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -67,36 +66,36 @@ public class UserTypes implements Serializable,Identified<Integer> {
     @NotNull
     @Column(name = "Deleted")
     private boolean deleted;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userType")
-    private Collection<UsersHasUserTypes> usersHasUserTypesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup")
+    private Collection<UsersHasUserGroups> usersHasUserGroupsCollection;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userType")
-    private Collection<PolicyHasUserTypes> policyHasUserTypesCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup")
+    private Collection<PolicyHasUserGroups> policyHasUserGroupsCollection;
     
     @JoinColumn(name = "UserCreated", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users userCreated;
 
-    public UserTypes() {
+    public UserGroups() {
     }
 
-    public UserTypes(Integer userTypeId) {
-        this.userTypeId = userTypeId;
+    public UserGroups(Integer userGroupId) {
+        this.userGroupId = userGroupId;
     }
 
-    public UserTypes(Integer userTypeId, String name, Date dateCreated, boolean deleted) {
-        this.userTypeId = userTypeId;
+    public UserGroups(Integer userGroupId, String name, Date dateCreated, boolean deleted) {
+        this.userGroupId = userGroupId;
         this.name = name;
         this.dateCreated = dateCreated;
         this.deleted = deleted;
     }
 
-    public Integer getUserTypeId() {
-        return userTypeId;
+    public Integer getUserGroupId() {
+        return userGroupId;
     }
 
-    public void setUserTypeId(Integer userTypeId) {
-        this.userTypeId = userTypeId;
+    public void setUserGroupId(Integer userTypeId) {
+        this.userGroupId = userTypeId;
     }
 
     public String getName() {
@@ -132,21 +131,21 @@ public class UserTypes implements Serializable,Identified<Integer> {
     }
 
     @XmlTransient
-    public Collection<UsersHasUserTypes> getUsersHasUserTypesCollection() {
-        return usersHasUserTypesCollection;
+    public Collection<UsersHasUserGroups> getUsersHasUserGroupsCollection() {
+        return usersHasUserGroupsCollection;
     }
 
-    public void setUsersHasUserTypesCollection(Collection<UsersHasUserTypes> usersHasUserTypesCollection) {
-        this.usersHasUserTypesCollection = usersHasUserTypesCollection;
+    public void setUsersHasUserGroupsCollection(Collection<UsersHasUserGroups> usersHasUserGroupsCollection) {
+        this.usersHasUserGroupsCollection = usersHasUserGroupsCollection;
     }
 
     @XmlTransient
-    public Collection<PolicyHasUserTypes> getPolicyHasUserTypesCollection() {
-        return policyHasUserTypesCollection;
+    public Collection<PolicyHasUserGroups> getPolicyHasUserGroupsCollection() {
+        return policyHasUserGroupsCollection;
     }
 
-    public void setPolicyHasUserTypesCollection(Collection<PolicyHasUserTypes> policyHasUserTypesCollection) {
-        this.policyHasUserTypesCollection = policyHasUserTypesCollection;
+    public void setPolicyHasUserGroupsCollection(Collection<PolicyHasUserGroups> policyHasUserGroupsCollection) {
+        this.policyHasUserGroupsCollection = policyHasUserGroupsCollection;
     }
     @Override
     public Users getUserCreated() {
@@ -170,7 +169,7 @@ public class UserTypes implements Serializable,Identified<Integer> {
 		result = prime * result
 				+ ((userCreated == null) ? 0 : userCreated.hashCode());
 		result = prime * result
-				+ ((userTypeId == null) ? 0 : userTypeId.hashCode());
+				+ ((userGroupId == null) ? 0 : userGroupId.hashCode());
 		return result;
 	}
 
@@ -182,7 +181,7 @@ public class UserTypes implements Serializable,Identified<Integer> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UserTypes other = (UserTypes) obj;
+		UserGroups other = (UserGroups) obj;
 		if (dateCreated == null) {
 			if (other.dateCreated != null)
 				return false;
@@ -205,17 +204,17 @@ public class UserTypes implements Serializable,Identified<Integer> {
 				return false;
 		} else if (!userCreated.equals(other.userCreated))
 			return false;
-		if (userTypeId == null) {
-			if (other.userTypeId != null)
+		if (userGroupId == null) {
+			if (other.userGroupId != null)
 				return false;
-		} else if (!userTypeId.equals(other.userTypeId))
+		} else if (!userGroupId.equals(other.userGroupId))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "UserTypes [userTypeId=" + userTypeId + ", name=" + name
+		return "UserGroups [userTypeId=" + userGroupId + ", name=" + name
 				+ ", description=" + description + ", dateCreated="
 				+ dateCreated + ", deleted=" + deleted + ", userCreated="
 				+ userCreated + "]";
@@ -223,12 +222,12 @@ public class UserTypes implements Serializable,Identified<Integer> {
 
     @Override
     public Integer getId() {
-        return getUserTypeId();
+        return getUserGroupId();
     }
 
     @Override
     public void setId(Integer id) {
-        setUserTypeId(id);
+        setUserGroupId(id);
     }
 
 

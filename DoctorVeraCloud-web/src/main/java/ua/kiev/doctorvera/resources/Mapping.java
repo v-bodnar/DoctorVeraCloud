@@ -48,7 +48,7 @@ public class Mapping extends ListResourceBundle{
     	APPLICATION_AVATAR_DEFAULT
     }
 
-    public static enum UserTypes{
+    public static enum UserGroups{
     	DOCTORS_TYPE_ID,
     	PATIENTS_TYPE_ID,
     	ASSISTENTS_TYPE_ID

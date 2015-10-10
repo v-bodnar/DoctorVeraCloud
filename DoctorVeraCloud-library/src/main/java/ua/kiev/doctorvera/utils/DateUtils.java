@@ -1,6 +1,5 @@
 package ua.kiev.doctorvera.utils;
 
-import javax.ejb.Stateless;
 import java.util.Calendar;
 import java.util.Date;
 

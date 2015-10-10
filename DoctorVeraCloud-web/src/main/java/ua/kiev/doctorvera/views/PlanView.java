@@ -21,7 +21,6 @@ import ua.kiev.doctorvera.validators.PlanValidator;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
@@ -91,7 +90,7 @@ public class PlanView implements Serializable {
 		};
         generateCss();
 		allRooms = roomsFacade.findAll();
-		allDoctors = usersFacade.findByType(DOCTORS_TYPE_ID);
+		allDoctors = usersFacade.findByGroup(DOCTORS_TYPE_ID);
 		plan = new Plan();
 		//colorize();
 	}
@@ -332,7 +331,7 @@ public class PlanView implements Serializable {
 
     private void generateCss(){
         cssStyle = "<style>";
-        for(Users doctor : usersFacade.findByType(3))
+        for(Users doctor : usersFacade.findByGroup(3))
             cssStyle += ".doc" + doctor.getId() + "{background-color: #" + doctor.getColor() + "}";
         cssStyle += "</style>";
     }

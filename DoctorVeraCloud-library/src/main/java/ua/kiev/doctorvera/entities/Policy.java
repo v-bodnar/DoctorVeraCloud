@@ -55,6 +55,16 @@ public class Policy implements Serializable,Identified<Integer> {
     @Size(min = 1, max = 45)
     @Column(name = "Name")
     private String name;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "StringId")
+    private String stringId;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "PolicyGroup")
+    private String policyGroup;
     @Size(max = 200)
     @Column(name = "Description")
     private String description;
@@ -71,7 +81,7 @@ public class Policy implements Serializable,Identified<Integer> {
     @ManyToOne(optional = false)
     private Users userCreated;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "policy")
-    private Collection<PolicyHasUserTypes> policyHasUserTypesCollection;
+    private Collection<PolicyHasUserGroups> policyHasUserGroupsCollection;
 
     public Policy() {
     }
@@ -135,78 +145,75 @@ public class Policy implements Serializable,Identified<Integer> {
         this.userCreated = userCreated;
     }
 
+    public String getPolicyGroup() {
+        return policyGroup;
+    }
+
+    public void setPolicyGroup(String policyGroup) {
+        this.policyGroup = policyGroup;
+    }
+
+    public String getStringId() {
+        return stringId;
+    }
+
+    public void setStringId(String stringId) {
+        this.stringId = stringId;
+    }
+
     @XmlTransient
-    public Collection<PolicyHasUserTypes> getPolicyHasUserTypesCollection() {
-        return policyHasUserTypesCollection;
+    public Collection<PolicyHasUserGroups> getPolicyHasUserGroupsCollection() {
+        return policyHasUserGroupsCollection;
     }
 
-    public void setPolicyHasUserTypesCollection(Collection<PolicyHasUserTypes> policyHasUserTypesCollection) {
-        this.policyHasUserTypesCollection = policyHasUserTypesCollection;
+    public void setPolicyHasUserGroupsCollection(Collection<PolicyHasUserGroups> policyHasUserGroupsCollection) {
+        this.policyHasUserGroupsCollection = policyHasUserGroupsCollection;
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((dateCreated == null) ? 0 : dateCreated.hashCode());
-		result = prime * result + (deleted ? 1231 : 1237);
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((policyId == null) ? 0 : policyId.hashCode());
-		result = prime * result
-				+ ((userCreated == null) ? 0 : userCreated.hashCode());
-		return result;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Policy other = (Policy) obj;
-		if (dateCreated == null) {
-			if (other.dateCreated != null)
-				return false;
-		} else if (!dateCreated.equals(other.dateCreated))
-			return false;
-		if (deleted != other.deleted)
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (policyId == null) {
-			if (other.policyId != null)
-				return false;
-		} else if (!policyId.equals(other.policyId))
-			return false;
-		if (userCreated == null) {
-			if (other.userCreated != null)
-				return false;
-		} else if (!userCreated.equals(other.userCreated))
-			return false;
-		return true;
-	}
+        Policy policy = (Policy) o;
 
-	@Override
-	public String toString() {
-		return "Policy [policyId=" + policyId + ", name=" + name
-				+ ", description=" + description + ", dateCreated="
-				+ dateCreated + ", deleted=" + deleted + ", userCreated="
-				+ userCreated + "]";
-	}
+        if (deleted != policy.deleted) return false;
+        if (!policyId.equals(policy.policyId)) return false;
+        if (!name.equals(policy.name)) return false;
+        if (!stringId.equals(policy.stringId)) return false;
+        if (policyGroup != null ? !policyGroup.equals(policy.policyGroup) : policy.policyGroup != null) return false;
+        if (description != null ? !description.equals(policy.description) : policy.description != null) return false;
+        if (!dateCreated.equals(policy.dateCreated)) return false;
+        return userCreated.equals(policy.userCreated);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = policyId.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + stringId.hashCode();
+        result = 31 * result + (policyGroup != null ? policyGroup.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + dateCreated.hashCode();
+        result = 31 * result + (deleted ? 1 : 0);
+        result = 31 * result + userCreated.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Policy{" +
+                "dateCreated=" + dateCreated +
+                ", policyId=" + policyId +
+                ", name='" + name + '\'' +
+                ", stringId='" + stringId + '\'' +
+                ", policyGroup='" + policyGroup + '\'' +
+                ", description='" + description + '\'' +
+                ", deleted=" + deleted +
+                ", userCreated=" + userCreated +
+                '}';
+    }
 
     @Override
     public Integer getId() {

@@ -43,7 +43,7 @@ public class ScheduleView implements Serializable {
     private UsersFacadeLocal usersFacade;
 
     @EJB
-    private UserTypesFacadeLocal userTypesFacade;
+    private UserGroupsFacadeLocal userTypesFacade;
 
     @EJB
     private PlanFacadeLocal planFacade;
@@ -128,9 +128,9 @@ public class ScheduleView implements Serializable {
         authorizedUser = sessionParams.getAuthorizedUser();
         currentRoom = sessionParams.getScheduleRoom();
         allRooms = roomsFacade.findAll();
-        allDoctors = usersFacade.findByType(DOCTORS_TYPE_ID);
-        allPatients = usersFacade.findByType(PATIENTS_TYPE_ID);
-        allAssistents = usersFacade.findByType(ASSISTENTS_TYPE_ID);
+        allDoctors = usersFacade.findByGroup(DOCTORS_TYPE_ID);
+        allPatients = usersFacade.findByGroup(PATIENTS_TYPE_ID);
+        allAssistents = usersFacade.findByGroup(ASSISTENTS_TYPE_ID);
         schedule = new Schedule();
         patient = new Users();
         selectedMethods = new ArrayList<Methods>();
@@ -439,7 +439,7 @@ public class ScheduleView implements Serializable {
             if (isNew(patient)) { // Creating new user
                 createpatient(patient, authorizedUser);
                 usersFacade.create(patient);
-                usersFacade.addUserType(patient, userTypesFacade.find(PATIENTS_TYPE_ID), authorizedUser);
+                usersFacade.addUserGroup(patient, userTypesFacade.find(PATIENTS_TYPE_ID), authorizedUser);
                 //TODO send email with password
             }
 
@@ -498,7 +498,7 @@ public class ScheduleView implements Serializable {
             if (isNew(patient)) { // Creating new user
                 createpatient(patient, authorizedUser);
                 usersFacade.create(patient);
-                usersFacade.addUserType(patient, userTypesFacade.find(PATIENTS_TYPE_ID), authorizedUser);
+                usersFacade.addUserGroup(patient, userTypesFacade.find(PATIENTS_TYPE_ID), authorizedUser);
                 //TODO send email with password
             }
 
@@ -717,7 +717,7 @@ public class ScheduleView implements Serializable {
 
     private void generateCss() {
         cssStyle = "<style>";
-        for (Users doctor : usersFacade.findByType(3))
+        for (Users doctor : usersFacade.findByGroup(3))
             cssStyle += ".doc" + doctor.getId() + "{background-color: #" + doctor.getColor() + "}";
         cssStyle += "</style>";
     }

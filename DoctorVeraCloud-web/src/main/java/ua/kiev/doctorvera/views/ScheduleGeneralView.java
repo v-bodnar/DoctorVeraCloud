@@ -13,7 +13,6 @@ import ua.kiev.doctorvera.resources.Mapping;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -119,7 +118,7 @@ public class ScheduleGeneralView implements Serializable {
 
 	private void generateCss(){
 		cssStyle = "<style>";
-		for(Users doctor : usersFacade.findByType(3))
+		for(Users doctor : usersFacade.findByGroup(3))
 			cssStyle += ".doc" + doctor.getId() + "{background-color: #" + doctor.getColor() + "}";
 		cssStyle += "</style>";
 	}

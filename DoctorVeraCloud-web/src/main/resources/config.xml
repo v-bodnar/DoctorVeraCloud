@@ -5,4 +5,6 @@
     <entry key="LANGUAGE">ru</entry>
     <entry key="COUNTRY">RU</entry>
     <entry key="PROJECT_NAME">DoctorVeraCloud</entry>
+    <entry key="SUPER_ADMIN_ID">1</entry>
+    <entry key="SUPER_ADMIN_USER_TYPE_ID">1</entry>
 </properties>

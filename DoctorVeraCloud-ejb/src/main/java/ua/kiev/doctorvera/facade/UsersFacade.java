@@ -33,10 +33,10 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     private MethodsFacadeLocal methodsFacade;
 
     @EJB
-    private UsersHasUserTypesFacadeLocal usersHasUserTypesFacade;
+    private UsersHasUserGroupsFacadeLocal usersHasUserTypesFacade;
 
     @EJB
-    private UserTypesFacadeLocal userTypesFacade;
+    private UserGroupsFacadeLocal userTypesFacade;
 
     public UsersFacade() {
         super(Users.class);
@@ -189,18 +189,17 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     }
 
     /**
-    * Searches for all Users with the given User Type
+    * Searches for all Users with the given User Group
     * @returns List<Users> List of users that matches search parameter
-    * @param type - User Type to search by
+    * @param group - User Group to search by
     */
     @Override
-    public List<Users> findByType(UserTypes type) {
-        if (type != null && type.getId() != null) {
-            Collection<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
-            //List<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
+    public List<Users> findByGroup(UserGroups group) {
+        if (group != null && group.getId() != null) {
+            Collection<UsersHasUserGroups> list = usersHasUserTypesFacade.findUsersByGroup(group);
             HashSet<Users> result = new HashSet<Users>();
             if (list != null)
-                for (UsersHasUserTypes entry : list)
+                for (UsersHasUserGroups entry : list)
                     result.add(entry.getUser());
             return new ArrayList<Users>(result);
         } else
@@ -208,19 +207,18 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     }
 
     /**
-    * Searches for all Users with the given User Type
+    * Searches for all Users with the given User Group
     * @returns List<Users> List of users that matches search parameter
-    * @param typeName - User Type name to search by
+    * @param typeName - User Group name to search by
     */
     @Override
-    public List<Users> findByType(String typeName) {
-        UserTypes type = userTypesFacade.findByName(typeName);
-        if (type != null) {
-            Collection<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
-            //List<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
+    public List<Users> findByGroup(String typeName) {
+        UserGroups groups = userTypesFacade.findByName(typeName);
+        if (groups != null) {
+            Collection<UsersHasUserGroups> list = usersHasUserTypesFacade.findUsersByGroup(groups);
             HashSet<Users> result = new HashSet<Users>();
             if (list != null)
-                for (UsersHasUserTypes entry : list)
+                for (UsersHasUserGroups entry : list)
                     result.add(entry.getUser());
             return new ArrayList<Users>(result);
         } else
@@ -228,19 +226,18 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     }
 
     /**
-    * Searches for all Users with the given User Type
+    * Searches for all Users with the given User Group
     * @returns List<Users> List of users that matches search parameter
-    * @param typeId - User Type id to search by
+    * @param typeId - User Group id to search by
     */
     @Override
-    public List<Users> findByType(Integer typeId) {
-        UserTypes type = userTypesFacade.find(typeId);
-        if (type != null) {
-            Collection<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
-            //List<UsersHasUserTypes> list = usersHasUserTypesFacade.findUsersByType(type);
+    public List<Users> findByGroup(Integer typeId) {
+        UserGroups group = userTypesFacade.find(typeId);
+        if (group != null) {
+            Collection<UsersHasUserGroups> list = usersHasUserTypesFacade.findUsersByGroup(group);
             HashSet<Users> result = new HashSet<Users>();
             if (list != null)
-                for (UsersHasUserTypes entry : list)
+                for (UsersHasUserGroups entry : list)
                     result.add(entry.getUser());
             return new ArrayList<Users>(result);
         } else
@@ -248,28 +245,28 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     }
 
     /**
-    * Adds record to the reference table for referencing given user and User Type
+    * Adds record to the reference table for referencing given user and User Group
     * @returns true - in the case operation was successful and false otherwise
     * @param user - User that has to be referenced
-    * @param type - User Type that has to be referenced
+    * @param group - User Group that has to be referenced
     * @param userCreated - User that initiated process
     */
     @Override
-    public boolean addUserType(Users user, UserTypes type, Users userCreated) {
-        if (user != null && type != null && userCreated != null) {
+    public boolean addUserGroup(Users user, UserGroups group, Users userCreated) {
+        if (user != null && group != null && userCreated != null) {
             //Find all entries with the same User and UserType
-            List<UsersHasUserTypes> alredyExists = new ArrayList<UsersHasUserTypes>();
+            List<UsersHasUserGroups> alredyExists = new ArrayList<UsersHasUserGroups>();
 
-            for (UsersHasUserTypes entry : usersHasUserTypesFacade.findTypesByUser(user)) {
-                if (entry.getUserType().equals(type)) alredyExists.add(entry);
+            for (UsersHasUserGroups entry : usersHasUserTypesFacade.findGroupsByUser(user)) {
+                if (entry.getUserGroup().equals(group)) alredyExists.add(entry);
             }
 
             //Create new entry
             if (alredyExists == null || alredyExists.size() == 0) {
-                UsersHasUserTypes entry = new UsersHasUserTypes();
+                UsersHasUserGroups entry = new UsersHasUserGroups();
                 entry.setDateCreated(new Date());
                 entry.setUser(find(user));
-                entry.setUserType(userTypesFacade.find(type));
+                entry.setUserGroup(userTypesFacade.find(group));
                 entry.setUserCreated(find(userCreated));
 
                 usersHasUserTypesFacade.create(entry);
@@ -280,24 +277,20 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     }
 
     /**
-    * Permanently deletes record from the reference table for removing reference between given user and User Type
+    * Permanently deletes record from the reference table for removing reference between given user and User Group
     * @returns true - in the case operation was successful and false otherwise
     * @param user - User that has to be unreferenced
-    * @param type - User Type that has to be unreferenced
+    * @param group - User Group that has to be unreferenced
     */
     @Override
-    public boolean removeUserType(Users user, UserTypes type) {
-        type = userTypesFacade.find(type);
-        if (user != null && type != null) {
-            List<UsersHasUserTypes> alredyExists = usersHasUserTypesFacade.findTypesByUser(user);
-            for (UsersHasUserTypes entry : alredyExists) {
-                if (entry.getUserType().equals(type))
+    public boolean removeUserGroup(Users user, UserGroups group) {
+        group = userTypesFacade.find(group);
+        if (user != null && group != null) {
+            List<UsersHasUserGroups> alredyExists = usersHasUserTypesFacade.findGroupsByUser(user);
+            for (UsersHasUserGroups entry : alredyExists) {
+                if (entry.getUserGroup().equals(group))
                     usersHasUserTypesFacade.removeFromDB(entry);
             }
-
-            //Collection<UsersHasUserTypes> list = type.getUsersHasUserTypesCollection();
-            //list.add(entry);
-            //type.setUsersHasUserTypesCollection(list);
             return true;
         } else
             return false;
@@ -316,9 +309,9 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
             if (list != null)
                 for (DoctorsHasMethod entry : list)
                     result.add(entry.getDoctor());
-            return new ArrayList<Users>(result);
+            return new ArrayList<>(result);
         } else
-            return null;
+            return new ArrayList<>();
     }
 
     /**
@@ -335,9 +328,9 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
             if (list != null)
                 for (DoctorsHasMethod entry : list)
                     result.add(entry.getDoctor());
-            return new ArrayList<Users>(result);
+            return new ArrayList<>(result);
         } else
-            return null;
+            return new ArrayList<>();
     }
 
     /**
@@ -375,7 +368,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     /**
     * Permanently deletes record from the reference table for removing reference between given user and Method
     * @returns true - in the case operation was successful and false otherwise
-    * @param user - User that has to be unreferenced
+    * @param doctor - User that has to be unreferenced
     * @param method - Method that has to be unreferenced
     */
     @Override
@@ -391,5 +384,9 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         } else
             return false;
     }
+
+//    public Set<Policy> getPolicies(Users user){
+//
+//    }
 
 }

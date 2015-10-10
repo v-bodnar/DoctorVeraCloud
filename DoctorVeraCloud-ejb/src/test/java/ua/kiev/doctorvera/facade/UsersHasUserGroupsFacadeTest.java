@@ -4,12 +4,12 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import ua.kiev.doctorvera.entities.UserTypes;
+import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.entities.UsersHasUserTypes;
-import ua.kiev.doctorvera.facadeLocal.UserTypesFacadeLocal;
+import ua.kiev.doctorvera.entities.UsersHasUserGroups;
+import ua.kiev.doctorvera.facadeLocal.UserGroupsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.facadeLocal.UsersHasUserTypesFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.UsersHasUserGroupsFacadeLocal;
 
 import javax.ejb.embeddable.EJBContainer;
 import javax.naming.NamingException;
@@ -23,10 +23,10 @@ import static org.junit.Assert.*;
  * Created by volodymyr.bodnar on 02.05.2015.
  */
 @Ignore
-public class UsersHasUserTypesFacadeTest {
+public class UsersHasUserGroupsFacadeTest {
     private static EJBContainer container;
-    private static UsersHasUserTypesFacadeLocal usersHasUserTypesFacade;
-    private static UserTypesFacadeLocal userTypesFacade;
+    private static UsersHasUserGroupsFacadeLocal usersHasUserTypesFacade;
+    private static UserGroupsFacadeLocal userTypesFacade;
     private static UsersFacadeLocal usersFacade;
     private static Users adminUser;
     public static final String ADMIN_LOGIN = "root";
@@ -38,11 +38,11 @@ public class UsersHasUserTypesFacadeTest {
         System.out.println("Create EJB container");
         container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
         try {
-            userTypesFacade = (UserTypesFacadeLocal) container.getContext().lookup("java:global/classes/UserTypesFacade");
+            userTypesFacade = (UserGroupsFacadeLocal) container.getContext().lookup("java:global/classes/UserGroupsFacade");
             usersFacade = (UsersFacadeLocal) container.getContext().lookup("java:global/classes/UsersFacade");
-            usersHasUserTypesFacade = (UsersHasUserTypesFacadeLocal) container.getContext().lookup("java:global/classes/UsersHasUserTypesFacade");
+            usersHasUserTypesFacade = (UsersHasUserGroupsFacadeLocal) container.getContext().lookup("java:global/classes/UsersHasUserGroupsFacade");
         } catch (NamingException ex) {
-            Logger.getLogger(UsersHasUserTypesFacadeTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UsersHasUserGroupsFacadeTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         //Searching for admin user
@@ -59,21 +59,21 @@ public class UsersHasUserTypesFacadeTest {
 
     @Test
     public void testFindTypesByUser() throws Exception {
-        System.out.println("Testing method findUsersByType");
-        UserTypes adminUserType = userTypesFacade.find(ADMIN_GROUP_ID);
+        System.out.println("Testing method findUsersByGroup");
+        UserGroups adminUserType = userTypesFacade.find(ADMIN_GROUP_ID);
         assertNotNull(adminUserType);
 
-        List<UsersHasUserTypes> relations = usersHasUserTypesFacade.findUsersByType(adminUserType);
+        List<UsersHasUserGroups> relations = usersHasUserTypesFacade.findUsersByGroup(adminUserType);
         assertNotNull(relations);
         assertTrue(relations.size()>0);
     }
 
     @Test
     public void testFindUsersByType() throws Exception {
-        System.out.println("Testing method findUsersByType");
+        System.out.println("Testing method findUsersByGroup");
         assertNotNull(adminUser);
 
-        List<UsersHasUserTypes> relations = usersHasUserTypesFacade.findTypesByUser(adminUser);
+        List<UsersHasUserGroups> relations = usersHasUserTypesFacade.findGroupsByUser(adminUser);
         assertNotNull(relations);
         assertTrue(relations.size()>0);
     }

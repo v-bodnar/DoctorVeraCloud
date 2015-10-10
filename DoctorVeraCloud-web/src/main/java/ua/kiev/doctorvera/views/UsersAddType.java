@@ -1,7 +1,7 @@
 package ua.kiev.doctorvera.views;
 
 import org.primefaces.model.DualListModel;
-import ua.kiev.doctorvera.entities.UserTypes;
+import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
@@ -23,40 +23,40 @@ public class UsersAddType implements Serializable {
 	private final static Logger LOG = Logger.getLogger(UploadImageView.class.getName());
 	
     //@Named(value="#{userTypesTableView}")
-    //private UserTypesTableView userTypesTableView;
+    //private UserGroupsTableView userTypesTableView;
     
-	private UserTypes userType;
+	private UserGroups userType;
 	
 	//@EJB
-	//private UserTypesFacadeLocal userTypesFacade;
+	//private UserGroupsFacadeLocal userTypesFacade;
 	
 	@EJB
 	private UsersFacadeLocal usersFacade;
 	
 	//@EJB
-	//private UsersHasUserTypesFacadeLocal usersHasUserTypesFacadeLocal;
+	//private UsersHasUserGroupsFacadeLocal usersHasUserTypesFacadeLocal;
 	
-	//private UserTypes userType;
+	//private UserGroups userType;
 	
 	private DualListModel<Users> users;
 	
 	@PostConstruct
 	public void init(){
-		userType = new UserTypes();
+		userType = new UserGroups();
 		List<Users> allUsers = usersFacade.findAll();
-		List<Users> targetUsers = usersFacade.findByType(userType);
+		List<Users> targetUsers = usersFacade.findByGroup(userType);
 		users = new DualListModel<Users>(allUsers, targetUsers);
 	}
 	
-	//public void setUserTypesTableView(UserTypesTableView userTypesTableView) {
+	//public void setUserTypesTableView(UserGroupsTableView userTypesTableView) {
 	//	this.userTypesTableView = userTypesTableView;
 	//}
 
-	public UserTypes getUserType() {
+	public UserGroups getUserType() {
 		return userType;
 	}
 
-	public void setUserType(UserTypes userType) {
+	public void setUserType(UserGroups userType) {
 		this.userType = userType;
 	}
 

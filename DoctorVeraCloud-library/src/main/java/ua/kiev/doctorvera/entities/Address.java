@@ -1,7 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * This document is a part of the source code and related artifacts
+ * for DoctorVeraCloud, Medical CRM System
+ * for medical institutions
+ *
+ * http://www.cloud.doctorvera.kiev.ua/info
+ *
+ * Copyright © 2015 Doctor Vera {All rights reserved}
+ *
+ * DoctorVeraCloud project can not be copied and/or distributed without the express
+ * permission of General Manager of Doctor Vera trade mark
  */
 package ua.kiev.doctorvera.entities;
 
@@ -24,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Entity class Describes User
  * @author Volodymyr Bodnar
+ * @date 2015.09.28
  */
 @Entity
 @Table(name = "Address")

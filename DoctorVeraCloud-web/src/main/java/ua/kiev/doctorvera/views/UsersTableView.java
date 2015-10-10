@@ -2,17 +2,16 @@ package ua.kiev.doctorvera.views;
 
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
-import ua.kiev.doctorvera.entities.UserTypes;
+import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.AddressFacadeLocal;
-import ua.kiev.doctorvera.facadeLocal.UserTypesFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.UserGroupsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -29,13 +28,13 @@ import java.util.logging.Logger;
 @ViewScoped
 public class UsersTableView implements Serializable {
 	
-	private final static Logger LOG = Logger.getLogger(UserTypesTableView.class.getName());
+	private final static Logger LOG = Logger.getLogger(UserGroupsTableView.class.getName());
 	
 	@EJB
 	private UsersFacadeLocal usersFacade;
 	
 	@EJB
-	private UserTypesFacadeLocal userTypesFacade;
+	private UserGroupsFacadeLocal userTypesFacade;
 	
 	@EJB
 	private AddressFacadeLocal addressFacade;
@@ -52,7 +51,7 @@ public class UsersTableView implements Serializable {
 	public UsersTableView(){}
 	
 	//Model for picklist PrimeFaces widget
-	private DualListModel<UserTypes> userTypesDualListModel;
+	private DualListModel<UserGroups> userTypesDualListModel;
 	
 	@PostConstruct
 	public void init(){
@@ -64,14 +63,14 @@ public class UsersTableView implements Serializable {
 	
 	public void constructPickList(){
 		if (selectedUser != null && selectedUser.getId() != null){
-			List<UserTypes> allTypes = userTypesFacade.findAll();
-			List<UserTypes> targetUsers = userTypesFacade.findByUser(selectedUser);
-			for(UserTypes userType : targetUsers){
+			List<UserGroups> allTypes = userTypesFacade.findAll();
+			List<UserGroups> targetUsers = userTypesFacade.findByUser(selectedUser);
+			for(UserGroups userType : targetUsers){
 				allTypes.remove(userType);
 			}
-			userTypesDualListModel = new DualListModel<UserTypes>(allTypes, targetUsers);
+			userTypesDualListModel = new DualListModel<UserGroups>(allTypes, targetUsers);
 		} else
-			userTypesDualListModel = new DualListModel<UserTypes>(new ArrayList<UserTypes>(), new ArrayList<UserTypes>());
+			userTypesDualListModel = new DualListModel<UserGroups>(new ArrayList<UserGroups>(), new ArrayList<UserGroups>());
 	}
 
 	public List<Users> getAllUsers() {
@@ -90,11 +89,11 @@ public class UsersTableView implements Serializable {
 		this.selectedUser = selectedUser;
 	}
 	
-	public DualListModel<UserTypes> getUserTypesDualListModel() {
+	public DualListModel<UserGroups> getUserTypesDualListModel() {
 		return userTypesDualListModel;
 	}
 
-	public void setUserTypesDualListModel(DualListModel<UserTypes> userTypesDualListModel) {
+	public void setUserTypesDualListModel(DualListModel<UserGroups> userTypesDualListModel) {
 		this.userTypesDualListModel = userTypesDualListModel;
 	}
 	
@@ -129,9 +128,9 @@ public class UsersTableView implements Serializable {
 
 		
 		//All Users from the right picker
-		List<UserTypes> targetList = userTypesDualListModel.getTarget();
+		List<UserGroups> targetList = userTypesDualListModel.getTarget();
 		
-		//Indicates to add new type to user transfered or to remove type from user
+		//Indicates to add new group to user transferred or to remove group from user
 		Boolean addFlag = false;
 		
 		//Checking transfer direction
@@ -152,13 +151,13 @@ public class UsersTableView implements Serializable {
 
 		//Iterating each transfered user
 		for(Object userTypeObject : event.getItems()){
-			UserTypes userTypeTransfered=(UserTypes)userTypeObject;
+			UserGroups userTypeTransfered=(UserGroups)userTypeObject;
 			
 				//Constructing success message
 				successMessage += userTypeTransfered.getName() + ", ";
 			
 			if(addFlag){
-				//Add type to user transfered
+				//Add group to user transfered
 				userTypesFacade.addUser(selectedUser, userTypeTransfered, authorizedUser);
 				
 				//Setting time and user that made changes
@@ -169,7 +168,7 @@ public class UsersTableView implements Serializable {
 				userTypesFacade.edit(userTypeTransfered);
 				usersFacade.edit(selectedUser);
 			}else{
-				//Remove type from user transfered
+				//Remove group from user transfered
 				userTypesFacade.removeUser(selectedUser, userTypeTransfered);
 				
 				//Setting time and user that made changes

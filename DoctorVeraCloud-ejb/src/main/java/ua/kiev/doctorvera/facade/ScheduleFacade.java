@@ -155,7 +155,7 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
      *
      * @param room - Room to search by
      * @param date - start date of the given date range
-     * @return List<Plan> List of existing Schedule records that are not marked as deleted
+     * @return Schedule existing Schedule record that are not marked as deleted
      */
     @Override
     public Schedule findByRoomAndDateInside(Rooms room, Date date) {

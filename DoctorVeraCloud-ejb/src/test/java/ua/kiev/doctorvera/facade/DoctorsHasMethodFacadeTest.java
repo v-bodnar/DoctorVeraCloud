@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
 @Ignore
 public class DoctorsHasMethodFacadeTest {
     private static EJBContainer container;
-    //private static UserTypesFacadeLocal userTypesFacade;
+    //private static UserGroupsFacadeLocal userTypesFacade;
     private static DoctorsHasMethodFacade doctorsHasMethodFacade;
     private static MethodsFacadeLocal methodsFacade;
     private static UsersFacadeLocal usersFacade;

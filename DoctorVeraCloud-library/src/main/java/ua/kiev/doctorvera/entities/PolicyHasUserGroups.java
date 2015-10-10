@@ -29,20 +29,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Volodymyr Bodnar
  */
 @Entity
-@Table(name = "PolicyHasUserTypes")
+@Table(name = "PolicyHasUserGroups")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PolicyHasUserTypes.findAll", query = "SELECT p FROM PolicyHasUserTypes p"),
-    @NamedQuery(name = "PolicyHasUserTypes.findByPolicyHasUserTypesId", query = "SELECT p FROM PolicyHasUserTypes p WHERE p.policyHasUserTypesId = :policyHasUserTypesId"),
-    @NamedQuery(name = "PolicyHasUserTypes.findByDateCreated", query = "SELECT p FROM PolicyHasUserTypes p WHERE p.dateCreated = :dateCreated"),
-    @NamedQuery(name = "PolicyHasUserTypes.findByDeleted", query = "SELECT p FROM PolicyHasUserTypes p WHERE p.deleted = :deleted")})
-public class PolicyHasUserTypes implements Serializable,Identified<Integer> {
+    @NamedQuery(name = "PolicyHasUserTypes.findAll", query = "SELECT p FROM PolicyHasUserGroups p"),
+    @NamedQuery(name = "PolicyHasUserTypes.findByPolicyHasUserTypesId", query = "SELECT p FROM PolicyHasUserGroups p WHERE p.policyHasUserGroupId = :policyHasUserGroupId"),
+    @NamedQuery(name = "PolicyHasUserTypes.findByDateCreated", query = "SELECT p FROM PolicyHasUserGroups p WHERE p.dateCreated = :dateCreated"),
+    @NamedQuery(name = "PolicyHasUserTypes.findByDeleted", query = "SELECT p FROM PolicyHasUserGroups p WHERE p.deleted = :deleted")})
+public class PolicyHasUserGroups implements Serializable,Identified<Integer> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "PolicyHasUserTypesId")
-    private Integer policyHasUserTypesId;
+    @Column(name = "PolicyHasUserGroupId")
+    private Integer policyHasUserGroupId;
     @Basic(optional = false)
     @NotNull
     @Column(name = "DateCreated")
@@ -52,9 +51,9 @@ public class PolicyHasUserTypes implements Serializable,Identified<Integer> {
     @NotNull
     @Column(name = "Deleted")
     private boolean deleted;
-    @JoinColumn(name = "UserType", referencedColumnName = "UserTypeId")
+    @JoinColumn(name = "UserGroup", referencedColumnName = "UserGroupId")
     @ManyToOne(optional = false)
-    private UserTypes userType;
+    private UserGroups userGroup;
     @JoinColumn(name = "Policy", referencedColumnName = "PolicyId")
     @ManyToOne(optional = false)
     private Policy policy;
@@ -62,25 +61,25 @@ public class PolicyHasUserTypes implements Serializable,Identified<Integer> {
     @ManyToOne(optional = false)
     private Users userCreated;
 
-    public PolicyHasUserTypes() {
+    public PolicyHasUserGroups() {
     }
 
-    public PolicyHasUserTypes(Integer policyHasUserTypesId) {
-        this.policyHasUserTypesId = policyHasUserTypesId;
+    public PolicyHasUserGroups(Integer policyHasUserGroupId) {
+        this.policyHasUserGroupId = policyHasUserGroupId;
     }
 
-    public PolicyHasUserTypes(Integer policyHasUserTypesId, Date dateCreated, boolean deleted) {
-        this.policyHasUserTypesId = policyHasUserTypesId;
+    public PolicyHasUserGroups(Integer policyHasUserGroupId, Date dateCreated, boolean deleted) {
+        this.policyHasUserGroupId = policyHasUserGroupId;
         this.dateCreated = dateCreated;
         this.deleted = deleted;
     }
 
-    public Integer getPolicyHasUserTypesId() {
-        return policyHasUserTypesId;
+    public Integer getPolicyHasUserGroupId() {
+        return policyHasUserGroupId;
     }
 
-    public void setPolicyHasUserTypesId(Integer policyHasUserTypesId) {
-        this.policyHasUserTypesId = policyHasUserTypesId;
+    public void setPolicyHasUserGroupId(Integer policyHasUserTypesId) {
+        this.policyHasUserGroupId = policyHasUserTypesId;
     }
     @Override
     public Date getDateCreated() {
@@ -99,12 +98,12 @@ public class PolicyHasUserTypes implements Serializable,Identified<Integer> {
         this.deleted = deleted;
     }
 
-    public UserTypes getUserType() {
-        return userType;
+    public UserGroups getUserGroup() {
+        return userGroup;
     }
 
-    public void setUserType(UserTypes userType) {
-        this.userType = userType;
+    public void setUserGroup(UserGroups userType) {
+        this.userGroup = userType;
     }
 
     public Policy getPolicy() {
@@ -133,12 +132,12 @@ public class PolicyHasUserTypes implements Serializable,Identified<Integer> {
 		result = prime * result + ((policy == null) ? 0 : policy.hashCode());
 		result = prime
 				* result
-				+ ((policyHasUserTypesId == null) ? 0 : policyHasUserTypesId
+				+ ((policyHasUserGroupId == null) ? 0 : policyHasUserGroupId
 						.hashCode());
 		result = prime * result
 				+ ((userCreated == null) ? 0 : userCreated.hashCode());
 		result = prime * result
-				+ ((userType == null) ? 0 : userType.hashCode());
+				+ ((userGroup == null) ? 0 : userGroup.hashCode());
 		return result;
 	}
 
@@ -150,7 +149,7 @@ public class PolicyHasUserTypes implements Serializable,Identified<Integer> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PolicyHasUserTypes other = (PolicyHasUserTypes) obj;
+		PolicyHasUserGroups other = (PolicyHasUserGroups) obj;
 		if (dateCreated == null) {
 			if (other.dateCreated != null)
 				return false;
@@ -163,40 +162,40 @@ public class PolicyHasUserTypes implements Serializable,Identified<Integer> {
 				return false;
 		} else if (!policy.equals(other.policy))
 			return false;
-		if (policyHasUserTypesId == null) {
-			if (other.policyHasUserTypesId != null)
+		if (policyHasUserGroupId == null) {
+			if (other.policyHasUserGroupId != null)
 				return false;
-		} else if (!policyHasUserTypesId.equals(other.policyHasUserTypesId))
+		} else if (!policyHasUserGroupId.equals(other.policyHasUserGroupId))
 			return false;
 		if (userCreated == null) {
 			if (other.userCreated != null)
 				return false;
 		} else if (!userCreated.equals(other.userCreated))
 			return false;
-		if (userType == null) {
-			if (other.userType != null)
+		if (userGroup == null) {
+			if (other.userGroup != null)
 				return false;
-		} else if (!userType.equals(other.userType))
+		} else if (!userGroup.equals(other.userGroup))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "PolicyHasUserTypes [policyHasUserTypesId="
-				+ policyHasUserTypesId + ", dateCreated=" + dateCreated
-				+ ", deleted=" + deleted + ", userType=" + userType
+		return "PolicyHasUserGroups [policyHasUserTypesId="
+				+ policyHasUserGroupId + ", dateCreated=" + dateCreated
+				+ ", deleted=" + deleted + ", userType=" + userGroup
 				+ ", policy=" + policy + ", userCreated=" + userCreated + "]";
 	}
 
     @Override
     public Integer getId() {
-        return getPolicyHasUserTypesId();
+        return getPolicyHasUserGroupId();
     }
 
     @Override
     public void setId(Integer id) {
-        setPolicyHasUserTypesId(id);
+        setPolicyHasUserGroupId(id);
     }
 
     

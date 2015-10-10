@@ -2,16 +2,15 @@ package ua.kiev.doctorvera.views;
 
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
-import ua.kiev.doctorvera.entities.UserTypes;
+import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
-import ua.kiev.doctorvera.facadeLocal.UserTypesFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.UserGroupsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -22,15 +21,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Named(value="userTypesTableView")
+@Named(value="userGroupsTableView")
 @ViewScoped
-public class UserTypesTableView  implements Serializable {
+public class UserGroupsTableView implements Serializable {
 	
-	private final static Logger LOG = Logger.getLogger(UserTypesTableView.class.getName());
+	private final static Logger LOG = Logger.getLogger(UserGroupsTableView.class.getName());
 	
 	//Facade for CRUD operations with User Groups
 	@EJB
-	private UserTypesFacadeLocal userTypesFacade;
+	private UserGroupsFacadeLocal userGroupsFacade;
 	
 	//Facade for CRUD operations with Users
 	@EJB
@@ -43,13 +42,13 @@ public class UserTypesTableView  implements Serializable {
 	private Users authorizedUser;
 
     //All User Groups
-	private List<UserTypes> allTypes;
+	private List<UserGroups> allGroups;
 	
 	//New User Group
-	private UserTypes newType;
+	private UserGroups newType;
 	
 	//Selected User Group
-	private UserTypes selectedType;
+	private UserGroups selectedType;
 	
 	//Model for picklist PrimeFaces widget
 	private DualListModel<Users> usersDualListModel;
@@ -57,9 +56,9 @@ public class UserTypesTableView  implements Serializable {
 	@PostConstruct
 	public void init(){
 		authorizedUser = sessionParams.getAuthorizedUser();
-		allTypes = userTypesFacade.findAll();
-		this.newType = new UserTypes();
-		this.selectedType = new UserTypes();
+		allGroups = userGroupsFacade.findAll();
+		this.newType = new UserGroups();
+		this.selectedType = new UserGroups();
 		constructPickList();
 	}
 	
@@ -71,31 +70,31 @@ public class UserTypesTableView  implements Serializable {
 		this.authorizedUser = authorizedUser;
 	}
 
-	public List<UserTypes> getAllTypes() {
-		return allTypes;
+	public List<UserGroups> getAllGroups() {
+		return allGroups;
 	}
 
-	public void setAllTypes(List<UserTypes> allTypes) {
-		this.allTypes = allTypes;
+	public void setAllGroups(List<UserGroups> allGroups) {
+		this.allGroups = allGroups;
 	}
 
-	public UserTypes getNewType() {
+	public UserGroups getNewType() {
 		return newType;
 	}
 
-	public void setNewType(UserTypes newType) {
+	public void setNewType(UserGroups newType) {
 		this.newType = newType;
 	}
 	
 	public void initNewType() {
-		this.newType = new UserTypes();
+		this.newType = new UserGroups();
 	}
 
-	public UserTypes getSelectedType() {
+	public UserGroups getSelectedType() {
 		return selectedType;
 	}
 
-	public void setSelectedType(UserTypes selectedType) {
+	public void setSelectedType(UserGroups selectedType) {
 		this.selectedType = selectedType;
 	}
 	
@@ -110,7 +109,7 @@ public class UserTypesTableView  implements Serializable {
 	public void constructPickList(){
 		if (selectedType != null && selectedType.getId() != null){
 			List<Users> allUsers = usersFacade.findAll();
-			List<Users> targetUsers = usersFacade.findByType(selectedType);
+			List<Users> targetUsers = usersFacade.findByGroup(selectedType);
 			for(Users user : targetUsers){
 				allUsers.remove(user);
 			}
@@ -121,8 +120,8 @@ public class UserTypesTableView  implements Serializable {
 
 	//Deletes selected User Group
 	public void deleteSelectedType(){
-		userTypesFacade.remove(selectedType);
-		allTypes.remove(selectedType);
+		userGroupsFacade.remove(selectedType);
+		allGroups.remove(selectedType);
 		final String successMessage = Message.getInstance().getString("USER_TYPES_DELETED");
 		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
@@ -132,7 +131,7 @@ public class UserTypesTableView  implements Serializable {
     public void saveSelectedType() {
 		selectedType.setDateCreated(new Date());
 		selectedType.setUserCreated(authorizedUser);
-		userTypesFacade.edit(selectedType);
+		userGroupsFacade.edit(selectedType);
 		final String successMessage = Message.getInstance().getString("USER_TYPES_EDITED");
 		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
@@ -142,8 +141,8 @@ public class UserTypesTableView  implements Serializable {
 	public void saveNewType(){
 		newType.setDateCreated(new Date());
 		newType.setUserCreated(authorizedUser);
-		userTypesFacade.create(newType);
-		allTypes.add(newType);
+		userGroupsFacade.create(newType);
+		allGroups.add(newType);
 		final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
 		final String successTitle = Message.getInstance().getString("USER_TYPES_SAVED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
@@ -156,7 +155,7 @@ public class UserTypesTableView  implements Serializable {
 		//All Users from the right picker
 		List<Users> targetList = usersDualListModel.getTarget();
 		
-		//Indicates to add new type to user transfered or to remove type from user
+		//Indicates to add new group to user transfered or to remove group from user
 		Boolean addFlag = false;
 		
 		//Checking transfer direction
@@ -179,8 +178,8 @@ public class UserTypesTableView  implements Serializable {
 			successMessage += userTransfered.getFirstName() + " " + userTransfered.getLastName() + ", ";
 			
 			if(addFlag){
-				//Add type to user transfered
-				usersFacade.addUserType(userTransfered, selectedType, authorizedUser);
+				//Add group to user transfered
+				usersFacade.addUserGroup(userTransfered, selectedType, authorizedUser);
 				
 				//Setting time and user that made changes
 				userTransfered.setUserCreated(authorizedUser);
@@ -188,10 +187,10 @@ public class UserTypesTableView  implements Serializable {
 				userTransfered.setDateCreated(new Date());
 				selectedType.setDateCreated(new Date());
 				usersFacade.edit(userTransfered);
-				userTypesFacade.edit(selectedType);
+				userGroupsFacade.edit(selectedType);
 			}else{
-				//Remove type from user transfered
-				usersFacade.removeUserType(userTransfered, selectedType);
+				//Remove group from user transfered
+				usersFacade.removeUserGroup(userTransfered, selectedType);
 				
 				//Setting time and user that made changes
 				userTransfered.setUserCreated(authorizedUser);
@@ -199,7 +198,7 @@ public class UserTypesTableView  implements Serializable {
 				userTransfered.setDateCreated(new Date());
 				selectedType.setDateCreated(new Date());
 				usersFacade.edit(userTransfered);
-				userTypesFacade.edit(selectedType);
+				userGroupsFacade.edit(selectedType);
 			}
 		}
 		

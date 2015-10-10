@@ -5,7 +5,6 @@
  */
 package ua.kiev.doctorvera.entities;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.annotations.DynamicInsert;
 import org.primefaces.model.DefaultStreamedContent;
@@ -119,7 +118,7 @@ public class Users implements Serializable,Identified<Integer> {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
     private Collection<Plan> planCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<UsersHasUserTypes> usersHasUserTypesCollection;
+    private Collection<UsersHasUserGroups> usersHasUserTypesCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
     private Collection<DoctorsHasMethod> doctorsHasMethodCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
@@ -370,11 +369,11 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     @XmlTransient
-    public Collection<UsersHasUserTypes> getUsersHasUserTypesCollection() {
+    public Collection<UsersHasUserGroups> getUsersHasUserGroupsCollection() {
         return usersHasUserTypesCollection;
     }
 
-    public void setUsersHasUserTypesCollection(Collection<UsersHasUserTypes> usersHasUserTypesCollection) {
+    public void setUsersHasUserGroupsCollection(Collection<UsersHasUserGroups> usersHasUserTypesCollection) {
         this.usersHasUserTypesCollection = usersHasUserTypesCollection;
     }
 
@@ -469,8 +468,6 @@ public class Users implements Serializable,Identified<Integer> {
 		result = prime * result
 				+ ((color == null) ? 0 : color.hashCode());
 		result = prime * result
-				+ ((avatarImage == null) ? 0 : avatarImage.hashCode());
-		result = prime * result
 				+ ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result
 				+ ((middleName == null) ? 0 : middleName.hashCode());
@@ -529,11 +526,6 @@ public class Users implements Serializable,Identified<Integer> {
 			if (other.color != null)
 				return false;
 		} else if (!color.equals(other.color))
-			return false;
-		if (avatarImage == null) {
-			if (other.avatarImage != null)
-				return false;
-		} else if (!avatarImage.equals(other.avatarImage))
 			return false;
 		if (lastName == null) {
 			if (other.lastName != null)

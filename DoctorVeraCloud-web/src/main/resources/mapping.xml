@@ -28,7 +28,7 @@
  	<entry key="APPLICATION_AVATAR_IMAGES_PATH">/resources/images/avatar/</entry>
  	<entry key="APPLICATION_AVATAR_DEFAULT">default_male_avatar.png</entry>
  	
- 	<!-- UserTypes-->
+ 	<!-- UserGroups-->
  	<entry key="DOCTORS_TYPE_ID">3</entry>
  	<entry key="PATIENTS_TYPE_ID">1</entry>
  	<entry key="ASSISTENTS_TYPE_ID">4</entry>

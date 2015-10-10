@@ -87,7 +87,7 @@ public class PlanGeneralView implements Serializable {
 	
     private void generateCss(){
         cssStyle = "<style>";
-        for(Users doctor : usersFacade.findByType(DOCTORS_TYPE_ID))
+        for(Users doctor : usersFacade.findByGroup(DOCTORS_TYPE_ID))
             cssStyle += ".doc" + doctor.getId() + "{background-color: #" + doctor.getColor() + "}";
         cssStyle += "</style>";
     }

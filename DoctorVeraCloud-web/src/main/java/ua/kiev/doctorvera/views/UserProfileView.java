@@ -6,11 +6,10 @@ import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.AddressFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.security.Secure;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -72,13 +71,17 @@ public class UserProfileView implements Serializable{
         options.put("closeOnEscape", true);
         RequestContext.getCurrentInstance().openDialog("/private/crop_image.xhtml", options, null);
     }
-	
+	@Secure
+	public void securityTest(){
+		Message.showError("", "asdfadsfadsf");
+	}
+
 	public void save(){
 		usersFacade.edit(user);
 		addressFacade.edit(address);
 		final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
 		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		Message.showError(successTitle, successMessage);
 	}
 	
 }

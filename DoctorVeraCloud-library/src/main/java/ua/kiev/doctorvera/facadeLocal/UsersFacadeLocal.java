@@ -12,7 +12,7 @@ import javax.ejb.Local;
 import javax.persistence.EntityManager;
 
 import ua.kiev.doctorvera.entities.Methods;
-import ua.kiev.doctorvera.entities.UserTypes;
+import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
 
 /**
@@ -145,42 +145,42 @@ public interface UsersFacadeLocal{
     List<Users> findByDescription(String description);
 
     /**
-    * Searches for all Users with the given User Type
+    * Searches for all Users with the given User Group
     * @returns List<Users> List of users that matches search parameter
-    * @param type - User Type to search by
+    * @param group - User Group to search by
     */
-    List<Users> findByType(UserTypes type);
+    List<Users> findByGroup(UserGroups group);
 
     /**
-    * Searches for all Users with the given User Type
+    * Searches for all Users with the given User Group
     * @returns List<Users> List of users that matches search parameter
-    * @param typeName - User Type name to search by
+    * @param typeName - User Group name to search by
     */
-    List<Users> findByType(String typeName);
+    List<Users> findByGroup(String typeName);
 
     /**
-    * Searches for all Users with the given User Type
+    * Searches for all Users with the given User Group
     * @returns List<Users> List of users that matches search parameter
-    * @param typeId - User Type id to search by
+    * @param typeId - User Group id to search by
     */
-    List<Users> findByType(Integer typeId);
+    List<Users> findByGroup(Integer typeId);
 
     /**
-    * Adds record to the reference table for referencing given user and User Type
+    * Adds record to the reference table for referencing given user and User Group
     * @returns true - in the case operation was successful and false otherwise
     * @param user - User that has to be referenced
-    * @param type - User Type that has to be referenced
+    * @param group - User Group that has to be referenced
     * @param userCreated - User that initiated process
     */
-    boolean addUserType(Users user, UserTypes type, Users userCreated);
+    boolean addUserGroup(Users user, UserGroups group, Users userCreated);
 
     /**
-    * Permanently deletes record from the reference table for removing reference between given user and User Type
+    * Permanently deletes record from the reference table for removing reference between given user and User Group
     * @returns true - in the case operation was successful and false otherwise
     * @param user - User that has to be unreferenced
-    * @param type - User Type that has to be unreferenced
+    * @param group - User Group that has to be unreferenced
     */
-    boolean removeUserType(Users user, UserTypes type);
+    boolean removeUserGroup(Users user, UserGroups group);
 
     /**
     * Searches for all Users with the given method

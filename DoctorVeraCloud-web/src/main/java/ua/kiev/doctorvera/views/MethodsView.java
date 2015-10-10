@@ -16,7 +16,6 @@ import ua.kiev.doctorvera.resources.Message;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -86,7 +85,7 @@ public class MethodsView implements Serializable {
 	
 	public void constructPickList(){
 		if (selectedMethod != null && selectedMethod.getId() != null){
-			List<Users> allUsers = usersFacade.findByType(DOCTORS_TYPE_ID);
+			List<Users> allUsers = usersFacade.findByGroup(DOCTORS_TYPE_ID);
 			List<Users> targetUsers = usersFacade.findByMethod(selectedMethod);
 			for(Users user : targetUsers){
 				allUsers.remove(user);

@@ -14,6 +14,11 @@
 			<var>MAPPINGS</var>
 		</resource-bundle>
 
+		<resource-bundle>
+			<base-name>ua.kiev.doctorvera.resources.Config</base-name>
+			<var>CONFIG</var>
+		</resource-bundle>
+
 		<locale-config>
 			<default-locale>en</default-locale>
 		</locale-config>

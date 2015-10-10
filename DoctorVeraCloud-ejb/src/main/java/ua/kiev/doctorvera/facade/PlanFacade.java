@@ -9,10 +9,8 @@ import ua.kiev.doctorvera.entities.Plan;
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
-import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.utils.DateUtils;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

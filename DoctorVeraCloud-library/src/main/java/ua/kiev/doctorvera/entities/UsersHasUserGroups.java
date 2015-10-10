@@ -22,19 +22,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Volodymyr Bodnar
  */
 @Entity
-@IdClass(value=UsersHasUserTypes.UsersHasUserTypesId.class)
-@Table(name = "UsersHasUserTypes")
+@IdClass(value=UsersHasUserGroups.UsersHasUserGroupsId.class)
+@Table(name = "UsersHasUserGroups")
 @XmlRootElement
-public class UsersHasUserTypes implements Serializable,Identified<Integer> {
+public class UsersHasUserGroups implements Serializable,Identified<Integer> {
 	private static final long serialVersionUID = -7352790399385415680L;
 	@Id
     @JoinColumn(name = "User", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users user;
     @Id
-    @JoinColumn(name = "UserType", referencedColumnName = "UserTypeId")
+    @JoinColumn(name = "UserGroup", referencedColumnName = "UserGroupId")
     @ManyToOne(optional = false)
-    private UserTypes userType;
+    private UserGroups userGroup;
     @Basic(optional = false)
     @NotNull
     @Column(name = "DateCreated")
@@ -48,7 +48,7 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
     @Column(name = "Deleted")
     private boolean deleted;
 
-    public UsersHasUserTypes() {
+    public UsersHasUserGroups() {
     }
 
     public Users getUser() {
@@ -59,12 +59,12 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
         this.user = user;
     }
 
-    public UserTypes getUserType() {
-        return userType;
+    public UserGroups getUserGroup() {
+        return userGroup;
     }
 
-    public void setUserType(UserTypes userType) {
-        this.userType = userType;
+    public void setUserGroup(UserGroups userType) {
+        this.userGroup = userType;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
 		result = prime * result + (deleted ? 1231 : 1237);
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		result = prime * result + ((userCreated == null) ? 0 : userCreated.hashCode());
-		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
+		result = prime * result + ((userGroup == null) ? 0 : userGroup.hashCode());
 		return result;
 	}
 
@@ -87,7 +87,7 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UsersHasUserTypes other = (UsersHasUserTypes) obj;
+		UsersHasUserGroups other = (UsersHasUserGroups) obj;
 		if (dateCreated == null) {
 			if (other.dateCreated != null)
 				return false;
@@ -105,17 +105,17 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
 				return false;
 		} else if (!userCreated.equals(other.userCreated))
 			return false;
-		if (userType == null) {
-			if (other.userType != null)
+		if (userGroup == null) {
+			if (other.userGroup != null)
 				return false;
-		} else if (!userType.equals(other.userType))
+		} else if (!userGroup.equals(other.userGroup))
 			return false;
 		return true;
 	}
 	
 	@Override
 	public String toString() {
-		return "UsersHasUserTypes [user=" + user + ", userType=" + userType + ", dateCreated=" + dateCreated + ", userCreated=" + userCreated + ", deleted="
+		return "UsersHasUserGroups [user=" + user + ", userGroup=" + userGroup + ", dateCreated=" + dateCreated + ", userCreated=" + userCreated + ", deleted="
 				+ deleted + "]";
 	}
 
@@ -154,19 +154,19 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
     }   
     
     @Embeddable
-    public static class UsersHasUserTypesId implements Serializable { 
+    public static class UsersHasUserGroupsId implements Serializable {
     	private static final long serialVersionUID = 6772711638360754952L;
     	
         private Users user;
     	
-        private UserTypes userType;
+        private UserGroups userGroup;
         
     	public Users getUser() {
     		return user;
     	}	
     	
-    	public UserTypes getUserType() {
-    		return userType;
+    	public UserGroups getUserGroup() {
+    		return userGroup;
     	}
     	
     	@Override
@@ -174,7 +174,7 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
     		final int prime = 31;
     		int result = 1;
     		result = prime * result + ((user == null) ? 0 : user.hashCode());
-    		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
+    		result = prime * result + ((userGroup == null) ? 0 : userGroup.hashCode());
     		return result;
     	}
     	@Override
@@ -185,16 +185,16 @@ public class UsersHasUserTypes implements Serializable,Identified<Integer> {
     			return false;
     		if (getClass() != obj.getClass())
     			return false;
-    		UsersHasUserTypesId other = (UsersHasUserTypesId) obj;
+    		UsersHasUserGroupsId other = (UsersHasUserGroupsId) obj;
     		if (user == null) {
     			if (other.user != null)
     				return false;
     		} else if (!user.equals(other.user))
     			return false;
-    		if (userType == null) {
-    			if (other.userType != null)
+    		if (userGroup == null) {
+    			if (other.userGroup != null)
     				return false;
-    		} else if (!userType.equals(other.userType))
+    		} else if (!userGroup.equals(other.userGroup))
     			return false;
     		return true;
     	}

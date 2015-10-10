@@ -96,8 +96,8 @@
 				<p:growl id="growl" showDetail="true" />
 				<p:ajax event="close" update="growl" />
 
-				<p:pickList id="addTypesToUserPickList" value="#{usersTableView.userTypesDualListModel}" var="type" effect="bounce"
-	                itemValue="#{type}" itemLabel="#{type.name}" 
+				<p:pickList id="addTypesToUserPickList" value="#{usersTableView.userTypesDualListModel}" var="group" effect="bounce"
+	                itemValue="#{group}" itemLabel="#{group.name}"
 	                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker"
 	                converter = "userTypesConverter">
 	 

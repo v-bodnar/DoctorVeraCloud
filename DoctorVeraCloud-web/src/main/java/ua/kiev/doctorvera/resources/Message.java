@@ -323,11 +323,11 @@ public class Message extends ListResourceBundle implements Serializable{
 	public static String getString(Enum key) {
 		return (String) resource.getObject(key.name());
 	}
-/*
+
 	public static String getMessage(String key) {
 		return (String) resource.getObject(key);
 	}
-*/
+
 	public ResourceBundle getResource() {
 		return resource;
 	}
@@ -379,27 +379,4 @@ public class Message extends ListResourceBundle implements Serializable{
 	public static void showError(String title, String message){
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, title, message));
 	}
-	/*
-	@Override
-	public Enumeration<String> getKeys() {
-	     return (new Enumeration<String>() {
-	         int size = Array.getLength(entriesArray);
-
-	         int cursor;
-
-	         public boolean hasMoreElements() {
-	           return (cursor < size);
-	         }
-
-	         public String nextElement() {
-	           return (String)Array.get(entriesArray[cursor][0], cursor++);
-	         }
-	       });
-	}
-	
-	@Override
-	public Object handleGetObject(String key) {
-		return getMessage(key);
-	}
-	*/
 }
