@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by volodymyr.bodnar on 05.10.2015.
@@ -36,6 +37,8 @@ public class SecurityUtils implements Serializable{
     @EJB
     private UserGroupsFacadeLocal userTypesFacade;
 
+    private final static Logger LOG = Logger.getLogger(SecurityUtils.class.getName());
+
     private static Map<SecurityPolicy,Policy> allMappedPolicies = new HashMap<>();
 
     private static int SUPER_ADMIN_ID;
@@ -44,7 +47,8 @@ public class SecurityUtils implements Serializable{
     private Boolean alreadySynchronized = false;
 
 
-    public SecurityUtils(){}
+    public SecurityUtils(){
+    }
 
     @PostConstruct
     public void init(){
@@ -61,33 +65,45 @@ public class SecurityUtils implements Serializable{
      * Synchronizes all policies from Enum with their representation in DB
      */
     private void synchronize() {
-        List<Policy> policiesFromDB = policyFacade.findAll();
+        LOG.info("Start synchronizing security Policies");
+        List<SecurityPolicy> securityPolicies = Arrays.asList(SecurityPolicy.values());
 
-        for (Policy policyFromDB : policiesFromDB) {
-            SecurityPolicy policy = null;
-            try {
-                policy = SecurityPolicy.valueOf(policyFromDB.getStringId());
-                if (isEqual(policyFromDB, policy)) {
-                    continue; //policy has been found and does not need synchronization
-                } else {
-                    //policy has been found and needs synchronization
-                    policyFromDB.setName(policy.getName());
-                    policyFromDB.setStringId(policy.getStringId());
-                    policyFromDB.setPolicyGroup(policy.getPolicyGroup());
-                    policyFacade.edit(policyFromDB);
+        int policiesCreated = 0;
+        int policiesUpdated = 0;
 
-                }
-            } catch (IllegalArgumentException e) {
+        for (SecurityPolicy securityPolicy : securityPolicies) {
+            Policy policy = null;
+
+            policy = policyFacade.findByStringId(securityPolicy.getStringId());
+
+            if (policy == null) {
                 //policy has not been found and has to be created
                 Policy newPolicy = new Policy();
-                newPolicy.setName(policy.getName());
-                newPolicy.setStringId(policy.getStringId());
-                newPolicy.setPolicyGroup(policy.getPolicyGroup());
+                newPolicy.setName(securityPolicy.getName());
+                newPolicy.setStringId(securityPolicy.getStringId());
+                newPolicy.setPolicyGroup(securityPolicy.getPolicyGroup());
+                newPolicy.setDateCreated(new Date());
+                newPolicy.setUserCreated(sessionParams.getAuthorizedUser());
                 policyFacade.create(newPolicy);
+                policiesCreated++;
+            } else if (!isEqual(policy, securityPolicy)) {
+                //policy has been found and needs synchronization
+                policy.setName(securityPolicy.getName());
+                policy.setStringId(securityPolicy.getStringId());
+                policy.setPolicyGroup(securityPolicy.getPolicyGroup());
+                policy.setDateCreated(new Date());
+                policy.setUserCreated(sessionParams.getAuthorizedUser());
+                policyFacade.edit(policy);
+                policiesUpdated++;
             }
-            allMappedPolicies.put(SecurityPolicy.valueOf(policyFromDB.getStringId()), policyFromDB);
-            alreadySynchronized = true;
+            policy = policyFacade.findByStringId(securityPolicy.getStringId());
+            allMappedPolicies.put(SecurityPolicy.valueOf(policy.getStringId()), policy);
         }
+        alreadySynchronized = true;
+        LOG.info("Security Policy synchronisation completed successfully.");
+        LOG.info("Created new policies: " + policiesCreated);
+        LOG.info("Updated existing policies: " + policiesUpdated);
+        LOG.info("Total number of Security Policies: " + allMappedPolicies.size());
     }
 
     /**
@@ -128,7 +144,7 @@ public class SecurityUtils implements Serializable{
     public static List<Policy> convertPoliciesToEntities(List<SecurityPolicy> securityPolicyList){
         List<Policy> result = new ArrayList<>();
         for(SecurityPolicy policyEnum : securityPolicyList){
-            allMappedPolicies.get(policyEnum);
+            result.add(allMappedPolicies.get(policyEnum));
         }
         return result;
     }
@@ -159,5 +175,16 @@ public class SecurityUtils implements Serializable{
     public boolean checkPermissions(SecurityPolicy policy) {
         List<SecurityPolicy> policiesListFromDb = convertEntitiesToPolicies(userTypesFacade.findPoliciesByUser(sessionParams.getAuthorizedUser()));
         return policiesListFromDb.contains(policy);
+    }
+    public boolean checkPermissions(String policy) {
+        return checkPermissions(SecurityPolicy.valueOf(policy));
+    }
+
+    public Boolean isAlreadySynchronized() {
+        return alreadySynchronized;
+    }
+
+    public void setAlreadySynchronized(Boolean alreadySynchronized) {
+        this.alreadySynchronized = alreadySynchronized;
     }
 }

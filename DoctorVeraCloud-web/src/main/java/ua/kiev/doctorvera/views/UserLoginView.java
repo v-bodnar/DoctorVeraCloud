@@ -4,6 +4,7 @@ import org.primefaces.context.RequestContext;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.security.SecurityUtils;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -27,6 +28,9 @@ public class UserLoginView implements Serializable {
 
     @Inject
     private SessionParams sessionParams;
+
+//    @Inject
+//    private SecurityUtils securityUtils;
 
     private final String ERROR_MESSAGE = Message.getInstance().getString("LOGIN_ERROR");
     private final String WELCOME_MESSAGE = Message.getInstance().getString("LOGIN_WELCOME");
@@ -81,6 +85,7 @@ public class UserLoginView implements Serializable {
     }
     
     public void login(ActionEvent event) {
+        //securityUtils.isAlreadySynchronized();
         RequestContext requestContext = RequestContext.getCurrentInstance();
         FacesContext facesContext = FacesContext.getCurrentInstance();
         FacesMessage message = null;

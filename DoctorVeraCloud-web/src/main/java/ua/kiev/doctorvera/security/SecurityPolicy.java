@@ -11,9 +11,8 @@ public enum SecurityPolicy implements Serializable{
     /**
      * Menu policy block
      */
-    MENU_ITEM_PLAN(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_PLAN"), "MENU_ITEM_PLAN", Message.getInstance().getString("SECURITY_MENU_GROUP")),
     MENU_ITEM_MAIN(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_MAIN"), "MENU_ITEM_MAIN", Message.getInstance().getString("SECURITY_MENU_GROUP")),
-    MENU_ITEM_USERS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_USERS"), "MENU_ITEM_PLAN", Message.getInstance().getString("SECURITY_MENU_GROUP")),
+    MENU_ITEM_USERS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_USERS"), "MENU_ITEM_USERS", Message.getInstance().getString("SECURITY_MENU_GROUP")),
     MENU_ITEM_ADD_USER(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_ADD_USER"), "MENU_ITEM_ADD_USER", Message.getInstance().getString("SECURITY_MENU_GROUP")),
     MENU_ITEM_USER_TYPES(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_USER_TYPES"), "MENU_ITEM_USER_TYPES", Message.getInstance().getString("SECURITY_MENU_GROUP")),
     MENU_ITEM_ROOMS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_ROOMS"), "MENU_ITEM_ROOMS", Message.getInstance().getString("SECURITY_MENU_GROUP")),
@@ -21,7 +20,9 @@ public enum SecurityPolicy implements Serializable{
     MENU_ITEM_METHODS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_METHODS"), "MENU_ITEM_METHODS", Message.getInstance().getString("SECURITY_MENU_GROUP")),
     MENU_ITEM_PAYMENTS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_PAYMENTS"), "MENU_ITEM_PAYMENTS", Message.getInstance().getString("SECURITY_MENU_GROUP")),
     MENU_ITEM_PLAN_GENERAL(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_PLAN_GENERAL"), "MENU_ITEM_PLAN_GENERAL", Message.getInstance().getString("SECURITY_MENU_GROUP")),
+    MENU_ITEM_PLAN(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_PLAN"), "MENU_ITEM_PLAN", Message.getInstance().getString("SECURITY_MENU_GROUP")),
     MENU_ITEM_SCHEDULE_GENERAL(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_SCHEDULE_GENERAL"), "MENU_ITEM_SCHEDULE_GENERAL", Message.getInstance().getString("SECURITY_MENU_GROUP")),
+    MENU_ITEM_SCHEDULE(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_SCHEDULE"), "MENU_ITEM_SCHEDULE", Message.getInstance().getString("SECURITY_MENU_GROUP")),
     MENU_ITEM_PERSONAL_SCHEDULE(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_PERSONAL_SCHEDULE"), "MENU_ITEM_PERSONAL_SCHEDULE", Message.getInstance().getString("SECURITY_MENU_GROUP"));
 
     private String name;

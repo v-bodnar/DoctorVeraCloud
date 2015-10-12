@@ -73,6 +73,16 @@ public class PolicyFacade extends AbstractFacade<Policy> implements PolicyFacade
 	}
 
 	/**
+	 * Searches all Policies that contain given user
+	 * @returns List<Policy> entity that matches search parameter
+	 * @param userGroup - user group to search by
+	 */
+	@Override
+	public List<Policy> findByGroup(UserGroups userGroup) {
+		return userGroupsFacade.findPoliciesByGroup(userGroup);
+	}
+
+	/**
 	* Adds record to the reference table for referencing given Policy and User Group
 	* @returns true - in the case operation was successful and false otherwise
 	* @param group - User Group that has to be referenced
@@ -107,7 +117,7 @@ public class PolicyFacade extends AbstractFacade<Policy> implements PolicyFacade
 	* @param group - User Group that has to be unreferenced
 	*/
     @Override
-    public boolean removeUser(UserGroups group, Policy policy){
+    public boolean removeUserGroup(UserGroups group, Policy policy){
     	if(policy != null && group!=null){
 			List<PolicyHasUserGroups> alreadyExists = policyHasUserGroupsFacade.findPolicyByGroupAndPolicy(group, policy);
 			for(PolicyHasUserGroups policyHasUserGroups : alreadyExists){

@@ -88,6 +88,13 @@
 	<entry key="USER_TYPES_ADD_SUCCESS_END">добавлены в группу</entry>
 	<entry key="USER_TYPES_REMOVE_SUCCESS_START">Пользователли: </entry>
 	<entry key="USER_TYPES_REMOVE_SUCCESS_END">удалены из группы: </entry>
+	<entry key="USER_TYPES_ADD_POLICIES">Добавить права доступа!</entry>
+	<entry key="USER_TYPES_POLICIES_PICKER_TITLE">Добавление прав доступа для группы</entry>
+	<entry key="USER_TYPES_POLICIES_PICKER_SOURCE">Все права доступа</entry>
+	<entry key="USER_TYPES_POLICIES_ADD_SUCCESS_START">Права доступа:</entry>
+	<entry key="USER_TYPES_POLICIES_ADD_SUCCESS_END">добавлены для группы</entry>
+	<entry key="USER_TYPES_POLICIES_REMOVE_SUCCESS_START">Права доступа: </entry>
+	<entry key="USER_TYPES_POLICIES_REMOVE_SUCCESS_END">удалены для группы: </entry>
 
 	
 	<!-- rooms.xhtml -->
@@ -412,7 +419,6 @@
 	<entry key="SECURITY_POLICY_MENU_ITEM_SETTINGS">Пункт меню "Настройки"</entry>
 	<!-- Manager block -->
 	<entry key="SECURITY_POLICY_MENU_HEADER_MANAGER">Пункт меню "Управление"</entry>
-	<entry key="SECURITY_POLICY_MENU_ITEM_PLAN">Пункт меню "План приемов"</entry>
 	<entry key="SECURITY_POLICY_MENU_ITEM_ADD_PLAN">Пункт меню "Запланировать прием"</entry>
 	<entry key="SECURITY_POLICY_MENU_ITEM_ADD_SCHEDULE">Пункт меню "Добавить прием"</entry>
 	<entry key="SECURITY_POLICY_MENU_ITEM_METHODS">Пункт меню "Методы исследований"</entry>
@@ -425,6 +431,7 @@
 	<entry key="SECURITY_POLICY_MENU_ITEM_SCHEDULE">Пункт меню "Расписание"</entry>
 	<entry key="SECURITY_POLICY_MENU_ITEM_SCHEDULE_GENERAL">Пункт меню "Все записи приемов"</entry>
 	<entry key="SECURITY_POLICY_MENU_ITEM_PLAN_GENERAL">Пункт меню "Полный план приемов"</entry>
+	<entry key="SECURITY_POLICY_MENU_ITEM_PLAN">Пункт меню "План приемов"</entry>
 
 	<!-- Financial block -->
 	<entry key="SECURITY_POLICY_MENU_HEADER_FINANCE">Финансы</entry>

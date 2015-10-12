@@ -43,6 +43,17 @@
 						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.USER_TYPES_ADD_USERS}" />
 					</p:commandLink>
 				</p:menuitem>
+
+				<p:menuitem update="userGroupsTable growl">
+					<p:commandLink styleClass="ui-icon-key"
+								   action="#{userGroupsTableView.constructPoliciesPickList}"
+								   oncomplete="PF('addPolicyToTypeDialog').show();"
+								   update=":addPolicyToTypeForm:addPolicyToTypeDialog"
+								   process="@this">
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-person" />
+						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.USER_TYPES_ADD_POLICIES}" />
+					</p:commandLink>
+				</p:menuitem>
 				
 				
 			</p:contextMenu>
@@ -50,7 +61,7 @@
 			<p:dataTable id="userGroupsTable" styleClass="userGroupsTable"
 				var="group" widgetVar="userGroupsTable"
 				value="#{userGroupsTableView.allGroups}" rowKey="#{group.id}"
-				selection="#{userGroupsTableView.selectedType}"
+				selection="#{userGroupsTableView.selectedGroup}"
 				selectionMode="single">
 				
 				<p:ajax event="contextMenu" 
@@ -139,7 +150,7 @@
 					<h:outputLabel for="userTypeName"
 						value="#{MESSAGE.USER_TYPES_NAME}" />
 					<p:inputText id="userTypeName"
-						value="#{userGroupsTableView.selectedType.name}" required="true"
+						value="#{userGroupsTableView.selectedGroup.name}" required="true"
 						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
 						<p:ajax event="blur" update="userTypeNameMessage" />
 					</p:inputText>
@@ -148,7 +159,7 @@
 					<h:outputLabel for="userTypeDescription"
 						value="#{MESSAGE.ENTITY_DESCRIPTION}" />
 					<p:inputTextarea rows="6" cols="20" id="userTypeDescription"
-						value="#{userGroupsTableView.selectedType.description}" required="true"
+						value="#{userGroupsTableView.selectedGroup.description}" required="true"
 						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
 						<p:ajax event="blur" update="userTypeDescriptionMessage" />
 					</p:inputTextarea>
@@ -179,12 +190,35 @@
 	                converter = "usersConverter">
 	 
 			        <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.USER_TYPES_PICKER_SOURCE}"/></f:facet>
-			        <f:facet name="targetCaption"><h:outputText value="#{userGroupsTableView.selectedType.name}"/></f:facet>
+			        <f:facet name="targetCaption"><h:outputText value="#{userGroupsTableView.selectedGroup.name}"/></f:facet>
 			 
 			        <p:ajax event="transfer" listener="#{userGroupsTableView.onTransfer}" update="growl" />
 			 
 
 			    </p:pickList>
+
+			</p:dialog>
+		</h:form>
+
+		<h:form id="addPolicyToTypeForm">
+
+			<p:dialog header="#{MESSAGE.USER_TYPES_POLICIES_PICKER_TITLE}"
+					  widgetVar="addPolicyToTypeDialog" id="addPolicyToTypeDialog" width="650" height="300">
+				<p:growl id="growl" showDetail="true" />
+				<p:ajax event="close" update="growl" />
+
+				<p:pickList id="addPolicyToTypePickList" value="#{userGroupsTableView.policiesDualListModel}" var="policy" effect="bounce"
+							itemValue="#{policy}" itemLabel="#{policy.name}"
+							showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker"
+							converter = "policyConverter">
+
+					<f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.USER_TYPES_POLICIES_PICKER_SOURCE}"/></f:facet>
+					<f:facet name="targetCaption"><h:outputText value="#{userGroupsTableView.selectedGroup.name}"/></f:facet>
+
+					<p:ajax event="transfer" listener="#{userGroupsTableView.onPolicyTransfer}" update="growl" />
+
+
+				</p:pickList>
 
 			</p:dialog>
 		</h:form>

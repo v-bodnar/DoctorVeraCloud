@@ -2,8 +2,10 @@ package ua.kiev.doctorvera.views;
 
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
+import ua.kiev.doctorvera.entities.Policy;
 import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.PolicyFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UserGroupsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
@@ -35,6 +37,10 @@ public class UserGroupsTableView implements Serializable {
 	@EJB
 	private UsersFacadeLocal usersFacade;
 
+	//Facade for CRUD operations with Policies
+	@EJB
+	private PolicyFacadeLocal policyFacade;
+
 	@Inject
 	private SessionParams sessionParams;
 
@@ -48,18 +54,22 @@ public class UserGroupsTableView implements Serializable {
 	private UserGroups newType;
 	
 	//Selected User Group
-	private UserGroups selectedType;
+	private UserGroups selectedGroup;
 	
 	//Model for picklist PrimeFaces widget
 	private DualListModel<Users> usersDualListModel;
+
+	//Model for policies picklist PrimeFaces widget
+	private DualListModel<Policy> policiesDualListModel;
 	
 	@PostConstruct
 	public void init(){
 		authorizedUser = sessionParams.getAuthorizedUser();
 		allGroups = userGroupsFacade.findAll();
 		this.newType = new UserGroups();
-		this.selectedType = new UserGroups();
+		this.selectedGroup = new UserGroups();
 		constructPickList();
+		constructPoliciesPickList();
 	}
 	
 	public Users getAuthorizedUser() {
@@ -90,12 +100,12 @@ public class UserGroupsTableView implements Serializable {
 		this.newType = new UserGroups();
 	}
 
-	public UserGroups getSelectedType() {
-		return selectedType;
+	public UserGroups getSelectedGroup() {
+		return selectedGroup;
 	}
 
-	public void setSelectedType(UserGroups selectedType) {
-		this.selectedType = selectedType;
+	public void setSelectedGroup(UserGroups selectedGroup) {
+		this.selectedGroup = selectedGroup;
 	}
 	
 	public DualListModel<Users> getUsersDualListModel() {
@@ -106,10 +116,18 @@ public class UserGroupsTableView implements Serializable {
 		this.usersDualListModel = usersDualListModel;
 	}
 
+	public DualListModel<Policy> getPoliciesDualListModel() {
+		return policiesDualListModel;
+	}
+
+	public void setPoliciesDualListModel(DualListModel<Policy> policiesDualListModel) {
+		this.policiesDualListModel = policiesDualListModel;
+	}
+
 	public void constructPickList(){
-		if (selectedType != null && selectedType.getId() != null){
+		if (selectedGroup != null && selectedGroup.getId() != null){
 			List<Users> allUsers = usersFacade.findAll();
-			List<Users> targetUsers = usersFacade.findByGroup(selectedType);
+			List<Users> targetUsers = usersFacade.findByGroup(selectedGroup);
 			for(Users user : targetUsers){
 				allUsers.remove(user);
 			}
@@ -118,10 +136,22 @@ public class UserGroupsTableView implements Serializable {
 			usersDualListModel = new DualListModel<Users>(new ArrayList<Users>(), new ArrayList<Users>());
 	}
 
+	public void constructPoliciesPickList(){
+		if (selectedGroup != null && selectedGroup.getId() != null){
+			List<Policy> allPolicies = policyFacade.findAll();
+			List<Policy> targetPolicy = policyFacade.findByGroup(selectedGroup);
+			for(Policy policy : targetPolicy){
+				allPolicies.remove(policy);
+			}
+			policiesDualListModel = new DualListModel<Policy>(allPolicies, targetPolicy);
+		} else
+			policiesDualListModel = new DualListModel<Policy>(new ArrayList<Policy>(), new ArrayList<Policy>());
+	}
+
 	//Deletes selected User Group
 	public void deleteSelectedType(){
-		userGroupsFacade.remove(selectedType);
-		allGroups.remove(selectedType);
+		userGroupsFacade.remove(selectedGroup);
+		allGroups.remove(selectedGroup);
 		final String successMessage = Message.getInstance().getString("USER_TYPES_DELETED");
 		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
@@ -129,9 +159,9 @@ public class UserGroupsTableView implements Serializable {
 	
 	//Updates selected User Group
     public void saveSelectedType() {
-		selectedType.setDateCreated(new Date());
-		selectedType.setUserCreated(authorizedUser);
-		userGroupsFacade.edit(selectedType);
+		selectedGroup.setDateCreated(new Date());
+		selectedGroup.setUserCreated(authorizedUser);
+		userGroupsFacade.edit(selectedGroup);
 		final String successMessage = Message.getInstance().getString("USER_TYPES_EDITED");
 		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
@@ -179,35 +209,98 @@ public class UserGroupsTableView implements Serializable {
 			
 			if(addFlag){
 				//Add group to user transfered
-				usersFacade.addUserGroup(userTransfered, selectedType, authorizedUser);
+				usersFacade.addUserGroup(userTransfered, selectedGroup, authorizedUser);
 				
 				//Setting time and user that made changes
 				userTransfered.setUserCreated(authorizedUser);
-				selectedType.setUserCreated(authorizedUser);
+				selectedGroup.setUserCreated(authorizedUser);
 				userTransfered.setDateCreated(new Date());
-				selectedType.setDateCreated(new Date());
+				selectedGroup.setDateCreated(new Date());
 				usersFacade.edit(userTransfered);
-				userGroupsFacade.edit(selectedType);
+				userGroupsFacade.edit(selectedGroup);
 			}else{
 				//Remove group from user transfered
-				usersFacade.removeUserGroup(userTransfered, selectedType);
+				usersFacade.removeUserGroup(userTransfered, selectedGroup);
 				
 				//Setting time and user that made changes
 				userTransfered.setUserCreated(authorizedUser);
-				selectedType.setUserCreated(authorizedUser);
+				selectedGroup.setUserCreated(authorizedUser);
 				userTransfered.setDateCreated(new Date());
-				selectedType.setDateCreated(new Date());
+				selectedGroup.setDateCreated(new Date());
 				usersFacade.edit(userTransfered);
-				userGroupsFacade.edit(selectedType);
+				userGroupsFacade.edit(selectedGroup);
 			}
 		}
 		
 		//Constructing success message
 		if(addFlag)
-			successMessage += Message.getInstance().getString("USER_TYPES_ADD_SUCCESS_END") + " " + selectedType.getName();
+			successMessage += Message.getInstance().getString("USER_TYPES_ADD_SUCCESS_END") + " " + selectedGroup.getName();
 		else
-			successMessage += Message.getInstance().getString("USER_TYPES_REMOVE_SUCCESS_END") + " " + selectedType.getName();
+			successMessage += Message.getInstance().getString("USER_TYPES_REMOVE_SUCCESS_END") + " " + selectedGroup.getName();
 		
+		LOG.info(successMessage);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+	}
+
+	//This method controls onTransfer event in the Policies Pick List
+	public void onPolicyTransfer(TransferEvent event){
+
+
+		//All Policies from the right picker
+		List<Policy> targetList = policiesDualListModel.getTarget();
+
+		//Indicates to add new policy to group or to remove policy from group
+		Boolean addFlag = false;
+
+		//Checking transfer direction
+		if(targetList != null && targetList.contains(event.getItems().get(0)))
+			addFlag = true; //Means that user transferred from left picker to right picker
+
+		//Constructing success message
+		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		String successMessage;
+		if(targetList != null && targetList.contains(event.getItems().get(0)))
+			successMessage = Message.getInstance().getString("USER_TYPES_POLICIES_ADD_SUCCESS_START");
+		else
+			successMessage = Message.getInstance().getString("USER_TYPES_POLICIES_REMOVE_SUCCESS_START");
+
+		//Iterating each transferred policy
+		for(Object policyObject : event.getItems()){
+			Policy policyTransferred=(Policy)policyObject;
+
+			//Constructing success message
+			successMessage += policyTransferred.getName() + ", ";
+
+			if(addFlag){
+				//Add group to user transferred
+				policyFacade.addUserGroups(selectedGroup,policyTransferred,authorizedUser);
+				//Setting time and user that made changes
+				policyTransferred.setUserCreated(authorizedUser);
+				selectedGroup.setUserCreated(authorizedUser);
+				policyTransferred.setDateCreated(new Date());
+				selectedGroup.setDateCreated(new Date());
+				policyFacade.edit(policyTransferred);
+				userGroupsFacade.edit(selectedGroup);
+			}else{
+				//Remove group from user transferred
+				policyFacade.removeUserGroup(selectedGroup, policyTransferred);
+
+				//Setting time and user that made changes
+				policyTransferred.setUserCreated(authorizedUser);
+				selectedGroup.setUserCreated(authorizedUser);
+				policyTransferred.setDateCreated(new Date());
+				selectedGroup.setDateCreated(new Date());
+				policyFacade.edit(policyTransferred);
+				userGroupsFacade.edit(selectedGroup);
+			}
+		}
+
+		//Constructing success message
+		if(addFlag)
+			successMessage += Message.getInstance().getString("USER_TYPES_POLICIES_ADD_SUCCESS_END") + " " + selectedGroup.getName();
+		else
+			successMessage += Message.getInstance().getString("USER_TYPES_POLICIES_REMOVE_SUCCESS_END") + " " + selectedGroup.getName();
+
 		LOG.info(successMessage);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}

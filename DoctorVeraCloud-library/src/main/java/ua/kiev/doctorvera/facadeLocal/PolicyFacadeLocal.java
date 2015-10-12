@@ -91,6 +91,13 @@ public interface PolicyFacadeLocal {
     List<Policy> findByUser(Users user);
 
     /**
+     * Searches all Policies that contain given user group
+     * @returns List<Policy> entity that matches search parameter
+     * @param userGroup - user group to search by
+     */
+    List<Policy> findByGroup(UserGroups userGroup);
+
+    /**
      * Adds record to the reference table for referencing given policy and User Group
      * @returns true - in the case operation was successful and false otherwise
      * @param group - User Group that has to be referenced
@@ -105,5 +112,5 @@ public interface PolicyFacadeLocal {
      * @param policy - Policy that has to be unreferenced
      * @param group - User Group that has to be unreferenced
      */
-    public boolean removeUser(UserGroups group, Policy policy);
+    public boolean removeUserGroup(UserGroups group, Policy policy);
 }

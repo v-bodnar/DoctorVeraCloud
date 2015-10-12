@@ -178,26 +178,26 @@ public class Policy implements Serializable,Identified<Integer> {
         Policy policy = (Policy) o;
 
         if (deleted != policy.deleted) return false;
-        if (!policyId.equals(policy.policyId)) return false;
+        if (policyId != null ? !policyId.equals(policy.policyId) : policy.policyId != null) return false;
         if (!name.equals(policy.name)) return false;
         if (!stringId.equals(policy.stringId)) return false;
-        if (policyGroup != null ? !policyGroup.equals(policy.policyGroup) : policy.policyGroup != null) return false;
+        if (!policyGroup.equals(policy.policyGroup)) return false;
         if (description != null ? !description.equals(policy.description) : policy.description != null) return false;
-        if (!dateCreated.equals(policy.dateCreated)) return false;
-        return userCreated.equals(policy.userCreated);
+        if (dateCreated != null ? !dateCreated.equals(policy.dateCreated) : policy.dateCreated != null) return false;
+        return !(userCreated != null ? !userCreated.equals(policy.userCreated) : policy.userCreated != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = policyId.hashCode();
+        int result = policyId != null ? policyId.hashCode() : 0;
         result = 31 * result + name.hashCode();
         result = 31 * result + stringId.hashCode();
-        result = 31 * result + (policyGroup != null ? policyGroup.hashCode() : 0);
+        result = 31 * result + policyGroup.hashCode();
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + dateCreated.hashCode();
+        result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
         result = 31 * result + (deleted ? 1 : 0);
-        result = 31 * result + userCreated.hashCode();
+        result = 31 * result + (userCreated != null ? userCreated.hashCode() : 0);
         return result;
     }
 
