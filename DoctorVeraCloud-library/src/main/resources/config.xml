@@ -6,5 +6,7 @@
     <entry key="COUNTRY">RU</entry>
     <entry key="PROJECT_NAME">DoctorVeraCloud</entry>
     <entry key="SUPER_ADMIN_ID">1</entry>
-    <entry key="SUPER_ADMIN_USER_TYPE_ID">1</entry>
+    <entry key="SUPER_ADMIN_USER_GROUP_ID">1</entry>
+    <entry key="DOCTORS_USER_GROUP_ID">1</entry>
+    <entry key="PATIENTS_USER_GROUP_ID">1</entry>
 </properties>

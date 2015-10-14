@@ -49,7 +49,9 @@ public class Config extends ListResourceBundle implements Serializable {
         LANGUAGE,
         PROJECT_NAME,
         SUPER_ADMIN_ID,
-        SUPER_ADMIN_USER_TYPE_ID
+        SUPER_ADMIN_USER_GROUP_ID,
+        DOCTORS_USER_GROUP_ID,
+        PATIENTS_USER_GROUP_ID
     }
 
     public static Config getInstance() {

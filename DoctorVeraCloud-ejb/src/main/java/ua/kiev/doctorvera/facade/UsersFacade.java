@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.*;
+import ua.kiev.doctorvera.resources.Config;
 
 /**
  * Class for implementing main operations with User entity
@@ -36,11 +37,15 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     private UsersHasUserGroupsFacadeLocal usersHasUserTypesFacade;
 
     @EJB
-    private UserGroupsFacadeLocal userTypesFacade;
+    private UserGroupsFacadeLocal userGroupsFacade;
 
     public UsersFacade() {
         super(Users.class);
     }
+
+    private final Integer DOCTOR_GROUP_ID = Integer.parseInt(Config.getInstance().getProperty("DOCTORS_USER_GROUP_ID"));
+
+    private final Integer PATIENT_GROUP_ID = Integer.parseInt(Config.getProperty("PATIENTS_USER_GROUP_ID"));
 
     /**
     * Searches for User by his username(unique value)
@@ -213,7 +218,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     */
     @Override
     public List<Users> findByGroup(String typeName) {
-        UserGroups groups = userTypesFacade.findByName(typeName);
+        UserGroups groups = userGroupsFacade.findByName(typeName);
         if (groups != null) {
             Collection<UsersHasUserGroups> list = usersHasUserTypesFacade.findUsersByGroup(groups);
             HashSet<Users> result = new HashSet<Users>();
@@ -232,7 +237,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     */
     @Override
     public List<Users> findByGroup(Integer typeId) {
-        UserGroups group = userTypesFacade.find(typeId);
+        UserGroups group = userGroupsFacade.find(typeId);
         if (group != null) {
             Collection<UsersHasUserGroups> list = usersHasUserTypesFacade.findUsersByGroup(group);
             HashSet<Users> result = new HashSet<Users>();
@@ -266,7 +271,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
                 UsersHasUserGroups entry = new UsersHasUserGroups();
                 entry.setDateCreated(new Date());
                 entry.setUser(find(user));
-                entry.setUserGroup(userTypesFacade.find(group));
+                entry.setUserGroup(userGroupsFacade.find(group));
                 entry.setUserCreated(find(userCreated));
 
                 usersHasUserTypesFacade.create(entry);
@@ -284,7 +289,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     */
     @Override
     public boolean removeUserGroup(Users user, UserGroups group) {
-        group = userTypesFacade.find(group);
+        group = userGroupsFacade.find(group);
         if (user != null && group != null) {
             List<UsersHasUserGroups> alredyExists = usersHasUserTypesFacade.findGroupsByUser(user);
             for (UsersHasUserGroups entry : alredyExists) {
@@ -375,8 +380,8 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     public boolean removeMethod(Users doctor, Methods method) {
         method = methodsFacade.find(method);
         if (doctor != null && method != null) {
-            List<DoctorsHasMethod> alredyExists = doctorsHasMethodFacade.findMethodsByDoctor(doctor);
-            for (DoctorsHasMethod entry : alredyExists) {
+            List<DoctorsHasMethod> alreadyExists = doctorsHasMethodFacade.findMethodsByDoctor(doctor);
+            for (DoctorsHasMethod entry : alreadyExists) {
                 if (entry.getMethod().equals(method))
                     doctorsHasMethodFacade.removeFromDB(entry);
             }
@@ -385,8 +390,21 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
             return false;
     }
 
-//    public Set<Policy> getPolicies(Users user){
-//
-//    }
+    /**
+     * Checks if given user is in the group Doctors
+     * @param user - User that has to be checked
+     */
+    @Override
+    public boolean isDoctor(Users user){
+       return userGroupsFacade.findByUser(user).contains(userGroupsFacade.find(DOCTOR_GROUP_ID));
+    }
 
+    /**
+     * Checks if given user is in the group Patients
+     * @param user - User that has to be checked
+     */
+    @Override
+    public boolean isPatient(Users user){
+        return userGroupsFacade.findByUser(user).contains(userGroupsFacade.find(PATIENT_GROUP_ID));
+    }
 }

@@ -213,5 +213,17 @@ public interface UsersFacadeLocal{
      */
     boolean removeMethod(Users user, Methods method);
 
+    /**
+     * Checks if given user is in the group Doctors
+     * @param user - User that has to be checked
+     */
+    boolean isDoctor(Users user);
+
+    /**
+     * Checks if given user is in the group Patients
+     * @param user - User that has to be checked
+     */
+    boolean isPatient(Users user);
+
     
 }

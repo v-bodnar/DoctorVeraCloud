@@ -13,6 +13,7 @@ import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PaymentsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
@@ -42,6 +43,9 @@ public class IndexView implements Serializable{
 
     @EJB
     private PaymentsFacadeLocal paymentsFacade;
+
+    @EJB
+    private UsersFacadeLocal usersFacade;
 
     private Users authorizedUser;
 
@@ -656,5 +660,13 @@ public class IndexView implements Serializable{
 
     public void setYearSalarySum(Float yearSalarySum) {
         this.yearSalarySum = yearSalarySum;
+    }
+
+    public UsersFacadeLocal getUsersFacade() {
+        return usersFacade;
+    }
+
+    public void setUsersFacade(UsersFacadeLocal usersFacade) {
+        this.usersFacade = usersFacade;
     }
 }

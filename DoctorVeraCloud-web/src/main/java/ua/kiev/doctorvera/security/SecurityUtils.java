@@ -42,7 +42,7 @@ public class SecurityUtils implements Serializable{
     private static Map<SecurityPolicy,Policy> allMappedPolicies = new HashMap<>();
 
     private static int SUPER_ADMIN_ID;
-    private static int SUPER_ADMIN_USER_TYPE_ID;
+    private static int SUPER_ADMIN_USER_GROUP_ID;
 
     private Boolean alreadySynchronized = false;
 
@@ -54,7 +54,7 @@ public class SecurityUtils implements Serializable{
     public void init(){
 
         SUPER_ADMIN_ID = Integer.parseInt(Config.getInstance().getProperty("SUPER_ADMIN_ID"));
-        SUPER_ADMIN_USER_TYPE_ID = Integer.parseInt(Config.getProperty("SUPER_ADMIN_USER_TYPE_ID"));
+        SUPER_ADMIN_USER_GROUP_ID = Integer.parseInt(Config.getProperty("SUPER_ADMIN_USER_GROUP_ID"));
         if(!alreadySynchronized){
             synchronize();
             checkAdminPermissions();
@@ -111,7 +111,7 @@ public class SecurityUtils implements Serializable{
      */
     private void checkAdminPermissions(){
         Users superAdmin = usersFacade.find(SUPER_ADMIN_ID);
-        UserGroups superAdminGroup = userTypesFacade.find(SUPER_ADMIN_USER_TYPE_ID);
+        UserGroups superAdminGroup = userTypesFacade.find(SUPER_ADMIN_USER_GROUP_ID);
 
         List<UserGroups> groups = userTypesFacade.findByUser(superAdmin);
 

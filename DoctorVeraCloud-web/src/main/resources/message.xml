@@ -335,7 +335,8 @@
 	<entry key="USERS_PHONE_NUMBER_MOBILE">Номер телефона моб.</entry>
 	<entry key="USERS_ADDRESS">Адрес</entry>
 	<entry key="USERS_COLOR">Цвет</entry>
-	<entry key="USERS_USER_TYPE">Группа</entry>
+	<entry key="USERS_USER_GROUPS">Группы</entry>
+	<entry key="USERS_ADD_BUTTON">Добавить</entry>
 
 	<entry key="USERS_PLACEHOLDER_LAST_NAME">Иванов</entry>
 	<entry key="USERS_PLACEHOLDER_FIRST_NAME">Иван</entry>

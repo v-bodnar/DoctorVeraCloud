@@ -79,6 +79,22 @@
 				filterBy="#{user.phoneNumberMobile}" filterMatchMode="contains">
 				<h:outputText value="#{user.phoneNumberMobile}" />
 			</p:column>
+
+			<p:column headerText="#{MESSAGE.USERS_USER_GROUPS}">
+				<f:facet name="filter">
+					<p:selectCheckboxMenu label="MESSAGE.USERS_PHONE_NUMBER_MOBILE" onchange="PF('usersTable').filter()" panelStyle="width:125px" scrollHeight="150">
+						<f:selectItems value="#{usersTableView.getUserGroupsFacade.findByUser(user)}" />
+					</p:selectCheckboxMenu>
+				</f:facet>
+				<p:dataList value="#{usersTableView.getUserGroupsFacade.findByUser(user)}" var="group" type="ordered">
+					#{group.name}
+				</p:dataList>
+			</p:column>
+
+			<f:facet name="footer">
+				<p:commandButton value="#{MESSAGE.USERS_ADD_BUTTON}" icon="ui-icon-plus"
+					actionListener = "#{usersTableView.createNewUser}"/>
+			</f:facet>
 			
 		</p:dataTable>
 		

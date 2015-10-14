@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.views;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import ua.kiev.doctorvera.entities.UserGroups;
@@ -34,7 +35,7 @@ public class UsersTableView implements Serializable {
 	private UsersFacadeLocal usersFacade;
 	
 	@EJB
-	private UserGroupsFacadeLocal userTypesFacade;
+	private UserGroupsFacadeLocal userGroupsFacade;
 	
 	@EJB
 	private AddressFacadeLocal addressFacade;
@@ -63,8 +64,8 @@ public class UsersTableView implements Serializable {
 	
 	public void constructPickList(){
 		if (selectedUser != null && selectedUser.getId() != null){
-			List<UserGroups> allTypes = userTypesFacade.findAll();
-			List<UserGroups> targetUsers = userTypesFacade.findByUser(selectedUser);
+			List<UserGroups> allTypes = userGroupsFacade.findAll();
+			List<UserGroups> targetUsers = userGroupsFacade.findByUser(selectedUser);
 			for(UserGroups userType : targetUsers){
 				allTypes.remove(userType);
 			}
@@ -99,6 +100,14 @@ public class UsersTableView implements Serializable {
 	
 	public void setAuthorizedUser(Users authorizedUser) {
 		this.authorizedUser = authorizedUser;
+	}
+
+	public UserGroupsFacadeLocal getUserGroupsFacade() {
+		return userGroupsFacade;
+	}
+
+	public void setUserGroupsFacade(UserGroupsFacadeLocal userGroupsFacade) {
+		this.userGroupsFacade = userGroupsFacade;
 	}
 
 	public void deleteUser(){
@@ -158,31 +167,35 @@ public class UsersTableView implements Serializable {
 			
 			if(addFlag){
 				//Add group to user transfered
-				userTypesFacade.addUser(selectedUser, userTypeTransfered, authorizedUser);
+				userGroupsFacade.addUser(selectedUser, userTypeTransfered, authorizedUser);
 				
 				//Setting time and user that made changes
 				userTypeTransfered.setUserCreated(authorizedUser);
 				selectedUser.setUserCreated(authorizedUser);
 				userTypeTransfered.setDateCreated(new Date());
 				selectedUser.setDateCreated(new Date());
-				userTypesFacade.edit(userTypeTransfered);
+				userGroupsFacade.edit(userTypeTransfered);
 				usersFacade.edit(selectedUser);
 			}else{
 				//Remove group from user transfered
-				userTypesFacade.removeUser(selectedUser, userTypeTransfered);
+				userGroupsFacade.removeUser(selectedUser, userTypeTransfered);
 				
 				//Setting time and user that made changes
 				userTypeTransfered.setUserCreated(authorizedUser);
 				selectedUser.setUserCreated(authorizedUser);
 				userTypeTransfered.setDateCreated(new Date());
 				selectedUser.setDateCreated(new Date());
-				userTypesFacade.edit(userTypeTransfered);
+				userGroupsFacade.edit(userTypeTransfered);
 				usersFacade.edit(selectedUser);
 			}
 		}
 
 		LOG.info(successMessage);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+	}
+
+	public void createNewUser(){
+		RequestContext.getCurrentInstance().openDialog("add_user");
 	}
 
 }

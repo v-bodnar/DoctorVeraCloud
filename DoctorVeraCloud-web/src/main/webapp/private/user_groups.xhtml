@@ -45,12 +45,12 @@
 				</p:menuitem>
 
 				<p:menuitem update="userGroupsTable growl">
-					<p:commandLink styleClass="ui-icon-key"
+					<p:commandLink styleClass="ui-icon-link"
 								   action="#{userGroupsTableView.constructPoliciesPickList}"
 								   oncomplete="PF('addPolicyToTypeDialog').show();"
 								   update=":addPolicyToTypeForm:addPolicyToTypeDialog"
 								   process="@this">
-						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-person" />
+						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-key" />
 						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.USER_TYPES_ADD_POLICIES}" />
 					</p:commandLink>
 				</p:menuitem>
@@ -209,7 +209,7 @@
 
 				<p:pickList id="addPolicyToTypePickList" value="#{userGroupsTableView.policiesDualListModel}" var="policy" effect="bounce"
 							itemValue="#{policy}" itemLabel="#{policy.name}"
-							showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker"
+							showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
 							converter = "policyConverter">
 
 					<f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.USER_TYPES_POLICIES_PICKER_SOURCE}"/></f:facet>
