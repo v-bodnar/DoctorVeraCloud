@@ -64,6 +64,7 @@
 	<entry key="USERS_ADD_SUCCESS_END">добавлен в группы: </entry>
 	<entry key="USERS_REMOVE_SUCCESS_START">Пользователь: </entry>
 	<entry key="USERS_REMOVE_SUCCESS_END">удален из групп: </entry>
+	<entry key="USERS_NO_GROUPS">Не состоит ни в одной группе</entry>
 	
 	<!-- user_groups.xhtml -->
 	<entry key="USER_TYPES_TITLE">Группы пользователей</entry>

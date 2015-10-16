@@ -48,7 +48,7 @@
 	
 		<p:dataTable id="usersTable" styleClass="usersTable" var="user" widgetVar="usersTable" value="#{usersTableView.allUsers}"
 		rowKey="#{user.id}" selection="#{usersTableView.selectedUser}" selectionMode="single">
-		
+
 			<p:ajax event="contextMenu"  update=":addTypesToUserForm:addTypesToUserDialog" />
 
 			<p:column headerText="Id" sortBy="#{user.id}" 
@@ -56,7 +56,7 @@
 				<h:outputText value="#{user.id}" />
 			</p:column>
 
-			<p:column headerText="#{MESSAGE.USERS_LAST_NAME}" sortBy="#{user.lastName}" 
+			<p:column headerText="#{MESSAGE.USERS_LAST_NAME}" sortBy="#{user.lastName}"
 			filterBy="#{user.lastName}" filterMatchMode="contains">
 				<h:outputText value="#{user.lastName}" />
 			</p:column>
@@ -80,20 +80,23 @@
 				<h:outputText value="#{user.phoneNumberMobile}" />
 			</p:column>
 
-			<p:column headerText="#{MESSAGE.USERS_USER_GROUPS}">
+			<p:column headerText="#{MESSAGE.USERS_USER_GROUPS}" width="200" filterBy="#{usersTableView.userGroupsFacade.findByUser(user)}" filterMatchMode="in" filterFunction="#{usersTableView.filterByUserGroup}">
 				<f:facet name="filter">
-					<p:selectCheckboxMenu label="MESSAGE.USERS_PHONE_NUMBER_MOBILE" onchange="PF('usersTable').filter()" panelStyle="width:125px" scrollHeight="150">
-						<f:selectItems value="#{usersTableView.getUserGroupsFacade.findByUser(user)}" />
-					</p:selectCheckboxMenu>
+					<p:selectOneMenu onchange="PF('usersTable').filter()">
+						<f:selectItems value="#{usersTableView.userGroupsFacade.findAll()}" itemValue="#{group.name}" itemLabel="#{group.name}" var="group"/>
+					</p:selectOneMenu>
 				</f:facet>
-				<p:dataList value="#{usersTableView.getUserGroupsFacade.findByUser(user)}" var="group" type="ordered">
-					#{group.name}
-				</p:dataList>
+
+				<ul>
+					<ui:repeat var="group" value="#{usersTableView.userGroupsFacade.findByUser(user)}">
+						<li><h:outputText value="#{group.name}"></h:outputText></li>
+					</ui:repeat>
+				</ul>
 			</p:column>
 
 			<f:facet name="footer">
 				<p:commandButton value="#{MESSAGE.USERS_ADD_BUTTON}" icon="ui-icon-plus"
-					actionListener = "#{usersTableView.createNewUser}"/>
+					actionListener = "#{usersTableView.createNewUserDialog}"/>
 			</f:facet>
 			
 		</p:dataTable>

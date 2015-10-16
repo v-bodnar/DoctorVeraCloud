@@ -57,24 +57,17 @@ public class Config extends ListResourceBundle implements Serializable {
     public static Config getInstance() {
         if (instance == null) {
             instance = new Config();
-            createProperties();
+            try{
+                properties.loadFromXML(url.openStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             //Setting Default Locale
             Locale.setDefault(new Locale(properties.getProperty(Key.LANGUAGE.toString()),
                     properties.getProperty(Key.COUNTRY.toString())));
         }
         return instance;
-    }
-
-    private static void createProperties() {
-
-        try (FileInputStream fileInput = new FileInputStream(file)) {
-            properties.loadFromXML(fileInput);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static String getProperty(Key key) {

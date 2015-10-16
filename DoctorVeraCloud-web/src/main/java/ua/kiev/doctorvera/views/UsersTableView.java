@@ -19,10 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Named(value="usersTableView")
@@ -46,7 +43,34 @@ public class UsersTableView implements Serializable {
 	private Users authorizedUser;
 	
 	private List<Users> allUsers;
-	
+	private List<Users> filteredUsers;
+	private List<UserGroups> allUserGroups;
+	private List<String> allUserGroupsNames = new ArrayList<>();
+
+	public List<String> getAllUserGroupsNames() {
+		return allUserGroupsNames;
+	}
+
+	public void setAllUserGroupsNames(List<String> allUserGroupsNames) {
+		this.allUserGroupsNames = allUserGroupsNames;
+	}
+
+	public List<UserGroups> getAllUserGroups() {
+		return allUserGroups;
+	}
+
+	public void setAllUserGroups(List<UserGroups> allUserGroups) {
+		this.allUserGroups = allUserGroups;
+	}
+
+	public List<Users> getFilteredUsers() {
+		return filteredUsers;
+	}
+
+	public void setFilteredUsers(List<Users> filteredUsers) {
+		this.filteredUsers = filteredUsers;
+	}
+
 	private Users selectedUser;
 	
 	public UsersTableView(){}
@@ -58,6 +82,10 @@ public class UsersTableView implements Serializable {
 	public void init(){
 		authorizedUser = sessionParams.getAuthorizedUser();
 		allUsers = usersFacade.findAll();
+		allUserGroups = userGroupsFacade.findAll();
+		for(UserGroups group : allUserGroups){
+			allUserGroupsNames.add(group.getName());
+		}
 		//System.out.println(addressFacade.toString());
 		constructPickList();
 	}
@@ -194,8 +222,31 @@ public class UsersTableView implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 
-	public void createNewUser(){
-		RequestContext.getCurrentInstance().openDialog("add_user");
+	public boolean filterByUserGroup(Object value, Object filter, Locale locale){
+		String filterText = (filter == null) ? null : filter.toString().trim();
+
+		if(filterText == null||filterText.equals("")) {
+			return true;
+		}
+
+		if(value == null) {
+			return false;
+		}
+
+		List<UserGroups> userGroups = (List<UserGroups>) value;
+		for(UserGroups userGroup : userGroups){
+			if(userGroup.getName().equals(filterText)) return true;
+		}
+		return false;
+	}
+
+	public void createNewUserDialog(){
+		Map<String,Object> options = new HashMap<>();
+		options.put("modal", true);
+		options.put("draggable", false);
+		options.put("resizable", false);
+		options.put("contentHeight", 500);
+		RequestContext.getCurrentInstance().openDialog("add_user", options, null);
 	}
 
 }
