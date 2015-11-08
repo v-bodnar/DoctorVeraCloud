@@ -13,18 +13,18 @@
 			<p:growl id="growl" showDetail="true" severity="info" />
 
 			<p:contextMenu for="roomsTable">
-				<p:menuitem update="roomsTable growl">
+				<p:menuitem update="roomsTable growl" rendered="#{securityUtils.checkPermissions('ROOMS_DELETE')}">
 					<p:commandLink styleClass="ui-menuitem-link"
 						action="#{roomsView.deleteSelectedRoom}" ajax="false"
-						update="roomsTable growl">
+						update="roomsTable growl" >
 						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
 						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.ROOMS_DELETE_BUTTON}" />
 						<p:confirm header="#{MESSAGE.ROOMS_DELETE_CONFIRM_TITLE}" icon="ui-icon-alert"
 							message="#{MESSAGE.ROOMS_DELETE_CONFIRM_MESSAGE}" />
 					</p:commandLink>
 				</p:menuitem>
-				
-				<p:menuitem update="roomsTable growl">
+
+				<p:menuitem update="roomsTable growl" rendered="#{securityUtils.checkPermissions('ROOMS_EDIT')}">
 					<p:commandLink styleClass="ui-menuitem-link"
 						oncomplete="PF('editRoomDialog').show();"
 						update=":roomsEditForm:editRoomDialog">
@@ -146,7 +146,8 @@
 						value="#{MESSAGE.ROOMS_SAVE_BUTTON}" icon="ui-icon-plus"
 						actionListener="#{roomsView.saveSelectedRoom}"
 						update="roomDescriptionMessage roomNameMessage growl"
-						oncomplete="PF('editRoomDialog').hide();" />
+						oncomplete="PF('editRoomDialog').hide();"
+						rendered="#{securityUtils.checkPermissions('ROOMS_ADD')}"/>
 				</h:panelGrid>
 			</p:dialog>
 		</h:form>

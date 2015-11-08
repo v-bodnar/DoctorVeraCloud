@@ -13,6 +13,7 @@ import ua.kiev.doctorvera.facadeLocal.UsersHasUserGroupsFacadeLocal;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -54,10 +55,28 @@ public class UsersHasUserGroupsFacade extends AbstractFacade<UsersHasUserGroups>
         CriteriaQuery<UsersHasUserGroups> cq = cb.createQuery(UsersHasUserGroups.class);
         Root<UsersHasUserGroups> root = cq.from(UsersHasUserGroups.class);
         
-        cq.select(root).where(cb.equal(root.<Users>get("userGroup"), group),cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(cb.equal(root.<UserGroups>get("userGroup"), group),cb.isFalse(root.<Boolean>get("deleted")));
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
 	}
+
+    /**
+     Searches for given User Group and User in the Reference table UsersHasUserGroups and returns all found records
+     @param group - User Group to search for
+     @return List<UsersHasUserGroups> List of UsersHasUserGroups records that match search parameter
+     */
+    @Override
+    public List<UsersHasUserGroups> findUsersByGroupAndUser(UserGroups group, Users user) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<UsersHasUserGroups> cq = cb.createQuery(UsersHasUserGroups.class);
+        Root<UsersHasUserGroups> root = cq.from(UsersHasUserGroups.class);
+        Predicate groupsPredicate = cb.and(cb.equal(root.<UserGroups>get("userGroup"), group));
+        Predicate usersPredicate = cb.and(cb.equal(root.<Users>get("user"), user));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(groupsPredicate, usersPredicate, deletedPredicate);
+        cq.distinct(true);
+        return getEntityManager().createQuery(cq).getResultList();
+    }
 	
 
     

@@ -13,7 +13,7 @@
 			<p:growl id="growl" showDetail="true" severity="info" />
 
 			<p:contextMenu for="userGroupsTable">
-				<p:menuitem update="userGroupsTable growl">
+				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_DELETE_USER_GROUP')}">
 					<p:commandLink styleClass="ui-menuitem-link"
 						action="#{userGroupsTableView.deleteSelectedType}" ajax="false"
 						update="userGroupsTable growl">
@@ -24,7 +24,7 @@
 					</p:commandLink>
 				</p:menuitem>
 				
-				<p:menuitem update="userGroupsTable growl">
+				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_EDIT_USER_GROUP')}">
 					<p:commandLink styleClass="ui-menuitem-link"
 						oncomplete="PF('editTypeDialog').show();"
 						update=":userTypesEditForm:editTypeDialog">
@@ -33,9 +33,9 @@
 					</p:commandLink>
 				</p:menuitem>
 				
-				<p:menuitem update="userGroupsTable growl">
+				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_ADD_USERS')}">
 					<p:commandLink styleClass="ui-menuitem-link"
-						action="#{userGroupsTableView.constructPickList}"
+						action="#{userGroupsTableView.constructPickList()}"
 						oncomplete="PF('addUsersToTypeDialog').show();"
 						update=":addUsersToTypeForm:addUsersToTypeDialog"
 						process="@this">
@@ -44,9 +44,9 @@
 					</p:commandLink>
 				</p:menuitem>
 
-				<p:menuitem update="userGroupsTable growl">
-					<p:commandLink styleClass="ui-icon-link"
-								   action="#{userGroupsTableView.constructPoliciesPickList}"
+				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_ADD_SECURITY_POLICIES')}">
+					<p:commandLink styleClass="ui-menuitem-link"
+								   action="#{userGroupsTableView.constructPoliciesPickList(null)}"
 								   oncomplete="PF('addPolicyToTypeDialog').show();"
 								   update=":addPolicyToTypeForm:addPolicyToTypeDialog"
 								   process="@this">
@@ -171,7 +171,8 @@
 						value="#{MESSAGE.USER_TYPES_SAVE_BUTTON}" icon="ui-icon-plus"
 						actionListener="#{userGroupsTableView.saveSelectedType}"
 						update="userTypeDescriptionMessage userTypeNameMessage growl"
-						oncomplete="PF('editTypeDialog').hide();" />
+						oncomplete="PF('editTypeDialog').hide();"
+						rendered="#{securityUtils.checkPermissions('USER_GROUPS_ADD_USER_GROUP')}"/>
 				</h:panelGrid>
 			</p:dialog>
 		</h:form>
@@ -203,9 +204,14 @@
 		<h:form id="addPolicyToTypeForm">
 
 			<p:dialog header="#{MESSAGE.USER_TYPES_POLICIES_PICKER_TITLE}"
-					  widgetVar="addPolicyToTypeDialog" id="addPolicyToTypeDialog" width="650" height="300">
+					  widgetVar="addPolicyToTypeDialog" id="addPolicyToTypeDialog" width="710" height="400">
 				<p:growl id="growl" showDetail="true" />
 				<p:ajax event="close" update="growl" />
+
+				<p:selectOneMenu id="securityPolicySelector" value="#{userGroupsTableView.selectedSecurityPolicy}" style="width:305px">
+					<f:selectItems value="#{userGroupsTableView.allSecurityPolicyGroups}" itemValue="#{securityGroup}" itemLabel="#{securityGroup.description}" var="securityGroup"/>
+					<p:ajax listener="#{userGroupsTableView.constructPoliciesPickList}" update="addPolicyToTypePickList"/>
+				</p:selectOneMenu>
 
 				<p:pickList id="addPolicyToTypePickList" value="#{userGroupsTableView.policiesDualListModel}" var="policy" effect="bounce"
 							itemValue="#{policy}" itemLabel="#{policy.name}"

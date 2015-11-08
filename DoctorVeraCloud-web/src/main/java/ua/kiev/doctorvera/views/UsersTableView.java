@@ -3,6 +3,8 @@ package ua.kiev.doctorvera.views;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.AddressFacadeLocal;
@@ -40,9 +42,12 @@ public class UsersTableView implements Serializable {
 	@Inject
 	private SessionParams sessionParams;
 
+	private UsersLazyModel allUsers;
+
 	private Users authorizedUser;
-	
-	private List<Users> allUsers;
+
+	//private LazyDataModel<Users> allUsers;
+	//private List<Users> allUsers;
 	private List<Users> filteredUsers;
 	private List<UserGroups> allUserGroups;
 	private List<String> allUserGroupsNames = new ArrayList<>();
@@ -77,11 +82,13 @@ public class UsersTableView implements Serializable {
 	
 	//Model for picklist PrimeFaces widget
 	private DualListModel<UserGroups> userTypesDualListModel;
+
+	private String groupFilter;
 	
 	@PostConstruct
 	public void init(){
 		authorizedUser = sessionParams.getAuthorizedUser();
-		allUsers = usersFacade.findAll();
+		allUsers = new UsersLazyModel();
 		allUserGroups = userGroupsFacade.findAll();
 		for(UserGroups group : allUserGroups){
 			allUserGroupsNames.add(group.getName());
@@ -102,11 +109,29 @@ public class UsersTableView implements Serializable {
 			userTypesDualListModel = new DualListModel<UserGroups>(new ArrayList<UserGroups>(), new ArrayList<UserGroups>());
 	}
 
-	public List<Users> getAllUsers() {
+//	public List<Users> getAllUsers() {
+//		return allUsers;
+//	}
+//
+//	public void setAllUsers(List<Users> allUsers) {
+//		this.allUsers = allUsers;
+//	}
+
+
+//	public LazyDataModel<Users> getAllUsers() {
+//		return allUsers;
+//	}
+//
+//	public void setAllUsers(LazyDataModel<Users> allUsers) {
+//		this.allUsers = allUsers;
+//	}
+
+
+	public UsersLazyModel getAllUsers() {
 		return allUsers;
 	}
 
-	public void setAllUsers(List<Users> allUsers) {
+	public void setAllUsers(UsersLazyModel allUsers) {
 		this.allUsers = allUsers;
 	}
 
@@ -141,7 +166,7 @@ public class UsersTableView implements Serializable {
 	public void deleteUser(){
 		addressFacade.remove(addressFacade.find(selectedUser.getAddressId()));
 		usersFacade.remove(selectedUser);
-		allUsers.remove(selectedUser);
+		//allUsers.remove(selectedUser);
 		final String successMessage = Message.getInstance().getString("USERS_DELETE_CONFIRM_TITLE");
 		final String successTitle = Message.getInstance().getString("USERS_DELETED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
@@ -249,4 +274,50 @@ public class UsersTableView implements Serializable {
 		RequestContext.getCurrentInstance().openDialog("add_user", options, null);
 	}
 
+	public String getGroupFilter() {
+		return groupFilter;
+	}
+
+	public void setGroupFilter(String groupFilter) {
+		this.groupFilter = groupFilter;
+	}
+
+	public void resetGroupFilter(){
+		groupFilter = null;
+	}
+
+	public void error() {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Contact admin."));
+	}
+
+	public class UsersLazyModel extends LazyDataModel<Users> {
+
+		List<Users> allPaginatedFilteredUsers = new ArrayList<>();
+
+
+		public UsersLazyModel() {
+		}
+
+		@Override
+		public Users getRowData(String rowKey) {
+			for(Users user : allPaginatedFilteredUsers) {
+				if(user.getId().equals(Integer.parseInt(rowKey)))
+					return user;
+			}
+			return null;
+		}
+
+		@Override
+		public Object getRowKey(Users user) {
+			return user.getId();
+		}
+
+		@Override
+		public List<Users> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+			allPaginatedFilteredUsers = usersFacade.findAll(first, pageSize, sortField, sortOrder, filters);
+			setRowCount(usersFacade.count(first, pageSize, sortField, sortOrder, filters));
+
+			return allPaginatedFilteredUsers;
+		}
+	}
 }

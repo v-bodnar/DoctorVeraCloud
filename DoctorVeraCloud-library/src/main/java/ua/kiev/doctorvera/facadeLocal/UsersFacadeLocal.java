@@ -5,12 +5,13 @@
  */
 package ua.kiev.doctorvera.facadeLocal;
 
-import java.util.Date;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
 
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
 
+import org.primefaces.model.SortOrder;
 import ua.kiev.doctorvera.entities.Methods;
 import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
@@ -183,6 +184,14 @@ public interface UsersFacadeLocal{
     boolean removeUserGroup(Users user, UserGroups group);
 
     /**
+     * Checks if parsed user is in parsed group
+     * @returns true - if reference table contains parsed user and group, false otherwise
+     * @param user - User that has to be checked
+     * @param group - User Group that has to be checked
+     */
+    boolean isInGroup(Users user, UserGroups group);
+
+    /**
     * Searches for all Users with the given method
     * @returns List<Users> List of users that matches search parameter
     * @param method - Method to search by
@@ -224,6 +233,15 @@ public interface UsersFacadeLocal{
      * @param user - User that has to be checked
      */
     boolean isPatient(Users user);
+
+    /**
+     * Searches for all entities of the T type in the persistent storage and retrieves them with pagination
+     */
+    List<Users> findAll(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters);
+
+    Integer count(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters);
+
+    //HashMap<String, HashMap<String, ArrayList<Object>>> ceateJoins(Class relatedClass, Object value);
 
     
 }

@@ -103,12 +103,14 @@
 						<!-- Add button -->
 						<p:commandButton value="#{MESSAGE.PAYMENTS_ADD_BUTTON}"
 							actionListener="#{paymentsView.createPayment}" icon="ui-icon-check"
-							update = "@form :paymentsForm:paymentsTable" style="margin:auto"/>
+							update = "@form :paymentsForm:paymentsTable" style="margin:auto"
+							rendered="#{securityUtils.checkPermissions('PAYMENTS_ADD')}"/>
 						
 						<!-- Add && print button -->
 						<p:commandButton value="#{MESSAGE.PAYMENTS_ADD_PRINT_BUTTON}"
 							actionListener="#{paymentsView.createAndPrintPayment}" icon="ui-icon-print"
-							update = "@form :paymentsForm:paymentsTable" style="margin:auto"/>
+							update = "@form :paymentsForm:paymentsTable" style="margin:auto"
+							rendered="#{securityUtils.checkPermissions('PAYMENTS_ADD')}"/>
 					</h:panelGrid>
 				</p:dialog>
 		</h:form>

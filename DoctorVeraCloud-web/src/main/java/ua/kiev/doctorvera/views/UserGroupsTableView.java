@@ -9,16 +9,20 @@ import ua.kiev.doctorvera.facadeLocal.PolicyFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UserGroupsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.security.SecurityPolicy;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -61,15 +65,29 @@ public class UserGroupsTableView implements Serializable {
 
 	//Model for policies picklist PrimeFaces widget
 	private DualListModel<Policy> policiesDualListModel;
+
+	/**
+	 * All Security policies
+	 */
+	List<Policy> allPolicies;
+
+	/**
+	 * All security policies groups
+	 */
+	private List<SecurityPolicy.SecurityPolicyGroup> allSecurityPolicyGroups = Arrays.asList(SecurityPolicy.SecurityPolicyGroup.values());
+
+	SecurityPolicy.SecurityPolicyGroup selectedSecurityPolicy;
+
 	
 	@PostConstruct
 	public void init(){
 		authorizedUser = sessionParams.getAuthorizedUser();
 		allGroups = userGroupsFacade.findAll();
-		this.newType = new UserGroups();
-		this.selectedGroup = new UserGroups();
+		newType = new UserGroups();
+		selectedGroup = new UserGroups();
+		allPolicies = policyFacade.findAll();
 		constructPickList();
-		constructPoliciesPickList();
+		constructPoliciesPickList(null);
 	}
 	
 	public Users getAuthorizedUser() {
@@ -124,6 +142,22 @@ public class UserGroupsTableView implements Serializable {
 		this.policiesDualListModel = policiesDualListModel;
 	}
 
+	public List<SecurityPolicy.SecurityPolicyGroup> getAllSecurityPolicyGroups() {
+		return allSecurityPolicyGroups;
+	}
+
+	public void setAllSecurityPolicyGroups(List<SecurityPolicy.SecurityPolicyGroup> allSecurityPolicyGroups) {
+		this.allSecurityPolicyGroups = allSecurityPolicyGroups;
+	}
+
+	public SecurityPolicy.SecurityPolicyGroup getSelectedSecurityPolicy() {
+		return selectedSecurityPolicy;
+	}
+
+	public void setSelectedSecurityPolicy(SecurityPolicy.SecurityPolicyGroup selectedSecurityPolicy) {
+		this.selectedSecurityPolicy = selectedSecurityPolicy;
+	}
+
 	public void constructPickList(){
 		if (selectedGroup != null && selectedGroup.getId() != null){
 			List<Users> allUsers = usersFacade.findAll();
@@ -136,16 +170,22 @@ public class UserGroupsTableView implements Serializable {
 			usersDualListModel = new DualListModel<Users>(new ArrayList<Users>(), new ArrayList<Users>());
 	}
 
-	public void constructPoliciesPickList(){
-		if (selectedGroup != null && selectedGroup.getId() != null){
-			List<Policy> allPolicies = policyFacade.findAll();
+	public void constructPoliciesPickList(AjaxBehaviorEvent e){
+		if (selectedGroup != null && selectedGroup.getId() != null && selectedSecurityPolicy != null){
+			List<Policy> sourcePolicies = new ArrayList<>();
 			List<Policy> targetPolicy = policyFacade.findByGroup(selectedGroup);
-			for(Policy policy : targetPolicy){
-				allPolicies.remove(policy);
+			for (Policy policy : allPolicies) {
+				if (policy.getPolicyGroup().equals(selectedSecurityPolicy.name())){
+					sourcePolicies.add(policy);
+				}
 			}
-			policiesDualListModel = new DualListModel<Policy>(allPolicies, targetPolicy);
+
+			for(Policy policy : targetPolicy){
+				sourcePolicies.remove(policy);
+			}
+			policiesDualListModel = new DualListModel<>(sourcePolicies, targetPolicy);
 		} else
-			policiesDualListModel = new DualListModel<Policy>(new ArrayList<Policy>(), new ArrayList<Policy>());
+			policiesDualListModel = new DualListModel<>(new ArrayList<Policy>(), new ArrayList<Policy>());
 	}
 
 	//Deletes selected User Group

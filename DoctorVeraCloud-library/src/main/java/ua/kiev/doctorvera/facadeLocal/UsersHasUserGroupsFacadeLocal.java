@@ -84,5 +84,12 @@ public interface UsersHasUserGroupsFacadeLocal {
     @return List<UsersHasUserGroups> List of UsersHasUserGroups records that match search parameter
      */
     List<UsersHasUserGroups> findUsersByGroup(UserGroups group);
-    
+
+    /**
+     Searches for given User Group and User in the Reference table UsersHasUserGroups and returns all found records
+     @param group - User Group to search for
+     @return List<UsersHasUserGroups> List of UsersHasUserGroups records that match search parameter
+     */
+    List<UsersHasUserGroups> findUsersByGroupAndUser(UserGroups group, Users user);
+
 }

@@ -24,7 +24,9 @@ public class AuthenFilter implements Filter {
 	private final static Logger LOG = Logger.getLogger(AuthenFilter.class.getName());
 	private final String LOGIN_PAGE = Mapping.getInstance().getString("LOGIN_PAGE");
 	private final String REGISTER_PAGE = Mapping.getInstance().getString("REGISTER_PAGE");
+	private final String PERMISSION_DENIED_PAGE = Mapping.getInstance().getString("PERMISSION_DENIED_PAGE");
 	private static final String SECURITY_POLICY_PARAM_NAME = "securityPolicy";
+
 	
 	public void init(FilterConfig config) throws ServletException {
 	}
@@ -46,7 +48,7 @@ public class AuthenFilter implements Filter {
 			// Pass request back down the filter chain
 			chain.doFilter(request, response);
 		} else if (sessionparams == null || sessionparams.getAuthorizedUser() == null) {
-			LOG.info("Session is not authorised");
+			LOG.info("Session is not authorised, no user for session");
 			response.sendRedirect(LOGIN_PAGE);
 		}else if(securityPolicy == null){
 			LOG.info("Session is authorised, security policy is not set");
@@ -55,6 +57,9 @@ public class AuthenFilter implements Filter {
 				securityUtils.checkPermissions(SecurityPolicy.valueOf(securityPolicy))) {
 			LOG.info("Session is authorised, permission granted");
 			chain.doFilter(request, response);
+		}else{
+			LOG.info("Session is not authorised, user has no required permissions");
+			response.sendRedirect(PERMISSION_DENIED_PAGE);
 		}
 		
 	}

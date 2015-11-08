@@ -35,10 +35,10 @@ public class Utils {
 
     //This method is used to set value to Users entity!!!
     public static String stripPhone(String phone) {
-        //TODO internationalize
         if (phone == null || phone.isEmpty() || phone.equals("(___)___-__-__"))
             return "";
         phone = "+" + phone.replaceAll("\\D*", "");
+        phone = phone.trim();
         return phone;
     }
 

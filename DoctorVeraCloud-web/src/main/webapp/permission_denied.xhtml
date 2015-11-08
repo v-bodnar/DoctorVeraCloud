@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+    <h:outputStylesheet library="css" name="style.css"  />
+    <!--<ui:debug />-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><h:outputText value = "#{MESSAGE.APPLICATION_TITLE}"/></title>
+</h:head>
+
+<h:body>
+
+    <h:form>
+        <p:outputPanel deferred="true" id="permissionDeniedMessagePanel" styleClass="ui-message-error">
+            <h2><h:outputText value="#{MESSAGE.APPLICATION_ERROR_TITLE}"/></h2>
+            <h:panelGrid columns="2" cellpadding="10">
+                <h:panelGroup style="width: 60px" layout="block">
+                    <p:graphicImage value="#{MAPPINGS.APPLICATION_IMAGES_PATH}#{MAPPINGS.APPLICATION_ERROR_ICON}" width="50"/>
+                </h:panelGroup>
+                <h:panelGroup style="width: 400px" layout="block">
+                <h:outputText value="#{MESSAGE.APPLICATION_PERMISSION_DENIED} " />
+                <p:commandLink actionListener="#{userLoginView.logout}"
+                               value="#{MESSAGE.LOGIN_LOG_AS_OTHER_USER}"
+                               oncomplete="window.location = '#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.LOGIN_PAGE}';" />
+                </h:panelGroup>
+            </h:panelGrid>
+        </p:outputPanel>
+    </h:form>
+
+</h:body>
+
+</html>

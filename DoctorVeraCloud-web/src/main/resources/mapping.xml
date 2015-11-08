@@ -19,6 +19,8 @@
  	<entry key="SCHEDULE_GENERAL_PAGE">/private/schedule_general.xhtml</entry>
  	<entry key="PLAN_GENERAL_PAGE">/private/plan_general.xhtml</entry>
 	<entry key="SCHEDULE_PERSONAL_PAGE">/private/schedule_doctor.xhtml</entry>
+	<entry key="PERMISSION_DENIED_PAGE">/permission_denied.xhtml</entry>
+
 
 
  	<!-- Path-->
@@ -26,6 +28,7 @@
  	<entry key="APPLICATION_ROOT_PATH"></entry>
  	<entry key="APPLICATION_IMAGES_PATH">/resources/images/</entry>
  	<entry key="APPLICATION_AVATAR_IMAGES_PATH">/resources/images/avatar/</entry>
+	<entry key="APPLICATION_ERROR_ICON">error.png</entry>
  	<entry key="APPLICATION_AVATAR_DEFAULT">default_male_avatar.png</entry>
  	
  	<!-- UserGroups-->

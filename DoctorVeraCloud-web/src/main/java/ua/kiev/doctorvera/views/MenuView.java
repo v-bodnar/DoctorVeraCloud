@@ -115,15 +115,15 @@ public class MenuView implements Serializable {
         }
         mainSubmenu.addElement(item);
 
-        item = new DefaultMenuItem(addUserPageValue);
-        item.setUrl(addUserPageUrl);
-        item.setIcon("ui-icon-plus");
-        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_USERS);
-        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_USERS));
-        if (url != null && url.equals(APPLICATION_ROOT_URL + addUserPageUrl)) {
-            item.setStyleClass("ui-state-active");
-        }
-        mainSubmenu.addElement(item);
+//        item = new DefaultMenuItem(addUserPageValue);
+//        item.setUrl(addUserPageUrl);
+//        item.setIcon("ui-icon-plus");
+//        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_USERS);
+//        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_USERS));
+//        if (url != null && url.equals(APPLICATION_ROOT_URL + addUserPageUrl)) {
+//            item.setStyleClass("ui-state-active");
+//        }
+//        mainSubmenu.addElement(item);
 
         item = new DefaultMenuItem(userTypesPageValue);
         item.setUrl(userTypesPageUrl);
@@ -164,7 +164,7 @@ public class MenuView implements Serializable {
             item.setStyleClass("ui-state-active");
         }
         mainSubmenu.addElement(item);
-
+        mainSubmenu.setRendered(isRendered(mainSubmenu));
         menuModel.addElement(mainSubmenu);
 
 
@@ -180,7 +180,6 @@ public class MenuView implements Serializable {
         }
         planSubmenu.addElement(item);
 
-
         for (Rooms room : allRooms) {
             item = new DefaultMenuItem(room.getName());
             item.setIcon("ui-icon-calendar");
@@ -190,7 +189,7 @@ public class MenuView implements Serializable {
             item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_PLAN));
             planSubmenu.addElement(item);
         }
-
+        planSubmenu.setRendered(isRendered(planSubmenu));
         menuModel.addElement(planSubmenu);
 
         DefaultSubMenu scheduleSubmenu = new DefaultSubMenu(scheduleMenuHeader);
@@ -213,7 +212,7 @@ public class MenuView implements Serializable {
             item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SCHEDULE));
             scheduleSubmenu.addElement(item);
         }
-
+        scheduleSubmenu.setRendered(isRendered(scheduleSubmenu));
         menuModel.addElement(scheduleSubmenu);
 
         DefaultSubMenu financeSubmenu = new DefaultSubMenu(financeMenuHeader);
@@ -227,15 +226,25 @@ public class MenuView implements Serializable {
         if (url != null && url.equals(APPLICATION_ROOT_URL + paymentsPageUrl)) {
             item.setStyleClass("ui-state-active");
         }
+        financeSubmenu.setRendered(isRendered(financeSubmenu));
         menuModel.addElement(financeSubmenu);
 
+    }
+    private boolean isRendered(DefaultSubMenu menuGroup){
+        for(MenuElement menuElement : menuGroup.getElements()){
+            if(menuElement.isRendered()) return true;
+        }
+        return false;
     }
 
     public MenuModel getMenuModel() {
         return menuModel;
     }
 
-    /*public void redirectToSchedule(Integer roomId){
+    /**
+     * Used in setCommand for Schedule Menu Items
+     */
+    public void redirectToSchedule(Integer roomId){
         sessionParams.setScheduleRoom(roomId);
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect(schedulePageUrl);
@@ -244,6 +253,9 @@ public class MenuView implements Serializable {
         }
     }
 
+    /**
+     * Used in setCommand for Plan Menu Items
+     */
     public void redirectToPlan(Integer roomId){
         sessionParams.setPlanRoom(roomId);
         try {
@@ -251,5 +263,5 @@ public class MenuView implements Serializable {
         } catch (IOException e) {
             LOG.severe(e.getMessage());
         }
-    }*/
+    }
 }

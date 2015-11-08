@@ -5,14 +5,21 @@
  */
 package ua.kiev.doctorvera.facade;
 
+import org.primefaces.model.SortOrder;
 import ua.kiev.doctorvera.entities.Identified;
+import ua.kiev.doctorvera.entities.UserGroups;
+import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.resources.Config;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.util.List;
+import javax.persistence.Table;
+import javax.persistence.criteria.*;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -36,6 +43,11 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
     private Class<T> entityClass;
 
     /**
+     * This field identifies key of the map with table joins and column conditions inside filters map
+     */
+    private final String JOINS_AND_CONDITIONS = Config.getInstance().getProperty("JOINS_AND_CONDITIONS");
+
+    /**
      * Just setting actual Class of T.class to entityClass variable
      *
      * @param entityClass actual Class of T.class
@@ -44,7 +56,8 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
         this.entityClass = entityClass;
     }
 
-    protected AbstractFacade() {}
+    protected AbstractFacade() {
+    }
 
     /**
      * @return Entity manager
@@ -135,11 +148,10 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
      */
     public int count() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
         Root<T> root = cq.from(entityClass);
-        cq.select(root).where(cb.isFalse(root.<Boolean>get("deleted")));
-        List<T> resultList = getEntityManager().createQuery(cq).getResultList();
-        return resultList.size();
+        cq.select(cb.count(root)).where(cb.isFalse(root.<Boolean>get("deleted")));
+        return getEntityManager().createQuery(cq).getSingleResult().intValue();
     }
 
     /**
@@ -150,4 +162,84 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
     public void removeFromDB(T entity) {
         getEntityManager().remove(entity);
     }
+
+    /**
+     * Searches for all entities of the T type in the persistent storage and retrieves them with pagination
+     */
+    public List<T> findAll(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+
+        Root<T> root = cq.from(entityClass);
+        cq.distinct(true);
+
+        Predicate conditions = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+
+        //filter
+        for (Map.Entry<String, Object> filter : filters.entrySet()) {
+            if (!filter.getValue().equals("")) {
+                //try as string using like
+                Path pathFilter = root.get(filter.getKey());
+                if (pathFilter != null) {
+                    conditions = cb.and(conditions, createFilterCondition(cb, pathFilter, filter.getValue()));
+                }
+            }
+        }
+
+        cq.select(root).where(conditions);
+
+        if (sortOrder != null && sortField != null && sortOrder.equals(SortOrder.ASCENDING)) {
+            cq.orderBy(cb.asc(root.get(sortField)));
+        } else if (sortOrder != null && sortField != null && sortOrder.equals(SortOrder.DESCENDING)) {
+            cq.orderBy(cb.desc(root.get(sortField)));
+        }
+
+        List<T> resultList = getEntityManager().createQuery(cq).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+        return resultList;
+    }
+
+    public Integer count(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+
+        Root<T> root = cq.from(entityClass);
+        cq.distinct(true);
+
+        Predicate conditions = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+
+        //filter
+        for (Map.Entry<String, Object> filter : filters.entrySet()) {
+            if (!filter.getValue().equals("")) {
+                //try as string using like
+                Path pathFilter = root.get(filter.getKey());
+                if (pathFilter != null) {
+                    conditions = cb.and(conditions, createFilterCondition(cb, pathFilter, filter.getValue()));
+                }
+            }
+        }
+
+        cq.select(cb.count(root)).where(conditions);
+
+        if (sortOrder != null && sortField != null && sortOrder.equals(SortOrder.ASCENDING)) {
+            cq.orderBy(cb.asc(root.get(sortField)));
+        } else if (sortOrder != null && sortField != null && sortOrder.equals(SortOrder.DESCENDING)) {
+            cq.orderBy(cb.desc(root.get(sortField)));
+        }
+
+        return getEntityManager().createQuery(cq).getSingleResult().intValue();
+    }
+
+    private Predicate createFilterCondition(CriteriaBuilder cb, Path path, Object value){
+        if(Integer.class.equals(path.getJavaType())){
+            return cb.and(cb.equal(path, value));
+        }else if(String.class.equals(path.getJavaType())){
+            return cb.and(cb.like(path, "%" + value + "%"));
+        }else if(Date.class.equals(path.getJavaType())){
+            return cb.and(cb.equal(path, value));
+        }if(Collection.class.equals(path.getJavaType())){
+            return cb.and(cb.isMember(value, path));
+        }
+        return null;
+    }
+
 }

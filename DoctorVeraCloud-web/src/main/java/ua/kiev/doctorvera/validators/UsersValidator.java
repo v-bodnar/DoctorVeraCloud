@@ -52,27 +52,9 @@ public class UsersValidator implements Validator, ClientValidator,Serializable {
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String fieldName = (String) component.getAttributes().get("name");
         String message = "";
-        String locale = getLocale();
+        String phone = Utils.stripPhone((String) value);
 
         switch (fieldName) {
-            case "firstName":
-                if (locale.equals("Cyr"))
-                    message = ua.kiev.doctorvera.validators.Validator.checkNameCyr((String) value);
-                else
-                    message = ua.kiev.doctorvera.validators.Validator.checkNameLat((String) value);
-                break;
-            case "lastName":
-                if (locale.equals("Cyr"))
-                    message = ua.kiev.doctorvera.validators.Validator.checkNameCyr((String) value);
-                else
-                    message = ua.kiev.doctorvera.validators.Validator.checkNameLat((String) value);
-                break;
-            case "middleName":
-                if (locale.equals("Cyr"))
-                    message = ua.kiev.doctorvera.validators.Validator.checkNameCyr((String) value);
-                else
-                    message = ua.kiev.doctorvera.validators.Validator.checkNameLat((String) value);
-                break;
             case "username":
                 message = validator.checkUsername((String) value, (String) component.getAttributes().get("currentUserId"));
                 break;
@@ -80,29 +62,25 @@ public class UsersValidator implements Validator, ClientValidator,Serializable {
                 message = ua.kiev.doctorvera.validators.Validator.checkPassword((String) value);
                 break;
             case "phoneNumberHome":
-                message = ua.kiev.doctorvera.validators.Validator.checkPhoneOrNull(Utils.stripPhone((String) value));
+                if (phone != null && !phone.isEmpty() && !phone.equals("+38"))
+                    message = ua.kiev.doctorvera.validators.Validator.checkUkrainianPhone(phone);
+                break;
+            case "phoneNumberHomeInternational":
+                if (phone != null && !phone.isEmpty() && !phone.equals("+"))
+                    message = ua.kiev.doctorvera.validators.Validator.checkInternationalPhone(phone);
                 break;
             case "phoneNumberMobile":
-                message = ua.kiev.doctorvera.validators.Validator.checkPhone(Utils.stripPhone((String) value));
+                message = ua.kiev.doctorvera.validators.Validator.checkUkrainianPhone(Utils.stripPhone((String) value));
                 break;
-
+            case "phoneNumberMobileInternational":
+                message = ua.kiev.doctorvera.validators.Validator.checkInternationalPhone(Utils.stripPhone((String) value));
+                break;
         }
 
         if (message.equals("")) {
-            //String successMessage = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
-            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(successMessage));
-            //String successMessage = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
-            //String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
-            //FacesContext.getCurrentInstance().addMessage("firstName", new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
             return;
         } else
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, MESSAGE_TITLE, message));
 
     }
-
-    private String getLocale() {
-        //TODO
-        return "Cyr";
-    }
-
 }

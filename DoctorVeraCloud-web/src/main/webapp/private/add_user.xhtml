@@ -1,206 +1,277 @@
 <!--<ui:composition template="index.xhtml"-->
-	<!--xmlns="http://www.w3.org/1999/xhtml"-->
-	<!--xmlns:ui="http://java.sun.com/jsf/facelets"-->
-	<!--xmlns:h="http://java.sun.com/jsf/html"-->
-	<!--xmlns:f="http://java.sun.com/jsf/core"-->
-	<!--xmlns:p="http://primefaces.org/ui">-->
-	<!--<ui:define name="title">-->
-		<!--<h:outputText value="#{MESSAGE.ADD_USER_TITLE}" />-->
-	<!--</ui:define>-->
-	<!--<ui:define name="content">-->
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-			"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--xmlns="http://www.w3.org/1999/xhtml"-->
+<!--xmlns:ui="http://java.sun.com/jsf/facelets"-->
+<!--xmlns:h="http://java.sun.com/jsf/html"-->
+<!--xmlns:f="http://java.sun.com/jsf/core"-->
+<!--xmlns:p="http://primefaces.org/ui">-->
+<!--<ui:define name="title">-->
+<!--<h:outputText value="#{MESSAGE.ADD_USER_TITLE}" />-->
+<!--</ui:define>-->
+<!--<ui:define name="content">-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<h:outputStylesheet library="css" name="style.css"  />
-	<!--<ui:debug />-->
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<f:metadata><ui:insert name="metadata" /></f:metadata>
-	<title><h:outputText value = "#{MESSAGE.APPLICATION_TITLE}"/></title>
+    <h:outputStylesheet library="css" name="style.css"/>
+    <!--<ui:debug />-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <f:metadata><ui:insert name="metadata"/></f:metadata>
+    <title><h:outputText value="#{MESSAGE.APPLICATION_TITLE}"/></title>
 </h:head>
 
-<h:form id="registerForm"
-			onkeypress="if( event.keyCode == 13){event.preventDefault()}"
-			styleClass="registerForm">
-			<p:growl id="growl" showDetail="true" severity="info" />
-			<p:panel>
-				<h:panelGrid columns="3" cellpadding="5"
-					style="margin:auto;width:100%;">
-					<!-- First Name -->
-					<h:outputLabel for="firstName" value="#{MESSAGE.USERS_FIRST_NAME}" />
-					<p:inputText value="#{userRegisterView.user.firstName}"
-						id="firstName" name="firstName"
-						placeholder="#{MESSAGE.USERS_PLACEHOLDER_FIRST_NAME}"
-						validator="#{usersValidator.validate}" required="true"
-						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
-						<f:attribute name="name" value="firstName" />
-						<p:ajax event="blur" update="firstNameMessage growl"
-							process="firstName" />
-					</p:inputText>
-					<p:message for="firstName" id="firstNameMessage" />
+<h:form id="registerForm" onkeypress="if( event.keyCode == 13){event.preventDefault()}" styleClass="registerForm">
+    <p:growl id="growl" showDetail="true" severity="info"/>
+    <p:panel>
+        <h:panelGrid columns="3" cellpadding="5"
+                     style="margin:auto;width:100%;">
+            <!-- International -->
+            <h:outputLabel for="foreigner" value="#{MESSAGE.USERS_IS_FOREIGNER}"/>
+            <p:selectBooleanCheckbox value="#{userRegisterView.user.foreigner}" id="foreigner" name="foreigner">
+                <p:ajax update="phoneNumberHome phoneNumberHomeInternational phoneNumberMobile phoneNumberMobileInternational"
+                        oncomplete="toggle()"/>
+            </p:selectBooleanCheckbox>
+            <p:message for="foreigner"/>
+            <!-- First Name -->
+            <h:outputLabel for="firstName" value="#{MESSAGE.USERS_FIRST_NAME}"/>
+            <p:inputText value="#{userRegisterView.user.firstName}"
+                         id="firstName" name="firstName" required="true"
+                         placeholder="#{MESSAGE.USERS_PLACEHOLDER_FIRST_NAME}"
+                         requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                         validatorMessage="#{MESSAGE.VALIDATOR_LITERAL_ONLY}">
+                <f:attribute name="name" value="firstName"/>
+                <p:ajax event="blur" update="firstNameMessage growl" process="firstName"/>
+                <f:validateRegex pattern="^[A-Za-zА-Яа-яїёіъьЬЪЁЇІ]*$"/>
+            </p:inputText>
+            <p:message for="firstName" id="firstNameMessage"/>
 
-					<!-- Last Name -->
-					<h:outputLabel for="lastName" value="#{MESSAGE.USERS_LAST_NAME}" />
-					<p:inputText value="#{userRegisterView.user.lastName}"
-						id="lastName" name="lastName"
-						placeholder="#{MESSAGE.USERS_PLACEHOLDER_LAST_NAME}"
-						validator="#{usersValidator.validate}" required="true"
-						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
-						<f:attribute name="name" value="lastName" />
-						<p:ajax event="blur" update="lastNameMessage growl" />
-					</p:inputText>
-					<p:message for="lastName" id="lastNameMessage" />
+            <!-- Last Name -->
+            <h:outputLabel for="lastName" value="#{MESSAGE.USERS_LAST_NAME}"/>
+            <p:inputText value="#{userRegisterView.user.lastName}"
+                         id="lastName" name="lastName" required="true"
+                         placeholder="#{MESSAGE.USERS_PLACEHOLDER_LAST_NAME}"
+                         validatorMessage="#{MESSAGE.VALIDATOR_LITERAL_ONLY}"
+                         requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                <f:attribute name="name" value="lastName"/>
+                <p:ajax event="blur" update="lastNameMessage growl"/>
+                <f:validateRegex pattern="^[A-Za-zА-Яа-яїёіъьЬЪЁЇІ]*$"/>
+            </p:inputText>
+            <p:message for="lastName" id="lastNameMessage"/>
 
-					<!-- Middle Name -->
-					<h:outputLabel for="middleName"
-						value="#{MESSAGE.USERS_MIDDLE_NAME}" />
-					<p:inputText value="#{userRegisterView.user.middleName}"
-						id="middleName" name="middleName"
-						placeholder="#{MESSAGE.USERS_PLACEHOLDER_MIDDLE_NAME}"
-						validator="#{usersValidator.validate}">
-						<f:attribute name="name" value="middleName" />
-						<p:ajax event="blur" update="middleNameMessage growl" />
-					</p:inputText>
-					<p:message for="middleName" id="middleNameMessage" />
+            <!-- Middle Name -->
+            <h:outputLabel for="middleName"
+                           value="#{MESSAGE.USERS_MIDDLE_NAME}"/>
+            <p:inputText value="#{userRegisterView.user.middleName}"
+                         id="middleName" name="middleName"
+                         placeholder="#{MESSAGE.USERS_PLACEHOLDER_MIDDLE_NAME}"
+                         validatorMessage="#{MESSAGE.VALIDATOR_LITERAL_ONLY}">
+                <f:attribute name="name" value="middleName"/>
+                <p:ajax event="blur" update="middleNameMessage growl"/>
+                <f:validateRegex pattern="^[A-Za-zА-Яа-яїёіъьЬЪЁЇІ]*$"/>
+            </p:inputText>
+            <p:message for="middleName" id="middleNameMessage"/>
 
-					<!-- Birth Date -->
-					<h:outputLabel for="birthDate" value="#{MESSAGE.USERS_BIRTH_DATE}" />
-					<p:calendar value="#{userRegisterView.user.birthDate}"
-						id="birthDate" name="birthDate" pattern="dd-MM-yyyy"
-						required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
-						<p:ajax event="change" update="birthDateMessage growl" />
-					</p:calendar>
-					<p:message for="birthDate" id="birthDateMessage" />
+            <!-- Birth Date -->
+            <h:outputLabel for="birthDate" value="#{MESSAGE.USERS_BIRTH_DATE}"/>
+            <p:calendar value="#{userRegisterView.user.birthDate}"
+                        id="birthDate" name="birthDate" pattern="dd-MM-yyyy"
+                        required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                <p:ajax event="change" update="birthDateMessage growl"/>
+            </p:calendar>
+            <p:message for="birthDate" id="birthDateMessage"/>
 
-					<!-- Username -->
-					<h:outputLabel for="username" value="#{MESSAGE.USERS_LOGIN}" />
-					<p:inputText value="#{userRegisterView.user.username}"
-						id="username" name="username"
-						placeholder="#{MESSAGE.USERS_PLACEHOLDER_LOGIN}"
-						validator="#{usersValidator.validate}" required="true"
-						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
-						<f:attribute name="name" value="username" />
-						<f:attribute name="currentUserId" value="userRegisterView.id" />
-						<p:ajax event="blur" update="usernameMessage growl" />
-					</p:inputText>
-					<p:message for="username" id="usernameMessage" />
+            <!-- Username -->
+            <h:outputLabel for="username" value="#{MESSAGE.USERS_LOGIN}"/>
+            <p:inputText value="#{userRegisterView.user.username}"
+                         id="username" name="username"
+                         placeholder="#{MESSAGE.USERS_PLACEHOLDER_LOGIN}"
+                         validator="#{usersValidator.validate}" required="true"
+                         requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                <f:attribute name="name" value="username"/>
+                <f:attribute name="currentUserId" value="userRegisterView.id"/>
+                <p:ajax event="blur" update="usernameMessage growl"/>
+            </p:inputText>
+            <p:message for="username" id="usernameMessage"/>
 
-					<!-- Password -->
-					<h:outputLabel for="password" value="#{MESSAGE.USERS_PASSWORD}" />
-					<p:password value="#{userRegisterView.user.password}" id="password"
-						name="password" feedback="true"
-						promptLabel="#{MESSAGE.PROFILE_PASSWORD_PROMT}"
-						weakLabel="#{MESSAGE.PROFILE_PASSWORD_WEAK}"
-						goodLabel="#{MESSAGE.PROFILE_PASSWORD_GOOD}"
-						strongLabel="#{MESSAGE.PROFILE_PASSWORD_STRONG}" required="true"
-						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
-						validator="#{usersValidator.validate}">
-						<p:ajax event="blur" update="passwordMessage growl" />
-						<f:attribute name="name" value="password" />
-					</p:password>
-					<p:message for="password" id="passwordMessage" />
+            <!-- Password -->
+            <h:outputLabel for="password" value="#{MESSAGE.USERS_PASSWORD}"/>
+            <p:password value="#{userRegisterView.user.password}" id="password"
+                        name="password" feedback="true"
+                        promptLabel="#{MESSAGE.PROFILE_PASSWORD_PROMT}"
+                        weakLabel="#{MESSAGE.PROFILE_PASSWORD_WEAK}"
+                        goodLabel="#{MESSAGE.PROFILE_PASSWORD_GOOD}"
+                        strongLabel="#{MESSAGE.PROFILE_PASSWORD_STRONG}" required="true"
+                        requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                        validator="#{usersValidator.validate}">
+                <p:ajax event="blur" process="@form" update="passwordMessage growl"/>
+                <f:attribute name="name" value="password"/>
+            </p:password>
+            <p:message for="password" id="passwordMessage"/>
 
-					<!-- Phone Number Home -->
-					<h:outputLabel for="phoneNumberHome"
-						value="#{MESSAGE.USERS_PHONE_NUMBER_HOME}" />
-					<p:inputMask value="#{userRegisterView.user.phoneNumberHome}"
-						id="phoneNumberHome" name="phoneNumberHome" mask="(999)999-99-99"
-						validator="#{usersValidator.validate}">
-						<f:attribute name="name" value="phoneNumberHome" />
-						<p:ajax event="blur" update="phoneNumberHomeMessage growl" />
-					</p:inputMask>
-					<p:message for="phoneNumberHome" id="phoneNumberHomeMessage" />
+            <!-- Phone Number Home -->
+            <h:outputLabel for="phoneNumberHome" id="phoneNumberHomeLabel"
+                           value="#{MESSAGE.USERS_PHONE_NUMBER_HOME}" disabled="#{userRegisterView.user.foreigner}"/>
+            <p:inputMask value="#{userRegisterView.user.phoneNumberHome}"
+                         id="phoneNumberHome" name="phoneNumberHome" mask="+38(999)999-99-99"
+                         validator="#{usersValidator.validate}" disabled="#{userRegisterView.user.foreigner}">
+                <f:attribute name="name" value="phoneNumberHome"/>
+                <p:ajax event="blur" update="phoneNumberHomeMessage growl"/>
+            </p:inputMask>
+            <p:message for="phoneNumberHome" id="phoneNumberHomeMessage" disabled="#{userRegisterView.user.foreigner}"/>
 
-					<!-- Phone Number Mobile -->
-					<h:outputLabel for="phoneNumberMobile"
-						value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}" />
-					<p:inputMask value="#{userRegisterView.user.phoneNumberMobile}"
-						id="phoneNumberMobile" name="phoneNumberMobile"
-						mask="(999)999-99-99" required="true"
-						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
-						validator="#{usersValidator.validate}">
-						<f:attribute name="name" value="phoneNumberMobile" />
-						<p:ajax event="blur" update="phoneNumberMobileMessage growl" />
-					</p:inputMask>
-					<p:message for="phoneNumberMobile" id="phoneNumberMobileMessage" />
+            <h:outputLabel for="phoneNumberHomeInternational" id="phoneNumberHomeInternationalLabel"
+                           value="#{MESSAGE.USERS_PHONE_NUMBER_HOME}" disabled="#{!userRegisterView.user.foreigner}"/>
+            <p:inputMask value="#{userRegisterView.user.phoneNumberHome}"
+                         id="phoneNumberHomeInternational" name="phoneNumberHomeInternational" mask="9?999999999999"
+                         validator="#{usersValidator.validate}" disabled="#{!userRegisterView.user.foreigner}">
+                <f:attribute name="name" value="phoneNumberHomeInternational"/>
+                <p:ajax event="blur" update="phoneNumberHomeInternationalMessage growl" process="phoneNumberHomeInternational"/>
+            </p:inputMask>
+            <p:message for="phoneNumberHomeInternational" id="phoneNumberHomeInternationalMessage"
+                       disabled="#{!userRegisterView.user.foreigner}"/>
 
-					<!-- Address Country -->
-					<h:outputLabel for="country" value="#{MESSAGE.ADDRESS_COUNTRY}" />
-					<p:autoComplete value="#{userRegisterView.address.country}"
-						id="country" name="country"
-						placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_COUNTRY}"
-						completeMethod="#{addressView.getCountries}"
-						validator="#{addressValidator.validate}">
-						<p:ajax event="change" update="countryMessage growl" />
-						<f:attribute name="blur" value="country" />
-					</p:autoComplete>
-					<p:message for="country" id="countryMessage" />
+            <!-- Phone Number Mobile -->
+            <h:outputLabel for="phoneNumberMobile" id="phoneNumberMobileLabel"
+                           value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}" disabled="#{userRegisterView.user.foreigner}"/>
+            <p:inputMask value="#{userRegisterView.user.phoneNumberMobile}"
+                         id="phoneNumberMobile" name="phoneNumberMobile" mask="+38(999)999-99-99" required="true"
+                         requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                         validator="#{usersValidator.validate}"
+                         disabled="#{userRegisterView.user.foreigner}">
+                <f:attribute name="name" value="phoneNumberMobile"/>
+                <p:ajax event="blur" update="phoneNumberMobileMessage growl"/>
+            </p:inputMask>
+            <p:message for="phoneNumberMobile" id="phoneNumberMobileMessage"
+                       disabled="#{userRegisterView.user.foreigner}"/>
+
+            <h:outputLabel for="phoneNumberMobileInternational" id="phoneNumberMobileInternationalLabel"
+                           value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}" disabled="#{!userRegisterView.user.foreigner}"/>
+            <p:inputMask value="#{userRegisterView.user.phoneNumberMobile}"
+                         id="phoneNumberMobileInternational" name="phoneNumberMobileInternational"
+                         mask="9?999999999999" required="true"
+                         requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                         validator="#{usersValidator.validate}"
+                         disabled="#{!userRegisterView.user.foreigner}">
+                <f:attribute name="name" value="phoneNumberMobileInternational"/>
+                <p:ajax event="blur" update="phoneNumberMobileInternationalMessage growl"/>
+            </p:inputMask>
+            <p:message for="phoneNumberMobileInternational" id="phoneNumberMobileInternationalMessage"
+                       disabled="#{!userRegisterView.user.foreigner}"/>
+
+            <!-- Address Country -->
+            <h:outputLabel for="country" value="#{MESSAGE.ADDRESS_COUNTRY}"/>
+            <p:autoComplete value="#{userRegisterView.address.country}"
+                            id="country" name="country"
+                            placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_COUNTRY}"
+                            completeMethod="#{addressView.getCountries}"
+                            validator="#{addressValidator.validate}">
+                <p:ajax event="change" update="countryMessage growl"/>
+                <f:attribute name="blur" value="country"/>
+            </p:autoComplete>
+            <p:message for="country" id="countryMessage"/>
 
 
-					<!-- Address Region -->
-					<h:outputLabel for="region" value="#{MESSAGE.ADDRESS_REGION}" />
-					<p:autoComplete value="#{userRegisterView.address.region}"
-						id="region" name="region"
-						placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_REGION}"
-						completeMethod="#{addressView.getRegions}"
-						validator="#{addressValidator.validate}">
-						<f:attribute name="name" value="region" />
-						<p:ajax event="blur" update="regionMessage growl" />
-					</p:autoComplete>
-					<p:message for="region" id="regionMessage" />
+            <!-- Address Region -->
+            <h:outputLabel for="region" value="#{MESSAGE.ADDRESS_REGION}"/>
+            <p:autoComplete value="#{userRegisterView.address.region}"
+                            id="region" name="region"
+                            placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_REGION}"
+                            completeMethod="#{addressView.getRegions}"
+                            validator="#{addressValidator.validate}">
+                <f:attribute name="name" value="region"/>
+                <p:ajax event="blur" update="regionMessage growl"/>
+            </p:autoComplete>
+            <p:message for="region" id="regionMessage"/>
 
-					<!-- Address City -->
-					<h:outputLabel for="city" value="#{MESSAGE.ADDRESS_CITY}" />
-					<p:autoComplete value="#{userRegisterView.address.city}" id="city"
-						name="city" placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_CITY}"
-						completeMethod="#{addressView.getCities}"
-						validator="#{addressValidator.validate}">
-						<f:attribute name="name" value="city" />
-						<p:ajax event="blur" update="cityMessage growl" />
-					</p:autoComplete>
-					<p:message for="city" id="cityMessage" />
+            <!-- Address City -->
+            <h:outputLabel for="city" value="#{MESSAGE.ADDRESS_CITY}"/>
+            <p:autoComplete value="#{userRegisterView.address.city}" id="city"
+                            name="city" placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_CITY}"
+                            completeMethod="#{addressView.getCities}"
+                            validator="#{addressValidator.validate}">
+                <f:attribute name="name" value="city"/>
+                <p:ajax event="blur" update="cityMessage growl"/>
+            </p:autoComplete>
+            <p:message for="city" id="cityMessage"/>
 
 
-					<!-- Address Address(Street #) -->
-					<h:outputLabel for="address" value="#{MESSAGE.ADDRESS_ADDRESS}" />
-					<p:autoComplete value="#{userRegisterView.address.address}"
-						id="address" name="address"
-						completeMethod="#{addressView.getAddresses}"
-						placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_ADDRESS}">
-						<p:ajax event="blur" update="addressMessage growl" />
-					</p:autoComplete>
-					<p:message for="address" id="addressMessage" />
+            <!-- Address Address(Street #) -->
+            <h:outputLabel for="address" value="#{MESSAGE.ADDRESS_ADDRESS}"/>
+            <p:autoComplete value="#{userRegisterView.address.address}"
+                            id="address" name="address"
+                            completeMethod="#{addressView.getAddresses}"
+                            placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_ADDRESS}">
+                <p:ajax event="blur" update="addressMessage growl"/>
+            </p:autoComplete>
+            <p:message for="address" id="addressMessage"/>
 
-					<!-- Post Index -->
-					<h:outputLabel for="postIndex" value="#{MESSAGE.ADDRESS_INDEX}" />
-					<p:inputMask value="#{userRegisterView.address.postIndex}"
-						id="postIndex" name="postIndex" mask="99999"
-						validator="#{addressValidator.validate}">
-						<f:attribute name="name" value="postIndex" />
-						<p:ajax event="change" update="postIndexMessage growl" />
-					</p:inputMask>
-					<p:message for="postIndex" id="postIndexMessage" />
+            <!-- Post Index -->
+            <h:outputLabel for="postIndex" value="#{MESSAGE.ADDRESS_INDEX}"/>
+            <p:inputMask value="#{userRegisterView.address.postIndex}"
+                         id="postIndex" name="postIndex" mask="99999"
+                         validator="#{addressValidator.validate}">
+                <f:attribute name="name" value="postIndex"/>
+                <p:ajax event="change" update="postIndexMessage growl"/>
+            </p:inputMask>
+            <p:message for="postIndex" id="postIndexMessage"/>
 
-					<!-- Color -->
-					<h:outputLabel for="color" value="#{MESSAGE.USERS_COLOR}" />
-					<p:colorPicker value="#{userRegisterView.user.color}" id="color"
-						name="color">
-						<!-- p:ajax event="change" update="color growl" /-->
-					</p:colorPicker>
-					<p:message for="color" />
+            <!-- Color -->
+            <h:outputLabel for="color" value="#{MESSAGE.USERS_COLOR}"/>
+            <p:colorPicker value="#{userRegisterView.user.color}" id="color"
+                           name="color">
+                <!-- p:ajax event="change" update="color growl" /-->
+            </p:colorPicker>
+            <p:message for="color"/>
 
-					<p:commandButton update="@all" value="#{MESSAGE.ADD_USER_BUTTON_ADD}"
-						actionListener="#{userRegisterView.register}" icon="ui-icon-check"
-						style="margin:auto" ajax="true" />
-				</h:panelGrid>
-			</p:panel>
-		</h:form>
+            <p:commandButton value="#{MESSAGE.ADD_USER_BUTTON_ADD}"
+                             actionListener="#{userRegisterView.register}" icon="ui-icon-check"
+                             style="margin:auto" ajax="true" process="@form"/>
+
+        </h:panelGrid>
+    </p:panel>
+
+    <script type="text/javascript">
+        window.onload = toggle;
+        function toggle() {
+            if (!$("[id='registerForm:phoneNumberHomeInternational']").is(":disabled")) {
+                $("[id='registerForm:phoneNumberHomeInternational']").show();
+                $("[id='registerForm:phoneNumberHomeInternationalLabel']").show();
+                $("[id='registerForm:phoneNumberHomeInternationalMessage']").show();
+                $("[id='registerForm:phoneNumberHome']").hide();
+                $("[id='registerForm:phoneNumberHomeLabel']").hide();
+                $("[id='registerForm:phoneNumberHomeMessage']").hide();
+
+                $("[id='registerForm:phoneNumberMobileInternational']").show();
+                $("[id='registerForm:phoneNumberMobileInternationalLabel']").show();
+                $("[id='registerForm:phoneNumberMobileInternationalMessage']").show();
+                $("[id='registerForm:phoneNumberMobile']").hide();
+                $("[id='registerForm:phoneNumberMobileLabel']").hide();
+                $("[id='registerForm:phoneNumberMobileMessage']").hide();
+            } else {
+                $("[id='registerForm:phoneNumberHomeInternational']").hide();
+                $("[id='registerForm:phoneNumberHomeInternationalLabel']").hide();
+                $("[id='registerForm:phoneNumberHomeInternationalMessage']").hide();
+                $("[id='registerForm:phoneNumberHome']").show();
+                $("[id='registerForm:phoneNumberHomeLabel']").show();
+                $("[id='registerForm:phoneNumberHomeMessage']").show();
+
+                $("[id='registerForm:phoneNumberMobileInternational']").hide();
+                $("[id='registerForm:phoneNumberMobileInternationalLabel']").hide();
+                $("[id='registerForm:phoneNumberMobileInternationalMessage']").hide();
+                $("[id='registerForm:phoneNumberMobile']").show();
+                $("[id='registerForm:phoneNumberMobileLabel']").show();
+                $("[id='registerForm:phoneNumberMobileMessage']").show();
+            }
+        }
+    </script>
+</h:form>
+
 </html>
 
-		<!--</ui:define>-->
-<!--</ui:composition>-->
+
+        <!--</ui:define>-->
+        <!--</ui:composition>-->

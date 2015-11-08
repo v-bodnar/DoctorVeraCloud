@@ -17,7 +17,9 @@ import javax.servlet.ServletContext;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.*;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -49,9 +51,12 @@ public class Users implements Serializable,Identified<Integer> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "UserId")
     private Integer userId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "Foreigner")
+    private Boolean foreigner;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -112,6 +117,13 @@ public class Users implements Serializable,Identified<Integer> {
     //@JoinColumn(name = "Address", referencedColumnName = "AddressId")
     @Column(name = "Address")
     private Integer addressId;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(
+        name="UsersHasUserGroups",
+        joinColumns={@JoinColumn(name="User", referencedColumnName="UserId")},
+        inverseJoinColumns={@JoinColumn(name="UserGroup", referencedColumnName="UserGroupId")})
+    private Collection<UserGroups> userGroups;
     /*
     @OneToMany(mappedBy = "recipient")
     private Collection<Payments> paymentsCollection1;
@@ -320,16 +332,29 @@ public class Users implements Serializable,Identified<Integer> {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
-/*
-    @XmlTransient
-    public Collection<Payments> getPaymentsCollection1() {
-        return paymentsCollection1;
+
+    public Boolean getForeigner() {
+        return foreigner;
     }
 
-    public void setPaymentsCollection1(Collection<Payments> paymentsCollection1) {
-        this.paymentsCollection1 = paymentsCollection1;
+    public void setForeigner(Boolean isForeigner) {
+        this.foreigner = isForeigner;
     }
-*/
+
+    public Boolean IsForeigner() {
+        return foreigner;
+    }
+
+    /*
+        @XmlTransient
+        public Collection<Payments> getPaymentsCollection1() {
+            return paymentsCollection1;
+        }
+
+        public void setPaymentsCollection1(Collection<Payments> paymentsCollection1) {
+            this.paymentsCollection1 = paymentsCollection1;
+        }
+    */
     public Integer getAddressId() {
         return addressId;
     }
@@ -461,6 +486,7 @@ public class Users implements Serializable,Identified<Integer> {
 		result = prime * result
 				+ ((dateCreated == null) ? 0 : dateCreated.hashCode());
 		result = prime * result + (deleted ? 1231 : 1237);
+        result = prime * result + (foreigner ? 1231 : 1237);
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result
@@ -512,6 +538,8 @@ public class Users implements Serializable,Identified<Integer> {
 			return false;
 		if (deleted != other.deleted)
 			return false;
+        if (foreigner != other.foreigner)
+            return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
@@ -587,5 +615,14 @@ public class Users implements Serializable,Identified<Integer> {
     @Override
     public void setId(Integer id) {
         setUserId(id);
-    }   
+    }
+
+    @XmlTransient
+    public Collection<UserGroups> getUserGroups() {
+        return userGroups;
+    }
+
+    public void setUserGroups(Collection<UserGroups> userGroups) {
+        this.userGroups = userGroups;
+    }
 }

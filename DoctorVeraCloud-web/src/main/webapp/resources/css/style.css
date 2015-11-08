@@ -97,7 +97,9 @@ font-size: 100% !important;
 .usersTable .calendarFilter input{
 	width:50%;
 }
-
+.usersTable{
+	height: 95%;
+}
 .typePicker .ui-picklist-list{
 	width:220px !important;
 }
@@ -153,5 +155,20 @@ font-size: 100% !important;
 .fc-schedule{
 	left:0% !important;
 }
+.ui-menu{
+	width: 15em !important;
+}
 
-
+#addPolicyToTypeForm\:addPolicyToTypePickList,
+#addPolicyToTypeForm\:addPolicyToTypePickList .ui-picklist-list
+{
+	width: 305px !important;
+	height: 300px !important;
+}
+#addPolicyToTypeForm\:addPolicyToTypePickList .ui-picklist-filter{
+	width: 93% !important;
+}
+#mainPageForm\:dashboard,
+#mainPageForm\:dashboard .ui-dashboard-column{
+	width: 100%;
+}

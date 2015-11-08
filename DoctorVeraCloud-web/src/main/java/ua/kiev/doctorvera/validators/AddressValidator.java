@@ -46,7 +46,7 @@ public class AddressValidator implements Validator, ClientValidator, Serializabl
 				message = ua.kiev.doctorvera.validators.Validator.checkLiteralOrNull((String)value);
 				break;
 			case "postIndex":
-				message = ua.kiev.doctorvera.validators.Validator.checkNumericOrNull((String)value);
+				message = ua.kiev.doctorvera.validators.Validator.checkNumericOrNull(("" + value).replaceAll("\\D*", ""));
 				break;
 	
 		}

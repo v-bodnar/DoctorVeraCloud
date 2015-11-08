@@ -23,7 +23,7 @@
 							auto="true" 
 							label="#{MESSAGE.PROFILE_UPLOAD_AVATAR_BUTTON}" 
 							onstart="#{uploadImageView.setUserId(userProfileView.user.id)}" 
-							oncomplete="PF('crop').jq.click();"/>
+							oncomplete="PF('crop').jq.click();" rendered="#{userProfileView.checkPermission('PROFILE_EDIT_AVATAR')}"/>
 	
 						<p:commandButton widgetVar="crop" value="crop"
 							icon="ui-icon-extlink"
@@ -40,8 +40,10 @@
 				<!-- First Name -->
 					<p:row>
 						<p:column styleClass="firstColumn"><h:outputLabel for="firstName" value="#{MESSAGE.USERS_FIRST_NAME}" /></p:column>
-						<p:column styleClass="secondColumn"><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_FIRST_NAME}">
+						<p:column styleClass="secondColumn">
+							<span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block" />
+						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_FIRST_NAME}"
+								   disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_FIRST_NAME')}">
 							<p:inputText value="#{userProfileView.user.firstName}" id="firstName" name="firstName"  validator="#{usersValidator.validate}">
 								<f:attribute name="name" value="firstName" />
 							</p:inputText>
@@ -53,7 +55,8 @@
 					<p:row>
 						<p:column><h:outputLabel for="lastName" value="#{MESSAGE.USERS_LAST_NAME}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace  editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_LAST_NAME}">
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_LAST_NAME}"
+									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_LAST_NAME')}">
 							<p:inputText value="#{userProfileView.user.lastName}" id="lastName" name = "lastName" validator="#{usersValidator.validate}">
 								<f:attribute name="name" value="lastName"/>
 							</p:inputText>
@@ -65,7 +68,8 @@
 					<p:row>
 						<p:column><h:outputLabel for="middleName" value="#{MESSAGE.USERS_MIDDLE_NAME}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_MIDDLE_NAME}">
+						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_MIDDLE_NAME}"
+								   disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_MIDDLE_NAME')}">
 							<p:inputText value="#{userProfileView.user.middleName}" id="middleName" name = "middleName" validator="#{usersValidator.validate}">
 								<f:attribute name="name" value="middleName" />
 							</p:inputText>
@@ -77,7 +81,8 @@
 					<p:row>
 						<p:column><h:outputLabel for="birthDate" value="#{MESSAGE.USERS_BIRTH_DATE}"/></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_BIRTH_DATE}">
+						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_BIRTH_DATE}"
+								   disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_BIRTH_DATE')}">
 							<f:facet name="output">
 				                <h:outputText for="birthDate" value="#{userProfileView.user.birthDate}">
 				                	<f:convertDateTime type="date" pattern="dd-MM-yyyy"/></h:outputText>
@@ -91,7 +96,8 @@
 					<p:row>
 						<p:column><h:outputLabel for="username" value="#{MESSAGE.USERS_LOGIN}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_LOGIN}">
+						<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_LOGIN}"
+								   disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_LOGIN')}">
 							<p:inputText value="#{userProfileView.user.username}" id="username" name="username" validator="#{usersValidator.validate}">
 								<f:attribute name="name" value="username" />
 								<f:attribute name="currentUserId" value="userProfileView.id" />
@@ -103,7 +109,8 @@
 				<!-- Password -->
 					<p:row>
 						<p:column><h:outputLabel for="password" value="#{MESSAGE.USERS_PASSWORD}" /></p:column>
-						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/><p:inplace  editor="true">
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+							<p:inplace  editor="true" disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_PASSWORD')}">
 							<f:facet name="output">
 				                ******
 				            </f:facet>
@@ -118,9 +125,13 @@
 					<p:row>
 						<p:column><h:outputLabel for="phoneNumberHome" value="#{MESSAGE.USERS_PHONE_NUMBER_HOME}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace  editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_PHONE_NUMBER_HOME}">
-							<p:inputMask value="#{userProfileView.user.phoneNumberHome}" id="phoneNumberHome" name="phoneNumberHome" mask="(999)999-99-99" validator="#{usersValidator.validate}">
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_PHONE_NUMBER_HOME}"
+									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_PHONE_NUMBER')}">
+							<p:inputMask value="#{userProfileView.user.phoneNumberHome}" id="phoneNumberHome" name="phoneNumberHome" mask="(999)999-99-99" validator="#{usersValidator.validate}" rendered="#{!userProfileView.user.foreigner}">
 								<f:attribute name="name" value="phoneNumberHome" />
+							</p:inputMask>
+							<p:inputMask value="#{userProfileView.user.phoneNumberHome}" id="phoneNumberHomeInternational" name="phoneNumberHomeInternational" mask="9?999999999999" validator="#{usersValidator.validate}" rendered="#{userProfileView.user.foreigner}">
+								<f:attribute name="name" value="phoneNumberHomeInternational" />
 							</p:inputMask>
 							<p:ajax event="save" update="phoneNumberHomeMessage growl" listener="#{userProfileView.save}" />
 						</p:inplace></p:column>
@@ -130,9 +141,13 @@
 					<p:row>
 						<p:column><h:outputLabel for="phoneNumberMobile" value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace  editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_PHONE_NUMBER_MOBILE}">
-							<p:inputMask value="#{userProfileView.user.phoneNumberMobile}" id="phoneNumberMobile" name="phoneNumberMobile" mask="(999)999-99-99" validator="#{usersValidator.validate}">
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_PHONE_NUMBER_MOBILE}"
+									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_PHONE_NUMBER')}">
+							<p:inputMask value="#{userProfileView.user.phoneNumberMobile}" id="phoneNumberMobile" name="phoneNumberMobile" mask="(999)999-99-99" validator="#{usersValidator.validate}" rendered="#{!userProfileView.user.foreigner}">
 								<f:attribute name="name" value="phoneNumberMobile" />
+							</p:inputMask>
+							<p:inputMask value="#{userProfileView.user.phoneNumberMobile}" id="phoneNumberMobileInternational" name="phoneNumberMobileInternational" mask="9?999999999999" validator="#{usersValidator.validate}" rendered="#{userProfileView.user.foreigner}">
+								<f:attribute name="name" value="phoneNumberMobileInternational" />
 							</p:inputMask>
 							<p:ajax event="save" update="phoneNumberMobileMessage growl" listener="#{userProfileView.save}"/>
 						</p:inplace></p:column>
@@ -142,7 +157,8 @@
 					<p:row>
 						<p:column><h:outputLabel for="country" value="#{MESSAGE.ADDRESS_COUNTRY}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_COUNTRY}">
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_COUNTRY}"
+									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_COLOR')}">
 							<p:autoComplete value="#{userProfileView.address.country}" completeMethod="#{addressView.getCountries}" id="country" name="country" validator="#{addressValidator.validate}">
 								<f:attribute name="name" value="country" />
 							</p:autoComplete>
@@ -154,7 +170,8 @@
 					<p:row>
 						<p:column><h:outputLabel for="region" value="#{MESSAGE.ADDRESS_REGION}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_REGION}">
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_REGION}"
+									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_ADDRESS')}">
 							<p:autoComplete value="#{userProfileView.address.region}" completeMethod="#{addressView.getRegions}" id="region" name="region" validator="#{addressValidator.validate}">
 								<f:attribute name="name" value="region" />
 							</p:autoComplete>
@@ -166,7 +183,8 @@
 					<p:row>
 						<p:column><h:outputLabel for="city" value="#{MESSAGE.ADDRESS_CITY}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_CITY}">
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_CITY}"
+									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_ADDRESS')}">
 							<p:autoComplete value="#{userProfileView.address.city}" completeMethod="#{addressView.getCities}" id="city" name="city" validator="#{addressValidator.validate}">
 								<f:attribute name="name" value="city" />
 							</p:autoComplete>
@@ -178,7 +196,8 @@
 					<p:row>
 						<p:column><h:outputLabel for="address" value="#{MESSAGE.ADDRESS_ADDRESS}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_ADDRESS}">
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_ADDRESS}"
+									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_ADDRESS')}">
 							<p:autoComplete value="#{userProfileView.address.address}" completeMethod="#{addressView.getAddresses}" 
 							id="address" name="address"/>
 						<p:ajax event="save" update="addressMessage growl"/>
@@ -189,7 +208,8 @@
 					<p:row>
 						<p:column><h:outputLabel for="postIndex" value="#{MESSAGE.ADDRESS_INDEX}" /></p:column>
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
-						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_INDEX}">
+						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_INDEX}"
+									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_ADDRESS')}">
 							<p:inputMask value="#{userProfileView.address.postIndex}"
 							id="postIndex" name="postIndex" 
 							mask="99999" validator="#{addressValidator.validate}">
@@ -202,7 +222,9 @@
 				<!-- Color -->
 					<p:row>
 						<p:column><h:outputLabel for="color" value="#{MESSAGE.USERS_COLOR}" /></p:column>
-						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/><p:inplace id="color" editor="true">
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+							<p:inplace id="color" editor="true"
+							disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_COLOR')}">
 							<f:facet name="output">
 				                <h:outputText value="#{MESSAGE.USERS_COLOR}" />
 				            </f:facet>

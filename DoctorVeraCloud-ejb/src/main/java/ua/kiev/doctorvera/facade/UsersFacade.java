@@ -5,6 +5,7 @@
  */
 package ua.kiev.doctorvera.facade;
 
+import org.primefaces.model.SortOrder;
 import ua.kiev.doctorvera.entities.*;
 import ua.kiev.doctorvera.facadeLocal.*;
 
@@ -407,4 +408,51 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     public boolean isPatient(Users user){
         return userGroupsFacade.findByUser(user).contains(userGroupsFacade.find(PATIENT_GROUP_ID));
     }
+
+    /**
+     * Checks if parsed user is in parsed group
+     * @returns true - if reference table contains parsed user and group, false otherwise
+     * @param user - User that has to be checked
+     * @param group - User Group that has to be checked
+     */
+    @Override
+    public boolean isInGroup(Users user, UserGroups group){
+        Collection<UsersHasUserGroups> list = usersHasUserTypesFacade.findUsersByGroupAndUser(group, user);
+        return !list.isEmpty();
+    }
+//
+//    @Override
+//    public List<Users> findAll(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+//        List<Users> result = new ArrayList();
+//        final String joinGroupKey = "userGroupsFacade.findByUser(user)";
+//        //TODO create one query with join for this
+//        if (filters.containsKey(joinGroupKey)){
+//            UserGroups group = userGroupsFacade.find(Integer.parseInt((String)filters.get(joinGroupKey)));
+//            filters.remove(joinGroupKey);
+//            for (Users user : super.findAll(firstResult, maxResults, sortField, sortOrder, filters)){
+//                if(isInGroup(user, group))
+//                    result.add(user);
+//            }
+//        }else{
+//            result = super.findAll(firstResult, maxResults, sortField, sortOrder, filters);
+//        }
+//        return result;
+//    }
+
+//    public Integer countFiltered(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+//        List<Users> result = new ArrayList();
+//        final String joinGroupKey = "userGroupsFacade.findByUser(user)";
+//        //TODO create one query with join for this
+//        if (filters.containsKey(joinGroupKey)){
+//            UserGroups group = userGroupsFacade.find(Integer.parseInt((String)filters.get(joinGroupKey)));
+//            filters.remove(joinGroupKey);
+//            for (Users user : super.findAll(firstResult, maxResults, sortField, sortOrder, filters)){
+//                if(isInGroup(user, group))
+//                    result.add(user);
+//            }
+//        }else{
+//            result = super.findAll(firstResult, maxResults, sortField, sortOrder, filters);
+//        }
+//        return result;
+//    }
 }

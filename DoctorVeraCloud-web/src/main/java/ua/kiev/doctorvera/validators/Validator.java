@@ -69,9 +69,9 @@ public class Validator implements Serializable {
 	public static String checkNameCyr(String name) {
 		String note = "";
 		if (isNull(name))
-			note += startLine + Message.getInstance().getString("VALIDATOR_REQUIRED") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_REQUIRED") + endLine;
 		else if (!isCyrillic(name))
-			note += startLine + Message.getInstance().getString("VALIDATOR_CYRILLIC_ONLY") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_CYRILLIC_ONLY") + endLine;
 		
 		return note;
 	}
@@ -79,9 +79,9 @@ public class Validator implements Serializable {
 	public static String checkNameLat(String name) {
 		String note = "";
 		if (isNull(name))
-			note += startLine + Message.getInstance().getString("VALIDATOR_REQUIRED") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_REQUIRED") + endLine;
 		else if (!isCyrillic(name))
-			note += startLine + Message.getInstance().getString("VALIDATOR_CYRILLIC_ONLY") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_CYRILLIC_ONLY") + endLine;
 		
 		return note;
 	}
@@ -91,14 +91,14 @@ public class Validator implements Serializable {
 		Users user = usersFacade.findByUsername(login);
 
 		if (isNull(login))
-			note += startLine + Message.getInstance().getString("VALIDATOR_REQUIRED") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_REQUIRED") + endLine;
 		else{
 			if (user != null && !(user.getId().toString()).equals(incomingUserId))
-				note += startLine + Message.getInstance().getString("VALIDATOR_LOGIN_IN_USE") + endLine;
+				note += startLine + Message.getMessage("VALIDATOR_LOGIN_IN_USE") + endLine;
 			if (containsCyrillic(login))
-				note += startLine + Message.getInstance().getString("VALIDATOR_NOT_CYRILLIC") + endLine;
+				note += startLine + Message.getMessage("VALIDATOR_NOT_CYRILLIC") + endLine;
 			if (containsPunct(login))
-				note += startLine + Message.getInstance().getString("VALIDATOR_NOT_PUNCT") + endLine;
+				note += startLine + Message.getMessage("VALIDATOR_NOT_PUNCT") + endLine;
 		}
 		return note;
 	}
@@ -106,16 +106,16 @@ public class Validator implements Serializable {
 	public static String checkPassword(String password) {
 		String note = "";
 		if (isNull(password))
-			note += startLine + Message.getInstance().getString("VALIDATOR_REQUIRED") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_REQUIRED") + endLine;
 		else{
 			if (password.length() < 6)
-				note += startLine + Message.getInstance().getString("VALIDATOR_PASSWORD_LESS_SIX") + endLine;
+				note += startLine + Message.getMessage("VALIDATOR_PASSWORD_LESS_SIX") + endLine;
 			if (!containsNumeric(password))
-				note += startLine + Message.getInstance().getString("VALIDATOR_NUMBERS") + endLine;
+				note += startLine + Message.getMessage("VALIDATOR_NUMBERS") + endLine;
 			if (!containsLatin(password))
-				note += startLine + Message.getInstance().getString("VALIDATOR_LATIN") + endLine;
+				note += startLine + Message.getMessage("VALIDATOR_LATIN") + endLine;
 			if (containsCyrillic(password))
-				note += startLine + Message.getInstance().getString("VALIDATOR_NOT_CYRILLIC") + endLine;
+				note += startLine + Message.getMessage("VALIDATOR_NOT_CYRILLIC") + endLine;
 		}
 		return note;
 	}
@@ -127,54 +127,41 @@ public class Validator implements Serializable {
 		Matcher emailM = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
 
 		if (isNull(email))
-			note += startLine + Message.getInstance().getString("VALIDATOR_REQUIRED") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_REQUIRED") + endLine;
 		else if (!emailM.find())
-			note += startLine + Message.getInstance().getString("VALIDATOR_EMAIL") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_EMAIL") + endLine;
 		return note;
 	}
 	
-	public static String preparePhoneNumber(String phone){
-		phone = phone.trim();
-		phone = phone.replaceAll("[\\.\\-\\(\\)\\, ]", "");
-		if (phone.contains("+") && phone.length()==13) return phone;
-		else if (!phone.contains("+") && phone.length()==12) return "+3" + phone;
-		else if (!phone.contains("+") && phone.length()==10) return "+38" + phone;
-		return null;		
+	
+	public static String checkUkrainianPhone(String phone) {
+		String note = "";
+		if(!isNull(phone) || !phone.equals("+38")){
+			if (phone.startsWith("+38") && phone.length()!=13)
+				note += startLine + Message.getMessage("VALIDATOR_PHONE") + endLine;
+			return note;
+		} else
+			return startLine + Message.getMessage("VALIDATOR_REQUIRED") + endLine;
 	}
 
-	public static String checkPhone(String phone) {
+	public static String checkInternationalPhone(String phone) {
 		String note = "";
-		phone = preparePhoneNumber(phone);
 		if(!isNull(phone)){
-			final Pattern VALID_PHONE_REGEX = Pattern.compile("\\+[0-9]{12,13}", Pattern.CASE_INSENSITIVE);
-			Matcher phoneM = VALID_PHONE_REGEX.matcher(phone);
-			if (!phoneM.find())
-				note += startLine + Message.getInstance().getString("VALIDATOR_PHONE") + endLine;
+			final Pattern VALID_PHONE_REGEX = Pattern.compile("\\+[0-9]{11,15}", Pattern.CASE_INSENSITIVE);
+
+			if (!VALID_PHONE_REGEX.matcher(phone).find())
+				note += startLine + Message.getMessage("VALIDATOR_PHONE") + endLine;
 			return note;
-		} else return startLine + Message.getInstance().getString("VALIDATOR_REQUIRED") + endLine;
-	}
-	
-	public static String checkPhoneOrNull(String phone) {
-		String note = "";
-		phone = preparePhoneNumber(phone);
-		if(isNull(phone) || 
-				!phone.equals("")) 
-			return "";
-		else{
-			final Pattern VALID_PHONE_REGEX = Pattern.compile("\\+[0-9]{12,13}", Pattern.CASE_INSENSITIVE);
-			Matcher phoneM = VALID_PHONE_REGEX.matcher(phone);
-			if (!phoneM.find())
-				note += startLine + Message.getInstance().getString("VALIDATOR_PHONE") + endLine;
-			return note;
-		}
+		} else
+			return startLine + Message.getMessage("VALIDATOR_REQUIRED") + endLine;
 	}
 	
 	public static String checkCyrText(String text) {
 		String note = "";
 		if (isNull(text))
-			note += startLine + Message.getInstance().getString("VALIDATOR_REQUIRED") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_REQUIRED") + endLine;
 		else if (!isCyrillic(text))
-				note += startLine + Message.getInstance().getString("VALIDATOR_CYRILLIC_ONLY") + endLine;
+				note += startLine + Message.getMessage("VALIDATOR_CYRILLIC_ONLY") + endLine;
 		
 		return note;
 	}
@@ -182,17 +169,17 @@ public class Validator implements Serializable {
 	public static String checkNull(String text) {
 		String note = "";
 		if (isNull(text))
-			note += startLine + Message.getInstance().getString("VALIDATOR_REQUIRED") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_REQUIRED") + endLine;
 		return note;
 	}
 	
 	public static String checkNumeric(String text) {
 		String note = "";
 		if (isNull(text))
-			note += startLine + Message.getInstance().getString("VALIDATOR_REQUIRED") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_REQUIRED") + endLine;
 		else 
 			if(!isNumeric(text)) 
-				note += startLine + Message.getInstance().getString("VALIDATOR_NUMBERS_ONLY") + endLine;
+				note += startLine + Message.getMessage("VALIDATOR_NUMBERS_ONLY") + endLine;
 		
 		return note;
 	}
@@ -200,9 +187,9 @@ public class Validator implements Serializable {
 	public static String checkLiteral(String value) {
 		String note = "";
 		if (isNull(value))
-			note += startLine + Message.getInstance().getString("VALIDATOR_REQUIRED") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_REQUIRED") + endLine;
 		else if (containsNumeric(value))
-			note += startLine + Message.getInstance().getString("VALIDATOR_LITERAL_ONLY") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_LITERAL_ONLY") + endLine;
 		
 		return note;
 	}
@@ -212,7 +199,7 @@ public class Validator implements Serializable {
 		if (isNull(value) || value.equals(""))
 			return "";
 		else if (containsNumeric(value))
-			note += startLine + Message.getInstance().getString("VALIDATOR_LITERAL_ONLY") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_LITERAL_ONLY") + endLine;
 		return note;
 	}
 	
@@ -221,7 +208,7 @@ public class Validator implements Serializable {
 		if (isNull(value) || value.equals(""))
 			return "";
 		else if (!isNumeric(value))
-			note += startLine + Message.getInstance().getString("VALIDATOR_NUMBERS_ONLY") + endLine;
+			note += startLine + Message.getMessage("VALIDATOR_NUMBERS_ONLY") + endLine;
 		return note;
 	}
 	

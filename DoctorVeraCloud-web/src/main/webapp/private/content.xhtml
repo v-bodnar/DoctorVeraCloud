@@ -4,12 +4,13 @@
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:form>
-        <p:dashboard id="dashboard" model="#{indexView.dashboard}">
+    <h:form id="mainPageForm">
+        <p:dashboard id="dashboard" model="#{indexView.dashboard}" >
             <p:ajax event="reorder"/>
 
-            <p:panel id="monthAppointments" header="#{MESSAGE.INDEX_MONTH_STATISTICS}" toggleable="true" closable="true">
-                <p:panelGrid>
+            <p:panel id="monthAppointments" header="#{MESSAGE.INDEX_MONTH_STATISTICS}" toggleable="true" closable="true"
+                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_MONTH_APPOINTMENTS')}" >
+                <p:panelGrid >
                     <p:row>
                         <p:column style="width:25%">
                             <h:outputText value="#{MESSAGE.INDEX_APPOINTMENTS_COUNT}"/>
@@ -19,7 +20,7 @@
                         </p:column>
                         <p:column rowspan="6" style="width:70%">
                             <p:chart id="monthAppointmentsChart" type="line" model="#{indexView.monthAppointments}"
-                                     responsive="true"/>
+                                     responsive="true" style="width:80%"/>
                             <h:outputText value="." style="visibility:hidden"/>
                         </p:column>
                     </p:row>
@@ -68,7 +69,8 @@
             </p:panel>
 
 
-            <p:panel id="monthSalary" header="#{MESSAGE.INDEX_MONTH_STATISTICS}" toggleable="true" closable="true">
+            <p:panel id="monthSalary" header="#{MESSAGE.INDEX_MONTH_STATISTICS}" toggleable="true" closable="true"
+                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_MONTH_SALARY')}">
                 <p:panelGrid>
                     <p:row>
                         <p:column style="width:25%">
@@ -79,7 +81,7 @@
                         </p:column>
                         <p:column rowspan="6" style="width:69%">
                             <p:chart id="monthSalaryChart" type="line" model="#{indexView.monthSalary}"
-                                     responsive="true"/>
+                                     responsive="true" style="width:80%"/>
                             <h:outputText value="." style="visibility:hidden"/>
                         </p:column>
                     </p:row>
@@ -128,7 +130,8 @@
             </p:panel>
 
 
-            <p:panel id="yearAppointments" header="#{MESSAGE.INDEX_YEAR_STATISTICS}" toggleable="true" closable="true">
+            <p:panel id="yearAppointments" header="#{MESSAGE.INDEX_YEAR_STATISTICS}" toggleable="true" closable="true"
+                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_YEAR_APPOINTMENTS')}">
                 <p:panelGrid>
                     <p:row>
                         <p:column style="width:25%">
@@ -139,7 +142,7 @@
                         </p:column>
                         <p:column rowspan="6" style="width:70%">
                             <p:chart id="yearAppointmentsChart" type="line" model="#{indexView.yearAppointments}"
-                                     responsive="true"/>
+                                     responsive="true" style="width:80%"/>
                             <h:outputText value="." style="visibility:hidden"/>
                         </p:column>
                     </p:row>
@@ -188,7 +191,8 @@
             </p:panel>
 
 
-            <p:panel id="yearSalary" header="#{MESSAGE.INDEX_YEAR_STATISTICS}" toggleable="true" closable="true">
+            <p:panel id="yearSalary" header="#{MESSAGE.INDEX_YEAR_STATISTICS}" toggleable="true" closable="true"
+                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_YEAR_SALARY')}">
                 <p:panelGrid>
                     <p:row>
                         <p:column style="width:25%">
@@ -198,7 +202,7 @@
                             <h:outputText value="0"/>
                         </p:column>
                         <p:column rowspan="6" style="width:69%">
-                            <p:chart id="yearSalaryChart" type="line" model="#{indexView.yearSalary}" responsive="true"/>
+                            <p:chart id="yearSalaryChart" type="line" model="#{indexView.yearSalary}" responsive="true" style="width:80%"/>
                             <h:outputText value="." style="visibility:hidden"/>
                         </p:column>
                     </p:row>

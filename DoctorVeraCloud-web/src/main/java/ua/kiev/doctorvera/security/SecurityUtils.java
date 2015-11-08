@@ -74,14 +74,14 @@ public class SecurityUtils implements Serializable{
         for (SecurityPolicy securityPolicy : securityPolicies) {
             Policy policy = null;
 
-            policy = policyFacade.findByStringId(securityPolicy.getStringId());
+            policy = policyFacade.findByStringId(securityPolicy.name());
 
             if (policy == null) {
                 //policy has not been found and has to be created
                 Policy newPolicy = new Policy();
                 newPolicy.setName(securityPolicy.getName());
-                newPolicy.setStringId(securityPolicy.getStringId());
-                newPolicy.setPolicyGroup(securityPolicy.getPolicyGroup());
+                newPolicy.setStringId(securityPolicy.name());
+                newPolicy.setPolicyGroup(securityPolicy.getPolicyGroup().name());
                 newPolicy.setDateCreated(new Date());
                 newPolicy.setUserCreated(sessionParams.getAuthorizedUser());
                 policyFacade.create(newPolicy);
@@ -89,14 +89,14 @@ public class SecurityUtils implements Serializable{
             } else if (!isEqual(policy, securityPolicy)) {
                 //policy has been found and needs synchronization
                 policy.setName(securityPolicy.getName());
-                policy.setStringId(securityPolicy.getStringId());
-                policy.setPolicyGroup(securityPolicy.getPolicyGroup());
+                policy.setStringId(securityPolicy.name());
+                policy.setPolicyGroup(securityPolicy.getPolicyGroup().name());
                 policy.setDateCreated(new Date());
                 policy.setUserCreated(sessionParams.getAuthorizedUser());
                 policyFacade.edit(policy);
                 policiesUpdated++;
             }
-            policy = policyFacade.findByStringId(securityPolicy.getStringId());
+            policy = policyFacade.findByStringId(securityPolicy.name());
             allMappedPolicies.put(SecurityPolicy.valueOf(policy.getStringId()), policy);
         }
         alreadySynchronized = true;
@@ -159,7 +159,7 @@ public class SecurityUtils implements Serializable{
     private static boolean isEqual(Policy policyFromDB, SecurityPolicy  policyEnum) {
         boolean equals = false;
         if (policyEnum.getName().equals(policyFromDB.getName()) &&
-                policyEnum.getStringId().equals(policyFromDB.getStringId()) &&
+                policyEnum.name().equals(policyFromDB.getStringId()) &&
                 policyEnum.getPolicyGroup().equals(policyFromDB.getPolicyGroup())
                 ) {
             equals = true;
