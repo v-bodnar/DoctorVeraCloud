@@ -11,6 +11,7 @@ import ua.kiev.doctorvera.facadeLocal.MethodTypesFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.MethodsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.PricesFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
+import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
@@ -29,8 +30,7 @@ import java.util.logging.Logger;
 public class MethodsView implements Serializable {
 	
 	private final static Logger LOG = Logger.getLogger(MethodsView.class.getName());
-	//TODO take Id from preferences
-	private final static Integer DOCTORS_TYPE_ID = 3;
+	private final static Integer DOCTORS_TYPE_ID = Integer.parseInt(Config.getInstance().getProperty("DOCTORS_USER_GROUP_ID"));
 	
 	
 	//Facade for CRUD operations with Users
@@ -185,6 +185,7 @@ public class MethodsView implements Serializable {
 		LOG.info("Changed method " + selectedMethod.getShortName() + " with id: " + selectedMethod.getId());
 		final String successMessage = Message.getInstance().getString("METHODS_EDITED");
 		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		RequestContext.getCurrentInstance().update("methodsForm:methodsTable");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 		RequestContext.getCurrentInstance().execute("PF('addMethodDialog').hide();");
     }
@@ -202,6 +203,7 @@ public class MethodsView implements Serializable {
 		LOG.info("Created new method: " + selectedMethod.getShortName());
 		final String successTitle = Message.getInstance().getString("APPLICATION_SAVED");
 		final String successMessage = Message.getInstance().getString("METHODS_SAVED");
+		RequestContext.getCurrentInstance().update("methodsForm:methodsTable");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 		RequestContext.getCurrentInstance().execute("PF('addMethodDialog').hide();");
 	}

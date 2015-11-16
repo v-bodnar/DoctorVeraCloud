@@ -19,7 +19,7 @@
  	<entry key="SCHEDULE_GENERAL_PAGE">/private/schedule_general.xhtml</entry>
  	<entry key="PLAN_GENERAL_PAGE">/private/plan_general.xhtml</entry>
 	<entry key="SCHEDULE_PERSONAL_PAGE">/private/schedule_doctor.xhtml</entry>
-	<entry key="PERMISSION_DENIED_PAGE">/permission_denied.xhtml</entry>
+	<entry key="PERMISSION_DENIED_PAGE">/access_denied.xhtml</entry>
 
 
 
@@ -30,11 +30,11 @@
  	<entry key="APPLICATION_AVATAR_IMAGES_PATH">/resources/images/avatar/</entry>
 	<entry key="APPLICATION_ERROR_ICON">error.png</entry>
  	<entry key="APPLICATION_AVATAR_DEFAULT">default_male_avatar.png</entry>
- 	
+
  	<!-- UserGroups-->
- 	<entry key="DOCTORS_TYPE_ID">3</entry>
- 	<entry key="PATIENTS_TYPE_ID">1</entry>
- 	<entry key="ASSISTENTS_TYPE_ID">4</entry>
+ 	<entry key="DOCTORS_TYPE_ID">4</entry>
+ 	<entry key="PATIENTS_TYPE_ID">2</entry>
+ 	<entry key="ASSISTENTS_TYPE_ID">5</entry>
  	
  	<!-- Users-->
  	<entry key="USERS_BREAK_ID">2</entry>

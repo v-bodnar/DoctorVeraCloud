@@ -7,13 +7,16 @@ import ua.kiev.doctorvera.facadeLocal.PolicyFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UserGroupsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Config;
+import ua.kiev.doctorvera.resources.Mapping;
 import ua.kiev.doctorvera.views.SessionParams;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
@@ -37,8 +40,23 @@ public class SecurityUtils implements Serializable{
     @EJB
     private UserGroupsFacadeLocal userTypesFacade;
 
-    private final static Logger LOG = Logger.getLogger(SecurityUtils.class.getName());
+    private static final Map<String, SecurityPolicy> mappedPagesToPolicies  = new HashMap<>();
 
+    private final static Logger LOG = Logger.getLogger(SecurityUtils.class.getName());
+    private static final String PERMISSION_DENIED_PAGE = Mapping.getInstance().getString("PERMISSION_DENIED_PAGE");
+    private static final String MAIN_PAGE_URL = Mapping.getInstance().getString("MAIN_PAGE");
+    private static final String USER_PROFILE_PAGE_URL = Mapping.getInstance().getString("USER_PROFILE_PAGE");
+    private static final String USERS_PAGE_URL = Mapping.getInstance().getString("USERS_PAGE");
+    private static final String USER_ADD_PAGE_URL = Mapping.getInstance().getString("USER_ADD_PAGE");
+    private static final String USER_GROUPS_PAGE_URL = Mapping.getInstance().getString("USER_TYPES_PAGE");
+    private static final String SEND_SMS_PAGE_URL = Mapping.getInstance().getString("SEND_SMS_PAGE");
+    private static final String ROOMS_PAGE_URL = Mapping.getInstance().getString("ROOMS_PAGE");
+    private static final String PLAN_PAGE_URL = Mapping.getInstance().getString("PLAN_PAGE");
+    private static final String METHODS_PAGE_URL = Mapping.getInstance().getString("METHODS_PAGE");
+    private static final String PAYMENTS_PAGE_URL = Mapping.getInstance().getString("PAYMENTS_PAGE");
+    private static final String SCHEDULE_PAGE_URL = Mapping.getInstance().getString("SCHEDULE_PAGE");
+    private static final String SCHEDULE_GENERAL_PAGE_URL = Mapping.getInstance().getString("SCHEDULE_GENERAL_PAGE");
+    private static final String PLAN_GENERAL_PAGE_URL = Mapping.getInstance().getString("PLAN_GENERAL_PAGE");
     private static Map<SecurityPolicy,Policy> allMappedPolicies = new HashMap<>();
 
     private static int SUPER_ADMIN_ID;
@@ -58,7 +76,24 @@ public class SecurityUtils implements Serializable{
         if(!alreadySynchronized){
             synchronize();
             checkAdminPermissions();
+            mapPagesToPolicies();
         }
+    }
+
+    private static void mapPagesToPolicies(){
+        mappedPagesToPolicies.put(MAIN_PAGE_URL, SecurityPolicy.MENU_ITEM_MAIN);
+        mappedPagesToPolicies.put(USER_PROFILE_PAGE_URL, SecurityPolicy.USERS_USERS_PROFILE);
+        mappedPagesToPolicies.put(USERS_PAGE_URL, SecurityPolicy.MENU_ITEM_USERS);
+        mappedPagesToPolicies.put(USER_ADD_PAGE_URL, SecurityPolicy.USERS_ADD_USER);
+        mappedPagesToPolicies.put(USER_GROUPS_PAGE_URL, SecurityPolicy.MENU_ITEM_USER_GROUPS);
+        mappedPagesToPolicies.put(SEND_SMS_PAGE_URL, SecurityPolicy.MENU_ITEM_SEND_SMS);
+        mappedPagesToPolicies.put(ROOMS_PAGE_URL, SecurityPolicy.MENU_ITEM_ROOMS);
+        mappedPagesToPolicies.put(PLAN_PAGE_URL, SecurityPolicy.MENU_ITEM_MAIN);
+        mappedPagesToPolicies.put(METHODS_PAGE_URL, SecurityPolicy.MENU_ITEM_PLAN);
+        mappedPagesToPolicies.put(PAYMENTS_PAGE_URL, SecurityPolicy.MENU_ITEM_PAYMENTS);
+        mappedPagesToPolicies.put(SCHEDULE_PAGE_URL, SecurityPolicy.MENU_ITEM_SCHEDULE);
+        mappedPagesToPolicies.put(SCHEDULE_GENERAL_PAGE_URL, SecurityPolicy.MENU_ITEM_SCHEDULE_GENERAL);
+        mappedPagesToPolicies.put(PLAN_GENERAL_PAGE_URL, SecurityPolicy.MENU_ITEM_PLAN_GENERAL);
     }
 
     /**
@@ -160,7 +195,7 @@ public class SecurityUtils implements Serializable{
         boolean equals = false;
         if (policyEnum.getName().equals(policyFromDB.getName()) &&
                 policyEnum.name().equals(policyFromDB.getStringId()) &&
-                policyEnum.getPolicyGroup().equals(policyFromDB.getPolicyGroup())
+                policyEnum.getPolicyGroup().name().equals(policyFromDB.getPolicyGroup())
                 ) {
             equals = true;
         }
@@ -180,6 +215,15 @@ public class SecurityUtils implements Serializable{
         return checkPermissions(SecurityPolicy.valueOf(policy));
     }
 
+    public void checkPermissionAndRedirect(SecurityPolicy policy) throws IOException {
+        if(!checkPermissions(policy))
+            FacesContext.getCurrentInstance().getExternalContext().redirect(PERMISSION_DENIED_PAGE);
+    }
+
+    public static Map<String, SecurityPolicy> getMappedPagesToPolicies() {
+        return mappedPagesToPolicies;
+    }
+
     public Boolean isAlreadySynchronized() {
         return alreadySynchronized;
     }
@@ -187,4 +231,5 @@ public class SecurityUtils implements Serializable{
     public void setAlreadySynchronized(Boolean alreadySynchronized) {
         this.alreadySynchronized = alreadySynchronized;
     }
+
 }

@@ -6,8 +6,12 @@
     <entry key="COUNTRY">RU</entry>
     <entry key="PROJECT_NAME">DoctorVeraCloud</entry>
     <entry key="SUPER_ADMIN_ID">1</entry>
+    <entry key="USERS_BREAK_ID">2</entry>
+    <entry key="METHOD_BREAK_ID">1</entry>
     <entry key="SUPER_ADMIN_USER_GROUP_ID">1</entry>
     <entry key="DOCTORS_USER_GROUP_ID">4</entry>
     <entry key="PATIENTS_USER_GROUP_ID">2</entry>
+    <entry key="ASSISTANTS_USER_GROUP_ID">2</entry>
+    <entry key="SERVICE_USER_GROUP_ID">2</entry>
     <entry key="JOINS_AND_CONDITIONS">JOINS_AND_CONDITIONS</entry>
 </properties>

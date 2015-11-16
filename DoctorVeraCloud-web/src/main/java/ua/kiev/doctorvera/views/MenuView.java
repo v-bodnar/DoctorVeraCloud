@@ -30,14 +30,11 @@ public class MenuView implements Serializable {
     private final String planMenuHeader = Message.getInstance().getString("MENU_ITEM_PLAN");
     private final String mainMenuHeader = Message.getInstance().getString("MENU_HEADER");
     private final String scheduleMenuHeader = Message.getInstance().getString("MENU_HEADER_SCHEDULE");
-    //private final String managerMenuHeader = Message.getInstance().getMessage("MENU_HEADER_MANAGER);
     private final String financeMenuHeader = Message.getInstance().getString("MENU_HEADER_FINANCE");
     private final String mainPageValue = Message.getInstance().getString("MENU_ITEM_MAIN");
     private final String mainPageUrl = Mapping.getInstance().getString("MAIN_PAGE");
     private final String usersPageValue = Message.getInstance().getString("MENU_ITEM_USERS");
     private final String usersPageUrl = Mapping.getInstance().getString("USERS_PAGE");
-    private final String addUserPageValue = Message.getInstance().getString("MENU_ITEM_ADD_USER");
-    private final String addUserPageUrl = Mapping.getInstance().getString("USER_ADD_PAGE");
     private final String userTypesPageValue = Message.getInstance().getString("MENU_ITEM_USER_TYPES");
     private final String userTypesPageUrl = Mapping.getInstance().getString("USER_TYPES_PAGE");
     private final String roomsPageValue = Message.getInstance().getString("MENU_ITEM_ROOMS");
@@ -49,7 +46,6 @@ public class MenuView implements Serializable {
     private final String planPageUrl = Mapping.getInstance().getString("PLAN_PAGE");
     private final String paymentsPageValue = Message.getInstance().getString("MENU_ITEM_PAYMENTS");
     private final String paymentsPageUrl = Mapping.getInstance().getString("PAYMENTS_PAGE");
-    //private final String  schedulePageValue = Message.getInstance().getMessage("MENU_ITEM_SCHEDULE);
     private final String schedulePageUrl = Mapping.getInstance().getString("SCHEDULE_PAGE");
     private final String planGeneralPageValue = Message.getInstance().getString("MENU_ITEM_PLAN_GENERAL");
     private final String planGeneralPageUrl = Mapping.getInstance().getString("PLAN_GENERAL_PAGE");
@@ -88,7 +84,6 @@ public class MenuView implements Serializable {
         DefaultMenuItem item = new DefaultMenuItem(mainPageValue);
         item.setUrl(mainPageUrl);
         item.setIcon("ui-icon-home");
-        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_MAIN);
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_MAIN));
         if (url != null && url.equals(APPLICATION_ROOT_URL + mainPageUrl)) {
             item.setStyleClass("ui-state-active");
@@ -96,11 +91,10 @@ public class MenuView implements Serializable {
         mainSubmenu.addElement(item);
 
         item = new DefaultMenuItem(schedulePersonalPageValue);
-        item.setUrl(schedulePersonalPageUrl);
         item.setIcon("ui-icon-calendar");
-        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_PERSONAL_SCHEDULE);
+        item.setCommand("#{menuView.redirectToSchedule(null)}");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_PERSONAL_SCHEDULE));
-        if (url != null && url.equals(APPLICATION_ROOT_URL + schedulePersonalPageUrl)) {
+        if (url != null && url.equals(APPLICATION_ROOT_URL + schedulePageUrl)) {
             item.setStyleClass("ui-state-active");
         }
         mainSubmenu.addElement(item);
@@ -108,28 +102,16 @@ public class MenuView implements Serializable {
         item = new DefaultMenuItem(usersPageValue);
         item.setUrl(usersPageUrl);
         item.setIcon("ui-icon-person");
-        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_USERS);
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_USERS));
         if (url != null && url.equals(APPLICATION_ROOT_URL + usersPageUrl)) {
             item.setStyleClass("ui-state-active");
         }
         mainSubmenu.addElement(item);
 
-//        item = new DefaultMenuItem(addUserPageValue);
-//        item.setUrl(addUserPageUrl);
-//        item.setIcon("ui-icon-plus");
-//        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_USERS);
-//        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_USERS));
-//        if (url != null && url.equals(APPLICATION_ROOT_URL + addUserPageUrl)) {
-//            item.setStyleClass("ui-state-active");
-//        }
-//        mainSubmenu.addElement(item);
-
         item = new DefaultMenuItem(userTypesPageValue);
         item.setUrl(userTypesPageUrl);
         item.setIcon("ui-icon-tag");
-        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_USER_TYPES);
-        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_USER_TYPES));
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_USER_GROUPS));
         if (url != null && url.equals(APPLICATION_ROOT_URL + userTypesPageUrl)) {
             item.setStyleClass("ui-state-active");
         }
@@ -138,7 +120,6 @@ public class MenuView implements Serializable {
         item = new DefaultMenuItem(roomsPageValue);
         item.setUrl(roomsPageUrl);
         item.setIcon("ui-icon-home");
-        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_ROOMS);
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_ROOMS));
         if (url != null && url.equals(APPLICATION_ROOT_URL + roomsPageUrl)) {
             item.setStyleClass("ui-state-active");
@@ -148,7 +129,6 @@ public class MenuView implements Serializable {
         item = new DefaultMenuItem(methodsPageValue);
         item.setUrl(methodsPageUrl);
         item.setIcon("ui-icon-signal-diag");
-        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_METHODS);
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_METHODS));
         if (url != null && url.equals(APPLICATION_ROOT_URL + methodsPageUrl)) {
             item.setStyleClass("ui-state-active");
@@ -158,7 +138,6 @@ public class MenuView implements Serializable {
         item = new DefaultMenuItem(sendSMSPageValue);
         item.setUrl(sendSMSPageUrl);
         item.setIcon("ui-icon-mail-closed");
-        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_SEND_SMS);
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SEND_SMS));
         if (url != null && url.equals(APPLICATION_ROOT_URL + sendSMSPageUrl)) {
             item.setStyleClass("ui-state-active");
@@ -173,7 +152,6 @@ public class MenuView implements Serializable {
         item = new DefaultMenuItem(planGeneralPageValue);
         item.setUrl(planGeneralPageUrl);
         item.setIcon("ui-icon-calendar");
-        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_PLAN_GENERAL);
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_PLAN_GENERAL));
         if (url != null && url.equals(APPLICATION_ROOT_URL + planGeneralPageUrl)) {
             item.setStyleClass("ui-state-active");
@@ -185,7 +163,6 @@ public class MenuView implements Serializable {
             item.setIcon("ui-icon-calendar");
             item.setCommand("#{menuView.redirectToPlan(" + room.getId() + ")}");
             item.setIcon("ui-icon-calendar");
-            item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_PLAN);
             item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_PLAN));
             planSubmenu.addElement(item);
         }
@@ -197,7 +174,6 @@ public class MenuView implements Serializable {
         item = new DefaultMenuItem(scheduleGeneralPageValue);
         item.setUrl(scheduleGeneralPageUrl);
         item.setIcon("ui-icon-calendar");
-        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_SCHEDULE_GENERAL);
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SCHEDULE_GENERAL));
         if (url != null && url.equals(APPLICATION_ROOT_URL + scheduleGeneralPageUrl)) {
             item.setStyleClass("ui-state-active");
@@ -208,7 +184,6 @@ public class MenuView implements Serializable {
             item = new DefaultMenuItem(room.getName());
             item.setIcon("ui-icon-calendar");
             item.setCommand("#{menuView.redirectToSchedule(" + room.getId() + ")}");
-            item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_SCHEDULE);
             item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SCHEDULE));
             scheduleSubmenu.addElement(item);
         }
@@ -220,7 +195,6 @@ public class MenuView implements Serializable {
         item = new DefaultMenuItem(paymentsPageValue);
         item.setUrl(paymentsPageUrl);
         item.setIcon("ui-icon-cart");
-        item.setParam(SECURITY_POLICY_PARAM_NAME, SecurityPolicy.MENU_ITEM_PAYMENTS);
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_PAYMENTS));
         financeSubmenu.addElement(item);
         if (url != null && url.equals(APPLICATION_ROOT_URL + paymentsPageUrl)) {

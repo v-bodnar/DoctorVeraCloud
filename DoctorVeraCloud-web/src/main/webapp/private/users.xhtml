@@ -97,7 +97,7 @@
                 <p:column headerText="#{MESSAGE.USERS_USER_GROUPS}" width="200"
                           filterBy="#{user.userGroups}" filterMatchMode="in" >
                     <f:facet name="filter">
-                        <p:selectOneMenu id="userGroupsFilter" onchange="PF('usersTable').filter()" value="#{usersTableView.groupFilter}" converter="userTypesConverter">
+                        <p:selectOneMenu id="userGroupsFilter" onchange="PF('usersTable').filter()" value="#{usersTableView.groupFilter}" converter="userGroupsConverter">
                             <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true" id = "userGroupsFilterEmptyOption"/>
                             <f:selectItems value="#{usersTableView.userGroupsFacade.findAll()}"
                                            itemValue="#{group}" itemLabel="#{group.name}" var="group"/>
@@ -140,7 +140,7 @@
 
         <h:form id="addTypesToUserForm">
 
-            <p:dialog header="#{MESSAGE.USERS_PICKER_TITLE}"
+            <p:dialog header="#{MESSAGE.USERS_PICKER_TITLE}" modal="true"
                       widgetVar="addTypesToUserDialog" id="addTypesToUserDialog" width="650" height="300">
                 <p:growl id="growl" showDetail="true"/>
                 <p:ajax event="close" update="growl :usersForm:usersTable"/>
@@ -150,7 +150,7 @@
                             itemValue="#{group}" itemLabel="#{group.name}"
                             showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
                             styleClass="typePicker"
-                            converter="userTypesConverter">
+                            converter="userGroupsConverter">
 
                     <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.USERS_PICKER_SOURCE}"/></f:facet>
                     <f:facet name="targetCaption"><h:outputText

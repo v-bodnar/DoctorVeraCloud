@@ -35,13 +35,14 @@ public class AuthenFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		final String url = request.getRequestURL().toString();
+		final String uri = request.getRequestURI();
 
 		//Setting request encoding
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		System.setProperty("file.encoding", "UTF-8");
 
-		String securityPolicy = request.getParameter(SECURITY_POLICY_PARAM_NAME);
+		//String securityPolicy = request.getParameter(SECURITY_POLICY_PARAM_NAME);
 
 		if (url.contains(LOGIN_PAGE) || url.contains(REGISTER_PAGE)) {
 			// bruteReveal(request);
@@ -50,11 +51,11 @@ public class AuthenFilter implements Filter {
 		} else if (sessionparams == null || sessionparams.getAuthorizedUser() == null) {
 			LOG.info("Session is not authorised, no user for session");
 			response.sendRedirect(LOGIN_PAGE);
-		}else if(securityPolicy == null){
+		}else if(!securityUtils.getMappedPagesToPolicies().containsKey(uri)){
 			LOG.info("Session is authorised, security policy is not set");
 			chain.doFilter(request, response);
-		} else if (sessionparams != null && securityPolicy != null && sessionparams.getAuthorizedUser() != null &&
-				securityUtils.checkPermissions(SecurityPolicy.valueOf(securityPolicy))) {
+		} else if (securityUtils.getMappedPagesToPolicies().containsKey(uri) && sessionparams != null && sessionparams.getAuthorizedUser() != null &&
+				securityUtils.checkPermissions(securityUtils.getMappedPagesToPolicies().get(uri))) {
 			LOG.info("Session is authorised, permission granted");
 			chain.doFilter(request, response);
 		}else{

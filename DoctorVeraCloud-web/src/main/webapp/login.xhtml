@@ -40,9 +40,9 @@
 				
 				<h:outputText value=" " />
 				
-				<h:outputLink value="#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.REGISTER_PAGE}" >
-					<h:outputText value="#{MESSAGE.LOGIN_REGISTER}" />
-				</h:outputLink>
+				<!--<h:outputLink value="#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.REGISTER_PAGE}" >-->
+					<!--<h:outputText value="#{MESSAGE.LOGIN_REGISTER}" />-->
+				<!--</h:outputLink>-->
 
 				<f:facet name="footer">
 					<p:commandButton value="#{MESSAGE.LOGIN_LOGIN_BUTTON}"
@@ -69,7 +69,7 @@
         else {
             PF('login').hide();
             //window.location.href = '#{request.requestURL}';
-            window.location.href = 'private/index.xhtml?securityPolicy=MENU_ITEM_MAIN'
+            window.location.href = 'private/index.xhtml'
         }
     }
 	</script>

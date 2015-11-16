@@ -44,16 +44,9 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 	
 	@EJB
 	private ScheduleFacadeLocal scheduleFacade;
-	
-    @Inject
-	private SessionParams sessionParams;
-
-    private Rooms currentRoom;
 
 	@PostConstruct
-	public void init(){
-		currentRoom = sessionParams.getScheduleRoom();
-	}
+	public void init(){}
 
 	@Override
 	public Map<String, Object> getMetadata() {
@@ -68,8 +61,8 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 	//Validating plan form so that start date can't be after end date
 	public void validateStartDate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 		Schedule schedule = (Schedule)component.getAttributes().get("schedule");
-		String message = validateStartTime((Date)value, scheduleFacade.find(schedule.getId()));
-		 
+		String message = validateStartTime((Date)value, schedule);
+
 		if(message.equals("")) {
 			return;
 			}
@@ -89,12 +82,12 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 	private String validateStartTime(Date startDate, Schedule schedule){
 		String message = "";
 		//Checking if date is inside of any Plan record
-		if(planFacade.findByRoomAndDateInside(currentRoom, startDate) == null)
+		if(planFacade.findByRoomAndDateInside(schedule.getRoom(), startDate) == null)
 			return Message.getInstance().getString("SCHEDULE_VALIDATE_NOT_IN_PLAN_START");
 		
 		//Checking if date is not crossed with any existing schedule record
 		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		Schedule scheduleCrossed = scheduleFacade.findByRoomAndDateInside(currentRoom, startDate);
+		Schedule scheduleCrossed = scheduleFacade.findByRoomAndDateInside(schedule.getRoom(), startDate);
 		if (scheduleCrossed == null) return "";
 		//Creating Validation Error message for crossed schedule
 		Schedule breakSchedule = scheduleFacade.findChildSchedule(schedule);
@@ -107,7 +100,7 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 		if (breakSchedule==null) return message;
 
 		startDate = computeBreakStartDate(startDate, schedule);
-		scheduleCrossed = scheduleFacade.findByRoomAndDateInside(currentRoom, startDate);
+		scheduleCrossed = scheduleFacade.findByRoomAndDateInside(schedule.getRoom(), startDate);
 		if (scheduleCrossed == null) return "";
 		if (!scheduleCrossed.equals(schedule) && !scheduleCrossed.equals(breakSchedule)) {
 			message += Message.getInstance().getString("SCHEDULE_VALIDATE_SCHEDULE_UPDATE") +

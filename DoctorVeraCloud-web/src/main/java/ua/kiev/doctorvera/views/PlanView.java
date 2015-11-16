@@ -14,7 +14,7 @@ import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.resources.Mapping;
+import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Message;
 import ua.kiev.doctorvera.validators.PlanValidator;
 
@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 public class PlanView implements Serializable {
 	
 	private final static Logger LOG = Logger.getLogger(PlanView.class.getName());
-	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("DOCTORS_TYPE_ID"));
+	private final Integer DOCTORS_USER_GROUP_ID = Integer.parseInt(Config.getInstance().getProperty("DOCTORS_USER_GROUP_ID"));
 	@EJB
 	private RoomsFacadeLocal roomsFacade;
 	
@@ -90,7 +90,7 @@ public class PlanView implements Serializable {
 		};
         generateCss();
 		allRooms = roomsFacade.findAll();
-		allDoctors = usersFacade.findByGroup(DOCTORS_TYPE_ID);
+		allDoctors = usersFacade.findByGroup(DOCTORS_USER_GROUP_ID);
 		plan = new Plan();
 		//colorize();
 	}
@@ -331,7 +331,7 @@ public class PlanView implements Serializable {
 
     private void generateCss(){
         cssStyle = "<style>";
-        for(Users doctor : usersFacade.findByGroup(3))
+        for(Users doctor : usersFacade.findByGroup(DOCTORS_USER_GROUP_ID))
             cssStyle += ".doc" + doctor.getId() + "{background-color: #" + doctor.getColor() + "}";
         cssStyle += "</style>";
     }

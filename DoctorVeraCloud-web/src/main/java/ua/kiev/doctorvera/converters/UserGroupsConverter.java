@@ -10,20 +10,20 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@FacesConverter(value = "userTypesConverter")
-public class UserTypesConverter implements Converter {
+@FacesConverter(value = "userGroupsConverter")
+public class UserGroupsConverter implements Converter {
 
     @EJB
-    private UserGroupsFacadeLocal userTypesFacade;
+    private UserGroupsFacadeLocal userGroupsFacade;
 
     private static final String SELECTOR_DEFAULT = Message.getMessage("APPLICATION_SELECT_ONE");
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if (value.equals(SELECTOR_DEFAULT)) {
+        if (value == null || value.equals(SELECTOR_DEFAULT)) {
             return null;
         }else {
-            return userTypesFacade.find(Integer.parseInt(value));
+            return userGroupsFacade.find(Integer.parseInt(value));
         }
     }
 

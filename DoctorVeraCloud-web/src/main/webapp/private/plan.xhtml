@@ -12,80 +12,73 @@
 		<h:form id="planForm">
 
 			<p:growl id="growl" showDetail="true"/>
-		    
-			<p:schedule id="planSchedule" value="#{planView.eventModel}" locale="ru" view="agendaWeek" firstHour="7" slotMinutes="30"
-						minTime="7:00" maxTime="20:00" styleClass="planCalendar" timeZone="GMT+2" widgetVar="planSchedule" rightHeaderTemplate="month,agendaWeek"
+
+			<p:schedule id="planSchedule" value="#{planView.eventModel}" locale="ru" view="agendaWeek" scrollTime="7" slotMinutes="30"
+						minTime="7:00" maxTime="20:00" styleClass="planCalendar" timeZone="GMT+1" widgetVar="planSchedule" rightHeaderTemplate="month,agendaWeek"
 			allDaySlot="false" tooltip="false" columnFormat="dddd,DD, MMMM">
-				<p:ajax event="dateSelect" listener="#{planView.onDateSelect}" update="addPlanDialog" oncomplete="PF('addPlanDialog').show();" />
-            	<p:ajax event="eventSelect" listener="#{planView.onEventSelect}" update="addPlanDialog" oncomplete="PF('addPlanDialog').show();" />
-            	<p:ajax event="eventMove" listener="#{planView.onEventMove}" update="planSchedule growl" />
-            	<p:ajax event="eventResize" listener="#{planView.onEventResize}" update="planSchedule growl" />
+				<p:ajax event="dateSelect" listener="#{planView.onDateSelect}" update="addPlanDialog" oncomplete="PF('addPlanDialog').show();" disabled="#{!securityUtils.checkPermissions('PLAN_CREATE')}"/>
+            	<p:ajax event="eventSelect" listener="#{planView.onEventSelect}" update="addPlanDialog" oncomplete="PF('addPlanDialog').show();" disabled="#{!securityUtils.checkPermissions('PLAN_UPDATE')}"/>
+            	<p:ajax event="eventMove" listener="#{planView.onEventMove}" update="planSchedule growl" disabled="#{!securityUtils.checkPermissions('PLAN_READ')}"/>
+            	<p:ajax event="eventResize" listener="#{planView.onEventResize}" update="planSchedule growl" disabled="#{!securityUtils.checkPermissions('PLAN_UPDATE')}"/>
             </p:schedule>
-            
+
 			<p:dialog header="#{MESSAGE.PLAN_ADD_DIALOG_TITLE}"
 				widgetVar="addPlanDialog" id="addPlanDialog" modal="false" showEffect="clip" styleClass="addPlanDialog">
 				
 				<p:messages id = "errorMessage" showDetail="true" style="width:400px;font-size:90%" escape="true"/>
 				
-				<h:panelGrid columns="2" cellpadding="5">
+				<h:panelGrid  id="addPlanGrid" columns="3" cellpadding="5">
 				
 					<h:outputLabel for="dateTimeStart" value="#{MESSAGE.PLAN_TIME_START}" />
         			<p:calendar id="dateTimeStart" value="#{planView.plan.dateTimeStart}" 
         				required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
 						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
-						<!--f:attribute name="name" value="dateTimeStart" /-->
-						<!-- p:ajax event="blur" update="dateTimeStartMessage" /-->
+						<p:ajax event="blur" update="dateTimeStartMessage" />
 					</p:calendar>
-					<!--p:message for="dateTimeStart" id="dateTimeStartMessage" /-->
+					<p:message for="dateTimeStart" id="dateTimeStartMessage" />
 
 					<h:outputLabel for="dateTimeEnd" value="#{MESSAGE.PLAN_TIME_END}" />
         			<p:calendar id="dateTimeEnd" value="#{planView.plan.dateTimeEnd}"
         				required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
 						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
-						<!--f:attribute name="name" value="dateTimeEnd" /-->
-						<!--p:ajax event="blur" update="dateTimeStartMessage" /-->
+						<p:ajax event="blur" update="dateTimeStartMessage" process="@this" />
 					</p:calendar>
-					<!--p:message for="dateTimeEnd" id="dateTimeEndMessage" /-->
+					<p:message for="dateTimeEnd" id="dateTimeEndMessage" />
 					
 					<h:outputLabel for="planRoom" value="#{MESSAGE.PLAN_ROOM}" />
 					<p:selectOneMenu id="planRoom" value="#{planView.plan.room}" converter="roomsConverter"
 					required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" styleClass="mySelectOneMenu">
-						<!--f:attribute name="name" value="planRoom" /-->
-						<!--f:selectItem itemLabel="#{MESSAGE.PLAN_CHOOSE}" itemValue="#{null}"/-->
-			            <f:selectItems value="#{planView.allRooms}" var="room" 
-			            itemLabel="#{room.name}" itemValue="#{room}"/>
-			            <!-- p:ajax event="change" update="planRoomMessage" /-->
+						<f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}"/>
+			            <f:selectItem itemValue="#{planView.currentRoom}"  itemLabel="#{planView.currentRoom.name}" />
+			            <p:ajax event="change" update="planRoomMessage" process="@this"/>
 			        </p:selectOneMenu>
-					<!--p:message for="planRoom" id="planRoomMessage" /-->
+					<p:message for="planRoom" id="planRoomMessage" />
 					
 					<h:outputLabel for="planDoctor" value="#{MESSAGE.PLAN_DOCTOR}" />
 					<p:selectOneMenu id="planDoctor" value="#{planView.plan.doctor}" converter="usersConverter"
 					required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" styleClass="mySelectOneMenu"
 					validator="#{planValidator.validate}" >
-						<!--f:attribute name="name" value="planDoctor" /-->
-						<!--f:selectItem itemLabel="#{MESSAGE.PLAN_CHOOSE}" itemValue="#{null}"/-->
+						<f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}"/>
 			            <f:selectItems value="#{planView.allDoctors}" var="doctor"
 						itemLabel="#{doctor.firstName} #{doctor.lastName}" itemValue="#{doctor}"/>
-			            <!-- p:ajax event="change" update="planDoctorMessage" /-->
+			            <p:ajax event="change" update="planDoctorMessage"/>
 			        </p:selectOneMenu>
-					<!--p:message for="planDoctor" id="planDoctorMessage" /-->
+					<p:message for="planDoctor" id="planDoctorMessage" />
 
 					<h:outputLabel for="planDescription"
 						value="#{MESSAGE.ENTITY_DESCRIPTION}" />
-					<p:inputTextarea rows="6" cols="20" id="planDescription"
-						value="#{planView.plan.description}">
-						<!--p:ajax event="blur" update="planDescriptionMessage" /-->
-					</p:inputTextarea>
-					<!--p:message for="planDescription" id="planDescriptionMessage" /-->
+					<p:inputTextarea rows="6" cols="20" id="planDescription" value="#{planView.plan.description}"/>
+
+					<p:message for="planDescription" id="planDescriptionMessage" />
 
 					<!--h:outputLabel for="planSaveButton" value="" /-->
 					<p:commandButton id="planSaveButton"
 						value="#{MESSAGE.PLAN_ADD_BUTTON}" 
 						icon="ui-icon-plus"
 						actionListener="#{planView.addPlan}" 
-						update="errorMessage growl"
+						update="addPlanGrid"
 						oncomplete="PF('planSchedule').update();"
-						rendered="#{planView.plan.id==null}"
+						rendered="#{planView.plan.id == null and securityUtils.checkPermissions('PLAN_CREATE')}"
 						styleClass="myButton"
 						/>
 					<p:commandButton id="planEditButton"
@@ -94,7 +87,7 @@
 						actionListener="#{planView.editPlan}" 
 						update="errorMessage growl"
 						oncomplete="PF('planSchedule').update();"
-						rendered="#{planView.plan.id!=null}"
+						rendered="#{planView.plan.id != null  and securityUtils.checkPermissions('PLAN_UPDATE')}"
 						styleClass="myButton"
 						/>
 					<p:commandButton id="planDeleteButton"
@@ -102,7 +95,7 @@
 						icon="ui-icon-close"
 						actionListener="#{planView.deletePlan}" 
 						update="errorMessage growl"
-						rendered="#{planView.plan.id!=null}"
+						rendered="#{planView.plan.id != null  and securityUtils.checkPermissions('PLAN_DELETE')}"
 						oncomplete="PF('planSchedule').update(); PF('addPlanDialog').hide();"
 						styleClass="myButton"
 						/>

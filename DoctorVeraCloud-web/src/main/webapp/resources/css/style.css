@@ -172,3 +172,15 @@ font-size: 100% !important;
 #mainPageForm\:dashboard .ui-dashboard-column{
 	width: 100%;
 }
+#scheduleForm .fc-time-grid .ui-widget-header,
+#planForm .fc-time-grid .ui-widget-header {
+	display: none !important;
+}
+#scheduleForm  .fc-time-grid-container,
+#planForm .fc-time-grid-container{
+	height: 100% !important;
+}
+
+.ui-selectonemenu-panel.hideDisabled .ui-selectonemenu-item.ui-state-disabled {
+	display: none;
+}

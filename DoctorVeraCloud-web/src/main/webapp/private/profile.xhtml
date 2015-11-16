@@ -159,7 +159,7 @@
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
 						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_COUNTRY}"
 									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_COLOR')}">
-							<p:autoComplete value="#{userProfileView.address.country}" completeMethod="#{addressView.getCountries}" id="country" name="country" validator="#{addressValidator.validate}">
+							<p:autoComplete value="#{userProfileView.address.country}" completeMethod="#{addressView.completeCountries}" id="country" name="country" validator="#{addressValidator.validate}">
 								<f:attribute name="name" value="country" />
 							</p:autoComplete>
 							<p:ajax event="save" update="countryMessage growl" listener="#{userProfileView.save}"/>
@@ -172,7 +172,7 @@
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
 						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_REGION}"
 									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_ADDRESS')}">
-							<p:autoComplete value="#{userProfileView.address.region}" completeMethod="#{addressView.getRegions}" id="region" name="region" validator="#{addressValidator.validate}">
+							<p:autoComplete value="#{userProfileView.address.region}" completeMethod="#{addressView.completeRegions}" id="region" name="region" validator="#{addressValidator.validate}">
 								<f:attribute name="name" value="region" />
 							</p:autoComplete>
 							<p:ajax event="save" update="regionMessage growl" listener="#{userProfileView.save}"/>
@@ -185,7 +185,7 @@
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
 						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_CITY}"
 									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_ADDRESS')}">
-							<p:autoComplete value="#{userProfileView.address.city}" completeMethod="#{addressView.getCities}" id="city" name="city" validator="#{addressValidator.validate}">
+							<p:autoComplete value="#{userProfileView.address.city}" completeMethod="#{addressView.completeCities}" id="city" name="city" validator="#{addressValidator.validate}">
 								<f:attribute name="name" value="city" />
 							</p:autoComplete>
 							<p:ajax event="save" update="cityMessage growl" listener="#{userProfileView.save}"/>
@@ -198,7 +198,7 @@
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
 						<p:inplace  editor="true" emptyLabel="#{MESSAGE.ADDRESS_PLACEHOLDER_ADDRESS}"
 									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_ADDRESS')}">
-							<p:autoComplete value="#{userProfileView.address.address}" completeMethod="#{addressView.getAddresses}" 
+							<p:autoComplete value="#{userProfileView.address.address}" completeMethod="#{addressView.completeAddresses}"
 							id="address" name="address"/>
 						<p:ajax event="save" update="addressMessage growl"/>
 						</p:inplace></p:column>

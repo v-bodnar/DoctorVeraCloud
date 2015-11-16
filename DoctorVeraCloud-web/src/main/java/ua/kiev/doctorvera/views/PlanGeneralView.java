@@ -9,6 +9,7 @@ import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
+import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Mapping;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +28,7 @@ import java.util.List;
 @ViewScoped
 public class PlanGeneralView implements Serializable {
 	
-	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Mapping.getInstance().getString("DOCTORS_TYPE_ID"));
+	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Config.getInstance().getProperty("DOCTORS_USER_GROUP_ID"));
 	
 	@EJB
 	private PlanFacadeLocal planFacade;

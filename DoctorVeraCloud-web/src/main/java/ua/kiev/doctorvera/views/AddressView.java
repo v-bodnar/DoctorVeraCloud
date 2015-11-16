@@ -10,6 +10,8 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Named(value = "addressView")
 @ViewScoped
@@ -19,42 +21,25 @@ public class AddressView implements Serializable {
 	private AddressFacadeLocal addressFacade;
 	
 	private ArrayList<Address> addressList;
-	
-	private ArrayList<String> countries;
-	
-	private ArrayList<String> regions;
-	
-	private ArrayList<String> cities;	
-	
-	private ArrayList<String> addresses;
-	
-	private ArrayList<String> indexes;
+
+	//This lists will be used for autocomplete
+	//Sets because I don't want duplicates
+	private Set<String> countries = new HashSet<>();
+	private Set<String> regions = new HashSet<>();
+	private Set<String> cities = new HashSet<>();
+	private Set<String> addresses = new HashSet<>();
+	private Set<String> indexes = new HashSet<>();
 	
 	@PostConstruct
 	public void init(){
 		addressList = (ArrayList<Address>)addressFacade.findAll();
-		
-		HashSet<String> countriesSet = new HashSet<String>();
-		HashSet<String> regionsSet = new HashSet<String>();
-		HashSet<String> citiesSet = new HashSet<String>();
-		HashSet<String> addressesSet = new HashSet<String>();
-		HashSet<String> indexesSet = new HashSet<String>();
-			
 		for(Address addr : addressList){
-			countriesSet.add(addr.getCountry());
-			regionsSet.add(addr.getRegion());
-			citiesSet.add(addr.getCity());
-			addressesSet.add(addr.getAddress());
-			indexesSet.add(""+addr.getPostIndex());
+			countries.add(addr.getCountry());
+			regions.add(addr.getRegion());
+			cities.add(addr.getCity());
+			addresses.add(addr.getAddress());
+			indexes.add("" + addr.getPostIndex());
 		}
-		
-		countries = new ArrayList<String>(countriesSet);
-		regions = new ArrayList<String>(regionsSet);
-		cities = new ArrayList<String>(citiesSet);
-		addresses = new ArrayList<String>(addressesSet);
-		indexes = new ArrayList<String>(indexesSet);
-		
-		
 	}
 
 	public ArrayList<Address> getAddressList() {
@@ -65,61 +50,59 @@ public class AddressView implements Serializable {
 		this.addressList = addressList;
 	}
 
-	public ArrayList<String> getCountries() {
-		return countries;
+	public List<String> completeCountries(String letters) {
+		if (letters.isEmpty()) return null;
+		List<String> result = new ArrayList<>();
+		for(String name : countries){
+			if(name != null && name.toLowerCase().startsWith(letters.toLowerCase())) {
+				result.add(name);
+			}
+		}
+		return result;
 	}
 
-	public ArrayList<String> getCountries(String value) {
-		return countries;
-	}
-	
-	public void setCountries(ArrayList<String> countries) {
-		this.countries = countries;
-	}
-
-	public ArrayList<String> getRegions() {
-		return regions;
-	}
-	
-	public ArrayList<String> getRegions(String value) {
-		return regions;
+	public List<String> completeRegions(String letters) {
+		if (letters.isEmpty()) return null;
+		List<String> result = new ArrayList<>();
+		for(String name : regions){
+			if(name != null && name.toLowerCase().startsWith(letters.toLowerCase())) {
+				result.add(name);
+			}
+		}
+		return result;
 	}
 
-	public void setRegions(ArrayList<String> regions) {
-		this.regions = regions;
+	public List<String> completeCities(String letters) {
+		if (letters.isEmpty()) return null;
+		List<String> result = new ArrayList<>();
+		for(String name : cities){
+			if(name != null && name.toLowerCase().startsWith(letters.toLowerCase())) {
+				result.add(name);
+			}
+		}
+		return result;
 	}
 
-	public ArrayList<String> getCities() {
-		return cities;
-	}
-	public ArrayList<String> getCities(String value) {
-		return cities;
-	}
-
-	public void setCities(ArrayList<String> cities) {
-		this.cities = cities;
-	}
-
-	public ArrayList<String> getAddresses() {
-		return addresses;
-	}
-	public ArrayList<String> getAddresses(String value) {
-		return addresses;
+	public List<String> completeAddresses(String letters) {
+		if (letters.isEmpty()) return null;
+		List<String> result = new ArrayList<>();
+		for(String name : addresses){
+			if(name != null && name.toLowerCase().startsWith(letters.toLowerCase())) {
+				result.add(name);
+			}
+		}
+		return result;
 	}
 
-	public void setAddresses(ArrayList<String> addresses) {
-		this.addresses = addresses;
+	public List<String> completeIndexes(String letters) {
+		if (letters.isEmpty()) return null;
+		List<String> result = new ArrayList<>();
+		for(String name : indexes){
+			if(name != null && name.toLowerCase().startsWith(letters.toLowerCase())) {
+				result.add(name);
+			}
+		}
+		return result;
 	}
 
-	public ArrayList<String> getIndexes() {
-		return indexes;
-	}
-	public ArrayList<String> getIndexes(String value) {
-		return indexes;
-	}
-
-	public void setIndexes(ArrayList<String> indexes) {
-		this.indexes = indexes;
-	}
-	
 }

@@ -9,6 +9,7 @@ import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
+import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Mapping;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +29,7 @@ import java.util.logging.Logger;
 @ViewScoped
 public class ScheduleGeneralView implements Serializable {
 	private final static Logger LOG = Logger.getLogger(ScheduleView.class.getName());
+	private final Integer DOCTORS_USER_GROUP_ID = Integer.parseInt(Config.getInstance().getProperty("DOCTORS_USER_GROUP_ID"));
 
 	@EJB
 	private UsersFacadeLocal usersFacade;
@@ -118,7 +120,7 @@ public class ScheduleGeneralView implements Serializable {
 
 	private void generateCss(){
 		cssStyle = "<style>";
-		for(Users doctor : usersFacade.findByGroup(3))
+		for(Users doctor : usersFacade.findByGroup(DOCTORS_USER_GROUP_ID))
 			cssStyle += ".doc" + doctor.getId() + "{background-color: #" + doctor.getColor() + "}";
 		cssStyle += "</style>";
 	}

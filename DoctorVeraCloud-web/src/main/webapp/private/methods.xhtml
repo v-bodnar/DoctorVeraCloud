@@ -130,7 +130,7 @@
 				widgetVar="addMethodDialog" modal="false" id="addMethodDialog" closeOnEscape="true">
 				<p:growl id="growl" showDetail="true" autoUpdate="true"/>
 				<p:messages id = "errorMessage" showDetail="true" style="width:400px;font-size:90%" escape="true" severity="error"/>
-				<p:ajax event="close" update=":methodsForm:methodsTable"/>
+				<p:ajax event="close" listener="#{methodsView.init()}" update=":methodsForm:methodsTable"/>
 
 				<h:panelGrid columns="3" cellpadding="5">
 				
@@ -239,7 +239,7 @@
 			<p:dialog header="#{MESSAGE.METHODS_ADD_DIALOG_TITLE}"
 				widgetVar="addPriceDialog" modal="false" id="addPriceDialog" closeOnEscape="true">
 				<p:growl id="growl" showDetail="true" autoUpdate="false" severity="info"/>
-				<p:ajax event="close" update=":methodsForm:methodsTable"/>
+				<p:ajax event="close" update=":methodsForm"/>
 
 				<h:panelGrid columns="3" cellpadding="5">
 				

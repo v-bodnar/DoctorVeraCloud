@@ -420,6 +420,8 @@
 	<entry key="SECURITY_METHODS_GROUP_DESCRIPTION">Страница "Методы исследований"</entry>
 	<entry key="SECURITY_PAYMENTS_GROUP_DESCRIPTION">Страница "Платежи"</entry>
 	<entry key="SECURITY_PROFILE_GROUP_DESCRIPTION">Страница "Профиль"</entry>
+	<entry key="SECURITY_PLAN_GROUP_DESCRIPTION">Страницы c планом приемов</entry>
+	<entry key="SECURITY_SCHEDULE_GROUP_DESCRIPTION">Страницы расписания приемов</entry>
 	<entry key="SECURITY_VIOLATION_MESSAGE_TITLE">Отказано в доступе</entry>
 	<entry key="SECURITY_VIOLATION_MESSAGE_START">Пользователь</entry>
 	<entry key="SECURITY_VIOLATION_MESSAGE_END">не имеет доступа к защищенному материалу</entry>
@@ -428,7 +430,7 @@
 	<entry key="SECURITY_POLICY_MENU_ITEM_MAIN">Пункт меню "Главная"</entry>
 	<entry key="SECURITY_POLICY_MENU_ITEM_USERS">Пункт меню "Пользователи"</entry>
 	<entry key="SECURITY_POLICY_MENU_ITEM_ADD_USER">Пункт меню "Добавить пользователя"</entry>
-	<entry key="SECURITY_POLICY_MENU_ITEM_USER_TYPES">Пункт меню "Группы пользователей"</entry>
+	<entry key="SECURITY_POLICY_MENU_ITEM_USER_GROUPS">Пункт меню "Группы пользователей"</entry>
 	<entry key="SECURITY_POLICY_MENU_ITEM_ACCESS_RIGHTS">Пункт меню "Права доступа"</entry>
 	<entry key="SECURITY_POLICY_MENU_ITEM_SETTINGS">Пункт меню "Настройки"</entry>
 	<!-- Manager block(45 symbols maximum) -->
@@ -497,4 +499,15 @@
 	<entry key="SECURITY_POLICY_PROFILE_EDIT_PHONE_NUMBER">Изменение номера телефона</entry>
 	<entry key="SECURITY_POLICY_PROFILE_EDIT_ADDRESS">Изменение адреса</entry>
 	<entry key="SECURITY_POLICY_PROFILE_EDIT_COLOR">Изменение цвета в расписании</entry>
+	<!-- Schedule page (45 symbols maximum)-->
+	<entry key="SECURITY_POLICY_SCHEDULE_CREATE">Создание записи приема</entry>
+	<entry key="SECURITY_POLICY_SCHEDULE_READ">Просмотр записи о приеме</entry>
+	<entry key="SECURITY_POLICY_SCHEDULE_UPDATE">Изменение записи о приеме</entry>
+	<entry key="SECURITY_POLICY_SCHEDULE_DELETE">Удаление записи о приеме</entry>
+	<!-- Plan page (45 symbols maximum)-->
+	<entry key="SECURITY_POLICY_PLAN_CREATE">Создание записи в плане приемов</entry>
+	<entry key="SECURITY_POLICY_PLAN_READ">Просмотр записи в плане приемов</entry>
+	<entry key="SECURITY_POLICY_PLAN_UPDATE">Изменение записи в плане приемов</entry>
+	<entry key="SECURITY_POLICY_PLAN_DELETE">Удаление записи в плане приемов</entry>
+
 </properties>

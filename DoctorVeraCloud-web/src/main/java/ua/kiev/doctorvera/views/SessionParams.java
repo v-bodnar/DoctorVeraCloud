@@ -34,7 +34,8 @@ public class SessionParams implements Serializable {
     }
 
     public void setScheduleRoom(Integer scheduleRoomId) {
-        this.scheduleRoom =  roomsFacade.find(scheduleRoomId);
+        if (scheduleRoomId != null )
+            this.scheduleRoom =  roomsFacade.find(scheduleRoomId);
     }
     public Rooms getPlanRoom() {
         return planRoom;

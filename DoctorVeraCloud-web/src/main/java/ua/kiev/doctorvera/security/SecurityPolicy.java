@@ -16,8 +16,7 @@ public enum SecurityPolicy implements Serializable{
      */
     MENU_ITEM_MAIN(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_MAIN"), SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_USERS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_USERS"), SecurityPolicyGroup.MENU_GROUP),
-    MENU_ITEM_ADD_USER(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_ADD_USER"), SecurityPolicyGroup.MENU_GROUP),
-    MENU_ITEM_USER_TYPES(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_USER_TYPES"), SecurityPolicyGroup.MENU_GROUP),
+    MENU_ITEM_USER_GROUPS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_USER_GROUPS"), SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_ROOMS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_ROOMS"), SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_SEND_SMS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_SEND_SMS"), SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_METHODS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_METHODS"), SecurityPolicyGroup.MENU_GROUP),
@@ -81,7 +80,21 @@ public enum SecurityPolicy implements Serializable{
     PROFILE_EDIT_PASSWORD(Message.getInstance().getString("SECURITY_POLICY_PROFILE_EDIT_PASSWORD"), SecurityPolicyGroup.PROFILE_GROUP),
     PROFILE_EDIT_PHONE_NUMBER(Message.getInstance().getString("SECURITY_POLICY_PROFILE_EDIT_PHONE_NUMBER"), SecurityPolicyGroup.PROFILE_GROUP),
     PROFILE_EDIT_ADDRESS(Message.getInstance().getString("SECURITY_POLICY_PROFILE_EDIT_ADDRESS"), SecurityPolicyGroup.PROFILE_GROUP),
-    PROFILE_EDIT_COLOR(Message.getInstance().getString("SECURITY_POLICY_PROFILE_EDIT_COLOR"), SecurityPolicyGroup.PROFILE_GROUP);
+    PROFILE_EDIT_COLOR(Message.getInstance().getString("SECURITY_POLICY_PROFILE_EDIT_COLOR"), SecurityPolicyGroup.PROFILE_GROUP),
+    /**
+     * Plan pages
+     */
+    PLAN_CREATE(Message.getInstance().getString("SECURITY_POLICY_PLAN_CREATE"), SecurityPolicyGroup.PLAN_GROUP),
+    PLAN_READ(Message.getInstance().getString("SECURITY_POLICY_PLAN_READ"), SecurityPolicyGroup.PLAN_GROUP),
+    PLAN_UPDATE(Message.getInstance().getString("SECURITY_POLICY_PLAN_UPDATE"), SecurityPolicyGroup.PLAN_GROUP),
+    PLAN_DELETE(Message.getInstance().getString("SECURITY_POLICY_PLAN_DELETE"), SecurityPolicyGroup.PLAN_GROUP),
+    /**
+     * Schedule pages
+     */
+    SCHEDULE_CREATE(Message.getInstance().getString("SECURITY_POLICY_SCHEDULE_CREATE"), SecurityPolicyGroup.SCHEDULE_GROUP),
+    SCHEDULE_READ(Message.getInstance().getString("SECURITY_POLICY_SCHEDULE_READ"), SecurityPolicyGroup.SCHEDULE_GROUP),
+    SCHEDULE_UPDATE(Message.getInstance().getString("SECURITY_POLICY_SCHEDULE_UPDATE"), SecurityPolicyGroup.SCHEDULE_GROUP),
+    SCHEDULE_DELETE(Message.getInstance().getString("SECURITY_POLICY_SCHEDULE_DELETE"), SecurityPolicyGroup.SCHEDULE_GROUP);
 
     private String name;
     private SecurityPolicyGroup policyGroup;
@@ -116,7 +129,9 @@ public enum SecurityPolicy implements Serializable{
         ROOMS_GROUP(Message.getInstance().getString("SECURITY_ROOMS_GROUP_DESCRIPTION")),
         PAYMENTS_GROUP(Message.getInstance().getString("SECURITY_PAYMENTS_GROUP_DESCRIPTION")),
         METHODS_GROUP(Message.getInstance().getString("SECURITY_METHODS_GROUP_DESCRIPTION")),
-        PROFILE_GROUP(Message.getInstance().getString("SECURITY_PROFILE_GROUP_DESCRIPTION"));
+        PROFILE_GROUP(Message.getInstance().getString("SECURITY_PROFILE_GROUP_DESCRIPTION")),
+        PLAN_GROUP(Message.getInstance().getString("SECURITY_PLAN_GROUP_DESCRIPTION")),
+        SCHEDULE_GROUP(Message.getInstance().getString("SECURITY_SCHEDULE_GROUP_DESCRIPTION"));
         SecurityPolicyGroup(String description){
             this.description = description;
         }

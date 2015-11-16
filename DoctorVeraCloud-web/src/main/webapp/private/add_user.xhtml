@@ -23,9 +23,8 @@
     <f:metadata><ui:insert name="metadata"/></f:metadata>
     <title><h:outputText value="#{MESSAGE.APPLICATION_TITLE}"/></title>
 </h:head>
-
 <h:form id="registerForm" onkeypress="if( event.keyCode == 13){event.preventDefault()}" styleClass="registerForm">
-    <p:growl id="growl" showDetail="true" severity="info"/>
+    <p:growl id="growl" showDetail="true" severity="info" />
     <p:panel>
         <h:panelGrid columns="3" cellpadding="5"
                      style="margin:auto;width:100%;">
@@ -167,10 +166,10 @@
             <p:autoComplete value="#{userRegisterView.address.country}"
                             id="country" name="country"
                             placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_COUNTRY}"
-                            completeMethod="#{addressView.getCountries}"
+                            completeMethod="#{addressView.completeCountries}"
                             validator="#{addressValidator.validate}">
-                <p:ajax event="change" update="countryMessage growl"/>
-                <f:attribute name="blur" value="country"/>
+                <p:ajax event="blur" update="countryMessage growl"/>
+                <f:attribute name="name" value="country"/>
             </p:autoComplete>
             <p:message for="country" id="countryMessage"/>
 
@@ -180,7 +179,7 @@
             <p:autoComplete value="#{userRegisterView.address.region}"
                             id="region" name="region"
                             placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_REGION}"
-                            completeMethod="#{addressView.getRegions}"
+                            completeMethod="#{addressView.completeRegions}"
                             validator="#{addressValidator.validate}">
                 <f:attribute name="name" value="region"/>
                 <p:ajax event="blur" update="regionMessage growl"/>
@@ -191,7 +190,7 @@
             <h:outputLabel for="city" value="#{MESSAGE.ADDRESS_CITY}"/>
             <p:autoComplete value="#{userRegisterView.address.city}" id="city"
                             name="city" placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_CITY}"
-                            completeMethod="#{addressView.getCities}"
+                            completeMethod="#{addressView.completeCities}"
                             validator="#{addressValidator.validate}">
                 <f:attribute name="name" value="city"/>
                 <p:ajax event="blur" update="cityMessage growl"/>
@@ -203,7 +202,7 @@
             <h:outputLabel for="address" value="#{MESSAGE.ADDRESS_ADDRESS}"/>
             <p:autoComplete value="#{userRegisterView.address.address}"
                             id="address" name="address"
-                            completeMethod="#{addressView.getAddresses}"
+                            completeMethod="#{addressView.completeCountries}"
                             placeholder="#{MESSAGE.ADDRESS_PLACEHOLDER_ADDRESS}">
                 <p:ajax event="blur" update="addressMessage growl"/>
             </p:autoComplete>
