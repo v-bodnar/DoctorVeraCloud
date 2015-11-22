@@ -19,6 +19,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -683,19 +685,23 @@ public class ScheduleView implements Serializable {
 
     //Creates Plan event from Plan record
     private DefaultScheduleEvent eventFromPlan(Plan plan) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         DefaultScheduleEvent newEvent = new DefaultScheduleEvent(
                 plan.getDoctor().getFirstName() + " " +
-                        plan.getDoctor().getLastName() + " / " +
+                        plan.getDoctor().getLastName() + " | " +
                         plan.getDescription(),
                 plan.getDateTimeStart(),
                 plan.getDateTimeEnd(),
                 plan);
-        newEvent.setDescription(
-                plan.getDoctor().getFirstName() + " " +
-                        plan.getDoctor().getLastName() + " / " +
-                        plan.getRoom().getName() + " / " +
-                        plan.getDescription()
-        );
+            newEvent.setDescription(
+                    formatter.format(plan.getDateTimeStart()) + " - " +
+                            formatter.format(plan.getDateTimeEnd()) + " | " +
+                    plan.getDoctor().getFirstName() + " " +
+
+                    plan.getDoctor().getLastName() + " | " +
+                    plan.getRoom().getName() + " | " +
+                     plan.getDescription()
+            );
         newEvent.setStyleClass("fc-plan doc" + plan.getDoctor().getId());
         if (event != null && event.getId() != null)
             newEvent.setId(event.getId());
@@ -704,36 +710,41 @@ public class ScheduleView implements Serializable {
 
     //Creates Schedule event from Schedule record
     private DefaultScheduleEvent eventFromSchedule(Schedule schedule) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         DefaultScheduleEvent newEvent;
         //If we process break record schedule will not have a patient
         if (schedule.getPatient() != null) {
             newEvent = new DefaultScheduleEvent(
-                    schedule.getMethod().getShortName() + " / " +
+                    schedule.getMethod().getShortName() + " | " +
                             schedule.getPatient().getFirstName() + " " +
-                            schedule.getPatient().getLastName() + " / " +
+                            schedule.getPatient().getLastName() + " | " +
                             schedule.getDescription(),
                     schedule.getDateTimeStart(),
                     schedule.getDateTimeEnd(),
                     schedule
             );
-            newEvent.setDescription(
-                    schedule.getMethod().getShortName() + " / " +
-                            schedule.getPatient().getFirstName() + " " +
-                            schedule.getPatient().getLastName() + " / " +
-                            schedule.getDescription()
-            );
+                newEvent.setDescription(
+                        formatter.format(schedule.getDateTimeStart()) + " - " +
+                                formatter.format(schedule.getDateTimeEnd()) + " | " +
+                                schedule.getMethod().getShortName() + " | " +
+                                schedule.getPatient().getFirstName() + " " +
+                                schedule.getPatient().getLastName() + " | " +
+                                schedule.getDescription()
+                );
         } else {
             newEvent = new DefaultScheduleEvent(
-                    schedule.getMethod().getShortName() + " / " +
+                    schedule.getMethod().getShortName() + " | " +
                             schedule.getDescription(),
                     schedule.getDateTimeStart(),
                     schedule.getDateTimeEnd(),
                     schedule
             );
-            newEvent.setDescription(
-                    schedule.getMethod().getShortName() + " / " +
-                            schedule.getDescription()
-            );
+                newEvent.setDescription(
+                        formatter.format(schedule.getDateTimeStart()) + " - " +
+                                formatter.format(schedule.getDateTimeEnd()) + " | " +
+                        schedule.getMethod().getShortName() + " | " +
+                                schedule.getDescription()
+                );
         }
         newEvent.setStyleClass("fc-schedule doc" + schedule.getDoctor().getId());
         if (event != null && event.getId() != null)

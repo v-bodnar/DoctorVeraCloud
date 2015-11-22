@@ -14,7 +14,7 @@
 
             <p:schedule id="schedule" value="#{scheduleGeneralView.eventModel}" locale="ru" view="agendaWeek" firstHour="7"
                         minTime="7:00" maxTime="20:00" styleClass="scheduleCalendar" timeZone="GMT+2" widgetVar="schedule"
-                        rightHeaderTemplate="month,agendaDay,agendaWeek" allDaySlot="false" tooltip="false" columnFormat="dddd,DD, MMMM">
+                        rightHeaderTemplate="month,agendaDay,agendaWeek" allDaySlot="false" tooltip="true" columnFormat="dddd,DD, MMMM" >
                 <p:ajax event="eventSelect" listener="#{scheduleGeneralView.onEventSelect}"  disabled="#{!securityUtils.checkPermissions('MENU_ITEM_SCHEDULE')}"/>
             </p:schedule>
             <h:outputText value="#{scheduleGeneralView.cssStyle}" escape="false"/>

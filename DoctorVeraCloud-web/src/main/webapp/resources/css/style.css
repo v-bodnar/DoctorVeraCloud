@@ -184,3 +184,6 @@ font-size: 100% !important;
 .ui-selectonemenu-panel.hideDisabled .ui-selectonemenu-item.ui-state-disabled {
 	display: none;
 }
+#planForm .ui-tooltip, #scheduleForm .ui-tooltip{
+	position: fixed;
+}

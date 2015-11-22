@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -84,32 +85,37 @@ public class ScheduleGeneralView implements Serializable {
 	//Creates Schedule event from Schedule record
 	private DefaultScheduleEvent eventFromSchedule(Schedule schedule){
 		DefaultScheduleEvent newEvent;
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
 		if(schedule.getPatient() != null){
 			newEvent = new DefaultScheduleEvent(
-					schedule.getMethod().getShortName() + " / " +
+					schedule.getMethod().getShortName() + " | " +
 							schedule.getPatient().getFirstName() + " " +
-							schedule.getPatient().getLastName() + " / " +
+							schedule.getPatient().getLastName() + " | " +
 							schedule.getDescription(),
 					schedule.getDateTimeStart(),
 					schedule.getDateTimeEnd(),
 					schedule
 			);
 			newEvent.setDescription(
-					schedule.getMethod().getShortName() + " / " +
+					formatter.format(schedule.getDateTimeStart()) + " - " +
+							formatter.format(schedule.getDateTimeEnd()) + " | " +
+					schedule.getMethod().getShortName() + " | " +
 							schedule.getPatient().getFirstName() + " " +
-							schedule.getPatient().getLastName() + " / " +
+							schedule.getPatient().getLastName() + " | " +
 							schedule.getDescription()
 			);
 		}else{
 			newEvent = new DefaultScheduleEvent(
-					schedule.getMethod().getShortName() + " / " +
+					schedule.getMethod().getShortName() + " | " +
 							schedule.getDescription(),
 					schedule.getDateTimeStart(),
 					schedule.getDateTimeEnd(),
 					schedule
 			);
 			newEvent.setDescription(
-					schedule.getMethod().getShortName() + " / " +
+					formatter.format(schedule.getDateTimeStart()) + " - " +
+							formatter.format(schedule.getDateTimeEnd()) + " | " +
+					schedule.getMethod().getShortName() + " | " +
 							schedule.getDescription()
 			);
 		}

@@ -27,6 +27,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -310,17 +311,20 @@ public class PlanView implements Serializable {
     	}
     }
     private DefaultScheduleEvent eventFromPlan(Plan plan){
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
     	DefaultScheduleEvent newEvent = new DefaultScheduleEvent(
 			plan.getDoctor().getFirstName() +  " " +
-			plan.getDoctor().getLastName() + " / " +  
+			plan.getDoctor().getLastName()  + " | " +
 			plan.getDescription(), 
 			plan.getDateTimeStart(), 
 			plan.getDateTimeEnd(),
 			plan);
     	newEvent.setDescription(
+			formatter.format(plan.getDateTimeStart()) + " - " +
+			formatter.format(plan.getDateTimeEnd()) + " | " +
     		plan.getDoctor().getFirstName() + " " +
-    		plan.getDoctor().getLastName() + " / " +
-    		plan.getRoom().getName() + " / " +
+    		plan.getDoctor().getLastName()  + " | " +
+    		plan.getRoom().getName()  + " | " +
     		plan.getDescription()
     		);
     	newEvent.setStyleClass("doc"+plan.getDoctor().getId());

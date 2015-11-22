@@ -14,7 +14,7 @@
 
             <p:schedule id="schedule" value="#{scheduleView.eventModel}" locale="ru" view="agendaWeek" styleClass="scheduleCalendar" timeZone="GMT+1" widgetVar="schedule"  ignoreTimezone="false"
                         rightHeaderTemplate="agendaDay,agendaWeek" scrollTime="7" minTime="7:00" maxTime="20:00"
-                        allDaySlot="false" slotMinutes="15" columnFormat="dddd,DD, MMMM" >
+                        allDaySlot="false" slotMinutes="15" columnFormat="dddd,DD, MMMM" tooltip="true">
                 <p:ajax event="eventSelect" listener="#{scheduleView.onEventSelect}" update="addScheduleDialog"
                         disabled="#{!securityUtils.checkPermissions('SCHEDULE_READ')}"/>
                 <p:ajax event="eventMove" listener="#{scheduleView.onEventMove}" update="growl"
