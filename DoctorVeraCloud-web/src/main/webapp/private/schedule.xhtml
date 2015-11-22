@@ -35,8 +35,6 @@
                     styleClass="addScheduleDialog" closeOnEscape="true" width="1000" height="630">
 
                 <p:messages id="errorMessage" showDetail="true" style="width:800px;font-size:90%" escape="true"/>
-                <p:wizard flowListener="#{scheduleView.onFlowProcess}">
-                    <p:tab id="personalTab" title="#{MESSAGE.SCHEDULE_TAB_PERSONAL}">
                         <h:panelGrid columns="3" cellpadding="5">
                             <!-- International -->
                             <h:outputLabel for="foreigner" value="#{MESSAGE.USERS_IS_FOREIGNER}"/>
@@ -122,23 +120,6 @@
                                 <!--p:ajax event="blur" update="planDescriptionMessage" /-->
                             </p:inputTextarea>
                             <p:message for="scheduleDescription" id="scheduleDescriptionMessage"/>
-                        </h:panelGrid>
-
-                        <p:fieldset legend="#{MESSAGE.SCHEDULE_TAB_DOCUMENTS}" toggleable="true" toggleSpeed="500">
-                            <h:panelGrid columns="1" cellpadding="5">
-                                <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_FORM}" title="#{MESSAGE.SCHEDULE_PRINT_FORM}"
-                                                 actionListener="#{scheduleView.printForm}" icon="ui-icon-print" update="growl" style="width:300px"/>
-                                <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}" title="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}"
-                                                 actionListener="#{scheduleView.printSecureAgreement}" icon="ui-icon-print" update="growl" style="width:300px"/>
-                                <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}" title="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}"
-                                                 actionListener="#{scheduleView.printPrintIncomeForm}" icon="ui-icon-print" update="growl" style="width:300px"/>
-
-                            </h:panelGrid>
-                        </p:fieldset>
-                    </p:tab>
-
-                    <p:tab id="appointmentTab" title="#{MESSAGE.SCHEDULE_TAB_APPOINTMENT}">
-                        <h:panelGrid columns="3" cellpadding="5">
 
                             <!-- Assistent -->
                             <h:outputLabel for="assistent" value="#{MESSAGE.SCHEDULE_ASSISTENT}"/>
@@ -256,10 +237,20 @@
                                            message="#{MESSAGE.SCHEDULE_DELETE_CONFIRM_MESSAGE}" icon="ui-icon-alert"/>
                             </p:commandButton>
 
-                        </h:panelGrid>
-                    </p:tab>
+                            <p:fieldset legend="#{MESSAGE.SCHEDULE_TAB_DOCUMENTS}" toggleable="true" toggleSpeed="500" collapsed="true">
+                                <h:panelGrid columns="1" cellpadding="5">
+                                    <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_FORM}" title="#{MESSAGE.SCHEDULE_PRINT_FORM}"
+                                                     actionListener="#{scheduleView.printForm}" icon="ui-icon-print" update="growl" style="width:300px"/>
+                                    <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}" title="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}"
+                                                     actionListener="#{scheduleView.printSecureAgreement}" icon="ui-icon-print" update="growl" style="width:300px"/>
+                                    <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}" title="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}"
+                                                     actionListener="#{scheduleView.printPrintIncomeForm}" icon="ui-icon-print" update="growl" style="width:300px"/>
 
-                </p:wizard>
+                                </h:panelGrid>
+                            </p:fieldset>
+
+                        </h:panelGrid>
+
                 <script>
 
                     $("#method .ui-multiselectlistbox-listcontainer +.ui-multiselectlistbox-listcontainer li").click(
