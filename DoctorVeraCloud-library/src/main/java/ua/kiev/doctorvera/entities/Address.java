@@ -52,7 +52,6 @@ public class Address implements Serializable, Identified<Integer> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "AddressId")
     private Integer addressId;
     @Column(name = "Country")
