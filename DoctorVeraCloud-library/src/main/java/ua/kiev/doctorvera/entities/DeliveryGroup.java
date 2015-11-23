@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -28,6 +29,13 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
     @Basic
     @Column(name = "Description")
     private String description;
+
+    @OneToMany(fetch=FetchType.EAGER)
+    @JoinTable(
+            name="DeliveryGroupHasUsers",
+            joinColumns={@JoinColumn(name="User", referencedColumnName="UserId")},
+            inverseJoinColumns={@JoinColumn(name="DeliveryGroup", referencedColumnName="DeliveryGroupId")})
+    private Collection<Users> users;
 
     @Basic(optional = false)
     @NotNull
@@ -62,6 +70,13 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public Collection<Users> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection<Users> users) {
+        this.users = users;
     }
     @Override
     public Date getDateCreated() {
