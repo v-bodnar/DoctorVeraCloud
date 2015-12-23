@@ -12,6 +12,8 @@
 	<entry key="APPLICATION_ERROR_TITLE">Ошибка!</entry>
 	<entry key="APPLICATION_SELECT_ONE">Выберите</entry>
 	<entry key="APPLICATION_PERMISSION_DENIED">В доступе отказанно. Обратитесь к менеджеру системы</entry>
+	<entry key="APPLICATION_YES">Да</entry>
+	<entry key="APPLICATION_NO">Нет</entry>
 
 	<!-- login.xhtml -->
 	<entry key="LOGIN_TITLE">Вход</entry>
@@ -277,10 +279,66 @@
 	<entry key="INDEX_AVERAGE_MONTH_SALARY">Средний зароботок в месяц</entry>
 	<entry key="INDEX_YEAR_SALARY">Заработано за год</entry>
 
-	<!-- add_users.jsp -->
+	<!-- add_users.xhtml -->
 	<entry key="ADD_USER_TITLE">Добавить пользователя</entry>
 	<entry key="ADD_USER_FORM_LEGEND_DETAILS">Данные о пользователе</entry>
 	<entry key="ADD_USER_FORM_LEGEND_ADDRESS">Адрес</entry>
+
+	<!-- delivery_groups.xhtml -->
+	<entry key="DELIVERY_GROUPS_TITLE">Группы пользователей для рассылок</entry>
+	<entry key="DELIVERY_GROUPS_DELETED">Группа удалена</entry>
+	<entry key="DELIVERY_GROUPS_EDITED">Изменения внесены!</entry>
+	<entry key="DELIVERY_GROUPS_SAVED">Новая группа создана!</entry>
+	<entry key="DELIVERY_GROUPS_ADD_SUCCESS_START">Пользователи:</entry>
+	<entry key="DELIVERY_GROUPS_REMOVE_SUCCESS_START">Пользователи:</entry>
+	<entry key="DELIVERY_GROUPS_ADD_SUCCESS_END">добавлены в группу</entry>
+	<entry key="DELIVERY_GROUPS_REMOVE_SUCCESS_END">Удвлены из группы</entry>
+	<entry key="DELIVERY_GROUPS_DELETE_CONFIRM_TITLE">Внимание!</entry>
+	<entry key="DELIVERY_GROUPS_DELETE_CONFIRM_MESSAGE">Вы действительно хотите удалить группу?</entry>
+	<entry key="DELIVERY_GROUPS_DELETE_BUTTON">Удалить</entry>
+	<entry key="DELIVERY_GROUPS_EDIT_BUTTON">Изменить группу</entry>
+	<entry key="DELIVERY_GROUPS_ADD_BUTTON">Добавить</entry>
+	<entry key="DELIVERY_GROUPS_SAVE_BUTTON">Сохранить</entry>
+	<entry key="DELIVERY_GROUPS_ADD_DIALOG_TITLE">Создание группы для рассылок</entry>
+	<entry key="DELIVERY_GROUPS_EDIT_DIALOG_TITLE">Изменение группы для рассылок</entry>
+	<entry key="DELIVERY_GROUPS_DELETE_CONFIRM_YES">Да</entry>
+	<entry key="DELIVERY_GROUPS_DELETE_CONFIRM_NO">Нет</entry>
+	<entry key="DELIVERY_GROUPS_ADD_USERS">Добавить пользователей!</entry>
+	<entry key="DELIVERY_GROUPS_USERS_PICKER_TITLE">Добавление пользователей в группу</entry>
+	<entry key="DELIVERY_GROUPS_USERS_PICKER_SOURCE">Все пользователи</entry>
+	<entry key="DELIVERY_GROUPS_ADD_SUCCESS_START">Пользователли:</entry>
+	<entry key="DELIVERY_GROUPS_ADD_SUCCESS_END">добавлены в группу</entry>
+	<entry key="DELIVERY_GROUPS_REMOVE_SUCCESS_START">Пользователли: </entry>
+	<entry key="DELIVERY_GROUPS_REMOVE_SUCCESS_END">удалены из группы: </entry>
+	<entry key="DELIVERY_GROUPS_ADD_USER_GROUPS">Добавить группу пользователей!</entry>
+	<entry key="DELIVERY_GROUPS_USER_GROUP_PICKER_TITLE">Добавление прав доступа для группы</entry>
+	<entry key="DELIVERY_GROUPS_USER_GROUP_PICKER_SOURCE">Все права доступа</entry>
+	<entry key="DELIVERY_GROUPS_ADD_USER_GROUP_SUCCESS_START">Группы пользователей:</entry>
+	<entry key="DELIVERY_GROUPS_ADD_USER_GROUP_SUCCESS_END">добавлены для группы доставки</entry>
+	<entry key="DELIVERY_GROUPS_REMOVE_SUCCESS_START">Группы пользователей: </entry>
+	<entry key="DELIVERY_GROUPS_REMOVE_USER_GROUP_SUCCESS_END">удалены для группы доставки: </entry>
+	<entry key="DELIVERY_GROUPS_ADD_USERS_SUCCESS_START">Пользователи:</entry>
+	<entry key="DELIVERY_GROUPS_ADD_USERS_SUCCESS_END">добавлены для группы доставки</entry>
+	<entry key="DELIVERY_GROUPS_REMOVE_USERS_SUCCESS_START">Пользователи: </entry>
+	<entry key="DELIVERY_GROUPS_REMOVE_USERS_SUCCESS_END">удалены для группы доставки: </entry>
+
+	<!-- message_templates.xhtml -->
+	<entry key="SMS_TEMPLATES_TITLE">СМС Шаблоны</entry>
+	<entry key="EMAIL_TEMPLATES_TITLE">EMAIL Шаблоны</entry>
+	<entry key="MESSAGE_TEMPLATES_CREATE_BUTTON">Добавить</entry>
+	<entry key="MESSAGE_TEMPLATES_UPDATE_BUTTON">Изменить шаблон</entry>
+	<entry key="MESSAGE_TEMPLATES_DELETE_BUTTON">Удалить шаблон</entry>
+	<entry key="MESSAGE_TEMPLATES_SEND_BUTTON">Отправить</entry>
+	<entry key="MESSAGE_TEMPLATES_SAVE_AS_NEW_BUTTON">Сохранить как новый</entry>
+	<entry key="MESSAGE_TEMPLATES_SAVE_BUTTON">Сохранить</entry>
+	<entry key="MESSAGE_TEMPLATES_DELETE_CONFIRM_TITLE">Внимание!</entry>
+	<entry key="MESSAGE_TEMPLATES_DELETE_CONFIRM_MESSAGE">Вы действительно хотите удалить шаблон?</entry>
+	<entry key="MESSAGE_TEMPLATES_ADD_DIALOG_TITLE">Создние нового шаблона</entry>
+	<entry key="MESSAGE_TEMPLATES_EDIT_DIALOG_TITLE">Изменение шаблона</entry>
+	<entry key="MESSAGE_TEMPLATES_DELETED">Шаблон удален</entry>
+	<entry key="MESSAGE_TEMPLATES_UPDATED">Изменения внесены!</entry>
+	<entry key="MESSAGE_TEMPLATES_SAVED">Новый шаблон создан</entry>
+
 
 	<!-- Menu -->
 	<entry key="MENU_HEADER">Главное меню</entry>
@@ -288,6 +346,7 @@
 	<entry key="MANAGER_BLOCK_HEADER">Управление</entry>
 	<entry key="FINANCIAL_BLOCK_HEADER">Финансы</entry>
 	<entry key="STATISTICS_BLOCK_HEADER">Статистика</entry>
+	<entry key="MENU_HEADER_DELIVERY">Система доставки сообщений</entry>
 	<!-- Administration block -->
 	<entry key="MENU_ITEM_MAIN">Главная</entry>
 	<entry key="MENU_ITEM_USERS">Пользователи</entry>
@@ -322,13 +381,17 @@
 	<entry key="MENU_ITEM_TIME">Временная статистика</entry>
 
 	<entry key="MENU_ITEM_PERSONAL_SCHEDULE">Мое расписание</entry>
-
+	<!-- Message delivery block -->
+	<entry key="MENU_ITEM_DELIVERY_GROUPS">Группы для рассылок</entry>
+	<entry key="MENU_ITEM_SMS_TEMPLATES">СМС шаблоны</entry>
+	<entry key="MENU_ITEM_EMAIL_TEMPLATES">E-MAIL шаблоны</entry>
 
 	<!-- Generic Entity -->
 	<entry key="ENTITY_ID">№</entry>
 	<entry key="ENTITY_DATE_CREATED">Дата создания</entry>
 	<entry key="ENTITY_USER_CREATED">Создал</entry>
 	<entry key="ENTITY_DESCRIPTION">Описание</entry>
+	<entry key="ENTITY_NAME">Название</entry>
 	<!-- Users Entity -->
 	<entry key="USERS_LAST_NAME">Фамилия</entry>
 	<entry key="USERS_FIRST_NAME">Имя</entry>
@@ -369,6 +432,10 @@
 	<entry key="PLAN_TIME_END">Конец приема</entry>
 	<entry key="PLAN_ROOM">Кабинет</entry>
 	<entry key="PLAN_DOCTOR">Доктор</entry>
+	<!-- Message Template Entity -->
+	<entry key="SMS_TEMPLATE_CONTENT">Текст сообщения </entry>
+	<entry key="SMS_TEMPLATE_TYPE">Тип сообщения</entry>
+	<entry key="SMS_TEMPLATE_SYSTEM">Систеиный</entry>
 
 	<!-- Validator -->
 	<entry key="VALIDATOR_ERROR_TITLE">Ошибка!</entry>
@@ -422,6 +489,9 @@
 	<entry key="SECURITY_PROFILE_GROUP_DESCRIPTION">Страница "Профиль"</entry>
 	<entry key="SECURITY_PLAN_GROUP_DESCRIPTION">Страницы c планом приемов</entry>
 	<entry key="SECURITY_SCHEDULE_GROUP_DESCRIPTION">Страницы расписания приемов</entry>
+	<entry key="SECURITY_DELIVERY_GROUPS_DESCRIPTION">Страница группы для рассылок</entry>
+	<entry key="SECURITY_SMS_TEMPLATES_DESCRIPTION">Страница CMC шаблоны</entry>
+	<entry key="SECURITY_EMAIL_TEMPLATES_DESCRIPTION">Страница E-MAIL шаблоны</entry>
 	<entry key="SECURITY_VIOLATION_MESSAGE_TITLE">Отказано в доступе</entry>
 	<entry key="SECURITY_VIOLATION_MESSAGE_START">Пользователь</entry>
 	<entry key="SECURITY_VIOLATION_MESSAGE_END">не имеет доступа к защищенному материалу</entry>
@@ -449,15 +519,21 @@
 	<entry key="SECURITY_POLICY_MENU_ITEM_PLAN_GENERAL">Пункт меню "Полный план приемов"</entry>
 	<entry key="SECURITY_POLICY_MENU_ITEM_PLAN">Пункт меню "План приемов"</entry>
 	<!-- Financial block(45 symbols maximum) -->
-	<entry key="SECURITY_POLICY_MENU_HEADER_FINANCE">Финансы</entry>
-	<entry key="SECURITY_POLICY_MENU_ITEM_CASH">Касса</entry>
-	<entry key="SECURITY_POLICY_MENU_ITEM_PAYMENTS">Платежи</entry>
-	<entry key="SECURITY_POLICY_MENU_ITEM_CREATE_PAYMENT">Создать платеж</entry>
-	<entry key="SECURITY_POLICY_MENU_ITEM_SALARY">Зар. Платы</entry>
+	<entry key="SECURITY_POLICY_MENU_HEADER_FINANCE">Пункт меню "Финансы"</entry>
+	<entry key="SECURITY_POLICY_MENU_ITEM_CASH">Пункт меню "Касса"</entry>
+	<entry key="SECURITY_POLICY_MENU_ITEM_PAYMENTS">Пункт меню "Платежи"</entry>
+	<entry key="SECURITY_POLICY_MENU_ITEM_CREATE_PAYMENT">Пункт меню "Создать платеж"</entry>
+	<entry key="SECURITY_POLICY_MENU_ITEM_SALARY">Пункт меню "Зар. Платы"</entry>
 	<!-- Statistics block(45 symbols maximum) -->
-	<entry key="SECURITY_POLICY_MENU_ITEM_APPOINTMENTS">Статистика приемов</entry>
-	<entry key="SECURITY_POLICY_MENU_ITEM_FINANCE">Финансовая статистика</entry>
-	<entry key="SECURITY_POLICY_MENU_ITEM_TIME">Временная статистика</entry>
+	<entry key="SECURITY_POLICY_MENU_ITEM_APPOINTMENTS">Пункт меню "Статистика приемов"</entry>
+	<entry key="SECURITY_POLICY_MENU_ITEM_FINANCE">Пункт меню "Финансовая статистика"</entry>
+	<entry key="SECURITY_POLICY_MENU_ITEM_TIME">Пункт меню "Временная статистика"</entry>
+	<!-- Message Delivery block(45 symbols maximum) -->
+	<entry key="SECURITY_POLICY_MENU_ITEM_SMS_TEMPLATES">Пункт меню "СМС шаблоны"</entry>
+	<entry key="SECURITY_POLICY_MENU_ITEM_EMAIL_TEMPLATES">Пункт меню "E-MAIL шаблоны"</entry>
+
+	<!-- Delivery block(45 symbols maximum) -->
+	<entry key="SECURITY_POLICY_MENU_ITEM_DELIVERY_GROUPS">Пункт меню "Группы для рассылок"</entry>
 	<!-- Users page (45 symbols maximum)-->
 	<entry key="SECURITY_POLICY_USERS_ADD_USER">Кнопка "Добавить пользователя"</entry>
 	<entry key="SECURITY_POLICY_USERS_DELETE_USER">Пункт "Удалить" в контекстном меню</entry>
@@ -509,5 +585,20 @@
 	<entry key="SECURITY_POLICY_PLAN_READ">Просмотр записи в плане приемов</entry>
 	<entry key="SECURITY_POLICY_PLAN_UPDATE">Изменение записи в плане приемов</entry>
 	<entry key="SECURITY_POLICY_PLAN_DELETE">Удаление записи в плане приемов</entry>
-
+	<!-- Delivery Groups page (45 symbols maximum)-->
+	<entry key="SECURITY_POLICY_DELIVERY_GROUPS_ADD_USER_GROUP">Кнопка "Добавить группу"</entry>
+	<entry key="SECURITY_POLICY_DELIVERY_GROUPS_DELETE_USER_GROUP">Пункт "Удалить" в контекстном меню</entry>
+	<entry key="SECURITY_POLICY_DELIVERY_GROUPS_EDIT_USER_GROUP">Пункт "Редактировать" в контекстном меню</entry>
+	<entry key="SECURITY_POLICY_DELIVERY_GROUPS_ADD_USER">Пункт "Добавить пользователей" в к. меню</entry>
+	<entry key="SECURITY_POLICY_DELIVERY_GROUPS_ADD_SECURITY_POLICIES">Пункт "Добавить группу польз" в к. меню</entry>
+	<!-- SMS Templates page (45 symbols maximum)-->
+	<entry key="SECURITY_POLICY_SMS_TEMPLATES_ADD">Кнопка "Добавить"</entry>
+	<entry key="SECURITY_POLICY_SMS_TEMPLATES_DELETE">Пункт "Удалить" в контекстном меню</entry>
+	<entry key="SECURITY_POLICY_SMS_TEMPLATES_UPDATE">Пункт "Редактировать" в контекстном меню</entry>
+	<entry key="SECURITY_POLICY_SMS_TEMPLATES_SEND">Пункт "Отправить" в контекстном меню</entry>
+	<!-- EMAIL Templates page (45 symbols maximum)-->
+	<entry key="SECURITY_POLICY_EMAIL_TEMPLATES_ADD">Кнопка "Добавить"</entry>
+	<entry key="SECURITY_POLICY_EMAIL_TEMPLATES_DELETE">Пункт "Удалить" в контекстном меню</entry>
+	<entry key="SECURITY_POLICY_EMAIL_TEMPLATES_UPDATE">Пункт "Редактировать" в контекстном меню</entry>
+	<entry key="SECURITY_POLICY_EMAIL_TEMPLATES_SEND">Пункт "Отправить" в контекстном меню</entry>
 </properties>

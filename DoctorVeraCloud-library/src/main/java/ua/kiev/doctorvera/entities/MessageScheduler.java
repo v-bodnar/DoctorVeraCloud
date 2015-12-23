@@ -116,11 +116,11 @@ public class MessageScheduler  implements Serializable, Identified<Integer>{
     }
     @Override
     public Integer getId() {
-        return null;
+        return messageSchedulerId;
     }
     @Override
     public void setId(Integer id) {
-
+        messageSchedulerId = id;
     }
 
     @Override

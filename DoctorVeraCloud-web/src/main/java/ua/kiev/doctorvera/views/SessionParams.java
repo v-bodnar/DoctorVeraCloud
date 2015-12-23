@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.views;
 
+import ua.kiev.doctorvera.entities.MessageTemplate;
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
@@ -24,6 +25,9 @@ public class SessionParams implements Serializable {
     private Rooms planRoom;
     private Rooms scheduleRoom;
     private Users profileUser;
+
+    //Holds value of the delivery messageType
+    private MessageTemplate.Type deliveryMessageType;
 
     public Rooms getScheduleRoom() {
         return scheduleRoom;
@@ -63,5 +67,13 @@ public class SessionParams implements Serializable {
 
     public void setAuthorizedUser(Users authorizedUser) {
         this.authorizedUser = authorizedUser;
+    }
+
+    public MessageTemplate.Type getDeliveryMessageType() {
+        return deliveryMessageType;
+    }
+
+    public void setDeliveryMessageType(MessageTemplate.Type deliveryMessageType) {
+        this.deliveryMessageType = deliveryMessageType;
     }
 }

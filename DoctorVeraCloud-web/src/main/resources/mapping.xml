@@ -20,8 +20,9 @@
  	<entry key="PLAN_GENERAL_PAGE">/private/plan_general.xhtml</entry>
 	<entry key="SCHEDULE_PERSONAL_PAGE">/private/schedule_doctor.xhtml</entry>
 	<entry key="PERMISSION_DENIED_PAGE">/access_denied.xhtml</entry>
-
-
+	<entry key="DELIVERY_GROUPS_PAGE">/private/delivery_groups.xhtml</entry>
+	<entry key="SMS_TEMPLATES_PAGE">/private/message_templates.xhtml?SMS=true</entry>
+	<entry key="EMAIL_TEMPLATES_PAGE">/private/message_templates.xhtml?EMAIL=true</entry>
 
  	<!-- Path-->
  	<entry key="APPLICATION_LOGO">/logo.png</entry>

@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.*;
 
@@ -151,5 +152,25 @@ public class UserGroupsFacade extends AbstractFacade<UserGroups> implements User
 			result.addAll(findPoliciesByGroup(userGroup));
 		}
 		return result;
+	}
+
+	/**
+	 * Searches all UserGroups that contain given deliveryGroup
+	 * @param deliveryGroup
+	 * @return
+	 */
+	public List<UserGroups> findUserGroupsByDeliveryGroup(DeliveryGroup deliveryGroup){
+
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<UserGroups> cq = cb.createQuery(UserGroups.class);
+
+		Root root = cq.from(UserGroups.class);
+		cq.distinct(true);
+
+		Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+		Predicate deliveryGroupPredicate = cb.and(cb.isMember(deliveryGroup, root.get("deliveryGroups")));
+		cq.select(root).where(deletedPredicate, deliveryGroupPredicate);
+
+		return getEntityManager().createQuery(cq).getResultList();
 	}
 }

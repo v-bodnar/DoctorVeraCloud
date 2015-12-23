@@ -1,0 +1,254 @@
+<ui:composition template="index.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jstl/core">
+    <ui:define name="title">
+        <c:set var="isSMSType" value="#{messageTemplatesView.messageType == 'SMS'}" />
+        <h:outputText value="#{isSMSType ? MESSAGE.SMS_TEMPLATES_TITLE : MESSAGE.EMAIL_TEMPLATES_TITLE}" />
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="smsTemplatesTableForm">
+            <p:growl id="growl" showDetail="true" severity="info" />
+
+            <c:set var="isSMSType" value="#{messageTemplatesView.messageType == 'SMS'}" />
+            <p:contextMenu for="smsTemplatesTable">
+                <p:menuitem update="smsTemplatesTable growl" rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_UPDATE') : securityUtils.checkPermissions('EMAIL_TEMPLATES_UPDATE')}">
+                    <p:commandLink styleClass="ui-menuitem-link" action="#{messageTemplatesView.setNewMessageTemplate(null)}"
+                                   oncomplete="PF('editTemplateDialog').show();"
+                                   update=":smsTemplatesEditForm:editTemplateDialog">
+                        <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
+                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.MESSAGE_TEMPLATES_UPDATE_BUTTON}" />
+                    </p:commandLink>
+                </p:menuitem>
+
+                <p:menuitem update="smsTemplatesTable growl" rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_DELETE') : securityUtils.checkPermissions('EMAIL_TEMPLATES_DELETE')}">
+                    <p:commandLink styleClass="ui-menuitem-link" action="#{messageTemplatesView.deleteSelectedTemplate}" ajax="false"
+                                   update="smsTemplatesTable growl" process="@none">
+                        <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.MESSAGE_TEMPLATES_DELETE_BUTTON}" />
+                        <p:confirm header="#{MESSAGE.MESSAGE_TEMPLATES_DELETE_CONFIRM_TITLE}" icon="ui-icon-alert"
+                                   message="#{MESSAGE.MESSAGE_TEMPLATES_DELETE_CONFIRM_MESSAGE}" />
+                    </p:commandLink>
+                </p:menuitem>
+
+                <p:menuitem update="smsTemplatesTable growl" rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_SEND') : securityUtils.checkPermissions('EMAIL_TEMPLATES_SEND')}">
+                    <p:commandLink styleClass="ui-menuitem-link" ajax="false" update="smsTemplatesTable growl">
+                        <h:outputText styleClass="ui-menuitem-icon ui-icon  ui-icon-mail-closed" />
+                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.MESSAGE_TEMPLATES_SEND_BUTTON}" />
+                    </p:commandLink>
+                </p:menuitem>
+
+            </p:contextMenu>
+
+            <h:outputText id="overlayPanelPlace" style="margin-left:300px;"/>
+
+            <p:dataTable id="smsTemplatesTable" styleClass="smsTemplatesTable"
+                         var="template" widgetVar="smsTemplatesTable"
+                         value="#{messageTemplatesView.allMessageTemplates}" rowKey="#{template.id}"
+                         selection="#{messageTemplatesView.selectedMessageTemplate}" selectionMode="single"
+                         paginator="true" rows="10"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="10,15,20,100" lazy="true">
+
+                <p:ajax event="contextMenu"
+                        update=":smsTemplatesEditForm:editTemplateDialog" />
+                <p:column headerText="#{MESSAGE.ENTITY_NAME}"
+                          sortBy="#{template.name}" filterBy="#{template.name}"
+                          filterMatchMode="contains" style="width:200px;">
+                    <h:outputText value="#{template.name}" />
+                </p:column>
+
+                <p:column headerText="#{MESSAGE.ENTITY_DESCRIPTION}"
+                          sortBy="#{template.description}" filterBy="#{template.description}"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{template.description}" />
+                </p:column>
+
+                <p:column width="50">
+                    <p:commandButton process="smsTemplatesTable" update=":smsTemplatesTableForm:messageContent" oncomplete="PF('messageContent').show();" icon="ui-icon-search">
+                        <f:setPropertyActionListener value="#{template}" target="#{messageTemplatesView.selectedMessageTemplate}" />
+                    </p:commandButton>
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton value="#{MESSAGE.MESSAGE_TEMPLATES_CREATE_BUTTON}" icon="ui-icon-plus"
+                                     actionListener = "#{messageTemplatesView.createNewTemplate()}"
+                                     oncomplete="PF('addTemplateDialog').show();"
+                                     update=":smsTemplatesAddForm:addTemplateTable :smsTemplatesEditForm:editTemplateTable"
+                                     rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_ADD') : securityUtils.checkPermissions('EMAIL_TEMPLATES_ADD')}"/>
+                </f:facet>
+
+            </p:dataTable>
+
+            <p:overlayPanel widgetVar="messageContent" id="messageContent" showEffect="fade" hideEffect="fade" dismissable="true" showCloseIcon="true"
+                            for="overlayPanelPlace" dynamic="false" >
+                <p:outputPanel>
+                    <h:outputText value="#{messageTemplatesView.selectedMessageTemplate.content}" escape="false" />
+                </p:outputPanel>
+            </p:overlayPanel>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton value="#{MESSAGE.APPLICATION_YES}"
+                                 type="button" styleClass="ui-confirmdialog-yes"
+                                 icon="ui-icon-check" />
+                <p:commandButton value="#{MESSAGE.APPLICATION_NO}"
+                                 type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+        </h:form>
+
+        <h:form id="smsTemplatesAddForm">
+
+            <p:dialog header="#{MESSAGE.MESSAGE_TEMPLATES_ADD_DIALOG_TITLE}"
+                     id="addTemplateDialog" widgetVar="addTemplateDialog" modal="false">
+                <p:growl id="growl" showDetail="true" />
+                <p:ajax event="close" update=":smsTemplatesTableForm:smsTemplatesTable" />
+
+                <h:panelGrid columns="3" cellpadding="5" id="addTemplateTable">
+
+                    <!-- Template Name -->
+                    <h:outputLabel for="templateName"
+                                   value="#{MESSAGE.ENTITY_NAME}" />
+                    <p:inputText id="templateName" required="true"
+                                 value="#{messageTemplatesView.newMessageTemplate.name}"
+                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" >
+                        <p:ajax event="blur" update="templateNameMessage templateName" />
+                    </p:inputText>
+                    <p:message for="templateName" id="templateNameMessage" />
+
+                    <!-- Template Content SMS-->
+                    <h:outputLabel for="smsContent" id="smsContentLabel"
+                                   value="#{MESSAGE.SMS_TEMPLATE_CONTENT} #{messageTemplatesView.letterCounter}/#{messageTemplatesView.messageCounter}"
+                                   rendered="#{isSMSType}"/>
+                    <p:inputTextarea rows="6" cols="40" id="smsContent"
+                                     value="#{messageTemplatesView.newMessageTemplate.content}" required="true"
+                                     requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" rendered="#{isSMSType}">
+                        <p:ajax event="blur" update="smsContentMessage" />
+                        <p:ajax event="keyup" listener="#{messageTemplatesView.updateLetterCounter}" update="smsContentLabel" />
+                    </p:inputTextarea>
+
+                    <p:message for="smsContent" id="smsContentMessage" rendered="#{isSMSType}"/>
+
+                    <!-- Template Content EMAIL -->
+                    <h:outputLabel for="emailContent" id="emailContentLabel"
+                                   value="#{MESSAGE.SMS_TEMPLATE_CONTENT}"
+                                   rendered="#{!isSMSType}"/>
+                    <p:editor id="emailContent" value="#{messageTemplatesView.newMessageTemplate.content}" width="600"
+                              required="true" rendered="#{!isSMSType}"
+                              requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
+
+                    <p:message for="emailContent" id="emailContentMessage" rendered="#{!isSMSType}"/>
+
+                    <!-- Template  System flag-->
+                    <h:outputLabel for="templateSystem"
+                                   value="#{MESSAGE.SMS_TEMPLATE_SYSTEM}" />
+                    <p:inputSwitch value="#{messageTemplatesView.newMessageTemplate.system}" id="templateSystem"
+                    offLabel="#{MESSAGE.APPLICATION_NO}" onLabel="#{MESSAGE.APPLICATION_YES}"/>
+                    <p:message for="templateSystem" id="templateSystemMessage" />
+
+                    <!-- Template Description-->
+                    <h:outputLabel for="templateDescription"
+                                   value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+                    <p:inputTextarea rows="6" cols="40" id="templateDescription"
+                                     value="#{messageTemplatesView.newMessageTemplate.description}" required="true"
+                                     requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="templateDescriptionMessage" />
+                    </p:inputTextarea>
+                    <p:message for="templateDescription" id="templateDescriptionMessage" />
+
+                    <!-- Action Buttons-->
+                    <h:outputLabel for="smsTemplatesaveButton" value="" />
+                    <p:commandButton id="smsTemplatesaveButton"
+                                     value="#{MESSAGE.MESSAGE_TEMPLATES_CREATE_BUTTON}" icon="ui-icon-plus"
+                                     actionListener="#{messageTemplatesView.saveNewTemplate}"
+                                     update="templateDescriptionMessage templateNameMessage growl"
+                                     oncomplete="PF('addTemplateDialog').hide();"
+                                     rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_ADD') : securityUtils.checkPermissions('EMAIL_TEMPLATES_ADD')}"/>
+
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form>
+
+        <h:form id="smsTemplatesEditForm">
+
+            <p:dialog header="#{MESSAGE.MESSAGE_TEMPLATES_EDIT_DIALOG_TITLE}"
+                      widgetVar="editTemplateDialog"  id="editTemplateDialog">
+                <p:growl id="growl" showDetail="true" />
+                <p:ajax event="close" update=":smsTemplatesTableForm:smsTemplatesTable" />
+
+                <h:panelGrid columns="3" cellpadding="5" id="editTemplateTable">
+
+                    <!-- Template Name -->
+                    <h:outputLabel for="templateName"
+                                   value="#{MESSAGE.ENTITY_NAME}" />
+                    <p:inputText id="templateName"
+                                 value="#{messageTemplatesView.selectedMessageTemplate.name}" required="true"
+                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="templateNameMessage" />
+                    </p:inputText>
+                    <p:message for="templateName" id="templateNameMessage" />
+
+                    <!-- Template Content-->
+                    <h:outputLabel for="smsContent" id="smsContentLabel"
+                                   value="#{MESSAGE.SMS_TEMPLATE_CONTENT} #{messageTemplatesView.letterCounter}/#{messageTemplatesView.messageCounter}"
+                                   rendered="#{isSMSType}"/>
+                    <p:inputTextarea rows="6" cols="40" id="smsContent"
+                                     value="#{messageTemplatesView.selectedMessageTemplate.content}" required="true"
+                                     requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" rendered="#{isSMSType}">
+                        <p:ajax event="blur" update="smsContentMessage" />
+                        <p:ajax event="keyup" listener="#{messageTemplatesView.updateLetterCounter}" update="smsContentLabel" />
+                    </p:inputTextarea>
+                    <p:message for="smsContent" id="smsContentMessage" rendered="#{isSMSType}"/>
+
+
+                    <!-- Template Content EMAIL -->
+                    <h:outputLabel for="emailContent" id="emailContentLabel"
+                                   value="#{MESSAGE.SMS_TEMPLATE_CONTENT}" rendered="#{!isSMSType}"/>
+                    <p:editor id="emailContent" value="#{messageTemplatesView.selectedMessageTemplate.content}" width="600"
+                              required="true" rendered="#{!isSMSType}"
+                              requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
+
+                    <p:message for="emailContent" id="emailContentMessage" rendered="#{!isSMSType}"/>
+
+
+                    <!-- Template  System flag-->
+                    <h:outputLabel for="templateSystem"
+                                   value="#{MESSAGE.SMS_TEMPLATE_SYSTEM}" />
+                    <p:inputSwitch value="#{messageTemplatesView.selectedMessageTemplate.system}" id="templateSystem"
+                                   offLabel="#{MESSAGE.APPLICATION_NO}" onLabel="#{MESSAGE.APPLICATION_YES}"/>
+                    <p:message for="templateSystem" id="templateSystemMessage" />
+
+                    <!-- Template Description-->
+                    <h:outputLabel for="templateDescription"
+                                   value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+                    <p:inputTextarea rows="6" cols="40" id="templateDescription"
+                                     value="#{messageTemplatesView.selectedMessageTemplate.description}" required="true"
+                                     requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="templateDescriptionMessage" />
+                    </p:inputTextarea>
+                    <p:message for="templateDescription" id="templateDescriptionMessage" />
+
+                    <!-- Action Buttons-->
+                    <p:commandButton id="smsTemplateSaveButton"
+                                     value="#{MESSAGE.MESSAGE_TEMPLATES_SAVE_BUTTON}" icon="ui-icon-plus"
+                                     actionListener="#{messageTemplatesView.saveSelectedTemplate}"
+                                     update="templateDescriptionMessage templateNameMessage growl"
+                                     oncomplete="PF('editTemplateDialog').hide();"
+                                     rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_UPDATE') : securityUtils.checkPermissions('EMAIL_TEMPLATES_UPDATE')}"/>
+                    <p:commandButton id="smsTemplateSaveAsNewButton"
+                                     value="#{MESSAGE.MESSAGE_TEMPLATES_SAVE_AS_NEW_BUTTON}" icon="ui-icon-plus"
+                                     actionListener="#{messageTemplatesView.saveSelectedTemplateAsNew}"
+                                     update="templateDescriptionMessage templateNameMessage growl"
+                                     oncomplete="PF('editTemplateDialog').hide();"
+                                     rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_UPDATE') : securityUtils.checkPermissions('EMAIL_TEMPLATES_UPDATE')}"/>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

@@ -57,6 +57,7 @@ public class SecurityUtils implements Serializable{
     private static final String SCHEDULE_PAGE_URL = Mapping.getInstance().getString("SCHEDULE_PAGE");
     private static final String SCHEDULE_GENERAL_PAGE_URL = Mapping.getInstance().getString("SCHEDULE_GENERAL_PAGE");
     private static final String PLAN_GENERAL_PAGE_URL = Mapping.getInstance().getString("PLAN_GENERAL_PAGE");
+    private static final String DELIVERY_GROUPS_PAGE_URL = Mapping.getInstance().getString("DELIVERY_GROUPS_PAGE");
     private static Map<SecurityPolicy,Policy> allMappedPolicies = new HashMap<>();
 
     private static int SUPER_ADMIN_ID;
@@ -94,6 +95,7 @@ public class SecurityUtils implements Serializable{
         mappedPagesToPolicies.put(SCHEDULE_PAGE_URL, SecurityPolicy.MENU_ITEM_SCHEDULE);
         mappedPagesToPolicies.put(SCHEDULE_GENERAL_PAGE_URL, SecurityPolicy.MENU_ITEM_SCHEDULE_GENERAL);
         mappedPagesToPolicies.put(PLAN_GENERAL_PAGE_URL, SecurityPolicy.MENU_ITEM_PLAN_GENERAL);
+        mappedPagesToPolicies.put(DELIVERY_GROUPS_PAGE_URL, SecurityPolicy.MENU_ITEM_DELIVERY_GROUPS);
     }
 
     /**

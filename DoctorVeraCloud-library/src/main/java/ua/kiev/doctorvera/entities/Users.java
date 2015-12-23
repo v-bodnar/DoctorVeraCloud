@@ -7,6 +7,7 @@ package ua.kiev.doctorvera.entities;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.IndexColumn;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import ua.kiev.doctorvera.utils.Utils;
@@ -19,6 +20,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.*;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
@@ -118,12 +120,21 @@ public class Users implements Serializable,Identified<Integer> {
     @Column(name = "Address")
     private Integer addressId;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    @ManyToMany(fetch=FetchType.EAGER)
+//    @OrderColumn(name="UsersHasUserGroupsId")
+    @OrderColumn(name="UserGroup")
+    @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(
         name="UsersHasUserGroups",
         joinColumns={@JoinColumn(name="User", referencedColumnName="UserId")},
         inverseJoinColumns={@JoinColumn(name="UserGroup", referencedColumnName="UserGroupId")})
     private Collection<UserGroups> userGroups;
+
+    @ManyToMany(mappedBy="users")
+    //@IndexColumn(name="DeliveryGroupHasUserGroupsId")
+    @OrderColumn(name="deliveryGroup")
+    private Collection<DeliveryGroup> deliveryGroups;
+
+
     /*
     @OneToMany(mappedBy = "recipient")
     private Collection<Payments> paymentsCollection1;
@@ -345,16 +356,24 @@ public class Users implements Serializable,Identified<Integer> {
         return foreigner;
     }
 
-    /*
-        @XmlTransient
-        public Collection<Payments> getPaymentsCollection1() {
-            return paymentsCollection1;
-        }
+    public Collection<DeliveryGroup> getDeliveryGroups() {
+        return deliveryGroups;
+    }
 
-        public void setPaymentsCollection1(Collection<Payments> paymentsCollection1) {
-            this.paymentsCollection1 = paymentsCollection1;
-        }
-    */
+    public void setDeliveryGroups(Collection<DeliveryGroup> deliveryGroups) {
+        this.deliveryGroups = deliveryGroups;
+    }
+
+    /*
+            @XmlTransient
+            public Collection<Payments> getPaymentsCollection1() {
+                return paymentsCollection1;
+            }
+
+            public void setPaymentsCollection1(Collection<Payments> paymentsCollection1) {
+                this.paymentsCollection1 = paymentsCollection1;
+            }
+        */
     public Integer getAddressId() {
         return addressId;
     }
@@ -476,126 +495,59 @@ public class Users implements Serializable,Identified<Integer> {
     	return em;
     }
 	*/
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((addressId == null) ? 0 : addressId.hashCode());
-		result = prime * result
-				+ ((birthDate == null) ? 0 : birthDate.hashCode());
-		result = prime * result
-				+ ((dateCreated == null) ? 0 : dateCreated.hashCode());
-		result = prime * result + (deleted ? 1231 : 1237);
-        result = prime * result + (foreigner ? 1231 : 1237);
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result
-				+ ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result
-				+ ((color == null) ? 0 : color.hashCode());
-		result = prime * result
-				+ ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result
-				+ ((middleName == null) ? 0 : middleName.hashCode());
-		result = prime * result
-				+ ((password == null) ? 0 : password.hashCode());
-		result = prime * result
-				+ ((phoneNumberHome == null) ? 0 : phoneNumberHome.hashCode());
-		result = prime
-				* result
-				+ ((phoneNumberMobile == null) ? 0 : phoneNumberMobile
-						.hashCode());
-		result = prime * result + userCreatedId.hashCode();
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
-		return result;
-	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Users other = (Users) obj;
-		if (addressId == null) {
-			if (other.addressId != null)
-				return false;
-		} else if (!addressId.equals(other.addressId))
-			return false;
-		if (birthDate == null) {
-			if (other.birthDate != null)
-				return false;
-		} else if (!birthDate.equals(other.birthDate))
-			return false;
-		if (dateCreated == null) {
-			if (other.dateCreated != null)
-				return false;
-		} else if (!dateCreated.equals(other.dateCreated))
-			return false;
-		if (deleted != other.deleted)
-			return false;
-        if (foreigner != other.foreigner)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Users users = (Users) o;
+
+        if (deleted != users.deleted) return false;
+        if (userId != null ? !userId.equals(users.userId) : users.userId != null) return false;
+        if (foreigner != null ? !foreigner.equals(users.foreigner) : users.foreigner != null) return false;
+        if (!username.equals(users.username)) return false;
+        if (!password.equals(users.password)) return false;
+        if (firstName != null ? !firstName.equals(users.firstName) : users.firstName != null) return false;
+        if (middleName != null ? !middleName.equals(users.middleName) : users.middleName != null) return false;
+        if (lastName != null ? !lastName.equals(users.lastName) : users.lastName != null) return false;
+        if (birthDate != null ? !birthDate.equals(users.birthDate) : users.birthDate != null) return false;
+        if (phoneNumberHome != null ? !phoneNumberHome.equals(users.phoneNumberHome) : users.phoneNumberHome != null)
             return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (color == null) {
-			if (other.color != null)
-				return false;
-		} else if (!color.equals(other.color))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (middleName == null) {
-			if (other.middleName != null)
-				return false;
-		} else if (!middleName.equals(other.middleName))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (phoneNumberHome == null) {
-			if (other.phoneNumberHome != null)
-				return false;
-		} else if (!phoneNumberHome.equals(other.phoneNumberHome))
-			return false;
-		if (phoneNumberMobile == null) {
-			if (other.phoneNumberMobile != null)
-				return false;
-		} else if (!phoneNumberMobile.equals(other.phoneNumberMobile))
-			return false;
-		if (userCreatedId != other.userCreatedId)
-			return false;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		return true;
-	}
+        if (phoneNumberMobile != null ? !phoneNumberMobile.equals(users.phoneNumberMobile) : users.phoneNumberMobile != null)
+            return false;
+        if (description != null ? !description.equals(users.description) : users.description != null) return false;
+        if (!userCreatedId.equals(users.userCreatedId)) return false;
+        if (!dateCreated.equals(users.dateCreated)) return false;
+        if (!Arrays.equals(avatarImage, users.avatarImage)) return false;
+        if (color != null ? !color.equals(users.color) : users.color != null) return false;
+        return !(addressId != null ? !addressId.equals(users.addressId) : users.addressId != null);
 
-	@Override
+    }
+
+    @Override
+    public int hashCode() {
+        int result = userId != null ? userId.hashCode() : 0;
+        result = 31 * result + (foreigner != null ? foreigner.hashCode() : 0);
+        result = 31 * result + username.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
+        result = 31 * result + (phoneNumberHome != null ? phoneNumberHome.hashCode() : 0);
+        result = 31 * result + (phoneNumberMobile != null ? phoneNumberMobile.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + userCreatedId.hashCode();
+        result = 31 * result + dateCreated.hashCode();
+        result = 31 * result + (deleted ? 1 : 0);
+        result = 31 * result + Arrays.hashCode(avatarImage);
+        result = 31 * result + (color != null ? color.hashCode() : 0);
+        result = 31 * result + (addressId != null ? addressId.hashCode() : 0);
+        return result;
+    }
+
+    @Override
 	public String toString() {
 		return "Users [userId=" + userId + ", username=" + username
 				+ ", password=" + password + ", firstName=" + firstName

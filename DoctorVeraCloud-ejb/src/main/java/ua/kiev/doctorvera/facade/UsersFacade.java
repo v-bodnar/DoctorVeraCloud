@@ -420,39 +420,25 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         Collection<UsersHasUserGroups> list = usersHasUserTypesFacade.findUsersByGroupAndUser(group, user);
         return !list.isEmpty();
     }
-//
-//    @Override
-//    public List<Users> findAll(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-//        List<Users> result = new ArrayList();
-//        final String joinGroupKey = "userGroupsFacade.findByUser(user)";
-//        //TODO create one query with join for this
-//        if (filters.containsKey(joinGroupKey)){
-//            UserGroups group = userGroupsFacade.find(Integer.parseInt((String)filters.get(joinGroupKey)));
-//            filters.remove(joinGroupKey);
-//            for (Users user : super.findAll(firstResult, maxResults, sortField, sortOrder, filters)){
-//                if(isInGroup(user, group))
-//                    result.add(user);
-//            }
-//        }else{
-//            result = super.findAll(firstResult, maxResults, sortField, sortOrder, filters);
-//        }
-//        return result;
-//    }
 
-//    public Integer countFiltered(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-//        List<Users> result = new ArrayList();
-//        final String joinGroupKey = "userGroupsFacade.findByUser(user)";
-//        //TODO create one query with join for this
-//        if (filters.containsKey(joinGroupKey)){
-//            UserGroups group = userGroupsFacade.find(Integer.parseInt((String)filters.get(joinGroupKey)));
-//            filters.remove(joinGroupKey);
-//            for (Users user : super.findAll(firstResult, maxResults, sortField, sortOrder, filters)){
-//                if(isInGroup(user, group))
-//                    result.add(user);
-//            }
-//        }else{
-//            result = super.findAll(firstResult, maxResults, sortField, sortOrder, filters);
-//        }
-//        return result;
-//    }
+    /**
+     * Searches all Users that contain given DeliveryGroup
+     * @param deliveryGroup given DeliveryGroup
+     * @return all found Users
+     */
+    @Override
+    public List<Users> findUsersByDeliveryGroup(DeliveryGroup deliveryGroup){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Users> cq = cb.createQuery(Users.class);
+
+        Root root = cq.from(Users.class);
+        cq.distinct(true);
+
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        Predicate deliveryGroupPredicate = cb.and(cb.isMember(deliveryGroup, root.get("deliveryGroups")));
+        cq.select(root).where(deletedPredicate, deliveryGroupPredicate);
+
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
 }

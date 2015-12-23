@@ -12,6 +12,7 @@ import javax.ejb.Local;
 import javax.persistence.EntityManager;
 
 import org.primefaces.model.SortOrder;
+import ua.kiev.doctorvera.entities.DeliveryGroup;
 import ua.kiev.doctorvera.entities.Methods;
 import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
@@ -240,6 +241,13 @@ public interface UsersFacadeLocal{
     List<Users> findAll(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters);
 
     Integer count(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters);
+
+    /**
+     * Searches all Users that contain given DeliveryGroup
+     * @param deliveryGroup given DeliveryGroup
+     * @return all found Users
+     */
+    List<Users> findUsersByDeliveryGroup(DeliveryGroup deliveryGroup);
 
     //HashMap<String, HashMap<String, ArrayList<Object>>> ceateJoins(Class relatedClass, Object value);
 

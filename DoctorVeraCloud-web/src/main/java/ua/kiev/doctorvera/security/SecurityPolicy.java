@@ -26,6 +26,9 @@ public enum SecurityPolicy implements Serializable{
     MENU_ITEM_SCHEDULE_GENERAL(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_SCHEDULE_GENERAL"), SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_SCHEDULE(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_SCHEDULE"), SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_PERSONAL_SCHEDULE(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_PERSONAL_SCHEDULE"), SecurityPolicyGroup.MENU_GROUP),
+    MENU_ITEM_DELIVERY_GROUPS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_DELIVERY_GROUPS"), SecurityPolicyGroup.MENU_GROUP),
+    MENU_ITEM_SMS_TEMPLATES(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_SMS_TEMPLATES"), SecurityPolicyGroup.MENU_GROUP),
+    MENU_ITEM_EMAIL_TEMPLATES(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_EMAIL_TEMPLATES"), SecurityPolicyGroup.MENU_GROUP),
     /**
      * Users page
      */
@@ -94,7 +97,30 @@ public enum SecurityPolicy implements Serializable{
     SCHEDULE_CREATE(Message.getInstance().getString("SECURITY_POLICY_SCHEDULE_CREATE"), SecurityPolicyGroup.SCHEDULE_GROUP),
     SCHEDULE_READ(Message.getInstance().getString("SECURITY_POLICY_SCHEDULE_READ"), SecurityPolicyGroup.SCHEDULE_GROUP),
     SCHEDULE_UPDATE(Message.getInstance().getString("SECURITY_POLICY_SCHEDULE_UPDATE"), SecurityPolicyGroup.SCHEDULE_GROUP),
-    SCHEDULE_DELETE(Message.getInstance().getString("SECURITY_POLICY_SCHEDULE_DELETE"), SecurityPolicyGroup.SCHEDULE_GROUP);
+    SCHEDULE_DELETE(Message.getInstance().getString("SECURITY_POLICY_SCHEDULE_DELETE"), SecurityPolicyGroup.SCHEDULE_GROUP),
+    /**
+     * User Groups page
+     */
+    DELIVERY_GROUPS_ADD_USER_GROUP(Message.getInstance().getString("SECURITY_POLICY_DELIVERY_GROUPS_ADD_USER_GROUP"), SecurityPolicyGroup.DELIVERY_GROUPS_GROUP),
+    DELIVERY_GROUPS_DELETE_USER_GROUP(Message.getInstance().getString("SECURITY_POLICY_DELIVERY_GROUPS_DELETE_USER_GROUP"), SecurityPolicyGroup.DELIVERY_GROUPS_GROUP),
+    DELIVERY_GROUPS_EDIT_USER_GROUP(Message.getInstance().getString("SECURITY_POLICY_DELIVERY_GROUPS_EDIT_USER_GROUP"), SecurityPolicyGroup.DELIVERY_GROUPS_GROUP),
+    DELIVERY_GROUPS_ADD_USERS(Message.getInstance().getString("SECURITY_POLICY_DELIVERY_GROUPS_ADD_USER"), SecurityPolicyGroup.DELIVERY_GROUPS_GROUP),
+    DELIVERY_GROUPS_ADD_SECURITY_POLICIES(Message.getInstance().getString("SECURITY_POLICY_DELIVERY_GROUPS_ADD_SECURITY_POLICIES"), SecurityPolicyGroup.DELIVERY_GROUPS_GROUP),
+    /**
+     * SMS Templates page
+     */
+    SMS_TEMPLATES_ADD(Message.getInstance().getString("SECURITY_POLICY_SMS_TEMPLATES_ADD"), SecurityPolicyGroup.SMS_TEMPLATES_GROUP),
+    SMS_TEMPLATES_DELETE(Message.getInstance().getString("SECURITY_POLICY_SMS_TEMPLATES_DELETE"), SecurityPolicyGroup.SMS_TEMPLATES_GROUP),
+    SMS_TEMPLATES_UPDATE(Message.getInstance().getString("SECURITY_POLICY_SMS_TEMPLATES_UPDATE"), SecurityPolicyGroup.SMS_TEMPLATES_GROUP),
+    SMS_TEMPLATES_SEND(Message.getInstance().getString("SECURITY_POLICY_SMS_TEMPLATES_SEND"), SecurityPolicyGroup.SMS_TEMPLATES_GROUP),
+    /**
+     * EMAIL Templates page
+     */
+    EMAIL_TEMPLATES_ADD(Message.getInstance().getString("SECURITY_POLICY_EMAIL_TEMPLATES_ADD"), SecurityPolicyGroup.EMAIL_TEMPLATES_GROUP),
+    EMAIL_TEMPLATES_DELETE(Message.getInstance().getString("SECURITY_POLICY_EMAIL_TEMPLATES_DELETE"), SecurityPolicyGroup.EMAIL_TEMPLATES_GROUP),
+    EMAIL_TEMPLATES_UPDATE(Message.getInstance().getString("SECURITY_POLICY_EMAIL_TEMPLATES_UPDATE"), SecurityPolicyGroup.EMAIL_TEMPLATES_GROUP),
+    EMAIL_TEMPLATES_SEND(Message.getInstance().getString("SECURITY_POLICY_EMAIL_TEMPLATES_SEND"), SecurityPolicyGroup.EMAIL_TEMPLATES_GROUP);
+
 
     private String name;
     private SecurityPolicyGroup policyGroup;
@@ -131,7 +157,10 @@ public enum SecurityPolicy implements Serializable{
         METHODS_GROUP(Message.getInstance().getString("SECURITY_METHODS_GROUP_DESCRIPTION")),
         PROFILE_GROUP(Message.getInstance().getString("SECURITY_PROFILE_GROUP_DESCRIPTION")),
         PLAN_GROUP(Message.getInstance().getString("SECURITY_PLAN_GROUP_DESCRIPTION")),
-        SCHEDULE_GROUP(Message.getInstance().getString("SECURITY_SCHEDULE_GROUP_DESCRIPTION"));
+        SCHEDULE_GROUP(Message.getInstance().getString("SECURITY_SCHEDULE_GROUP_DESCRIPTION")),
+        DELIVERY_GROUPS_GROUP(Message.getInstance().getString("SECURITY_DELIVERY_GROUPS_DESCRIPTION")),
+        SMS_TEMPLATES_GROUP(Message.getInstance().getString("SECURITY_SMS_TEMPLATES_DESCRIPTION")),
+        EMAIL_TEMPLATES_GROUP(Message.getInstance().getString("SECURITY_EMAIL_TEMPLATES_DESCRIPTION"));
         SecurityPolicyGroup(String description){
             this.description = description;
         }

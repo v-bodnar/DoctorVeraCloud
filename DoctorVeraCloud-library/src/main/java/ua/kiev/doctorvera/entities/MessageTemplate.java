@@ -143,11 +143,11 @@ public class MessageTemplate  implements Serializable, Identified<Integer>{
     }
     @Override
     public Integer getId() {
-        return null;
+        return messageTemplateId;
     }
     @Override
     public void setId(Integer id) {
-
+        this.messageTemplateId = id;
     }
 
     @Override
@@ -159,10 +159,11 @@ public class MessageTemplate  implements Serializable, Identified<Integer>{
 
         if (system != that.system) return false;
         if (deleted != that.deleted) return false;
-        if (!messageTemplateId.equals(that.messageTemplateId)) return false;
+        if (messageTemplateId != null ? !messageTemplateId.equals(that.messageTemplateId) : that.messageTemplateId != null)
+            return false;
         if (!name.equals(that.name)) return false;
         if (!content.equals(that.content)) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (!description.equals(that.description)) return false;
         if (type != that.type) return false;
         if (!dateCreated.equals(that.dateCreated)) return false;
         return userCreated.equals(that.userCreated);
@@ -171,10 +172,10 @@ public class MessageTemplate  implements Serializable, Identified<Integer>{
 
     @Override
     public int hashCode() {
-        int result = messageTemplateId.hashCode();
+        int result = messageTemplateId != null ? messageTemplateId.hashCode() : 0;
         result = 31 * result + name.hashCode();
         result = 31 * result + content.hashCode();
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + description.hashCode();
         result = 31 * result + type.hashCode();
         result = 31 * result + (system ? 1 : 0);
         result = 31 * result + dateCreated.hashCode();

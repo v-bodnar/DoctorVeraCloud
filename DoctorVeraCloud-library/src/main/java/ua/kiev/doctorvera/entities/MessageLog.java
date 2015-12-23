@@ -114,11 +114,11 @@ public class MessageLog implements Serializable, Identified<Integer>{
     }
     @Override
     public Integer getId() {
-        return null;
+        return messageLogId;
     }
     @Override
     public void setId(Integer id) {
-
+        this.messageLogId = id;
     }
 
     @Override

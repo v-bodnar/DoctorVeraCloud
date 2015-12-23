@@ -1,8 +1,11 @@
 package ua.kiev.doctorvera.facadeLocal;
 
 import ua.kiev.doctorvera.entities.DeliveryGroup;
+import ua.kiev.doctorvera.entities.UserGroups;
+import ua.kiev.doctorvera.entities.Users;
 
 import javax.persistence.EntityManager;
+import javax.transaction.*;
 import java.util.List;
 
 /**
@@ -41,6 +44,12 @@ public interface DeliveryGroupFacadeLocal {
     DeliveryGroup find(Integer id);
 
     /**
+     @param entity
+     @return T Identified existing entity represented by unique identifier
+     */
+    DeliveryGroup find(DeliveryGroup entity);
+
+    /**
      @return List<T> List of all Identified existing entities that are not marked as deleted
      */
     List<DeliveryGroup> findAll();
@@ -55,4 +64,22 @@ public interface DeliveryGroupFacadeLocal {
      @return int records count
      */
     int count();
+
+    /**
+     * Searches all DeliveryGroups that contain given userGroup
+     * @param userGroup given userGroup
+     * @return all found DeliveryGroups
+     */
+    List<DeliveryGroup> findDeliveryGroupByUserGroup(UserGroups userGroup);
+    /**
+     * Searches all DeliveryGroups that contain given user
+     * @param user given user
+     * @return all found DeliveryGroups
+     */
+    /**
+     * Searches all DeliveryGroups that contain given user
+     * @param user given user
+     * @return all found DeliveryGroups
+     */
+    List<DeliveryGroup> findDeliveryGroupByUser(Users user);
 }

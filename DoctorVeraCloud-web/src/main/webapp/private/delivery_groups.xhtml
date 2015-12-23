@@ -1,0 +1,227 @@
+<ui:composition template="index.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        <h:outputText value="#{MESSAGE.DELIVERY_GROUPS_TITLE}" />
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="deliveryGroupsForm">
+            <p:growl id="growl" showDetail="true" severity="info" />
+
+            <p:contextMenu for="deliveryGroupsTable">
+                <p:menuitem update="deliveryGroupsTable growl" rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_DELETE_USER_GROUP')}">
+                    <p:commandLink styleClass="ui-menuitem-link"
+                                   action="#{deliveryGroupsView.deleteSelectedDeliveryGroup}" ajax="false"
+                                   update="deliveryGroupsTable growl">
+                        <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.DELIVERY_GROUPS_DELETE_BUTTON}" />
+                        <p:confirm header="#{MESSAGE.DELIVERY_GROUPS_DELETE_CONFIRM_TITLE}" icon="ui-icon-alert"
+                                   message="#{MESSAGE.DELIVERY_GROUPS_DELETE_CONFIRM_MESSAGE}" />
+                    </p:commandLink>
+                </p:menuitem>
+
+                <p:menuitem update="deliveryGroupsTable growl" rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_EDIT_USER_GROUP')}">
+                    <p:commandLink styleClass="ui-menuitem-link"
+                                   oncomplete="PF('editGroupDialog').show();"
+                                   update=":deliveryGroupsEditForm:editGroupDialog">
+                        <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
+                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.DELIVERY_GROUPS_EDIT_BUTTON}" />
+                    </p:commandLink>
+                </p:menuitem>
+
+                <p:menuitem update="deliveryGroupsTable growl" rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_ADD_USERS')}">
+                    <p:commandLink styleClass="ui-menuitem-link"
+                                   action="#{deliveryGroupsView.constructUsersPickList()}"
+                                   oncomplete="PF('addUsersToDeliveryGroupDialog').show();"
+                                   update=":addUsersToDeliveryGroupForm:addUsersToDeliveryGroupDialog"
+                                   process="@this">
+                        <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-person" />
+                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.DELIVERY_GROUPS_ADD_USERS}" />
+                    </p:commandLink>
+                </p:menuitem>
+
+                <p:menuitem update="deliveryGroupsTable growl" rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_ADD_USER_GROUP')}">
+                    <p:commandLink styleClass="ui-menuitem-link"
+                                   action="#{deliveryGroupsView.constructUserGroupsPickList()}"
+                                   oncomplete="PF('addUserGroupToDeliveryGroupDialog').show();"
+                                   update=":addUserGroupToDeliveryGroupForm:addUserGroupToDeliveryGroupDialog"
+                                   process="@this">
+                        <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-key" />
+                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.DELIVERY_GROUPS_ADD_USER_GROUPS}" />
+                    </p:commandLink>
+                </p:menuitem>
+
+
+            </p:contextMenu>
+
+            <p:dataTable id="deliveryGroupsTable" styleClass="deliveryGroupsTable"
+                         var="group" widgetVar="deliveryGroupsTable"
+                         value="#{deliveryGroupsView.allDeliveryGroups}" rowKey="#{group.id}"
+                         selection="#{deliveryGroupsView.selectedGroup}"
+                         selectionMode="single">
+
+                <p:ajax event="contextMenu"
+                        update=":deliveryGroupsEditForm:editGroupDialog :addUsersToDeliveryGroupForm:addUsersToDeliveryGroupDialog" />
+
+                <p:column headerText="#{MESSAGE.ENTITY_NAME}"
+                          sortBy="#{group.name}" filterBy="#{group.name}"
+                          filterMatchMode="contains" style="width:200px;">
+                    <h:outputText value="#{group.name}" />
+                </p:column>
+
+                <p:column headerText="#{MESSAGE.ENTITY_DESCRIPTION}"
+                          sortBy="#{group.description}" filterBy="#{group.description}"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{group.description}" />
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton value="#{MESSAGE.DELIVERY_GROUPS_ADD_BUTTON}" icon="ui-icon-plus"
+                                     actionListener = "#{deliveryGroupsView.init}"
+                                     oncomplete="PF('addDeliveryGroupDialog').show();"/>
+                </f:facet>
+
+            </p:dataTable>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton value="#{MESSAGE.DELIVERY_GROUPS_DELETE_CONFIRM_YES}"
+                                 type="button" styleClass="ui-confirmdialog-yes"
+                                 icon="ui-icon-check" />
+                <p:commandButton value="#{MESSAGE.DELIVERY_GROUPS_DELETE_CONFIRM_NO}"
+                                 type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+        </h:form>
+
+        <h:form id="deliveryGroupsAddForm">
+
+            <p:dialog header="#{MESSAGE.DELIVERY_GROUPS_ADD_DIALOG_TITLE}"
+                      widgetVar="addDeliveryGroupDialog" modal="false">
+                <p:growl id="growl" showDetail="true" />
+                <p:ajax event="close" update=":deliveryGroupsForm:deliveryGroupsTable" />
+
+                <h:panelGrid columns="3" cellpadding="5">
+
+                    <h:outputLabel for="deliveryGroupName"
+                                   value="#{MESSAGE.ENTITY_NAME}" />
+                    <p:inputText id="deliveryGroupName"
+                                 value="#{deliveryGroupsView.newDeliveryGroup.name}" required="true"
+                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="deliveryGroupNameMessage" />
+                    </p:inputText>
+                    <p:message for="deliveryGroupName" id="deliveryGroupNameMessage" />
+
+                    <h:outputLabel for="deliveryGroupDescription"
+                                   value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+                    <p:inputTextarea rows="6" cols="20" id="deliveryGroupDescription"
+                                     value="#{deliveryGroupsView.newDeliveryGroup.description}" required="true"
+                                     requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="deliveryGroupDescriptionMessage" />
+                    </p:inputTextarea>
+                    <p:message for="deliveryGroupDescription"
+                               id="deliveryGroupDescriptionMessage" />
+
+                    <h:outputLabel for="deliveryGroupSaveButton" value="" />
+                    <p:commandButton id="deliveryGroupSaveButton"
+                                     value="#{MESSAGE.DELIVERY_GROUPS_ADD_BUTTON}" icon="ui-icon-plus"
+                                     actionListener="#{deliveryGroupsView.saveNewGroup}"
+                                     update="deliveryGroupDescriptionMessage deliveryGroupNameMessage growl"
+                                     oncomplete="PF('addDeliveryGroupDialog').hide();"
+                                     rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_ADD_USER_GROUP')}"/>
+
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form>
+
+        <h:form id="deliveryGroupsEditForm">
+
+            <p:dialog header="#{MESSAGE.DELIVERY_GROUPS_EDIT_DIALOG_TITLE}"
+                      widgetVar="editGroupDialog"  id="editGroupDialog">
+                <p:growl id="growl" showDetail="true" />
+                <p:ajax event="close" update=":deliveryGroupsForm:deliveryGroupsTable" />
+
+                <h:panelGrid columns="3" cellpadding="5">
+
+                    <h:outputLabel for="deliveryGroupName"
+                                   value="#{MESSAGE.ENTITY_NAME}" />
+                    <p:inputText id="deliveryGroupName"
+                                 value="#{deliveryGroupsView.selectedGroup.name}" required="true"
+                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="deliveryGroupNameMessage" />
+                    </p:inputText>
+                    <p:message for="deliveryGroupName" id="deliveryGroupNameMessage" />
+
+                    <h:outputLabel for="deliveryGroupDescription"
+                                   value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+                    <p:inputTextarea rows="6" cols="20" id="deliveryGroupDescription"
+                                     value="#{deliveryGroupsView.selectedGroup.description}" required="true"
+                                     requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="deliveryGroupDescriptionMessage" />
+                    </p:inputTextarea>
+                    <p:message for="deliveryGroupDescription"
+                               id="deliveryGroupDescriptionMessage" />
+
+                    <h:outputLabel for="deliveryGroupSaveButton" value="" />
+                    <p:commandButton id="deliveryGroupSaveButton"
+                                     value="#{MESSAGE.DELIVERY_GROUPS_SAVE_BUTTON}" icon="ui-icon-plus"
+                                     actionListener="#{deliveryGroupsView.saveSelectedGroup}"
+                                     update="deliveryGroupDescriptionMessage deliveryGroupNameMessage growl"
+                                     oncomplete="PF('editGroupDialog').hide();"
+                                     rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_EDIT_USER_GROUP')}"/>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="addUsersToDeliveryGroupForm">
+
+            <p:dialog header="#{MESSAGE.DELIVERY_GROUPS_USERS_PICKER_TITLE}"
+                      widgetVar="addUsersToDeliveryGroupDialog" id="addUsersToDeliveryGroupDialog" width="650" height="300">
+                <p:growl id="growl" showDetail="true" />
+                <p:ajax event="close" update="growl" />
+
+                <p:pickList id="addUsersToDeliveryGroupPickList" value="#{deliveryGroupsView.usersDualListModel}" var="user" effect="bounce"
+                            itemValue="#{user}" itemLabel="#{user.firstName} #{user.lastName}"
+                            showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker"
+                            converter = "usersConverter">
+
+                    <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.DELIVERY_GROUPS_USERS_PICKER_SOURCE}"/></f:facet>
+                    <f:facet name="targetCaption"><h:outputText value="#{deliveryGroupsView.selectedGroup.name}"/></f:facet>
+
+                    <p:ajax event="transfer" listener="#{deliveryGroupsView.onUserTransfer}" update="growl" />
+
+
+                </p:pickList>
+
+            </p:dialog>
+        </h:form>
+
+        <h:form id="addUserGroupToDeliveryGroupForm">
+
+            <p:dialog header="#{MESSAGE.DELIVERY_GROUPS_USER_GROUP_PICKER_TITLE}"
+                      widgetVar="addUserGroupToDeliveryGroupDialog" id="addUserGroupToDeliveryGroupDialog" width="710" height="400">
+                <p:growl id="growl" showDetail="true" />
+                <p:ajax event="close" update="growl" />
+
+                <p:pickList id="addUserGroupToDeliveryGroupPickList" value="#{deliveryGroupsView.userGroupsDualListModel}" var="group" effect="bounce"
+                            itemValue="#{group}" itemLabel="#{group.name}"
+                            showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
+                            converter = "userGroupsConverter">
+
+                    <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.DELIVERY_GROUPS_USER_GROUP_PICKER_SOURCE}"/></f:facet>
+                    <f:facet name="targetCaption"><h:outputText value="#{deliveryGroupsView.selectedGroup.name}"/></f:facet>
+
+                    <p:ajax event="transfer" listener="#{deliveryGroupsView.onDeliveryUserGroupTransfer}" update="growl" />
+
+
+                </p:pickList>
+
+            </p:dialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

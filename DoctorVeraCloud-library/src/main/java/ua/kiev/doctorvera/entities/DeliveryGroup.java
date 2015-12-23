@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Entity class Describes Users Group for message delivery
@@ -29,13 +30,20 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
     @Basic
     @Column(name = "Description")
     private String description;
-
-    @OneToMany(fetch=FetchType.EAGER)
+    @OrderColumn(name="DeliveryGroupHasUsersId")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
-            name="DeliveryGroupHasUsers",
-            joinColumns={@JoinColumn(name="User", referencedColumnName="UserId")},
-            inverseJoinColumns={@JoinColumn(name="DeliveryGroup", referencedColumnName="DeliveryGroupId")})
-    private Collection<Users> users;
+            name = "DeliveryGroupHasUsers",
+            joinColumns = {@JoinColumn(name = "DeliveryGroup", referencedColumnName = "DeliveryGroupId")},
+            inverseJoinColumns = {@JoinColumn(name = "User", referencedColumnName = "UserId")})
+    private List<Users> users;
+    @OrderColumn(name="DeliveryGroupHasUserGroupsId")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "DeliveryGroupHasUserGroups",
+            joinColumns = {@JoinColumn(name = "DeliveryGroup", referencedColumnName = "DeliveryGroupId")},
+            inverseJoinColumns = {@JoinColumn(name = "UserGroup", referencedColumnName = "UserGroupId")})
+    private List<UserGroups> userGroups;
 
     @Basic(optional = false)
     @NotNull
@@ -71,13 +79,19 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
     public void setDescription(String description) {
         this.description = description;
     }
-    public Collection<Users> getUsers() {
+    public List<Users> getUsers() {
         return users;
     }
-
-    public void setUsers(Collection<Users> users) {
+    public void setUsers(List<Users> users) {
         this.users = users;
     }
+    public List<UserGroups> getUserGroups() {
+        return userGroups;
+    }
+    public void setUserGroups(List<UserGroups> userGroups) {
+        this.userGroups = userGroups;
+    }
+
     @Override
     public Date getDateCreated() {
         return dateCreated;
@@ -104,11 +118,11 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
     }
     @Override
     public Integer getId() {
-        return null;
+        return deliveryGroupId;
     }
     @Override
     public void setId(Integer id) {
-
+        this.deliveryGroupId = id;
     }
 
     @Override
@@ -119,9 +133,12 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
         DeliveryGroup that = (DeliveryGroup) o;
 
         if (deleted != that.deleted) return false;
-        if (!deliveryGroupId.equals(that.deliveryGroupId)) return false;
+        if (deliveryGroupId != null ? !deliveryGroupId.equals(that.deliveryGroupId) : that.deliveryGroupId != null)
+            return false;
         if (!name.equals(that.name)) return false;
-        if (!description.equals(that.description)) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (users != null ? !users.equals(that.users) : that.users != null) return false;
+        if (userGroups != null ? !userGroups.equals(that.userGroups) : that.userGroups != null) return false;
         if (!dateCreated.equals(that.dateCreated)) return false;
         return userCreated.equals(that.userCreated);
 
@@ -129,9 +146,11 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
 
     @Override
     public int hashCode() {
-        int result = deliveryGroupId.hashCode();
+        int result = deliveryGroupId != null ? deliveryGroupId.hashCode() : 0;
         result = 31 * result + name.hashCode();
-        result = 31 * result + description.hashCode();
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (users != null ? users.hashCode() : 0);
+        result = 31 * result + (userGroups != null ? userGroups.hashCode() : 0);
         result = 31 * result + dateCreated.hashCode();
         result = 31 * result + (deleted ? 1 : 0);
         result = 31 * result + userCreated.hashCode();

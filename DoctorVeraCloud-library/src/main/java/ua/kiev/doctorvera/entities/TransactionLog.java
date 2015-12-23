@@ -105,11 +105,11 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
     }
     @Override
     public Integer getId() {
-        return null;
+        return transactionLogId;
     }
     @Override
     public void setId(Integer id) {
-
+        transactionLogId = id;
     }
 
     @Override

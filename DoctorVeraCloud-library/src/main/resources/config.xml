@@ -14,4 +14,8 @@
     <entry key="ASSISTANTS_USER_GROUP_ID">2</entry>
     <entry key="SERVICE_USER_GROUP_ID">2</entry>
     <entry key="JOINS_AND_CONDITIONS">JOINS_AND_CONDITIONS</entry>
+
+    <!-- Message Delivery System (MDS) properties-->
+    <entry key="MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS">175</entry>
+    <entry key="MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS">100</entry>
 </properties>

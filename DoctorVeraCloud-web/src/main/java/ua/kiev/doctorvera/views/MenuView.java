@@ -1,6 +1,7 @@
 package ua.kiev.doctorvera.views;
 
 import org.primefaces.model.menu.*;
+import ua.kiev.doctorvera.entities.MessageTemplate;
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 import ua.kiev.doctorvera.resources.Mapping;
@@ -52,7 +53,14 @@ public class MenuView implements Serializable {
     private final String scheduleGeneralPageValue = Message.getInstance().getString("MENU_ITEM_SCHEDULE_GENERAL");
     private final String scheduleGeneralPageUrl = Mapping.getInstance().getString("SCHEDULE_GENERAL_PAGE");
     private final String schedulePersonalPageValue = Message.getInstance().getString("MENU_ITEM_PERSONAL_SCHEDULE");
+    private final String deliveryGroupHeader = Message.getInstance().getString("MENU_HEADER_DELIVERY");
     private final String schedulePersonalPageUrl = Mapping.getInstance().getString("SCHEDULE_PERSONAL_PAGE");
+    private final String deliveryGroupsPageValue = Message.getInstance().getString("MENU_ITEM_DELIVERY_GROUPS");
+    private final String deliveryGroupsPageURL = Mapping.getInstance().getString("DELIVERY_GROUPS_PAGE");
+    private final String smsTemplatesPageValue = Message.getInstance().getString("MENU_ITEM_SMS_TEMPLATES");
+    private final String smsTemplatesPageUrl = Mapping.getInstance().getString("SMS_TEMPLATES_PAGE");
+    private final String emailTemplatesPageValue = Message.getInstance().getString("MENU_ITEM_EMAIL_TEMPLATES");
+    private final String emailTemplatesPageUrl = Mapping.getInstance().getString("EMAIL_TEMPLATES_PAGE");
     private static final String APPLICATION_ROOT_URL = Mapping.getInstance().getString("APPLICATION_ROOT_PATH");
     private static final Logger LOG = Logger.getLogger(MenuView.class.getName());
     private static final String SECURITY_POLICY_PARAM_NAME = "securityPolicy";
@@ -134,18 +142,9 @@ public class MenuView implements Serializable {
             item.setStyleClass("ui-state-active");
         }
         mainSubmenu.addElement(item);
-
-        item = new DefaultMenuItem(sendSMSPageValue);
-        item.setUrl(sendSMSPageUrl);
-        item.setIcon("ui-icon-mail-closed");
-        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SEND_SMS));
-        if (url != null && url.equals(APPLICATION_ROOT_URL + sendSMSPageUrl)) {
-            item.setStyleClass("ui-state-active");
-        }
-        mainSubmenu.addElement(item);
         mainSubmenu.setRendered(isRendered(mainSubmenu));
-        menuModel.addElement(mainSubmenu);
 
+        menuModel.addElement(mainSubmenu);
 
         DefaultSubMenu planSubmenu = new DefaultSubMenu(planMenuHeader);
 
@@ -203,6 +202,49 @@ public class MenuView implements Serializable {
         financeSubmenu.setRendered(isRendered(financeSubmenu));
         menuModel.addElement(financeSubmenu);
 
+        DefaultSubMenu deliverySubmenu = new DefaultSubMenu(deliveryGroupHeader);
+
+        item = new DefaultMenuItem(deliveryGroupsPageValue);
+        item.setUrl(deliveryGroupsPageURL);
+        item.setIcon("ui-icon-mail-closed");
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_DELIVERY_GROUPS));
+        if (url != null && url.equals(APPLICATION_ROOT_URL + deliveryGroupsPageURL)) {
+            item.setStyleClass("ui-state-active");
+        }
+        deliverySubmenu.addElement(item);
+
+        item = new DefaultMenuItem(smsTemplatesPageValue);
+        item.setCommand("#{menuView.redirectToSMSTemplates}");
+        item.setIcon("ui-icon-mail-closed");
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SMS_TEMPLATES));
+        String smsParam = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getParameter("SMS");
+        if (url != null && (APPLICATION_ROOT_URL + smsTemplatesPageUrl).contains(url) && smsParam != null && !smsParam.isEmpty()) {
+            item.setStyleClass("ui-state-active");
+        }
+        deliverySubmenu.addElement(item);
+
+        item = new DefaultMenuItem(emailTemplatesPageValue);
+        item.setCommand("#{menuView.redirectToEmailTemplates}");
+        item.setIcon("ui-icon-mail-closed");
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_EMAIL_TEMPLATES));
+        String emailParam = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getParameter("EMAIL");
+        if (url != null && (APPLICATION_ROOT_URL + emailTemplatesPageUrl).contains(url) && emailParam != null && !emailParam.isEmpty()) {
+            item.setStyleClass("ui-state-active");
+        }
+        deliverySubmenu.addElement(item);
+
+        item = new DefaultMenuItem(sendSMSPageValue);
+        item.setUrl(sendSMSPageUrl);
+        item.setIcon("ui-icon-mail-closed");
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SEND_SMS));
+        if (url != null && url.equals(APPLICATION_ROOT_URL + sendSMSPageUrl)) {
+            item.setStyleClass("ui-state-active");
+        }
+        deliverySubmenu.addElement(item);
+
+        deliverySubmenu.setRendered(isRendered(deliverySubmenu));
+        menuModel.addElement(deliverySubmenu);
+
     }
     private boolean isRendered(DefaultSubMenu menuGroup){
         for(MenuElement menuElement : menuGroup.getElements()){
@@ -234,6 +276,30 @@ public class MenuView implements Serializable {
         sessionParams.setPlanRoom(roomId);
         try {
             FacesContext.getCurrentInstance().getExternalContext().redirect(planPageUrl);
+        } catch (IOException e) {
+            LOG.severe(e.getMessage());
+        }
+    }
+
+    /**
+     * Used in setCommand for SMS Templates Items
+     */
+    public void redirectToSMSTemplates(){
+        sessionParams.setDeliveryMessageType(MessageTemplate.Type.SMS);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(smsTemplatesPageUrl);
+        } catch (IOException e) {
+            LOG.severe(e.getMessage());
+        }
+    }
+
+    /**
+     * Used in setCommand for SMS Templates Items
+     */
+    public void redirectToEmailTemplates(){
+        sessionParams.setDeliveryMessageType(MessageTemplate.Type.EMAIL);
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect(emailTemplatesPageUrl);
         } catch (IOException e) {
             LOG.severe(e.getMessage());
         }

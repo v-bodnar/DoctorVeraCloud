@@ -187,3 +187,7 @@ font-size: 100% !important;
 #planForm .ui-tooltip, #scheduleForm .ui-tooltip{
 	position: fixed;
 }
+
+input, textarea {
+	width: 100%;
+}

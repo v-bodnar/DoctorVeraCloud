@@ -11,10 +11,7 @@ import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.resources.Config;
 
-import javax.persistence.Column;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.persistence.criteria.*;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
@@ -198,6 +195,10 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
         return resultList;
     }
 
+    /**
+     * Searches for all entities of the T type in the persistent storage and retrieves them with pagination applies filters and counts selected rows
+     * @return number of found records
+     */
     public Integer count(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
@@ -229,6 +230,10 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
         return getEntityManager().createQuery(cq).getSingleResult().intValue();
     }
 
+    /**
+     * Creates Predicates for parsed filter value
+     * @return predicate for current filter
+     */
     private Predicate createFilterCondition(CriteriaBuilder cb, Path path, Object value){
         if(Integer.class.equals(path.getJavaType())){
             return cb.and(cb.equal(path, value));
@@ -238,6 +243,8 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
             return cb.and(cb.equal(path, value));
         }if(Collection.class.equals(path.getJavaType())){
             return cb.and(cb.isMember(value, path));
+        }if(path.getJavaType().isEnum()){
+            return cb.and(cb.equal(path, value));
         }
         return null;
     }

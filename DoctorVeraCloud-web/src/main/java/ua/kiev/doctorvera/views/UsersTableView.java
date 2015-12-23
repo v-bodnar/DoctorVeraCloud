@@ -8,6 +8,7 @@ import org.primefaces.model.SortOrder;
 import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.AddressFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.InitializerFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UserGroupsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
@@ -38,6 +39,9 @@ public class UsersTableView implements Serializable {
 	
 	@EJB
 	private AddressFacadeLocal addressFacade;
+
+	@EJB
+	private InitializerFacadeLocal initializer;
 
 	@Inject
 	private SessionParams sessionParams;
@@ -89,7 +93,7 @@ public class UsersTableView implements Serializable {
 	public void init(){
 		authorizedUser = sessionParams.getAuthorizedUser();
 		allUsers = new UsersLazyModel();
-		allUserGroups = userGroupsFacade.findAll();
+		allUserGroups = (List<UserGroups>) initializer.initializeLazyEntity(userGroupsFacade.findAll());
 		for(UserGroups group : allUserGroups){
 			allUserGroupsNames.add(group.getName());
 		}
@@ -292,15 +296,14 @@ public class UsersTableView implements Serializable {
 
 	public class UsersLazyModel extends LazyDataModel<Users> {
 
-		List<Users> allPaginatedFilteredUsers = new ArrayList<>();
-
+		List<Users> allPaginatedFilteredTemplates = new ArrayList<>();
 
 		public UsersLazyModel() {
 		}
 
 		@Override
 		public Users getRowData(String rowKey) {
-			for(Users user : allPaginatedFilteredUsers) {
+			for(Users user : allPaginatedFilteredTemplates) {
 				if(user.getId().equals(Integer.parseInt(rowKey)))
 					return user;
 			}
@@ -314,10 +317,9 @@ public class UsersTableView implements Serializable {
 
 		@Override
 		public List<Users> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-			allPaginatedFilteredUsers = usersFacade.findAll(first, pageSize, sortField, sortOrder, filters);
+			allPaginatedFilteredTemplates = (List<Users>) initializer.initializeLazyEntity(usersFacade.findAll(first, pageSize, sortField, sortOrder, filters));
 			setRowCount(usersFacade.count(first, pageSize, sortField, sortOrder, filters));
-
-			return allPaginatedFilteredUsers;
+			return allPaginatedFilteredTemplates;
 		}
 	}
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
 
+import ua.kiev.doctorvera.entities.DeliveryGroup;
 import ua.kiev.doctorvera.entities.Policy;
 import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
@@ -121,4 +122,11 @@ public interface UserGroupsFacadeLocal {
      * @param user - user to search by
      */
     List<Policy> findPoliciesByUser(Users user);
+
+    /**
+     * Searches all UserGroups that contain given deliveryGroup
+     * @param deliveryGroup
+     * @return
+     */
+    List<UserGroups> findUserGroupsByDeliveryGroup(DeliveryGroup deliveryGroup);
 }

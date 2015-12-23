@@ -20,10 +20,16 @@
 		<class>ua.kiev.doctorvera.entities.Users</class>
 		<class>ua.kiev.doctorvera.entities.UsersHasUserGroups</class>
 		<class>ua.kiev.doctorvera.entities.UserGroups</class>
+		<class>ua.kiev.doctorvera.entities.DeliveryGroup</class>
+		<class>ua.kiev.doctorvera.entities.MessageLog</class>
+		<class>ua.kiev.doctorvera.entities.MessageScheduler</class>
+		<class>ua.kiev.doctorvera.entities.MessageTemplate</class>
+		<class>ua.kiev.doctorvera.entities.TransactionLog</class>
 		<properties>
 			<property name="hibernate.transaction.jta.platform"
 				value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />
 				<property name="hibernate.dialect" value = "org.hibernate.dialect.MySQLDialect" />
+				<property name="hibernate.show_sql" value ="false" />
 		</properties>
 	</persistence-unit>
 </persistence>

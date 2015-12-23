@@ -5,6 +5,8 @@
  */
 package ua.kiev.doctorvera.entities;
 
+import org.hibernate.annotations.IndexColumn;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -52,15 +54,23 @@ public class UserGroups implements Serializable,Identified<Integer> {
     @NotNull
     @Column(name = "Deleted")
     private boolean deleted;
-    @ManyToMany(mappedBy="userGroups")
+    @OrderColumn(name="user")
+    @ManyToMany(mappedBy="userGroups", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<Users> users;
-    
+
+    //@IndexColumn(name="PolicyHasUserGroupsId")
+    //@OrderColumn(name="PolicyHasUserGroupId")
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup")
     private Collection<PolicyHasUserGroups> policyHasUserGroupsCollection;
-    
+
     @JoinColumn(name = "UserCreated", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users userCreated;
+
+    //@IndexColumn(name="DeliveryGroupHasUserGroupsId")
+    @OrderColumn(name="DeliveryGroup")
+    @ManyToMany(mappedBy="userGroups")
+    private Collection<DeliveryGroup> deliveryGroups;
 
     public UserGroups() {
     }
@@ -125,6 +135,14 @@ public class UserGroups implements Serializable,Identified<Integer> {
         this.users = users;
     }
 
+    public Collection<DeliveryGroup> getDeliveryGroups() {
+        return deliveryGroups;
+    }
+
+    public void setDeliveryGroups(Collection<DeliveryGroup> deliveryGroups) {
+        this.deliveryGroups = deliveryGroups;
+    }
+
     //    @XmlTransient
 //    public Collection<UsersHasUserGroups> getUsersHasUserGroupsCollection() {
 //        return usersHasUserGroupsCollection;
@@ -151,63 +169,34 @@ public class UserGroups implements Serializable,Identified<Integer> {
         this.userCreated = userCreated;
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((dateCreated == null) ? 0 : dateCreated.hashCode());
-		result = prime * result + (deleted ? 1231 : 1237);
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((userCreated == null) ? 0 : userCreated.hashCode());
-		result = prime * result
-				+ ((userGroupId == null) ? 0 : userGroupId.hashCode());
-		return result;
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		UserGroups other = (UserGroups) obj;
-		if (dateCreated == null) {
-			if (other.dateCreated != null)
-				return false;
-		} else if (!dateCreated.equals(other.dateCreated))
-			return false;
-		if (deleted != other.deleted)
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (userCreated == null) {
-			if (other.userCreated != null)
-				return false;
-		} else if (!userCreated.equals(other.userCreated))
-			return false;
-		if (userGroupId == null) {
-			if (other.userGroupId != null)
-				return false;
-		} else if (!userGroupId.equals(other.userGroupId))
-			return false;
-		return true;
-	}
+        UserGroups that = (UserGroups) o;
 
-	@Override
+        if (deleted != that.deleted) return false;
+        if (userGroupId != null ? !userGroupId.equals(that.userGroupId) : that.userGroupId != null) return false;
+        if (!name.equals(that.name)) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (!dateCreated.equals(that.dateCreated)) return false;
+        return userCreated.equals(that.userCreated);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = userGroupId != null ? userGroupId.hashCode() : 0;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + dateCreated.hashCode();
+        result = 31 * result + (deleted ? 1 : 0);
+        result = 31 * result + userCreated.hashCode();
+        return result;
+    }
+
+    @Override
 	public String toString() {
 		return "UserGroups [userTypeId=" + userGroupId + ", name=" + name
 				+ ", description=" + description + ", dateCreated="
