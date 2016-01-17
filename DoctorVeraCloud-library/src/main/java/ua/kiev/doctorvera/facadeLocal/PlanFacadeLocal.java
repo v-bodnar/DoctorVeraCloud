@@ -19,61 +19,7 @@ import ua.kiev.doctorvera.entities.Users;
  * @author Bodun
  */
 @Local
-public interface PlanFacadeLocal {
-    /*
-    @return EntityManager got from container
-    */
-    EntityManager getEntityManager();
-
-    /**
-     * Creates new entity representation(record) in the persistent storage(Data Base)
-     *
-     * @param entity concrete NEW entity to write
-     */
-    void create(Plan entity);
-
-    /**
-     * Updates existing entity representation(record) in the persistent storage(Data Base)
-     *
-     * @param entity existing entity to be updated
-     */
-    void edit(Plan entity);
-
-    /**
-     * Marks existing entity as deleted in the persistent storage(Data Base)
-     *
-     * @param entity existing entity to be marked as deleted
-     */
-    void remove(Plan entity);
-
-    /**
-     * @param id Unique object identifier
-     * @return Plan Identified existing entity represented by unique identifier
-     */
-    Plan find(Integer id);
-
-    /**
-     * @return List<Plan> List of all Identified existing entities that are not marked as deleted
-     */
-    List<Plan> findAll();
-
-    /**
-     * @param range
-     * @return List<Plan> List of Identified existing entities that are not marked as deleted from range
-     */
-    List<Plan> findRange(int[] range);
-
-    /**
-     * @return int records count
-     */
-    int count();
-
-    /**
-     * <strong>Permanently</strong> removes entity from the persistent storage(Data Base)
-     *
-     * @param entity - Entity that has to be removed
-     */
-    void removeFromDB(Plan entity);
+public interface PlanFacadeLocal extends CRUDFacade<Plan> {
 
     /**
      * Searches for all Plan records that have starting date between the given date range

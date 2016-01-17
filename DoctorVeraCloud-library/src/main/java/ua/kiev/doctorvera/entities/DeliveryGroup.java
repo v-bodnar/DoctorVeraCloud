@@ -30,20 +30,23 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
     @Basic
     @Column(name = "Description")
     private String description;
-    @OrderColumn(name="DeliveryGroupHasUsersId")
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "DeliveryGroupHasUsers",
             joinColumns = {@JoinColumn(name = "DeliveryGroup", referencedColumnName = "DeliveryGroupId")},
             inverseJoinColumns = {@JoinColumn(name = "User", referencedColumnName = "UserId")})
     private List<Users> users;
-    @OrderColumn(name="DeliveryGroupHasUserGroupsId")
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "DeliveryGroupHasUserGroups",
             joinColumns = {@JoinColumn(name = "DeliveryGroup", referencedColumnName = "DeliveryGroupId")},
             inverseJoinColumns = {@JoinColumn(name = "UserGroup", referencedColumnName = "UserGroupId")})
     private List<UserGroups> userGroups;
+
+    @ManyToMany(mappedBy="deliveryGroups")
+    private List<MessageScheduler> messageSchedulers;
 
     @Basic(optional = false)
     @NotNull
@@ -125,6 +128,14 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
         this.deliveryGroupId = id;
     }
 
+    public List<MessageScheduler> getMessageSchedulers() {
+        return messageSchedulers;
+    }
+
+    public void setMessageSchedulers(List<MessageScheduler> messageSchedulers) {
+        this.messageSchedulers = messageSchedulers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -137,8 +148,6 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
             return false;
         if (!name.equals(that.name)) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (users != null ? !users.equals(that.users) : that.users != null) return false;
-        if (userGroups != null ? !userGroups.equals(that.userGroups) : that.userGroups != null) return false;
         if (!dateCreated.equals(that.dateCreated)) return false;
         return userCreated.equals(that.userCreated);
 
@@ -149,11 +158,18 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
         int result = deliveryGroupId != null ? deliveryGroupId.hashCode() : 0;
         result = 31 * result + name.hashCode();
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (users != null ? users.hashCode() : 0);
-        result = 31 * result + (userGroups != null ? userGroups.hashCode() : 0);
         result = 31 * result + dateCreated.hashCode();
         result = 31 * result + (deleted ? 1 : 0);
         result = 31 * result + userCreated.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "DeliveryGroup{" +
+                "deliveryGroupId=" + deliveryGroupId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

@@ -18,63 +18,7 @@ import java.util.List;
  * @author Bodun
  */
 @Local
-public interface PolicyFacadeLocal {
-    /**
-       @return EntityManager got from container
-       */
-    EntityManager getEntityManager();
-
-    /**
-    Creates new entity representation(record) in the persistent storage(Data Base)
-    @param  entity  concrete NEW entity to write
-    */
-    void create(Policy entity);
-
-    /**
-    Updates existing entity representation(record) in the persistent storage(Data Base)
-    @param  entity existing entity to be updated
-    */
-    void edit(Policy entity);
-
-    /**
-    Marks existing entity as deleted in the persistent storage(Data Base)
-    @param  entity existing entity to be marked as deleted
-    */
-    void remove(Policy entity);
-
-    /**
-    @param id Unique object identifier
-    @return Policy Identified existing entity represented by unique identifier
-    */
-    Policy find(Integer id);
-
-    /**
-    @param policy Policy that has to be found
-    @return Policy Identified existing entity represented by unique identifier
-    */
-    Policy find(Policy policy);
-
-    /**
-    @return List<Policy> List of all Identified existing entities that are not marked as deleted
-    */
-    List<Policy> findAll();
-
-    /**
-    @return List<Policy> List of Identified existing entities that are not marked as deleted from range
-    @param range
-    */
-    List<Policy> findRange(int[] range);
-
-    /**
-    @return int records count
-    */
-    int count();
-
-    /**
-    <strong>Permanently</strong> removes entity from the persistent storage(Data Base)
-    @param entity - Entity that has to be removed
-    */
-    void removeFromDB(Policy entity);
+public interface PolicyFacadeLocal  extends CRUDFacade<Policy>{
 
     /**
     * Searches for User Group by group name
@@ -90,27 +34,4 @@ public interface PolicyFacadeLocal {
     */
     List<Policy> findByUser(Users user);
 
-    /**
-     * Searches all Policies that contain given user group
-     * @returns List<Policy> entity that matches search parameter
-     * @param userGroup - user group to search by
-     */
-    List<Policy> findByGroup(UserGroups userGroup);
-
-    /**
-     * Adds record to the reference table for referencing given policy and User Group
-     * @returns true - in the case operation was successful and false otherwise
-     * @param group - User Group that has to be referenced
-     * @param policy - Policy that has to be referenced
-     * @param userCreated - User that initiated process
-     */
-    boolean addUserGroups(UserGroups group, Policy policy, Users userCreated);
-
-    /**
-     * Permanently deletes record from the reference table for removing reference between given Policy and User Group
-     * @returns true - in the case operation was successful and false otherwise
-     * @param policy - Policy that has to be unreferenced
-     * @param group - User Group that has to be unreferenced
-     */
-    public boolean removeUserGroup(UserGroups group, Policy policy);
 }

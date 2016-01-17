@@ -25,17 +25,8 @@ import ua.kiev.doctorvera.resources.Config;
  */
 @Stateless
 public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLocal {
-
-    //private final static Logger LOG = Logger.getLogger(UsersFacade.class.getName());
-
-    @EJB
-    private DoctorsHasMethodFacadeLocal doctorsHasMethodFacade;
-
     @EJB
     private MethodsFacadeLocal methodsFacade;
-
-    @EJB
-    private UsersHasUserGroupsFacadeLocal usersHasUserTypesFacade;
 
     @EJB
     private UserGroupsFacadeLocal userGroupsFacade;
@@ -201,105 +192,59 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     */
     @Override
     public List<Users> findByGroup(UserGroups group) {
-        if (group != null && group.getId() != null) {
-            Collection<UsersHasUserGroups> list = usersHasUserTypesFacade.findUsersByGroup(group);
-            HashSet<Users> result = new HashSet<Users>();
-            if (list != null)
-                for (UsersHasUserGroups entry : list)
-                    result.add(entry.getUser());
-            return new ArrayList<Users>(result);
-        } else
-            return null;
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Users> cq = cb.createQuery(Users.class);
+
+        Root root = cq.from(Users.class);
+        cq.distinct(true);
+
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        Predicate userGroupPredicate = cb.and(cb.isMember(group, root.get("userGroups")));
+        cq.select(root).where(deletedPredicate, userGroupPredicate);
+
+        return getEntityManager().createQuery(cq).getResultList();
     }
 
     /**
     * Searches for all Users with the given User Group
     * @returns List<Users> List of users that matches search parameter
-    * @param typeName - User Group name to search by
+    * @param groupName - User Group name to search by
     */
     @Override
-    public List<Users> findByGroup(String typeName) {
-        UserGroups groups = userGroupsFacade.findByName(typeName);
-        if (groups != null) {
-            Collection<UsersHasUserGroups> list = usersHasUserTypesFacade.findUsersByGroup(groups);
-            HashSet<Users> result = new HashSet<Users>();
-            if (list != null)
-                for (UsersHasUserGroups entry : list)
-                    result.add(entry.getUser());
-            return new ArrayList<Users>(result);
-        } else
-            return null;
+    public List<Users> findByGroup(String groupName) {
+        UserGroups group = userGroupsFacade.findByName(groupName);
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Users> cq = cb.createQuery(Users.class);
+
+        Root root = cq.from(Users.class);
+        cq.distinct(true);
+
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        Predicate userGroupPredicate = cb.and(cb.isMember(group, root.get("userGroups")));
+        cq.select(root).where(deletedPredicate, userGroupPredicate);
+
+        return getEntityManager().createQuery(cq).getResultList();
     }
 
     /**
     * Searches for all Users with the given User Group
     * @returns List<Users> List of users that matches search parameter
-    * @param typeId - User Group id to search by
+    * @param groupId - User Group id to search by
     */
     @Override
-    public List<Users> findByGroup(Integer typeId) {
-        UserGroups group = userGroupsFacade.find(typeId);
-        if (group != null) {
-            Collection<UsersHasUserGroups> list = usersHasUserTypesFacade.findUsersByGroup(group);
-            HashSet<Users> result = new HashSet<Users>();
-            if (list != null)
-                for (UsersHasUserGroups entry : list)
-                    result.add(entry.getUser());
-            return new ArrayList<Users>(result);
-        } else
-            return null;
-    }
+    public List<Users> findByGroup(Integer groupId) {
+        UserGroups group = userGroupsFacade.find(groupId);
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Users> cq = cb.createQuery(Users.class);
 
-    /**
-    * Adds record to the reference table for referencing given user and User Group
-    * @returns true - in the case operation was successful and false otherwise
-    * @param user - User that has to be referenced
-    * @param group - User Group that has to be referenced
-    * @param userCreated - User that initiated process
-    */
-    @Override
-    public boolean addUserGroup(Users user, UserGroups group, Users userCreated) {
-        if (user != null && group != null && userCreated != null) {
-            //Find all entries with the same User and UserType
-            List<UsersHasUserGroups> alredyExists = new ArrayList<UsersHasUserGroups>();
+        Root root = cq.from(Users.class);
+        cq.distinct(true);
 
-            for (UsersHasUserGroups entry : usersHasUserTypesFacade.findGroupsByUser(user)) {
-                if (entry.getUserGroup().equals(group)) alredyExists.add(entry);
-            }
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        Predicate userGroupPredicate = cb.and(cb.isMember(group, root.get("userGroups")));
+        cq.select(root).where(deletedPredicate, userGroupPredicate);
 
-            //Create new entry
-            if (alredyExists == null || alredyExists.size() == 0) {
-                UsersHasUserGroups entry = new UsersHasUserGroups();
-                entry.setDateCreated(new Date());
-                entry.setUser(find(user));
-                entry.setUserGroup(userGroupsFacade.find(group));
-                entry.setUserCreated(find(userCreated));
-
-                usersHasUserTypesFacade.create(entry);
-            }
-            return true;
-        } else
-            return false;
-    }
-
-    /**
-    * Permanently deletes record from the reference table for removing reference between given user and User Group
-    * @returns true - in the case operation was successful and false otherwise
-    * @param user - User that has to be unreferenced
-    * @param group - User Group that has to be unreferenced
-    */
-    @Override
-    public boolean removeUserGroup(Users user, UserGroups group) {
-        group = userGroupsFacade.find(group);
-        if (user != null && group != null) {
-            List<UsersHasUserGroups> alredyExists = usersHasUserTypesFacade.findGroupsByUser(user);
-            for (UsersHasUserGroups entry : alredyExists) {
-                if (entry.getUserGroup().equals(group))
-                    usersHasUserTypesFacade.removeFromDB(entry);
-            }
-            return true;
-        } else
-            return false;
+        return getEntityManager().createQuery(cq).getResultList();
     }
 
     /**
@@ -309,15 +254,17 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     */
     @Override
     public List<Users> findByMethod(Methods method) {
-        if (method != null && method.getId() != null) {
-            Collection<DoctorsHasMethod> list = doctorsHasMethodFacade.findDoctorsByMethod(method);
-            HashSet<Users> result = new HashSet<Users>();
-            if (list != null)
-                for (DoctorsHasMethod entry : list)
-                    result.add(entry.getDoctor());
-            return new ArrayList<>(result);
-        } else
-            return new ArrayList<>();
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Users> cq = cb.createQuery(Users.class);
+
+        Root root = cq.from(Users.class);
+        cq.distinct(true);
+
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        Predicate methodsPredicate = cb.and(cb.isMember(method, root.get("methods")));
+        cq.select(root).where(deletedPredicate, methodsPredicate);
+
+        return getEntityManager().createQuery(cq).getResultList();
     }
 
     /**
@@ -328,67 +275,17 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     @Override
     public List<Users> findByMethod(Integer methodId) {
         Methods method = methodsFacade.find(methodId);
-        if (method != null && method.getId() != null) {
-            Collection<DoctorsHasMethod> list = doctorsHasMethodFacade.findDoctorsByMethod(method);
-            HashSet<Users> result = new HashSet<Users>();
-            if (list != null)
-                for (DoctorsHasMethod entry : list)
-                    result.add(entry.getDoctor());
-            return new ArrayList<>(result);
-        } else
-            return new ArrayList<>();
-    }
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Users> cq = cb.createQuery(Users.class);
 
-    /**
-    * Adds record to the reference table for referencing given user and Method
-    * @returns true - in the case operation was successful and false otherwise
-    * @param doctor - User that has to be referenced
-    * @param method - Method that has to be referenced
-    * @param userCreated - User that initiated process
-    */
-    @Override
-    public boolean addMethod(Users doctor, Methods method, Users userCreated) {
-        if (doctor != null && method != null && userCreated != null) {
-            //Find all entries with the same User and UserType
-            List<DoctorsHasMethod> alredyExists = new ArrayList<DoctorsHasMethod>();
+        Root root = cq.from(Users.class);
+        cq.distinct(true);
 
-            for (DoctorsHasMethod entry : doctorsHasMethodFacade.findMethodsByDoctor(doctor)) {
-                if (entry.getMethod().equals(method)) alredyExists.add(entry);
-            }
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        Predicate methodsPredicate = cb.and(cb.isMember(method, root.get("methods")));
+        cq.select(root).where(deletedPredicate, methodsPredicate);
 
-            //Create new entry
-            if (alredyExists == null || alredyExists.size() == 0) {
-                DoctorsHasMethod entry = new DoctorsHasMethod();
-                entry.setDateCreated(new Date());
-                entry.setDoctor(find(doctor));
-                entry.setMethod(methodsFacade.find(method));
-                entry.setUserCreated(find(userCreated));
-
-                doctorsHasMethodFacade.create(entry);
-            }
-            return true;
-        } else
-            return false;
-    }
-
-    /**
-    * Permanently deletes record from the reference table for removing reference between given user and Method
-    * @returns true - in the case operation was successful and false otherwise
-    * @param doctor - User that has to be unreferenced
-    * @param method - Method that has to be unreferenced
-    */
-    @Override
-    public boolean removeMethod(Users doctor, Methods method) {
-        method = methodsFacade.find(method);
-        if (doctor != null && method != null) {
-            List<DoctorsHasMethod> alreadyExists = doctorsHasMethodFacade.findMethodsByDoctor(doctor);
-            for (DoctorsHasMethod entry : alreadyExists) {
-                if (entry.getMethod().equals(method))
-                    doctorsHasMethodFacade.removeFromDB(entry);
-            }
-            return true;
-        } else
-            return false;
+        return getEntityManager().createQuery(cq).getResultList();
     }
 
     /**
@@ -397,7 +294,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
      */
     @Override
     public boolean isDoctor(Users user){
-       return userGroupsFacade.findByUser(user).contains(userGroupsFacade.find(DOCTOR_GROUP_ID));
+       return user.getUserGroups().contains(userGroupsFacade.find(DOCTOR_GROUP_ID));
     }
 
     /**
@@ -406,19 +303,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
      */
     @Override
     public boolean isPatient(Users user){
-        return userGroupsFacade.findByUser(user).contains(userGroupsFacade.find(PATIENT_GROUP_ID));
-    }
-
-    /**
-     * Checks if parsed user is in parsed group
-     * @returns true - if reference table contains parsed user and group, false otherwise
-     * @param user - User that has to be checked
-     * @param group - User Group that has to be checked
-     */
-    @Override
-    public boolean isInGroup(Users user, UserGroups group){
-        Collection<UsersHasUserGroups> list = usersHasUserTypesFacade.findUsersByGroupAndUser(group, user);
-        return !list.isEmpty();
+        return user.getUserGroups().contains(userGroupsFacade.find(PATIENT_GROUP_ID));
     }
 
     /**

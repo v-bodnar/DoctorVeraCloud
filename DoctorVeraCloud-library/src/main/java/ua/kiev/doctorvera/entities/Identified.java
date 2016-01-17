@@ -9,26 +9,26 @@ import java.util.Date;
 public interface Identified<PK extends Serializable> {
 
     /** Returns unique object identifier */
-    public PK getId();
+    PK getId();
     
     /** Sets unique object identifier */
-    public void setId(PK id);
+    void setId(PK id);
     
     /** Returns User that created object */
-    public Users getUserCreated();
+    Users getUserCreated();
     
     /** Sets User that created object */
-    public void setUserCreated(Users userCreated);
+    void setUserCreated(Users userCreated);
     
     /** Returns Date when the object was created  */
-    public Date getDateCreated();
+    Date getDateCreated();
     
     /** Sets Date when the object was created */
-    public void setDateCreated(Date datereated);
+    void setDateCreated(Date datereated);
     
     /** Returns if the object is marked as deleted */	
-    public boolean getDeleted();
+    boolean getDeleted();
     
     /** Sets if the object is marked as deleted */
-    public void setDeleted(boolean deleted);
+    void setDeleted(boolean deleted);
 }

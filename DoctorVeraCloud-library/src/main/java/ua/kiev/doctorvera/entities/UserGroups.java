@@ -24,13 +24,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "UserGroups")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "UserGroups.findAll", query = "SELECT u FROM UserGroups u"),
-    @NamedQuery(name = "UserGroups.UserGroupId", query = "SELECT u FROM UserGroups u WHERE u.userGroupId = :userGroupId"),
-    @NamedQuery(name = "UserGroups.findByName", query = "SELECT u FROM UserGroups u WHERE u.name = :name"),
-    @NamedQuery(name = "UserGroups.findByDescription", query = "SELECT u FROM UserGroups u WHERE u.description = :description"),
-    @NamedQuery(name = "UserGroups.findByDateCreated", query = "SELECT u FROM UserGroups u WHERE u.dateCreated = :dateCreated"),
-    @NamedQuery(name = "UserGroups.findByDeleted", query = "SELECT u FROM UserGroups u WHERE u.deleted = :deleted")})
 public class UserGroups implements Serializable,Identified<Integer> {
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,23 +47,23 @@ public class UserGroups implements Serializable,Identified<Integer> {
     @NotNull
     @Column(name = "Deleted")
     private boolean deleted;
+
     @OrderColumn(name="user")
     @ManyToMany(mappedBy="userGroups", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<Users> users;
-
-    //@IndexColumn(name="PolicyHasUserGroupsId")
-    //@OrderColumn(name="PolicyHasUserGroupId")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userGroup")
-    private Collection<PolicyHasUserGroups> policyHasUserGroupsCollection;
 
     @JoinColumn(name = "UserCreated", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users userCreated;
 
-    //@IndexColumn(name="DeliveryGroupHasUserGroupsId")
     @OrderColumn(name="DeliveryGroup")
     @ManyToMany(mappedBy="userGroups")
     private Collection<DeliveryGroup> deliveryGroups;
+
+
+    @OrderColumn(name="Policy")
+    @ManyToMany(mappedBy="userGroups", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Collection<Policy> policies;
 
     public UserGroups() {
     }
@@ -143,23 +136,6 @@ public class UserGroups implements Serializable,Identified<Integer> {
         this.deliveryGroups = deliveryGroups;
     }
 
-    //    @XmlTransient
-//    public Collection<UsersHasUserGroups> getUsersHasUserGroupsCollection() {
-//        return usersHasUserGroupsCollection;
-//    }
-//
-//    public void setUsersHasUserGroupsCollection(Collection<UsersHasUserGroups> usersHasUserGroupsCollection) {
-//        this.usersHasUserGroupsCollection = usersHasUserGroupsCollection;
-//    }
-
-    @XmlTransient
-    public Collection<PolicyHasUserGroups> getPolicyHasUserGroupsCollection() {
-        return policyHasUserGroupsCollection;
-    }
-
-    public void setPolicyHasUserGroupsCollection(Collection<PolicyHasUserGroups> policyHasUserGroupsCollection) {
-        this.policyHasUserGroupsCollection = policyHasUserGroupsCollection;
-    }
     @Override
     public Users getUserCreated() {
         return userCreated;
@@ -167,6 +143,14 @@ public class UserGroups implements Serializable,Identified<Integer> {
     @Override
     public void setUserCreated(Users userCreated) {
         this.userCreated = userCreated;
+    }
+
+    public Collection<Policy> getPolicies() {
+        return policies;
+    }
+
+    public void setPolicies(Collection<Policy> policies) {
+        this.policies = policies;
     }
 
     @Override

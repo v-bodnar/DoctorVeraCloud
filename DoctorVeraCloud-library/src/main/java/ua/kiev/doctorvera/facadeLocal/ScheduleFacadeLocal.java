@@ -21,61 +21,7 @@ import ua.kiev.doctorvera.entities.Users;
  * @author Volodymyr Bodnar
  */
 @Local
-public interface ScheduleFacadeLocal {
-    /**
-     * @return EntityManager got from container
-     */
-    EntityManager getEntityManager();
-
-    /**
-     * Creates new entity representation(record) in the persistent storage(Data Base)
-     *
-     * @param entity concrete NEW entity to write
-     */
-    void create(Schedule entity);
-
-    /**
-     * Updates existing entity representation(record) in the persistent storage(Data Base)
-     *
-     * @param entity existing entity to be updated
-     */
-    void edit(Schedule entity);
-
-    /**
-     * Marks existing entity as deleted in the persistent storage(Data Base)
-     *
-     * @param entity existing entity to be marked as deleted
-     */
-    void remove(Schedule entity);
-
-    /**
-     * @param id Unique object identifier
-     * @return Schedule Identified existing entity represented by unique identifier
-     */
-    Schedule find(Integer id);
-
-    /**
-     * @return List<Schedule> List of all Identified existing entities that are not marked as deleted
-     */
-    List<Schedule> findAll();
-
-    /**
-     * @param range
-     * @return List<Schedule> List of Identified existing entities that are not marked as deleted from range
-     */
-    List<Schedule> findRange(int[] range);
-
-    /**
-     * @return int records count
-     */
-    int count();
-
-    /**
-     * <strong>Permanently</strong> removes entity from the persistent storage(Data Base)
-     *
-     * @param entity - Entity that has to be removed
-     */
-    void removeFromDB(Schedule entity);
+public interface ScheduleFacadeLocal  extends CRUDFacade<Schedule>{
 
     /**
      * Searches for all Schedule records that are assigned to the given room and

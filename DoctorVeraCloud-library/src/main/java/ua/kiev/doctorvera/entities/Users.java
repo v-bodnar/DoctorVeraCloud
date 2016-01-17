@@ -7,7 +7,6 @@ package ua.kiev.doctorvera.entities;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.IndexColumn;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import ua.kiev.doctorvera.utils.Utils;
@@ -32,23 +31,6 @@ import java.util.Date;
 @DynamicInsert
 @Table(name = "Users")
 @XmlRootElement
-/*
-@NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u"),
-    @NamedQuery(name = "Users.findByUserId", query = "SELECT u FROM Users u WHERE u.userId = :userId"),
-    @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM Users u WHERE u.username = :username"),
-    @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password"),
-    @NamedQuery(name = "Users.findByFirstName", query = "SELECT u FROM Users u WHERE u.firstName = :firstName"),
-    @NamedQuery(name = "Users.findByMiddleName", query = "SELECT u FROM Users u WHERE u.middleName = :middleName"),
-    @NamedQuery(name = "Users.findByLastName", query = "SELECT u FROM Users u WHERE u.lastName = :lastName"),
-    @NamedQuery(name = "Users.findByBirthDate", query = "SELECT u FROM Users u WHERE u.birthDate = :birthDate"),
-    @NamedQuery(name = "Users.findByPhoneNumberHome", query = "SELECT u FROM Users u WHERE u.phoneNumberHome = :phoneNumberHome"),
-    @NamedQuery(name = "Users.findByPhoneNumberMobile", query = "SELECT u FROM Users u WHERE u.phoneNumberMobile = :phoneNumberMobile"),
-    @NamedQuery(name = "Users.findByDescription", query = "SELECT u FROM Users u WHERE u.description = :description"),
-    @NamedQuery(name = "Users.findByUserCreated", query = "SELECT u FROM Users u WHERE u.userCreated = :userCreated"),
-    @NamedQuery(name = "Users.findByDateCreated", query = "SELECT u FROM Users u WHERE u.dateCreated = :dateCreated"),
-    @NamedQuery(name = "Users.findByDeleted", query = "SELECT u FROM Users u WHERE u.deleted = :deleted")})
-*/
 public class Users implements Serializable,Identified<Integer> {
     private static final long serialVersionUID = 1L;
     @Id
@@ -91,13 +73,12 @@ public class Users implements Serializable,Identified<Integer> {
     @Size(max = 45)
     @Column(name = "PhoneNumberMobile")
     private String phoneNumberMobile;
+    @Size(max = 45)
+    @Column(name = "Email")
+    private String email;
     @Size(max = 150)
     @Column(name = "Description")
     private String description;
-    //@JoinColumn(name = "Users", referencedColumnName = "UserId")
-    //@ManyToOne
-    @Column(name = "UserCreated")
-    private Integer userCreatedId;
     @Basic(optional = false)
     @NotNull
     @Column(name = "DateCreated")
@@ -107,8 +88,6 @@ public class Users implements Serializable,Identified<Integer> {
     @NotNull
     @Column(name = "Deleted")
     private boolean deleted;
-/*    @Column(name = "AvatarImage", nullable=false, columnDefinition="varchar(100) default 'default_male_avatar.png'")
-    private String avatarImage;*/
     @Lob
     @Column(name = "AvatarImage")
     private byte[] avatarImage;
@@ -116,11 +95,15 @@ public class Users implements Serializable,Identified<Integer> {
     @Size(max = 10)
     @Column(name = "Color", nullable=false, columnDefinition="varchar(150) default 'ffffff'")
     private String color;
-    //@JoinColumn(name = "Address", referencedColumnName = "AddressId")
-    @Column(name = "Address")
-    private Integer addressId;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-//    @OrderColumn(name="UsersHasUserGroupsId")
+
+    @ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinColumn(name = "Address")
+    private Address address;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn (name = "UserCreated")
+    private Users userCreated;
+
     @OrderColumn(name="UserGroup")
     @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(
@@ -129,63 +112,32 @@ public class Users implements Serializable,Identified<Integer> {
         inverseJoinColumns={@JoinColumn(name="UserGroup", referencedColumnName="UserGroupId")})
     private Collection<UserGroups> userGroups;
 
+    /**
+     * If current user is Doctor he should have selected methods he can provide
+     */
+    @OrderColumn(name="Method")
+    @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinTable(
+            name="DoctorsHasMethod",
+            joinColumns={@JoinColumn(name="Doctor", referencedColumnName="UserId")},
+            inverseJoinColumns={@JoinColumn(name="Method", referencedColumnName="MethodId")})
+    private Collection<Methods> methods;
+
     @ManyToMany(mappedBy="users")
-    //@IndexColumn(name="DeliveryGroupHasUserGroupsId")
     @OrderColumn(name="deliveryGroup")
     private Collection<DeliveryGroup> deliveryGroups;
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "MessagingAccepted", columnDefinition="tinyint(1) default 0")
+    private Boolean messagingAccepted;
 
-    /*
-    @OneToMany(mappedBy = "recipient")
-    private Collection<Payments> paymentsCollection1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
-    private Collection<Plan> planCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Collection<UsersHasUserGroups> usersHasUserTypesCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
-    private Collection<DoctorsHasMethod> doctorsHasMethodCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "patient")
-    private Collection<Schedule> scheduleCollection;
-    @OneToMany(mappedBy = "assistant")
-    private Collection<Schedule> scheduleCollection1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
-    private Collection<Schedule> scheduleCollection2;
-    @OneToMany(mappedBy = "doctorDirected")
-    private Collection<Schedule> scheduleCollection3;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
-    private Collection<Share> shareCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "assistant")
-    private Collection<Share> shareCollection1;
-    */
     public Users() {
     }
 
     public Users(Integer userId) {
         this.userId = userId;
     }
-
-    public Users(Integer userId, String username, String password, String firstName, String lastName, Integer userCreatedId, Date dateCreated,Integer addressId, boolean deleted, String color,byte [] avatarImage) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.addressId = addressId;
-        this.userCreatedId = userCreatedId;
-        this.dateCreated = dateCreated;
-        this.deleted = deleted;
-        this.color = color;
-        this.avatarImage = avatarImage;
-    }
-
-/*    public String getAvatarImage() {
-		if (avatarImage == null || avatarImage.equals("")) return "default_male_avatar.png";
-		else return avatarImage;
-	}
-
-	public void setAvatarImage(String avatarImage) {
-		this.avatarImage = avatarImage;
-	}*/
 
     public byte[] getAvatarImage() throws IOException {
         if (avatarImage != null && avatarImage.length != 0){
@@ -208,9 +160,6 @@ public class Users implements Serializable,Identified<Integer> {
     }
 
     public StreamedContent getAvatarImageStream() throws IOException {
-        //final ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        //final String DEFAULT_AVATAR_IMAGE_PATH = "/resources/images/avatar/default_male_avatar.png";
-        //DefaultStreamedContent image = new DefaultStreamedContent(new FileInputStream(new File(servletContext.getRealPath("") + File.separator + DEFAULT_AVATAR_IMAGE_PATH)),"image/png","test.png");
         return new DefaultStreamedContent(new ByteArrayInputStream(getAvatarImage()));
     }
 
@@ -301,48 +250,6 @@ public class Users implements Serializable,Identified<Integer> {
     public void setDescription(String description) {
         this.description = description;
     }
-    @Override
-    public Users getUserCreated() {
-        //TODO
-    	return null;
-    	/*
-        EntityManager em = getEntityManager();
-        try {
-            return em.find(Users.class, userCreatedId);
-        } finally {
-        	em.close();
-        }
-        */
-    }
-    public Integer getUserCreatedId() {
-        return userCreatedId;
-    }
-    
-    public void setUserCreatedId(Integer userCreatedId) {
-        this.userCreatedId = userCreatedId;
-    }
-    
-    @Override
-    public void setUserCreated(Users userCreated) {
-        this.userCreatedId = userCreated.getId();
-    }
-    
-    @Override
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-    @Override
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-    @Override
-    public boolean getDeleted() {
-        return deleted;
-    }
-    @Override
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 
     public Boolean getForeigner() {
         return foreigner;
@@ -364,137 +271,83 @@ public class Users implements Serializable,Identified<Integer> {
         this.deliveryGroups = deliveryGroups;
     }
 
-    /*
-            @XmlTransient
-            public Collection<Payments> getPaymentsCollection1() {
-                return paymentsCollection1;
-            }
+    public String getEmail() {
+        return email;
+    }
 
-            public void setPaymentsCollection1(Collection<Payments> paymentsCollection1) {
-                this.paymentsCollection1 = paymentsCollection1;
-            }
-        */
-    public Integer getAddressId() {
-        return addressId;
+    public void setEmail(String email) {
+        this.email = email;
     }
-    
-    public void setAddressId(Integer addressId) {
-    	this.addressId = addressId;
+
+    public Boolean getMessagingAccepted() {
+        return messagingAccepted;
     }
-    
+
+    public Boolean isMessagingAccepted() {
+        return messagingAccepted;
+    }
+
+    public void setMessagingAccepted(Boolean messagingAccepted) {
+        this.messagingAccepted = messagingAccepted;
+    }
+
     public Address getAddress() {
-        //TODO
-    	return null;
-    	/*
-        EntityManager em = getEntityManager();
-        try {
-            return em.find(Address.class, address);
-        } finally {
-        	try{
-        		em.close();
-        	}catch(Exception e){
-        		e.printStackTrace();
-        	}
-        }
-        */
+        return address;
     }
 
     public void setAddress(Address address) {
-        this.addressId = address.getId();
-    }
-/*
-	@XmlTransient
-    public Collection<Plan> getPlanCollection() {
-        return planCollection;
-    }
-
-    public void setPlanCollection(Collection<Plan> planCollection) {
-        this.planCollection = planCollection;
+        this.address = address;
     }
 
     @XmlTransient
-    public Collection<UsersHasUserGroups> getUsersHasUserGroupsCollection() {
-        return usersHasUserTypesCollection;
+    public Collection<UserGroups> getUserGroups() {
+        return userGroups;
     }
 
-    public void setUsersHasUserGroupsCollection(Collection<UsersHasUserGroups> usersHasUserTypesCollection) {
-        this.usersHasUserTypesCollection = usersHasUserTypesCollection;
+    public void setUserGroups(Collection<UserGroups> userGroups) {
+        this.userGroups = userGroups;
     }
 
-    @XmlTransient
-    public Collection<DoctorsHasMethod> getDoctorsHasMethodCollection() {
-        return doctorsHasMethodCollection;
+    public Collection<Methods> getMethods() {
+        return methods;
     }
 
-    public void setDoctorsHasMethodCollection(Collection<DoctorsHasMethod> doctorsHasMethodCollection) {
-        this.doctorsHasMethodCollection = doctorsHasMethodCollection;
+    public void setMethods(Collection<Methods> methods) {
+        this.methods = methods;
     }
 
-    @XmlTransient
-    public Collection<Schedule> getScheduleCollection() {
-        return scheduleCollection;
+    @Override
+    public Integer getId() {
+        return getUserId();
     }
-
-    public void setScheduleCollection(Collection<Schedule> scheduleCollection) {
-        this.scheduleCollection = scheduleCollection;
+    @Override
+    public void setId(Integer id) {
+        setUserId(id);
     }
-
-    @XmlTransient
-    public Collection<Schedule> getScheduleCollection1() {
-        return scheduleCollection1;
+    @Override
+    public Users getUserCreated() {
+        return userCreated;
     }
-
-    public void setScheduleCollection1(Collection<Schedule> scheduleCollection1) {
-        this.scheduleCollection1 = scheduleCollection1;
+    @Override
+    public void setUserCreated(Users userCreated) {
+        this.userCreated = userCreated;
     }
-
-    @XmlTransient
-    public Collection<Schedule> getScheduleCollection2() {
-        return scheduleCollection2;
+    @Override
+    public Date getDateCreated() {
+        return dateCreated;
     }
-
-    public void setScheduleCollection2(Collection<Schedule> scheduleCollection2) {
-        this.scheduleCollection2 = scheduleCollection2;
+    @Override
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
-
-    @XmlTransient
-    public Collection<Schedule> getScheduleCollection3() {
-        return scheduleCollection3;
+    @Override
+    public boolean getDeleted() {
+        return deleted;
     }
-
-    public void setScheduleCollection3(Collection<Schedule> scheduleCollection3) {
-        this.scheduleCollection3 = scheduleCollection3;
+    @Override
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
-
-    @XmlTransient
-    public Collection<Share> getShareCollection() {
-        return shareCollection;
-    }
-
-    public void setShareCollection(Collection<Share> shareCollection) {
-        this.shareCollection = shareCollection;
-    }
-
-    @XmlTransient
-    public Collection<Share> getShareCollection1() {
-        return shareCollection1;
-    }
-
-    public void setShareCollection1(Collection<Share> shareCollection1) {
-        this.shareCollection1 = shareCollection1;
-    }
-    
-    private EntityManager getEntityManager(){
-    	final Logger LOG = Logger.getLogger(Users.class.getName());
-    	long startTime = System.nanoTime();
-    	LOG.info("Creating Entity Manager in Users");
-    	EntityManager em = Persistence.createEntityManagerFactory("DoctorVera").createEntityManager();
-    	long endTime = System.nanoTime();
-    	long duration = (endTime - startTime); 
-    	LOG.info("Entity Manager created in " + duration/1000000 + " millis");
-    	return em;
-    }
-	*/
 
     @Override
     public boolean equals(Object o) {
@@ -505,76 +358,53 @@ public class Users implements Serializable,Identified<Integer> {
 
         if (deleted != users.deleted) return false;
         if (userId != null ? !userId.equals(users.userId) : users.userId != null) return false;
-        if (foreigner != null ? !foreigner.equals(users.foreigner) : users.foreigner != null) return false;
+        if (!foreigner.equals(users.foreigner)) return false;
         if (!username.equals(users.username)) return false;
         if (!password.equals(users.password)) return false;
-        if (firstName != null ? !firstName.equals(users.firstName) : users.firstName != null) return false;
+        if (!firstName.equals(users.firstName)) return false;
         if (middleName != null ? !middleName.equals(users.middleName) : users.middleName != null) return false;
         if (lastName != null ? !lastName.equals(users.lastName) : users.lastName != null) return false;
         if (birthDate != null ? !birthDate.equals(users.birthDate) : users.birthDate != null) return false;
         if (phoneNumberHome != null ? !phoneNumberHome.equals(users.phoneNumberHome) : users.phoneNumberHome != null)
             return false;
-        if (phoneNumberMobile != null ? !phoneNumberMobile.equals(users.phoneNumberMobile) : users.phoneNumberMobile != null)
-            return false;
+        if (!phoneNumberMobile.equals(users.phoneNumberMobile)) return false;
+        if (email != null ? !email.equals(users.email) : users.email != null) return false;
         if (description != null ? !description.equals(users.description) : users.description != null) return false;
-        if (!userCreatedId.equals(users.userCreatedId)) return false;
-        if (!dateCreated.equals(users.dateCreated)) return false;
+        if (dateCreated != null ? !dateCreated.equals(users.dateCreated) : users.dateCreated != null) return false;
         if (!Arrays.equals(avatarImage, users.avatarImage)) return false;
         if (color != null ? !color.equals(users.color) : users.color != null) return false;
-        return !(addressId != null ? !addressId.equals(users.addressId) : users.addressId != null);
+        return messagingAccepted.equals(users.messagingAccepted);
 
     }
 
     @Override
     public int hashCode() {
         int result = userId != null ? userId.hashCode() : 0;
-        result = 31 * result + (foreigner != null ? foreigner.hashCode() : 0);
+        result = 31 * result + foreigner.hashCode();
         result = 31 * result + username.hashCode();
         result = 31 * result + password.hashCode();
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + firstName.hashCode();
         result = 31 * result + (middleName != null ? middleName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (birthDate != null ? birthDate.hashCode() : 0);
         result = 31 * result + (phoneNumberHome != null ? phoneNumberHome.hashCode() : 0);
-        result = 31 * result + (phoneNumberMobile != null ? phoneNumberMobile.hashCode() : 0);
+        result = 31 * result + phoneNumberMobile.hashCode();
+        result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + userCreatedId.hashCode();
-        result = 31 * result + dateCreated.hashCode();
+        result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
         result = 31 * result + (deleted ? 1 : 0);
         result = 31 * result + Arrays.hashCode(avatarImage);
         result = 31 * result + (color != null ? color.hashCode() : 0);
-        result = 31 * result + (addressId != null ? addressId.hashCode() : 0);
+        result = 31 * result + messagingAccepted.hashCode();
         return result;
     }
 
     @Override
-	public String toString() {
-		return "Users [userId=" + userId + ", username=" + username
-				+ ", password=" + password + ", firstName=" + firstName
-				+ ", middleName=" + middleName + ", lastName=" + lastName
-				+ ", birthDate=" + birthDate + ", phoneNumberHome="
-				+ phoneNumberHome + ", phoneNumberMobile=" + phoneNumberMobile
-				+ ", description=" + description + ", userCreatedId="
-				+ userCreatedId + ", dateCreated=" + dateCreated + ", deleted="
-				+ deleted + ", addressId=" + addressId + ", color=" + color +", avatarImage=" + avatarImage + "]";
-	}
-
-    @Override
-    public Integer getId() {
-        return getUserId();
-    }
-
-    @Override
-    public void setId(Integer id) {
-        setUserId(id);
-    }
-
-    @XmlTransient
-    public Collection<UserGroups> getUserGroups() {
-        return userGroups;
-    }
-
-    public void setUserGroups(Collection<UserGroups> userGroups) {
-        this.userGroups = userGroups;
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }

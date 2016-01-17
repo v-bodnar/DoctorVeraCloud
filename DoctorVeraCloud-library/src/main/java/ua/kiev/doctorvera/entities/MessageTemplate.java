@@ -183,4 +183,12 @@ public class MessageTemplate  implements Serializable, Identified<Integer>{
         result = 31 * result + userCreated.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "MessageTemplate{" +
+                "messageTemplateId=" + messageTemplateId +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

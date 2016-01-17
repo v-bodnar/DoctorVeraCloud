@@ -22,13 +22,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "Policy")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Policy.findAll", query = "SELECT p FROM Policy p"),
-    @NamedQuery(name = "Policy.findByPolicyId", query = "SELECT p FROM Policy p WHERE p.policyId = :policyId"),
-    @NamedQuery(name = "Policy.findByName", query = "SELECT p FROM Policy p WHERE p.name = :name"),
-    @NamedQuery(name = "Policy.findByDescription", query = "SELECT p FROM Policy p WHERE p.description = :description"),
-    @NamedQuery(name = "Policy.findByDateCreated", query = "SELECT p FROM Policy p WHERE p.dateCreated = :dateCreated"),
-    @NamedQuery(name = "Policy.findByDeleted", query = "SELECT p FROM Policy p WHERE p.deleted = :deleted")})
 public class Policy implements Serializable,Identified<Integer> {
     private static final long serialVersionUID = 1L;
     @Id
@@ -65,9 +58,14 @@ public class Policy implements Serializable,Identified<Integer> {
     @JoinColumn(name = "UserCreated", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users userCreated;
-    @OrderColumn(name="PolicyHasUserGroupId")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "policy")
-    private Collection<PolicyHasUserGroups> policyHasUserGroupsCollection;
+
+    @OrderColumn(name="UserGroup")
+    @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinTable(
+            name="PolicyHasUserGroups",
+            joinColumns={@JoinColumn(name="Policy", referencedColumnName="PolicyId")},
+            inverseJoinColumns={@JoinColumn(name="UserGroup", referencedColumnName="UserGroupId")})
+    private Collection<UserGroups> userGroups;
 
     public Policy() {
     }
@@ -148,13 +146,14 @@ public class Policy implements Serializable,Identified<Integer> {
     }
 
     @XmlTransient
-    public Collection<PolicyHasUserGroups> getPolicyHasUserGroupsCollection() {
-        return policyHasUserGroupsCollection;
+    public Collection<UserGroups> getUserGroups() {
+        return userGroups;
     }
 
-    public void setPolicyHasUserGroupsCollection(Collection<PolicyHasUserGroups> policyHasUserGroupsCollection) {
-        this.policyHasUserGroupsCollection = policyHasUserGroupsCollection;
+    public void setUserGroups(Collection<UserGroups> userGroups) {
+        this.userGroups = userGroups;
     }
+
 
     @Override
     public boolean equals(Object o) {

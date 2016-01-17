@@ -13,20 +13,12 @@
 package ua.kiev.doctorvera.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entity class Describes User
@@ -36,18 +28,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "Address")
 @XmlRootElement
-/*
-@NamedQueries({
-    @NamedQuery(name = "Address.findAll", query = "SELECT a FROM Address a"),
-    @NamedQuery(name = "Address.findByAddressId", query = "SELECT a FROM Address a WHERE a.addressId = :addressId"),
-    @NamedQuery(name = "Address.findByCountry", query = "SELECT a FROM Address a WHERE a.country = :country"),
-    @NamedQuery(name = "Address.findByRegion", query = "SELECT a FROM Address a WHERE a.region = :region"),
-    @NamedQuery(name = "Address.findByCity", query = "SELECT a FROM Address a WHERE a.city = :city"),
-    @NamedQuery(name = "Address.findByAddress", query = "SELECT a FROM Address a WHERE a.address = :address"),
-    @NamedQuery(name = "Address.findByIndex", query = "SELECT a FROM Address a WHERE a.index = :index"),
-    @NamedQuery(name = "Address.findByDateCreated", query = "SELECT a FROM Address a WHERE a.dateCreated = :dateCreated"),
-    @NamedQuery(name = "Address.findByDeleted", query = "SELECT a FROM Address a WHERE a.deleted = :deleted")})
-    */
 public class Address implements Serializable, Identified<Integer> {
     private static final long serialVersionUID = 1L;
     @Id
@@ -72,10 +52,10 @@ public class Address implements Serializable, Identified<Integer> {
     @Column(name = "Deleted")
     private boolean deleted;
     @JoinColumn(name = "UserCreated", referencedColumnName = "UserId")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,fetch= FetchType.LAZY)
     private Users userCreated;
-    //@OneToMany(mappedBy = "address")
-    //private Collection<Users> usersCollection;
+    @OneToMany(mappedBy = "address",fetch= FetchType.LAZY)
+    private Collection<Users> usersCollection;
 
     public Address() {
     }
@@ -161,7 +141,6 @@ public class Address implements Serializable, Identified<Integer> {
     public void setUserCreated(Users userCreated) {
         this.userCreated = userCreated;
     }
-/*
     @XmlTransient
     public Collection<Users> getUsersCollection() {
         return usersCollection;
@@ -170,7 +149,6 @@ public class Address implements Serializable, Identified<Integer> {
     public void setUsersCollection(Collection<Users> usersCollection) {
         this.usersCollection = usersCollection;
     }
-*/
 	@Override
 	public Integer getId() {
 		return getAddressId();

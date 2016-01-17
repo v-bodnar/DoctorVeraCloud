@@ -67,40 +67,4 @@ public class DeliveryGroupFacade extends AbstractFacade<DeliveryGroup> implement
         return resultList;
     }
 
-    @Override
-    public DeliveryGroup find(Integer id) {
-        return  super.find(id);
-    }
-
-    @Override
-    public DeliveryGroup find(DeliveryGroup entity) {
-        return super.find(entity);
-    }
-
-    @Override
-    public List<DeliveryGroup> findAll() {
-        return super.findAll();
-    }
-//    /**
-//     * Method for initializing lazy loaded collections in DeliveryGroup entity
-//     * @param deliveryGroup entity for initialization
-//     * @return same entity with initialized collections
-//     */
-//    private DeliveryGroup initializeDeliveryGroup(DeliveryGroup deliveryGroup){
-//        deliveryGroup.getUserGroups().size();
-//        deliveryGroup.getUsers().size();
-//        return deliveryGroup;
-//    }
-//
-//    /**
-//     * Method for initializing lazy loaded collections in DeliveryGroup entities
-//     * @param deliveryGroups entity list for initialization
-//     * @return same entity list with initialized collections
-//     */
-//    private List<DeliveryGroup> initializeDeliveryGroups(List<DeliveryGroup> deliveryGroups){
-//        for(DeliveryGroup deliveryGroup : deliveryGroups) {
-//            initializeDeliveryGroup(deliveryGroup);
-//        }
-//        return deliveryGroups;
-//    }
 }

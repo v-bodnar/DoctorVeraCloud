@@ -9,6 +9,7 @@ import org.primefaces.model.SortOrder;
 import ua.kiev.doctorvera.entities.Identified;
 import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.CRUDFacade;
 import ua.kiev.doctorvera.resources.Config;
 
 import javax.persistence.*;
@@ -24,7 +25,7 @@ import java.util.logging.Logger;
  *
  * @author Volodymyr Bodnar
  */
-public abstract class AbstractFacade<T extends Identified<Integer>> {
+public abstract class AbstractFacade<T extends Identified<Integer>> implements CRUDFacade<T> {
 
     private final static Logger LOG = Logger.getLogger(AbstractFacade.class.getName());
 
@@ -65,56 +66,148 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
 
     /**
      * Creates new record in the persistent storage that represents given entity
-     *
      * @param entity - any entity that has to be persisted
      */
+    @Override
     public void create(T entity) {
         getEntityManager().persist(entity);
         LOG.info("Entity " + entity.getClass() + " id: " + entity.getId() + " persisted");
     }
 
     /**
+     Creates new entities representation(record) in the persistent storage(Data Base)
+     @param  entityList  list of concrete NEW entities to write
+     */
+    @Override
+    public void create(List<T> entityList){
+        for(T entity : entityList) {
+            getEntityManager().persist(entity);
+            LOG.info("Entity " + entity.getClass() + " id: " + entity.getId() + " persisted");
+        }
+    }
+
+    /**
      * Updates existing record in the persistent storage that represents given entity
-     *
      * @param entity - any entity that has to be updated
      */
-    public void edit(T entity) {
-        getEntityManager().merge(entity);
-        LOG.info("Entity " + entity.getClass() + " id: " + entity.getId() + " updated");
+    @Override
+    public T edit(T entity) {
+        T ent = getEntityManager().merge(entity);
+        LOG.info("Entity " + ent.getClass() + " id: " + ent.getId() + " updated");
+        return ent;
+    }
+
+    /**
+     * Updates existing record in the persistent storage that represents given entity
+     * @param entityList - list of entities that has to be updated
+     */
+    @Override
+    public List<T>  edit(List<T> entityList) {
+        List<T> updatedEntityList = new LinkedList<>();
+        for(T entity : entityList) {
+            updatedEntityList.add(getEntityManager().merge(entity));
+            LOG.info("Entity " + entity.getClass() + " id: " + entity.getId() + " updated");
+        }
+        return updatedEntityList;
     }
 
     /**
      * Marks existing record in the persistent storage that represents given entity as deleted
-     *
      * @param entity - any entity that has to be checked as deleted
      */
-    public void remove(T entity) {
+    @Override
+    public T remove(T entity) {
         entity.setDeleted(true);
-        getEntityManager().merge(entity);
-        LOG.info("Entity " + entity.getClass() + " id: " + entity.getId() + " marked as removed");
+        entity.setDateCreated(new Date());
+        T ent = getEntityManager().merge(entity);
+        LOG.info("Entity " + ent.getClass() + " id: " + ent.getId() + " marked as removed");
+        return ent;
+    }
+
+    /**
+     Marks existing entity as deleted in the persistent storage(Data Base)
+     @param  entityList list of existing entities to be marked as deleted
+     */
+    @Override
+    public List<T> remove(List<T> entityList){
+        List<T> updatedEntityList = new LinkedList<>();
+        for(T entity : entityList) {
+            entity.setDeleted(true);
+            entity.setDateCreated(new Date());
+            updatedEntityList.add(getEntityManager().merge(entity));
+            LOG.info("Entity " + entity.getClass() + " id: " + entity.getId() + " updated");
+        }
+        return updatedEntityList;
+    }
+
+    /**
+     * Permanently removes record from persistent storage
+     * @param entity - entity that has to be removed
+     */
+    @Override
+    public void removeFromDB(T entity) {
+        getEntityManager().remove(entity);
+    }
+
+    /**
+     * Permanently removes record from persistent storage
+     * @param entityList - list of entities that has to be removed
+     */
+    @Override
+    public void removeFromDB(List<T> entityList){
+        for(T entity : entityList) {
+            getEntityManager().remove(entity);
+        }
     }
 
     /**
      * Searches for entity in the persistent storage with the given Id
-     *
      * @param id - unique identifier
      */
+    @Override
     public T find(Integer id) {
         return getEntityManager().find(entityClass, id);
     }
 
     /**
      * Searches for the given entity in the persistent storage with the same Id
-     *
      * @param entity - entity to be found
      */
+    @Override
     public T find(T entity) {
         return getEntityManager().find(entityClass, entity.getId());
     }
 
     /**
+     * Searches for the given entity in the persistent storage with the same Id
+     * @param entityList - list of entities to be found
+     */
+    @Override
+    public List<T> find(List<T> entityList){
+        List<T> foundEntityList = new LinkedList<>();
+        for(T entity : entityList) {
+            getEntityManager().find(entityClass, entity.getId());
+        }
+        return foundEntityList;
+    }
+
+    /**
+     * Searches for the given entity in the persistent storage with the same Id
+     * @param entitiesIdentifierList - list entities identifiers
+     */
+    @Override
+    public List<T> find(Set<Integer> entitiesIdentifierList){
+        List<T> foundEntityList = new LinkedList<>();
+        for(Integer id : entitiesIdentifierList) {
+            getEntityManager().find(entityClass, id);
+        }
+        return foundEntityList;
+    }
+
+    /**
      * Searches for all entities of the T type in the persistent storage
      */
+    @Override
     public List<T> findAll() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
@@ -128,6 +221,7 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
     /**
      * Searches for all entities of the T type in the persistent storage in the given range
      */
+    @Override
     public List<T> findRange(int[] range) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
@@ -143,6 +237,7 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
     /**
      * Counts the number of all entities the T type in the persistent storage
      */
+    @Override
     public int count() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
@@ -152,17 +247,17 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
     }
 
     /**
-     * Permanently removes record from persistant storage
-     *
-     * @param entity - entity that has to be removed
+     * Searches for all entities of the T type in the persistent storage and retrieves them with pagination,
+     * filtered and sorted by the given params
+     * @param firstResult number of entity in the result set to return from
+     * @param maxResults amount of entities to return starting from firstResult
+     * @param sortField name of field to sort by
+     * @param sortOrder sort order
+     * @param filters map with filters where key is an entity field to filter by and value is a value to search for
+     *                key can contain "." which represents another entities field eg. user.userGroup.name
+     * @return entities found by given criteria
      */
-    public void removeFromDB(T entity) {
-        getEntityManager().remove(entity);
-    }
-
-    /**
-     * Searches for all entities of the T type in the persistent storage and retrieves them with pagination
-     */
+    @Override
     public List<T> findAll(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
@@ -172,19 +267,26 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
 
         Predicate conditions = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
 
-        //filter
+        //Creating filters
         for (Map.Entry<String, Object> filter : filters.entrySet()) {
             if (!filter.getValue().equals("")) {
                 //try as string using like
-                Path pathFilter = root.get(filter.getKey());
-                if (pathFilter != null) {
-                    conditions = cb.and(conditions, createFilterCondition(cb, pathFilter, filter.getValue()));
+                Path pathFilter;
+                if (filter.getKey().contains(".")){ //for multiple depth attributes
+                    conditions = cb.and(conditions, modifyFilter(cb, root, filter));
+                }else{ // for single attribute
+                    pathFilter = root.get(filter.getKey());
+                    if (pathFilter != null) {
+                        conditions = cb.and(conditions, createFilterCondition(cb, pathFilter, filter.getValue()));
+                    }
                 }
             }
         }
 
         cq.select(root).where(conditions);
 
+        // This part of code is responsible for sorting and is duplicated in the next methods:
+        // ua.kiev.doctorvera.facade.InitializerFacade.initializeLazyEntity(java.util.List<? extends ua.kiev.doctorvera.entities.Identified>, org.primefaces.model.SortOrder, java.lang.String)
         if (sortOrder != null && sortField != null && sortOrder.equals(SortOrder.ASCENDING)) {
             cq.orderBy(cb.asc(root.get(sortField)));
         } else if (sortOrder != null && sortField != null && sortOrder.equals(SortOrder.DESCENDING)) {
@@ -196,10 +298,16 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
     }
 
     /**
-     * Searches for all entities of the T type in the persistent storage and retrieves them with pagination applies filters and counts selected rows
-     * @return number of found records
+     * Searches for all entities of the T type in the persistent storage and returns number of entities
+     * with applied pagination and filters
+     * @param firstResult number of entity in the result set to return from
+     * @param maxResults amount of entities to return starting from firstResult
+     * @param filters map with filters where key is an entity field to filter by and value is a value to search for
+     *                key can contain "." which represents another entities field eg. user.userGroup.name
+     * @return entities found by given criteria
      */
-    public Integer count(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+    @Override
+    public Integer count(Integer firstResult, Integer maxResults, Map<String, Object> filters) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 
@@ -212,27 +320,30 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
         for (Map.Entry<String, Object> filter : filters.entrySet()) {
             if (!filter.getValue().equals("")) {
                 //try as string using like
-                Path pathFilter = root.get(filter.getKey());
-                if (pathFilter != null) {
-                    conditions = cb.and(conditions, createFilterCondition(cb, pathFilter, filter.getValue()));
+                Path pathFilter;
+                if (filter.getKey().contains(".")){ //for multiple depth attributes
+                    conditions = cb.and(conditions, modifyFilter(cb, root, filter));
+                }else{ // for single attribute
+                    pathFilter = root.get(filter.getKey());
+                    if (pathFilter != null) {
+                        conditions = cb.and(conditions, createFilterCondition(cb, pathFilter, filter.getValue()));
+                    }
                 }
             }
         }
 
         cq.select(cb.count(root)).where(conditions);
 
-        if (sortOrder != null && sortField != null && sortOrder.equals(SortOrder.ASCENDING)) {
-            cq.orderBy(cb.asc(root.get(sortField)));
-        } else if (sortOrder != null && sortField != null && sortOrder.equals(SortOrder.DESCENDING)) {
-            cq.orderBy(cb.desc(root.get(sortField)));
-        }
-
         return getEntityManager().createQuery(cq).getSingleResult().intValue();
     }
 
     /**
-     * Creates Predicates for parsed filter value
-     * @return predicate for current filter
+     * Helper method for creating filter SQL query
+     * Creates Predicates for simple parsed filter value
+     * @param cb criteria builder for entity we want to retrieve
+     * @param path we filter by entities field represented by criteria Path
+     * @param value value to search for
+     * @return returns condition for filtering represented by criteria Predicate
      */
     private Predicate createFilterCondition(CriteriaBuilder cb, Path path, Object value){
         if(Integer.class.equals(path.getJavaType())){
@@ -241,12 +352,137 @@ public abstract class AbstractFacade<T extends Identified<Integer>> {
             return cb.and(cb.like(path, "%" + value + "%"));
         }else if(Date.class.equals(path.getJavaType())){
             return cb.and(cb.equal(path, value));
-        }if(Collection.class.equals(path.getJavaType())){
+        }if(Collection.class.isAssignableFrom(path.getJavaType())){
             return cb.and(cb.isMember(value, path));
         }if(path.getJavaType().isEnum()){
             return cb.and(cb.equal(path, value));
+        }if(Identified.class.isAssignableFrom(path.getJavaType()) && Collection.class.isAssignableFrom(value.getClass())){
+            return cb.and(path.in(value));
         }
         return null;
+    }
+
+    /**
+     * Helper method for creating filter SQL query
+     * Creates Predicates for complex filter value that contain "." in the key
+     * It is based on tokens separated by . and currently only 2 levels depth is supported for String attributes
+     * @param parentCb criteria builder for entity we want to retrieve
+     * @param parentRoot criteria root for entity we want to retrieve
+     * @param entry filter entry, key is field to filter by and value is value to search for
+     * @return returns condition for filtering represented by criteria Predicate
+     */
+    private Predicate modifyFilter(CriteriaBuilder parentCb, Root<T> parentRoot, Map.Entry<String, Object> entry){
+        List<String> tokens = Arrays.asList(entry.getKey().split("\\."));
+        for(String token : tokens){
+            int currentTokenIndex = tokens.indexOf(token);
+            if(currentTokenIndex == tokens.size() -1){
+                return null;
+            }
+            String nextToken = tokens.get(currentTokenIndex + 1);
+
+            Path parentPath = parentRoot.get(token);
+
+            //Creating subQuery to find all suitable values
+            if (Identified.class.isAssignableFrom(parentPath.getJavaType()) && entry.getValue() instanceof String){
+                CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+                CriteriaQuery cq = cb.createQuery(parentPath.getJavaType());
+
+                Root root = cq.from(parentPath.getJavaType());
+                cq.distinct(true);
+                Path path = root.get(nextToken);
+                if (!path.getJavaType().equals(String.class)) throw new RuntimeException("");
+                Predicate stringPredicate = cb.and(cb.like(path, "%" + entry.getValue() + "%"));
+                Predicate deleted = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+                cq.select(root).where(cb.and(deleted, stringPredicate));
+                List resultList = getEntityManager().createQuery(cq).getResultList();
+
+                return createFilterCondition(parentCb, parentPath, resultList);
+
+            }else{
+                throw new RuntimeException("At this moment only Identified and Strings are supported");
+            }
+        }
+
+        throw new RuntimeException("There are no tokens in filter key");
+    }
+
+    /**
+     * This method has to initialize all lazy members of the parsed entity
+     * @param entity entity which fields have to be fetched
+     * @return initialized entity
+     */
+    @Override
+    public T initializeLazyEntity(T entity) {
+
+        try {
+            entity = (T) em.find(entity.getClass(),entity.getId());
+            for (Field field : entity.getClass().getDeclaredFields()) {
+                if (field.getType().equals(Collection.class) || field.getType().equals(Set.class) || field.getType().equals(List.class)) {
+                    field.setAccessible(true);
+                    Collection collection = (Collection) field.get(entity);
+
+                    collection.size();
+                    field.set(entity, collection);
+                    field.setAccessible(false);
+                }
+            }
+            return entity;
+        }  catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * This method has to initialize all lazy members of the parsed entity list, preserving order
+     * @param entityList list of entities which fields have to be fetched
+     * @param sortOrder order asc or desc
+     * @param sortField field to sort by
+     * @return list with initialized entities
+     */
+    @Override
+    public List<T> initializeLazyEntity(List<T> entityList, SortOrder sortOrder, String sortField) {
+        if (entityList.isEmpty()) return null;
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        Class clazz = entityList.get(0).getClass();
+        CriteriaQuery cq = cb.createQuery(clazz);
+        Root root = cq.from(clazz);
+//        Todo find resolution for org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags
+//        List<String> manyToManyFields = new LinkedList<>();
+//        for (Object attribute : ((RootImpl)root).getEntityType().getPluralAttributes()){
+//            if(attribute instanceof PluralAttribute && (((PluralAttribute) attribute).getPersistentAttributeType() == Attribute.PersistentAttributeType.MANY_TO_MANY)){
+//                //manyToManyFields.add(((PluralAttribute) attribute).getName());
+//                root.fetch(((PluralAttribute) attribute).getName(),JoinType.INNER);
+//            }
+//        }
+
+        cq.select(root).where(root.in(entityList));
+        cq.distinct(true);
+
+        // This part of code is responsible for sorting and is duplicated in the next methods:
+        // ua.kiev.doctorvera.facade.AbstractFacade.count(java.lang.Integer, java.lang.Integer, java.lang.String, org.primefaces.model.SortOrder, java.util.Map<java.lang.String,java.lang.Object>)
+        // ua.kiev.doctorvera.facade.AbstractFacade.findAll(java.lang.Integer, java.lang.Integer, java.lang.String, org.primefaces.model.SortOrder, java.util.Map<java.lang.String,java.lang.Object>)
+        if (sortOrder != null && sortField != null && sortOrder.equals(SortOrder.ASCENDING)) {
+            cq.orderBy(cb.asc(root.get(sortField)));
+        } else if (sortOrder != null && sortField != null && sortOrder.equals(SortOrder.DESCENDING)) {
+            cq.orderBy(cb.desc(root.get(sortField)));
+        }
+
+        List<T> result = new ArrayList<>(); //Todo find solution to initialize in one query
+        for(T entity : (List<T>) em.createQuery(cq).getResultList()){
+            result.add(initializeLazyEntity(entity));
+        }
+        return result;
+    }
+
+    /**
+     * This method has to initialize all lazy members of the parsed entity list
+     * @param entityList list of entities which fields have to be fetched
+     * @return list with initialized entities
+     */
+    @Override
+    public List<T> initializeLazyEntity(List<T> entityList) {
+        return initializeLazyEntity(entityList, null, null);
     }
 
 }

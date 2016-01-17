@@ -22,64 +22,7 @@ import ua.kiev.doctorvera.entities.Users;
  * @author Volodymyr Bodnar
  */
 @Local
-public interface UsersFacadeLocal{
-    /**
-    @return EntityManager got from container
-    */
-    EntityManager getEntityManager();
-
-    /**
-    Creates new entity representation(record) in the persistent storage(Data Base)
-    @param  entity  concrete NEW entity to write
-    */
-    void create(Users entity);
-
-    /**
-    Updates existing entity representation(record) in the persistent storage(Data Base)
-    @param  entity existing entity to be updated
-    */
-    void edit(Users entity);
-
-    /**
-    Marks existing entity as deleted in the persistent storage(Data Base)
-    @param  entity existing entity to be marked as deleted
-    */
-    void remove(Users entity);
-
-    /**
-    @param id Unique object identifier
-    @return Users Identified existing entity represented by unique identifier
-    */
-    Users find(Integer id);
-
-    /**
-    Searches for user that matches given one id
-    @param user - User to search for
-    @return Users Identified existing entity represented by unique identifier
-    */
-    Users find(Users user);
-
-    /**
-    @return List<Users> List of all Identified existing entities that are not marked as deleted
-    */
-    List<Users> findAll();
-
-    /**
-    @return List<Users> List of Identified existing entities that are not marked as deleted from range
-    @param range
-    */
-    List<Users> findRange(int[] range);
-
-    /**
-    @return int records count
-    */
-    int count();
-
-    /**
-    <strong>Permanently</strong> removes entity from the persistent storage(Data Base)
-    @param entity - Entity that has to be removed
-    */
-    void removeFromDB(Users entity);
+public interface UsersFacadeLocal extends CRUDFacade<Users>{
 
     /**
     * Searches for User by his username(unique value)
@@ -168,31 +111,6 @@ public interface UsersFacadeLocal{
     List<Users> findByGroup(Integer typeId);
 
     /**
-    * Adds record to the reference table for referencing given user and User Group
-    * @returns true - in the case operation was successful and false otherwise
-    * @param user - User that has to be referenced
-    * @param group - User Group that has to be referenced
-    * @param userCreated - User that initiated process
-    */
-    boolean addUserGroup(Users user, UserGroups group, Users userCreated);
-
-    /**
-    * Permanently deletes record from the reference table for removing reference between given user and User Group
-    * @returns true - in the case operation was successful and false otherwise
-    * @param user - User that has to be unreferenced
-    * @param group - User Group that has to be unreferenced
-    */
-    boolean removeUserGroup(Users user, UserGroups group);
-
-    /**
-     * Checks if parsed user is in parsed group
-     * @returns true - if reference table contains parsed user and group, false otherwise
-     * @param user - User that has to be checked
-     * @param group - User Group that has to be checked
-     */
-    boolean isInGroup(Users user, UserGroups group);
-
-    /**
     * Searches for all Users with the given method
     * @returns List<Users> List of users that matches search parameter
     * @param method - Method to search by
@@ -207,23 +125,6 @@ public interface UsersFacadeLocal{
     List<Users> findByMethod(Integer methodId);
 
     /**
-    * Adds record to the reference table for referencing given user and Method
-    * @returns true - in the case operation was successful and false otherwise
-    * @param doctor - User that has to be referenced
-    * @param method - Method that has to be referenced
-    * @param userCreated - User that initiated process
-    */
-    boolean addMethod(Users doctor, Methods method, Users userCreated);
-
-    /**
-     * Permanently deletes record from the reference table for removing reference between given user and Method
-     * @returns true - in the case operation was successful and false otherwise
-     * @param user - User that has to be unreferenced
-     * @param method - Method that has to be unreferenced
-     */
-    boolean removeMethod(Users user, Methods method);
-
-    /**
      * Checks if given user is in the group Doctors
      * @param user - User that has to be checked
      */
@@ -236,20 +137,10 @@ public interface UsersFacadeLocal{
     boolean isPatient(Users user);
 
     /**
-     * Searches for all entities of the T type in the persistent storage and retrieves them with pagination
-     */
-    List<Users> findAll(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters);
-
-    Integer count(Integer firstResult, Integer maxResults, String sortField, SortOrder sortOrder, Map<String, Object> filters);
-
-    /**
      * Searches all Users that contain given DeliveryGroup
      * @param deliveryGroup given DeliveryGroup
      * @return all found Users
      */
     List<Users> findUsersByDeliveryGroup(DeliveryGroup deliveryGroup);
 
-    //HashMap<String, HashMap<String, ArrayList<Object>>> ceateJoins(Class relatedClass, Object value);
-
-    
 }
