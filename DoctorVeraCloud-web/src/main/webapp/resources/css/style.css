@@ -110,14 +110,17 @@ font-size: 100% !important;
 	font-size: 95%;
 }
 
-.mySelectOneMenu{
-	width: 200px !important; 
+.mySelectOneMenu {
+	width: 300px !important;
 }
 .myButton{
-	width: 200px !important; 
+	width: 300px !important;
 }
 .mySpinner .ui-spinner-input{
-	width: 180px !important; 
+	width: 300px !important;
+}
+.myTextField .ui-inputfield{
+	width: 300px !important;
 }
 .paymentsForm td:FIRST-CHILD {
 	width:20%;
@@ -190,4 +193,13 @@ font-size: 100% !important;
 
 input, textarea {
 	width: 100%;
+}
+.calendarFilter input, .idFilter{
+	width:80% !important;
+}
+.oldSchedulerRow{
+	color: lightgray;
+}
+.futureSchedulerRow{
+	color: gold;
 }

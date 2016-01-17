@@ -61,6 +61,8 @@ public class MenuView implements Serializable {
     private final String smsTemplatesPageUrl = Mapping.getInstance().getString("SMS_TEMPLATES_PAGE");
     private final String emailTemplatesPageValue = Message.getInstance().getString("MENU_ITEM_EMAIL_TEMPLATES");
     private final String emailTemplatesPageUrl = Mapping.getInstance().getString("EMAIL_TEMPLATES_PAGE");
+    private final String messageSchedulerPageValue = Message.getInstance().getString("MENU_ITEM_MESSAGE_SCHEDULER");
+    private final String messageSchedulerPageUrl = Mapping.getInstance().getString("MESSAGE_SCHEDULER_PAGE");
     private static final String APPLICATION_ROOT_URL = Mapping.getInstance().getString("APPLICATION_ROOT_PATH");
     private static final Logger LOG = Logger.getLogger(MenuView.class.getName());
     private static final String SECURITY_POLICY_PARAM_NAME = "securityPolicy";
@@ -206,7 +208,7 @@ public class MenuView implements Serializable {
 
         item = new DefaultMenuItem(deliveryGroupsPageValue);
         item.setUrl(deliveryGroupsPageURL);
-        item.setIcon("ui-icon-mail-closed");
+        item.setIcon("ui-icon-person");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_DELIVERY_GROUPS));
         if (url != null && url.equals(APPLICATION_ROOT_URL + deliveryGroupsPageURL)) {
             item.setStyleClass("ui-state-active");
@@ -215,7 +217,7 @@ public class MenuView implements Serializable {
 
         item = new DefaultMenuItem(smsTemplatesPageValue);
         item.setCommand("#{menuView.redirectToSMSTemplates}");
-        item.setIcon("ui-icon-mail-closed");
+        item.setIcon("ui-icon-comment");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SMS_TEMPLATES));
         String smsParam = ((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest()).getParameter("SMS");
         if (url != null && (APPLICATION_ROOT_URL + smsTemplatesPageUrl).contains(url) && smsParam != null && !smsParam.isEmpty()) {
@@ -233,9 +235,18 @@ public class MenuView implements Serializable {
         }
         deliverySubmenu.addElement(item);
 
+        item = new DefaultMenuItem(messageSchedulerPageValue);
+        item.setUrl(messageSchedulerPageUrl);
+        item.setIcon("ui-icon-clock");
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_MESSAGE_SCHEDULER));
+        if (url != null && (APPLICATION_ROOT_URL + messageSchedulerPageUrl).equals(url)) {
+            item.setStyleClass("ui-state-active");
+        }
+        deliverySubmenu.addElement(item);
+
         item = new DefaultMenuItem(sendSMSPageValue);
         item.setUrl(sendSMSPageUrl);
-        item.setIcon("ui-icon-mail-closed");
+        item.setIcon("ui-icon-comment");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SEND_SMS));
         if (url != null && url.equals(APPLICATION_ROOT_URL + sendSMSPageUrl)) {
             item.setStyleClass("ui-state-active");

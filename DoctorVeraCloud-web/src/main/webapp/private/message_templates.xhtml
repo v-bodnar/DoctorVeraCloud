@@ -104,7 +104,7 @@
 
             <p:dialog header="#{MESSAGE.MESSAGE_TEMPLATES_ADD_DIALOG_TITLE}"
                      id="addTemplateDialog" widgetVar="addTemplateDialog" modal="false">
-                <p:growl id="growl" showDetail="true" />
+                <p:growl id="growl" showDetail="true" severity="info"/>
                 <p:ajax event="close" update=":smsTemplatesTableForm:smsTemplatesTable" />
 
                 <h:panelGrid columns="3" cellpadding="5" id="addTemplateTable">
@@ -165,7 +165,6 @@
                                      value="#{MESSAGE.MESSAGE_TEMPLATES_CREATE_BUTTON}" icon="ui-icon-plus"
                                      actionListener="#{messageTemplatesView.saveNewTemplate}"
                                      update="templateDescriptionMessage templateNameMessage growl"
-                                     oncomplete="PF('addTemplateDialog').hide();"
                                      rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_ADD') : securityUtils.checkPermissions('EMAIL_TEMPLATES_ADD')}"/>
 
                 </h:panelGrid>
@@ -178,7 +177,7 @@
 
             <p:dialog header="#{MESSAGE.MESSAGE_TEMPLATES_EDIT_DIALOG_TITLE}"
                       widgetVar="editTemplateDialog"  id="editTemplateDialog">
-                <p:growl id="growl" showDetail="true" />
+                <p:growl id="growl" showDetail="true" severity="info"/>
                 <p:ajax event="close" update=":smsTemplatesTableForm:smsTemplatesTable" />
 
                 <h:panelGrid columns="3" cellpadding="5" id="editTemplateTable">
@@ -238,13 +237,11 @@
                                      value="#{MESSAGE.MESSAGE_TEMPLATES_SAVE_BUTTON}" icon="ui-icon-plus"
                                      actionListener="#{messageTemplatesView.saveSelectedTemplate}"
                                      update="templateDescriptionMessage templateNameMessage growl"
-                                     oncomplete="PF('editTemplateDialog').hide();"
                                      rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_UPDATE') : securityUtils.checkPermissions('EMAIL_TEMPLATES_UPDATE')}"/>
                     <p:commandButton id="smsTemplateSaveAsNewButton"
                                      value="#{MESSAGE.MESSAGE_TEMPLATES_SAVE_AS_NEW_BUTTON}" icon="ui-icon-plus"
                                      actionListener="#{messageTemplatesView.saveSelectedTemplateAsNew}"
                                      update="templateDescriptionMessage templateNameMessage growl"
-                                     oncomplete="PF('editTemplateDialog').hide();"
                                      rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_UPDATE') : securityUtils.checkPermissions('EMAIL_TEMPLATES_UPDATE')}"/>
                 </h:panelGrid>
             </p:dialog>

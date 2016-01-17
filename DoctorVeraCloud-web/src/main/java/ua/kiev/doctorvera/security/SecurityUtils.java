@@ -13,6 +13,7 @@ import ua.kiev.doctorvera.views.SessionParams;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,7 +26,7 @@ import java.util.logging.Logger;
  * Created by volodymyr.bodnar on 05.10.2015.
  */
 @Named
-@ApplicationScoped
+@SessionScoped
 public class SecurityUtils implements Serializable{
 
     @Inject
@@ -41,6 +42,8 @@ public class SecurityUtils implements Serializable{
     private UserGroupsFacadeLocal userTypesFacade;
 
     private static final Map<String, SecurityPolicy> mappedPagesToPolicies  = new HashMap<>();
+
+    private List<Policy> currentUserPermissions;
 
     private final static Logger LOG = Logger.getLogger(SecurityUtils.class.getName());
     private static final String PERMISSION_DENIED_PAGE = Mapping.getInstance().getString("PERMISSION_DENIED_PAGE");
@@ -108,10 +111,15 @@ public class SecurityUtils implements Serializable{
         int policiesCreated = 0;
         int policiesUpdated = 0;
 
-        for (SecurityPolicy securityPolicy : securityPolicies) {
-            Policy policy = null;
+        Map<String, Policy> allPoliciesInDb = new HashMap();
+        if(allPoliciesInDb.isEmpty()) {
+            for (Policy policy : policyFacade.initializeLazyEntity(policyFacade.findAll())) {
+                allPoliciesInDb.put(policy.getName(), policy);
+            }
+        }
 
-            policy = policyFacade.findByStringId(securityPolicy.name());
+        for (SecurityPolicy securityPolicy : securityPolicies) {
+            Policy policy = allPoliciesInDb.get(securityPolicy.getName());
 
             if (policy == null) {
                 //policy has not been found and has to be created
@@ -123,6 +131,7 @@ public class SecurityUtils implements Serializable{
                 newPolicy.setUserCreated(sessionParams.getAuthorizedUser());
                 policyFacade.create(newPolicy);
                 policiesCreated++;
+                policy = newPolicy;
             } else if (!isEqual(policy, securityPolicy)) {
                 //policy has been found and needs synchronization
                 policy.setName(securityPolicy.getName());
@@ -133,7 +142,6 @@ public class SecurityUtils implements Serializable{
                 policyFacade.edit(policy);
                 policiesUpdated++;
             }
-            policy = policyFacade.findByStringId(securityPolicy.name());
             allMappedPolicies.put(SecurityPolicy.valueOf(policy.getStringId()), policy);
         }
         alreadySynchronized = true;
@@ -147,17 +155,22 @@ public class SecurityUtils implements Serializable{
      * Assigns all rights to admin user
      */
     private void checkAdminPermissions(){
-        Users superAdmin = usersFacade.find(SUPER_ADMIN_ID);
+        Users superAdmin = usersFacade.initializeLazyEntity(usersFacade.find(SUPER_ADMIN_ID));
         UserGroups superAdminGroup = userTypesFacade.find(SUPER_ADMIN_USER_GROUP_ID);
 
         List<UserGroups> groups = userTypesFacade.findByUser(superAdmin);
 
         if(!groups.contains(superAdminGroup))
-            userTypesFacade.addUser(superAdmin, superAdminGroup, sessionParams.getAuthorizedUser());
+            superAdmin.getUserGroups().add(superAdminGroup);
+        usersFacade.edit(superAdmin);
+            //userTypesFacade.addUser(superAdmin, superAdminGroup, sessionParams.getAuthorizedUser());
 
-        for(Policy policy : convertPoliciesToEntities(Arrays.asList(SecurityPolicy.values()))){
-            policyFacade.addUserGroups(superAdminGroup, policy, sessionParams.getAuthorizedUser());
+        List<Policy> convertedPolicies = convertPoliciesToEntities(Arrays.asList(SecurityPolicy.values()));
+        for(Policy policy : convertedPolicies){
+            policy.getUserGroups().add(superAdminGroup);
+            //policyFacade.addUserGroups(superAdminGroup, policy, sessionParams.getAuthorizedUser());
         }
+        policyFacade.edit(convertedPolicies);
     }
 
     /**
@@ -178,12 +191,12 @@ public class SecurityUtils implements Serializable{
      * @param securityPolicyList list of enums that has to be converted
      * @return list of SecurityPolicy enums
      */
-    public static List<Policy> convertPoliciesToEntities(List<SecurityPolicy> securityPolicyList){
+    public List<Policy> convertPoliciesToEntities(List<SecurityPolicy> securityPolicyList){
         List<Policy> result = new ArrayList<>();
         for(SecurityPolicy policyEnum : securityPolicyList){
             result.add(allMappedPolicies.get(policyEnum));
         }
-        return result;
+        return policyFacade.find(result);
     }
 
     /**
@@ -210,7 +223,10 @@ public class SecurityUtils implements Serializable{
      * @return boolean true - if usersType contains currently parsed policy, false - otherwise
      */
     public boolean checkPermissions(SecurityPolicy policy) {
-        List<SecurityPolicy> policiesListFromDb = convertEntitiesToPolicies(userTypesFacade.findPoliciesByUser(sessionParams.getAuthorizedUser()));
+        if (currentUserPermissions == null) {
+            currentUserPermissions = policyFacade.findByUser(sessionParams.getAuthorizedUser());
+        }
+        List<SecurityPolicy> policiesListFromDb = convertEntitiesToPolicies(currentUserPermissions);
         return policiesListFromDb.contains(policy);
     }
     public boolean checkPermissions(String policy) {

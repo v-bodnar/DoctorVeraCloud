@@ -23,6 +23,7 @@
 	<entry key="DELIVERY_GROUPS_PAGE">/private/delivery_groups.xhtml</entry>
 	<entry key="SMS_TEMPLATES_PAGE">/private/message_templates.xhtml?SMS=true</entry>
 	<entry key="EMAIL_TEMPLATES_PAGE">/private/message_templates.xhtml?EMAIL=true</entry>
+	<entry key="MESSAGE_SCHEDULER_PAGE">/private/message_scheduler.xhtml</entry>
 
  	<!-- Path-->
  	<entry key="APPLICATION_LOGO">/logo.png</entry>

@@ -8,7 +8,6 @@ import org.primefaces.model.SortOrder;
 import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.AddressFacadeLocal;
-import ua.kiev.doctorvera.facadeLocal.InitializerFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UserGroupsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
@@ -39,9 +38,6 @@ public class UsersTableView implements Serializable {
 	
 	@EJB
 	private AddressFacadeLocal addressFacade;
-
-	@EJB
-	private InitializerFacadeLocal initializer;
 
 	@Inject
 	private SessionParams sessionParams;
@@ -93,7 +89,7 @@ public class UsersTableView implements Serializable {
 	public void init(){
 		authorizedUser = sessionParams.getAuthorizedUser();
 		allUsers = new UsersLazyModel();
-		allUserGroups = (List<UserGroups>) initializer.initializeLazyEntity(userGroupsFacade.findAll());
+		allUserGroups = userGroupsFacade.initializeLazyEntity(userGroupsFacade.findAll());
 		for(UserGroups group : allUserGroups){
 			allUserGroupsNames.add(group.getName());
 		}
@@ -168,7 +164,7 @@ public class UsersTableView implements Serializable {
 	}
 
 	public void deleteUser(){
-		addressFacade.remove(addressFacade.find(selectedUser.getAddressId()));
+		addressFacade.remove(selectedUser.getAddress());
 		usersFacade.remove(selectedUser);
 		//allUsers.remove(selectedUser);
 		final String successMessage = Message.getInstance().getString("USERS_DELETE_CONFIRM_TITLE");
@@ -217,32 +213,34 @@ public class UsersTableView implements Serializable {
 
 		//Iterating each transfered user
 		for(Object userTypeObject : event.getItems()){
-			UserGroups userTypeTransfered=(UserGroups)userTypeObject;
+			UserGroups userGroupTransfered=(UserGroups)userTypeObject;
 			
 				//Constructing success message
-				successMessage += userTypeTransfered.getName() + ", ";
+				successMessage += userGroupTransfered.getName() + ", ";
 			
 			if(addFlag){
 				//Add group to user transfered
-				userGroupsFacade.addUser(selectedUser, userTypeTransfered, authorizedUser);
+				selectedUser.getUserGroups().add(userGroupTransfered);
 				
 				//Setting time and user that made changes
-				userTypeTransfered.setUserCreated(authorizedUser);
+				userGroupTransfered.setUserCreated(authorizedUser);
 				selectedUser.setUserCreated(authorizedUser);
-				userTypeTransfered.setDateCreated(new Date());
+				userGroupTransfered.setDateCreated(new Date());
 				selectedUser.setDateCreated(new Date());
-				userGroupsFacade.edit(userTypeTransfered);
+
+				userGroupsFacade.edit(userGroupTransfered);
 				usersFacade.edit(selectedUser);
 			}else{
-				//Remove group from user transfered
-				userGroupsFacade.removeUser(selectedUser, userTypeTransfered);
+				//Remove group from user transferred
+				selectedUser.getUserGroups().remove(userGroupTransfered);
 				
 				//Setting time and user that made changes
-				userTypeTransfered.setUserCreated(authorizedUser);
+				userGroupTransfered.setUserCreated(authorizedUser);
 				selectedUser.setUserCreated(authorizedUser);
-				userTypeTransfered.setDateCreated(new Date());
+				userGroupTransfered.setDateCreated(new Date());
 				selectedUser.setDateCreated(new Date());
-				userGroupsFacade.edit(userTypeTransfered);
+
+				userGroupsFacade.edit(userGroupTransfered);
 				usersFacade.edit(selectedUser);
 			}
 		}
@@ -317,8 +315,8 @@ public class UsersTableView implements Serializable {
 
 		@Override
 		public List<Users> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-			allPaginatedFilteredTemplates = (List<Users>) initializer.initializeLazyEntity(usersFacade.findAll(first, pageSize, sortField, sortOrder, filters));
-			setRowCount(usersFacade.count(first, pageSize, sortField, sortOrder, filters));
+			allPaginatedFilteredTemplates = usersFacade.initializeLazyEntity(usersFacade.findAll(first, pageSize, sortField, sortOrder, filters), sortOrder, sortField);
+			setRowCount(usersFacade.count(first, pageSize, filters));
 			return allPaginatedFilteredTemplates;
 		}
 	}

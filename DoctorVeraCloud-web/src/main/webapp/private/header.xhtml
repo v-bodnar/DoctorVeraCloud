@@ -5,10 +5,11 @@
 
 	<p:layout>
 		<p:layoutUnit position="center">
-			<h:form>
+			<h:form id="headerForm">
 				<a href="#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.MAIN_PAGE}">
 				<h:graphicImage value="#{MAPPINGS.APPLICATION_IMAGES_PATH}#{MAPPINGS.APPLICATION_LOGO}" style="float:left"/>
 				</a>
+				<h:outputText id="overlayPanelPlace" style="position: relative; top:160px;left:100px;"/>
 			</h:form>
 			<h3 class="pageTitle"><ui:insert name="title" /></h3>
 		</p:layoutUnit>

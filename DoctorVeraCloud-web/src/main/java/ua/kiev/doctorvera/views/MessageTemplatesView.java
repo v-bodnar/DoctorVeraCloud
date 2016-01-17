@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.views;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -37,9 +38,6 @@ public class MessageTemplatesView implements Serializable{
 
     @EJB
     private MessageTemplateFacadeLocal messageTemplateFacade;
-
-    @EJB
-    private InitializerFacadeLocal initializer;
 
     @Inject
     private SessionParams sessionParams;
@@ -93,6 +91,8 @@ public class MessageTemplatesView implements Serializable{
         final String successMessage = Message.getInstance().getString("MESSAGE_TEMPLATES_UPDATED");
         final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('editTemplateDialog').hide()");
     }
 
     //Creates new message Template from selected message Template
@@ -104,6 +104,8 @@ public class MessageTemplatesView implements Serializable{
         final String successMessage = Message.getInstance().getString("MESSAGE_TEMPLATES_SAVED");
         final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('editTemplateDialog').hide()");
     }
 
     //Adds selected message Template
@@ -115,6 +117,8 @@ public class MessageTemplatesView implements Serializable{
         final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
         final String successTitle = Message.getInstance().getString("MESSAGE_TEMPLATES_SAVED");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('addTemplateDialog').hide()");
     }
 
     public void updateLetterCounter(){
@@ -160,8 +164,8 @@ public class MessageTemplatesView implements Serializable{
         @Override
         public List<MessageTemplate> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
             filters.put("type", messageType);
-            allPaginatedFilteredTemplates = (List<MessageTemplate>) initializer.initializeLazyEntity(messageTemplateFacade.findAll(first, pageSize, sortField, sortOrder, filters));
-            setRowCount(messageTemplateFacade.count(first, pageSize, sortField, sortOrder, filters));
+            allPaginatedFilteredTemplates = messageTemplateFacade.initializeLazyEntity(messageTemplateFacade.findAll(first, pageSize, sortField, sortOrder, filters));
+            setRowCount(messageTemplateFacade.count(first, pageSize, filters));
             return allPaginatedFilteredTemplates;
         }
     }

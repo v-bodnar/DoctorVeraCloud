@@ -29,6 +29,8 @@ public enum SecurityPolicy implements Serializable{
     MENU_ITEM_DELIVERY_GROUPS(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_DELIVERY_GROUPS"), SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_SMS_TEMPLATES(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_SMS_TEMPLATES"), SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_EMAIL_TEMPLATES(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_EMAIL_TEMPLATES"), SecurityPolicyGroup.MENU_GROUP),
+    MENU_ITEM_MESSAGE_SCHEDULER(Message.getInstance().getString("SECURITY_POLICY_MENU_ITEM_MESSAGE_SCHEDULER"), SecurityPolicyGroup.MENU_GROUP),
+
     /**
      * Users page
      */
@@ -84,6 +86,8 @@ public enum SecurityPolicy implements Serializable{
     PROFILE_EDIT_PHONE_NUMBER(Message.getInstance().getString("SECURITY_POLICY_PROFILE_EDIT_PHONE_NUMBER"), SecurityPolicyGroup.PROFILE_GROUP),
     PROFILE_EDIT_ADDRESS(Message.getInstance().getString("SECURITY_POLICY_PROFILE_EDIT_ADDRESS"), SecurityPolicyGroup.PROFILE_GROUP),
     PROFILE_EDIT_COLOR(Message.getInstance().getString("SECURITY_POLICY_PROFILE_EDIT_COLOR"), SecurityPolicyGroup.PROFILE_GROUP),
+    PROFILE_EDIT_EMAIL(Message.getInstance().getString("SECURITY_POLICY_PROFILE_EDIT_EMAIL"), SecurityPolicyGroup.PROFILE_GROUP),
+    PROFILE_EDIT_MESSAGING_ACCEPTED(Message.getInstance().getString("SECURITY_POLICY_PROFILE_EDIT_MESSAGING_ACCEPTED"), SecurityPolicyGroup.PROFILE_GROUP),
     /**
      * Plan pages
      */
@@ -119,8 +123,13 @@ public enum SecurityPolicy implements Serializable{
     EMAIL_TEMPLATES_ADD(Message.getInstance().getString("SECURITY_POLICY_EMAIL_TEMPLATES_ADD"), SecurityPolicyGroup.EMAIL_TEMPLATES_GROUP),
     EMAIL_TEMPLATES_DELETE(Message.getInstance().getString("SECURITY_POLICY_EMAIL_TEMPLATES_DELETE"), SecurityPolicyGroup.EMAIL_TEMPLATES_GROUP),
     EMAIL_TEMPLATES_UPDATE(Message.getInstance().getString("SECURITY_POLICY_EMAIL_TEMPLATES_UPDATE"), SecurityPolicyGroup.EMAIL_TEMPLATES_GROUP),
-    EMAIL_TEMPLATES_SEND(Message.getInstance().getString("SECURITY_POLICY_EMAIL_TEMPLATES_SEND"), SecurityPolicyGroup.EMAIL_TEMPLATES_GROUP);
-
+    EMAIL_TEMPLATES_SEND(Message.getInstance().getString("SECURITY_POLICY_EMAIL_TEMPLATES_SEND"), SecurityPolicyGroup.EMAIL_TEMPLATES_GROUP),
+    /**
+     * EMAIL Templates page
+     */
+    MESSAGE_SCHEDULER_ADD(Message.getInstance().getString("SECURITY_POLICY_MESSAGE_SCHEDULER_ADD"), SecurityPolicyGroup.MESSAGE_SCHEDULER_GROUP),
+    MESSAGE_SCHEDULER_DELETE(Message.getInstance().getString("SECURITY_POLICY_MESSAGE_SCHEDULER_DELETE"), SecurityPolicyGroup.MESSAGE_SCHEDULER_GROUP),
+    MESSAGE_SCHEDULER_UPDATE(Message.getInstance().getString("SECURITY_POLICY_MESSAGE_SCHEDULER_UPDATE"), SecurityPolicyGroup.MESSAGE_SCHEDULER_GROUP);
 
     private String name;
     private SecurityPolicyGroup policyGroup;
@@ -160,7 +169,8 @@ public enum SecurityPolicy implements Serializable{
         SCHEDULE_GROUP(Message.getInstance().getString("SECURITY_SCHEDULE_GROUP_DESCRIPTION")),
         DELIVERY_GROUPS_GROUP(Message.getInstance().getString("SECURITY_DELIVERY_GROUPS_DESCRIPTION")),
         SMS_TEMPLATES_GROUP(Message.getInstance().getString("SECURITY_SMS_TEMPLATES_DESCRIPTION")),
-        EMAIL_TEMPLATES_GROUP(Message.getInstance().getString("SECURITY_EMAIL_TEMPLATES_DESCRIPTION"));
+        EMAIL_TEMPLATES_GROUP(Message.getInstance().getString("SECURITY_EMAIL_TEMPLATES_DESCRIPTION")),
+        MESSAGE_SCHEDULER_GROUP(Message.getInstance().getString("SECURITY_MESSAGE_SCHEDULER_DESCRIPTION"));
         SecurityPolicyGroup(String description){
             this.description = description;
         }

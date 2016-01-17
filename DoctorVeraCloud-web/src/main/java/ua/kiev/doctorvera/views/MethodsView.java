@@ -244,33 +244,32 @@ public class MethodsView implements Serializable {
 		
 		//Iterating each transfered user
 		for(Object userObject : event.getItems()){
-			Users userTransfered=(Users)userObject;
-			
+			Users userTransferred = usersFacade.initializeLazyEntity((Users)userObject);
 			//Constructing success message
-			successMessage += userTransfered.getFirstName() + " " + userTransfered.getLastName() + ", ";
+			successMessage += userTransferred.getFirstName() + " " + userTransferred.getLastName() + ", ";
 			
 			if(addFlag){
 				//Add method to user transfered
-				usersFacade.addMethod(userTransfered, selectedMethod, authorizedUser);
-				
+				//usersFacade.addMethod(userTransferred, selectedMethod, authorizedUser);
+				userTransferred.getMethods().add(selectedMethod);
+
 				//Setting time and user that made changes
-				userTransfered.setUserCreated(authorizedUser);
+				userTransferred.setUserCreated(authorizedUser);
 				selectedMethod.setUserCreated(authorizedUser);
-				userTransfered.setDateCreated(new Date());
+				userTransferred.setDateCreated(new Date());
 				selectedMethod.setDateCreated(new Date());
-				usersFacade.edit(userTransfered);
-				methodsFacade.edit(selectedMethod);
+				usersFacade.edit(userTransferred);
 			}else{
 				//Remove method from user transfered
-				usersFacade.removeMethod(userTransfered, selectedMethod);
-				
+				//usersFacade.removeMethod(userTransferred, selectedMethod);
+				userTransferred.getMethods().remove(selectedMethod);
 				//Setting time and user that made changes
-				userTransfered.setUserCreated(authorizedUser);
+				userTransferred.setUserCreated(authorizedUser);
 				selectedMethod.setUserCreated(authorizedUser);
-				userTransfered.setDateCreated(new Date());
+				userTransferred.setDateCreated(new Date());
 				selectedMethod.setDateCreated(new Date());
-				usersFacade.edit(userTransfered);
-				methodsFacade.edit(selectedMethod);
+				usersFacade.edit(userTransferred);
+				//methodsFacade.edit(selectedMethod);
 			}
 		}
 		

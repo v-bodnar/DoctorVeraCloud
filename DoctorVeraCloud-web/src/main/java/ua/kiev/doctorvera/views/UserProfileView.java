@@ -15,6 +15,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,8 +45,9 @@ public class UserProfileView implements Serializable{
 	
 	public void init(String userId) {
 		user = usersFacade.find(Integer.parseInt(userId));
-		userCreated = usersFacade.find(user.getUserCreatedId());
-		address = addressFacade.find(user.getAddressId());
+		userCreated = usersFacade.find(user.getUserCreated());
+		address = user.getAddress();
+		if (address == null) address = new Address();
 		authorizedUser = sessionParams.getAuthorizedUser();
 	}
 	
@@ -98,11 +100,18 @@ public class UserProfileView implements Serializable{
 	}
 
 	public void save(){
+		if (address != null && address.getId() != null) {
+			addressFacade.edit(address);
+		}else if(address != null && address.getId() == null){
+			address.setUserCreated(authorizedUser);
+			address.setDateCreated(new Date());
+			addressFacade.create(address);
+			user.setAddress(address);
+		}
 		usersFacade.edit(user);
-		addressFacade.edit(address);
 		final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
 		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
-		Message.showError(successTitle, successMessage);
+		Message.showMessage(successTitle, successMessage);
 	}
 
 	public Boolean checkPermission(String policy){

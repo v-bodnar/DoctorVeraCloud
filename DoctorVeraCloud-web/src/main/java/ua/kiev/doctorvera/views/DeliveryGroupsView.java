@@ -1,12 +1,12 @@
 package ua.kiev.doctorvera.views;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import ua.kiev.doctorvera.entities.DeliveryGroup;
 import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.DeliveryGroupFacadeLocal;
-import ua.kiev.doctorvera.facadeLocal.InitializerFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UserGroupsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
@@ -40,9 +40,6 @@ public class DeliveryGroupsView  implements Serializable {
 
     @EJB
     private UserGroupsFacadeLocal userGroupsFacade;
-
-    @EJB
-    private InitializerFacadeLocal initializer;
 
     @Inject
     private SessionParams sessionParams;
@@ -121,6 +118,8 @@ public class DeliveryGroupsView  implements Serializable {
         final String successMessage = Message.getInstance().getString("DELIVERY_GROUPS_EDITED");
         final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('editGroupDialog').hide()");
     }
 
     //Adds selected Delivery Group
@@ -133,6 +132,8 @@ public class DeliveryGroupsView  implements Serializable {
         final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
         final String successTitle = Message.getInstance().getString("DELIVERY_GROUPS_SAVED");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('addDeliveryGroupDialog').hide()");
     }
 
     //This method controls onTransfer event in the Pick List
@@ -175,7 +176,7 @@ public class DeliveryGroupsView  implements Serializable {
             }else{
                 //Remove group from user transferred
                 //usersFacade.removeUserGroup(userTransferred, selectedGroup);
-                initializer.initializeLazyEntity(selectedGroup);
+                selectedGroup = deliveryGroupFacade.initializeLazyEntity(selectedGroup);
                 selectedGroup.getUserGroups().remove(groupTransferred);
                 //Setting time and user that made changes
                 selectedGroup.setUserCreated(authorizedUser);
@@ -222,7 +223,7 @@ public class DeliveryGroupsView  implements Serializable {
             successMessage += userTransferred.getFirstName() + " " + userTransferred.getLastName() + ", ";
 
             if(addFlag){
-                initializer.initializeLazyEntity(selectedGroup);
+                selectedGroup = deliveryGroupFacade.initializeLazyEntity(selectedGroup);
                 //Add group to user transferred
                 selectedGroup.getUsers().add(userTransferred);
                 //usersFacade.addUserGroup(userTransferred, selectedGroup, authorizedUser);
@@ -233,7 +234,7 @@ public class DeliveryGroupsView  implements Serializable {
                 selectedGroup.setDateCreated(new Date());
                 deliveryGroupFacade.edit(selectedGroup);
             }else{
-                initializer.initializeLazyEntity(selectedGroup);
+                selectedGroup = deliveryGroupFacade.initializeLazyEntity(selectedGroup);
                 //Remove group from user transferred
                 //usersFacade.removeUserGroup(userTransferred, selectedGroup);
                 selectedGroup.getUsers().remove(userTransferred);

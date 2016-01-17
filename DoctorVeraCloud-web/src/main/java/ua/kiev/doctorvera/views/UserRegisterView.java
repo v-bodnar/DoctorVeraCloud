@@ -20,6 +20,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Named(value="userRegisterView")
@@ -76,12 +78,18 @@ public class UserRegisterView implements Serializable {
 	public void register() {
 		address.setDateCreated(new Date());
 		user.setDateCreated(new Date());
-		addressFacade.create(address);
-		LOG.info("AddressId: " + address.getId());
-		usersFacade.create(user);
 		user.setAddress(address);
+		usersFacade.create(user);
+		if(user.getUserGroups() == null){
+			List<UserGroups> userGroups = new LinkedList<>();
+			userGroups.add(patientsGroup);
+			user.setUserGroups(userGroups);
+		}else{
+			user.getUserGroups().add(patientsGroup);
+		}
+
 		usersFacade.edit(user);
-		usersFacade.addUserGroup(user, patientsGroup, authorizedUser);
+
 		Message.showMessage(Message.getMessage("APPLICATION_SAVED"), Message.getMessage("VALIDATOR_SUCCESS_TITLE"));
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.closeDialog("add_user");

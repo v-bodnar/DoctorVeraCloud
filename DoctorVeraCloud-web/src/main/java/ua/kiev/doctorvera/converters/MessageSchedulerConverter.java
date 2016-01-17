@@ -1,7 +1,8 @@
 package ua.kiev.doctorvera.converters;
 
-import ua.kiev.doctorvera.entities.DeliveryGroup;
-import ua.kiev.doctorvera.facadeLocal.DeliveryGroupFacadeLocal;
+import ua.kiev.doctorvera.entities.MessageScheduler;
+import ua.kiev.doctorvera.facadeLocal.MessageSchedulerFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.MessageSchedulerFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
@@ -13,11 +14,11 @@ import javax.faces.convert.FacesConverter;
 /**
  * Created by volodymyr.bodnar on 25.11.2015.
  */
-@FacesConverter(value = "deliveryGroupConverter")
-public class DeliveryGroupConverter  implements Converter {
+@FacesConverter(value = "messageSchedulerConverter")
+public class MessageSchedulerConverter implements Converter {
 
     @EJB
-    private DeliveryGroupFacadeLocal deliveryGroupFacade;
+    private MessageSchedulerFacadeLocal messageSchedulerFacade;
 
     private static final String SELECTOR_DEFAULT = Message.getMessage("APPLICATION_SELECT_ONE");
 
@@ -26,13 +27,13 @@ public class DeliveryGroupConverter  implements Converter {
         if (value == null || value.equals(SELECTOR_DEFAULT)) {
             return null;
         }else {
-            return deliveryGroupFacade.find(Integer.parseInt(value));
+            return messageSchedulerFacade.find(Integer.parseInt(value));
         }
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         if (value == null) return null;
-        return  ((DeliveryGroup) value).getId().toString();
+        return ((MessageScheduler) value).getId().toString();
     }
 }

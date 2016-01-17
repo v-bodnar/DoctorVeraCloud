@@ -1,13 +1,3 @@
-<!--<ui:composition template="index.xhtml"-->
-<!--xmlns="http://www.w3.org/1999/xhtml"-->
-<!--xmlns:ui="http://java.sun.com/jsf/facelets"-->
-<!--xmlns:h="http://java.sun.com/jsf/html"-->
-<!--xmlns:f="http://java.sun.com/jsf/core"-->
-<!--xmlns:p="http://primefaces.org/ui">-->
-<!--<ui:define name="title">-->
-<!--<h:outputText value="#{MESSAGE.ADD_USER_TITLE}" />-->
-<!--</ui:define>-->
-<!--<ui:define name="content">-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -26,7 +16,7 @@
 <h:form id="registerForm" onkeypress="if( event.keyCode == 13){event.preventDefault()}" styleClass="registerForm">
     <p:growl id="growl" showDetail="true" severity="info" />
     <p:panel>
-        <h:panelGrid columns="3" cellpadding="5"
+        <h:panelGrid columns="3" cellpadding="5" id="registerTable"
                      style="margin:auto;width:100%;">
             <!-- International -->
             <h:outputLabel for="foreigner" value="#{MESSAGE.USERS_IS_FOREIGNER}"/>
@@ -80,6 +70,7 @@
                         id="birthDate" name="birthDate" pattern="dd-MM-yyyy"
                         required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                 <p:ajax event="change" update="birthDateMessage growl"/>
+                <p:ajax event="blur" update="birthDateMessage growl"/>
             </p:calendar>
             <p:message for="birthDate" id="birthDateMessage"/>
 
@@ -161,6 +152,23 @@
             <p:message for="phoneNumberMobileInternational" id="phoneNumberMobileInternationalMessage"
                        disabled="#{!userRegisterView.user.foreigner}"/>
 
+            <!-- Email -->
+            <h:outputLabel for="email" value="#{MESSAGE.USERS_EMAIL}"/>
+            <p:inputText value="#{userRegisterView.user.email}"
+                         id="email" name="email"
+                         placeholder="#{MESSAGE.USERS_PLACEHOLDER_EMAIL}"
+                         validatorMessage="#{MESSAGE.VALIDATOR_EMAIL}">
+                <f:validateRegex pattern="(^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$)?" />
+                <p:ajax event="blur" update="emailMessage growl"/>
+            </p:inputText>
+            <p:message for="email" id="emailMessage"/>
+
+            <!-- Message Acceptance -->
+            <h:outputLabel for="messagingAccepted" value="#{MESSAGE.USERS_MESSAGES_ACCEPTED}"/>
+            <p:selectBooleanCheckbox value="#{userRegisterView.user.messagingAccepted}"
+                         id="messagingAccepted" name="messagingAccepted"/>
+            <p:message for="messagingAccepted" id="messagingAcceptedMessage"/>
+
             <!-- Address Country -->
             <h:outputLabel for="country" value="#{MESSAGE.ADDRESS_COUNTRY}"/>
             <p:autoComplete value="#{userRegisterView.address.country}"
@@ -228,7 +236,7 @@
 
             <p:commandButton value="#{MESSAGE.ADD_USER_BUTTON_ADD}"
                              actionListener="#{userRegisterView.register}" icon="ui-icon-check"
-                             style="margin:auto" ajax="true" process="@form"/>
+                             update="registerTable" style="margin:auto" ajax="true" process="@form"/>
 
         </h:panelGrid>
     </p:panel>

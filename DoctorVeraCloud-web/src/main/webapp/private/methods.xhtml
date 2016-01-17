@@ -128,8 +128,8 @@
 
 			<p:dialog header="#{MESSAGE.METHODS_ADD_DIALOG_TITLE}"
 				widgetVar="addMethodDialog" modal="false" id="addMethodDialog" closeOnEscape="true">
-				<p:growl id="growl" showDetail="true" autoUpdate="true"/>
-				<p:messages id = "errorMessage" showDetail="true" style="width:400px;font-size:90%" escape="true" severity="error"/>
+				<p:growl id="growl" showDetail="true" autoUpdate="true" severity="info"/>
+				<p:messages id = "errorMessage" showDetail="true" style="width:400px;font-size:90%" escape="true" severity="error" closable="true"/>
 				<p:ajax event="close" listener="#{methodsView.init()}" update=":methodsForm:methodsTable"/>
 
 				<h:panelGrid columns="3" cellpadding="5">
@@ -213,7 +213,7 @@
 					<p:commandButton id="methodSaveButton"
 						value="#{MESSAGE.METHODS_ADD_BUTTON}" icon="ui-icon-plus"
 						action="#{methodsView.createNewMethod}"
-						update="growl errorMessage addMethodDialog"
+						update="growl errorMessage"
 						rendered="#{methodsView.selectedMethod.id==null}"
 						styleClass="myButton"
 						/>
@@ -223,7 +223,7 @@
 					<p:commandButton id="methodEditButton"
 						value="#{MESSAGE.METHODS_SAVE_BUTTON}" icon="ui-icon-plus"
 						action="#{methodsView.saveSelectedMethod}"
-						update="growl errorMessage addMethodDialog"
+						update="growl errorMessage"
 						rendered="#{methodsView.selectedMethod.id!=null}"
 						styleClass="myButton"
 						/>

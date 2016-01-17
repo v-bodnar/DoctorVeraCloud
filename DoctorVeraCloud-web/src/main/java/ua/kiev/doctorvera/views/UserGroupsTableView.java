@@ -82,7 +82,7 @@ public class UserGroupsTableView implements Serializable {
 	@PostConstruct
 	public void init(){
 		authorizedUser = sessionParams.getAuthorizedUser();
-		allGroups = userGroupsFacade.findAll();
+		allGroups = userGroupsFacade.initializeLazyEntity(userGroupsFacade.findAll());
 		newType = new UserGroups();
 		selectedGroup = new UserGroups();
 		allPolicies = policyFacade.findAll();
@@ -172,8 +172,9 @@ public class UserGroupsTableView implements Serializable {
 
 	public void constructPoliciesPickList(AjaxBehaviorEvent e){
 		if (selectedGroup != null && selectedGroup.getId() != null && selectedSecurityPolicy != null){
+			userGroupsFacade.initializeLazyEntity(selectedGroup);
 			List<Policy> sourcePolicies = new ArrayList<>();
-			List<Policy> targetPolicy = policyFacade.findByGroup(selectedGroup);
+			List<Policy> targetPolicy = (List<Policy>) selectedGroup.getPolicies();
 			for (Policy policy : allPolicies) {
 				if (policy.getPolicyGroup().equals(selectedSecurityPolicy.name())){
 					sourcePolicies.add(policy);
@@ -249,8 +250,10 @@ public class UserGroupsTableView implements Serializable {
 			
 			if(addFlag){
 				//Add group to user transfered
-				usersFacade.addUserGroup(userTransfered, selectedGroup, authorizedUser);
-				
+				//usersFacade.addUserGroup(userTransfered, selectedGroup, authorizedUser);
+				userTransfered = usersFacade.initializeLazyEntity(userTransfered);
+				userTransfered.getUserGroups().add(selectedGroup);
+
 				//Setting time and user that made changes
 				userTransfered.setUserCreated(authorizedUser);
 				selectedGroup.setUserCreated(authorizedUser);
@@ -260,8 +263,10 @@ public class UserGroupsTableView implements Serializable {
 				userGroupsFacade.edit(selectedGroup);
 			}else{
 				//Remove group from user transfered
-				usersFacade.removeUserGroup(userTransfered, selectedGroup);
-				
+				//usersFacade.removeUserGroup(userTransfered, selectedGroup);
+				userTransfered = usersFacade.initializeLazyEntity(userTransfered);
+				userTransfered.getUserGroups().remove(selectedGroup);
+
 				//Setting time and user that made changes
 				userTransfered.setUserCreated(authorizedUser);
 				selectedGroup.setUserCreated(authorizedUser);
@@ -306,14 +311,15 @@ public class UserGroupsTableView implements Serializable {
 
 		//Iterating each transferred policy
 		for(Object policyObject : event.getItems()){
-			Policy policyTransferred=(Policy)policyObject;
+			Policy policyTransferred = policyFacade.initializeLazyEntity((Policy)policyObject);
 
 			//Constructing success message
 			successMessage += policyTransferred.getName() + ", ";
 
 			if(addFlag){
 				//Add group to user transferred
-				policyFacade.addUserGroups(selectedGroup,policyTransferred,authorizedUser);
+				//policyFacade.addUserGroups(selectedGroup,policyTransferred,authorizedUser);
+				policyTransferred.getUserGroups().add(selectedGroup);
 				//Setting time and user that made changes
 				policyTransferred.setUserCreated(authorizedUser);
 				selectedGroup.setUserCreated(authorizedUser);
@@ -323,8 +329,8 @@ public class UserGroupsTableView implements Serializable {
 				userGroupsFacade.edit(selectedGroup);
 			}else{
 				//Remove group from user transferred
-				policyFacade.removeUserGroup(selectedGroup, policyTransferred);
-
+				//policyFacade.removeUserGroup(selectedGroup, policyTransferred);
+				policyTransferred.getUserGroups().remove(selectedGroup);
 				//Setting time and user that made changes
 				policyTransferred.setUserCreated(authorizedUser);
 				selectedGroup.setUserCreated(authorizedUser);

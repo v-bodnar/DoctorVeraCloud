@@ -34,7 +34,7 @@
 				</p:panelGrid>
 		</h:form>
 		<h:form>
-			<p:growl id="growl" showDetail="true" severity="info"/> 
+			<p:growl id="growl" showDetail="true" severity="info"/>
 				<p:panelGrid styleClass="profileDetailsGrid" id="profileDetailsGrid" 
 				columnClasses="profileDetailsGridColumn" rowClasses="profileDetailsGridRow" >
 				<!-- First Name -->
@@ -89,6 +89,7 @@
 				            </f:facet>
 							<p:calendar value="#{userProfileView.user.birthDate}" id="birthDate" name="birthDate" pattern="dd-MM-yyyy">
 							</p:calendar>
+							<p:ajax event="save" update="birthDateMessage growl" listener="#{userProfileView.save}"/>
 						</p:inplace></p:column>
 						<p:column><p:message for="birthDate" id="birthDateMessage"/></p:column>
 					</p:row>
@@ -153,6 +154,36 @@
 						</p:inplace></p:column>
 						<p:column><p:message for="phoneNumberMobile" id="phoneNumberMobileMessage"/></p:column>
 					</p:row>
+					<!-- Email -->
+					<p:row>
+						<p:column><h:outputLabel for="email" value="#{MESSAGE.USERS_EMAIL}" /></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+							<p:inplace editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_EMAIL}"
+									   disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_EMAIL')}">
+								<p:inputText value="#{userProfileView.user.email}" id="email" name="email" validatorMessage="#{MESSAGE.VALIDATOR_EMAIL}">
+									<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+								</p:inputText>
+								<p:ajax event="save" update="emailMessage growl" listener="#{userProfileView.save}" />
+							</p:inplace></p:column>
+						<p:column><p:message for="email" id="emailMessage"/></p:column>
+					</p:row>
+
+					<!-- Message Acceptance -->
+					<p:row>
+					<p:column><h:outputLabel for="messagingAccepted" value="#{MESSAGE.USERS_MESSAGES_ACCEPTED}"/></p:column>
+						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
+							<p:inplace editor="true" disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_MESSAGING_ACCEPTED')}">
+							<f:facet name="output">
+								#{MESSAGE.SECURITY_POLICY_PROFILE_EDIT_MESSAGING_ACCEPTED}
+							</f:facet>
+							<f:facet name="input">
+							<p:selectBooleanCheckbox value="#{userRegisterView.user.messagingAccepted}"
+											 id="messagingAccepted" name="messagingAccepted"/>
+							</f:facet><p:ajax event="save" update="messagingAcceptedMessage growl" listener="#{userProfileView.save}"/>
+						</p:inplace></p:column>
+						<p:column><p:message for="messagingAccepted" id="messagingAcceptedMessage"/></p:column>
+					</p:row>
+
 				<!-- Address Country -->
 					<p:row>
 						<p:column><h:outputLabel for="country" value="#{MESSAGE.ADDRESS_COUNTRY}" /></p:column>

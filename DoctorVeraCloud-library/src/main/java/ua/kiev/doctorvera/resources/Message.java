@@ -11,7 +11,7 @@ import java.util.Set;
 public class Message extends ListResourceBundle implements Serializable{
 
 	private static Message instance;
-	private static final String BUNDLE_NAME = "/message";
+	private static final String BUNDLE_NAME = "message";
 	private static final ResourceBundle resource = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault(), new ExtendedControl());;
 	private static Object[][] entriesArray;
 	

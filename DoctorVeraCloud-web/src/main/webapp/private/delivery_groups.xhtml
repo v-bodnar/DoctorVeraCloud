@@ -129,7 +129,6 @@
                                      value="#{MESSAGE.DELIVERY_GROUPS_ADD_BUTTON}" icon="ui-icon-plus"
                                      actionListener="#{deliveryGroupsView.saveNewGroup}"
                                      update="deliveryGroupDescriptionMessage deliveryGroupNameMessage growl"
-                                     oncomplete="PF('addDeliveryGroupDialog').hide();"
                                      rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_ADD_USER_GROUP')}"/>
 
                 </h:panelGrid>
@@ -171,7 +170,6 @@
                                      value="#{MESSAGE.DELIVERY_GROUPS_SAVE_BUTTON}" icon="ui-icon-plus"
                                      actionListener="#{deliveryGroupsView.saveSelectedGroup}"
                                      update="deliveryGroupDescriptionMessage deliveryGroupNameMessage growl"
-                                     oncomplete="PF('editGroupDialog').hide();"
                                      rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_EDIT_USER_GROUP')}"/>
                 </h:panelGrid>
             </p:dialog>
@@ -181,7 +179,7 @@
 
             <p:dialog header="#{MESSAGE.DELIVERY_GROUPS_USERS_PICKER_TITLE}"
                       widgetVar="addUsersToDeliveryGroupDialog" id="addUsersToDeliveryGroupDialog" width="650" height="300">
-                <p:growl id="growl" showDetail="true" />
+                <p:growl id="growl" showDetail="true" severity="info"/>
                 <p:ajax event="close" update="growl" />
 
                 <p:pickList id="addUsersToDeliveryGroupPickList" value="#{deliveryGroupsView.usersDualListModel}" var="user" effect="bounce"
@@ -205,7 +203,7 @@
             <p:dialog header="#{MESSAGE.DELIVERY_GROUPS_USER_GROUP_PICKER_TITLE}"
                       widgetVar="addUserGroupToDeliveryGroupDialog" id="addUserGroupToDeliveryGroupDialog" width="710" height="400">
                 <p:growl id="growl" showDetail="true" />
-                <p:ajax event="close" update="growl" />
+                <p:ajax event="close" update="growl" severity="info"/>
 
                 <p:pickList id="addUserGroupToDeliveryGroupPickList" value="#{deliveryGroupsView.userGroupsDualListModel}" var="group" effect="bounce"
                             itemValue="#{group}" itemLabel="#{group.name}"

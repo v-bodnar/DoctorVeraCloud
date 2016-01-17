@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -210,6 +211,14 @@ public class Validator implements Serializable {
 		else if (!isNumeric(value))
 			note += startLine + Message.getMessage("VALIDATOR_NUMBERS_ONLY") + endLine;
 		return note;
+	}
+
+	public static String checkDateRange(Date dateStart, Date dateEnd){
+		if (dateStart.before(dateEnd) || dateStart.equals(dateEnd)){
+			return "";
+		}else{
+			return  Message.getMessage("VALIDATOR_DATE_RANGE");
+		}
 	}
 	
 }

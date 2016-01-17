@@ -19,7 +19,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
@@ -45,7 +44,7 @@ public class ScheduleView implements Serializable {
     private UsersFacadeLocal usersFacade;
 
     @EJB
-    private UserGroupsFacadeLocal userTypesFacade;
+    private UserGroupsFacadeLocal userGroupsFacade;
 
     @EJB
     private PlanFacadeLocal planFacade;
@@ -470,9 +469,7 @@ public class ScheduleView implements Serializable {
 
             if (isNew(patient)) { // Creating new user
                 createpatient(patient, authorizedUser);
-                usersFacade.create(patient);
-                usersFacade.addUserGroup(patient, userTypesFacade.find(PATIENTS_TYPE_ID), authorizedUser);
-                //TODO send email with password
+                //TODO send email
             }
 
             Date startTime = schedule.getDateTimeStart();
@@ -529,8 +526,6 @@ public class ScheduleView implements Serializable {
         if (isValid) {
             if (isNew(patient)) { // Creating new user
                 createpatient(patient, authorizedUser);
-                usersFacade.create(patient);
-                usersFacade.addUserGroup(patient, userTypesFacade.find(PATIENTS_TYPE_ID), authorizedUser);
                 //TODO send email with password
             }
 
@@ -778,6 +773,8 @@ public class ScheduleView implements Serializable {
         patient.setUserCreated(authorizedUser);
         patient.setUsername(Utils.generateUsername(patient.getLastName(), patient.getFirstName()));
         patient.setPassword(RandomPasswordGenerator.generatePswd(8, 10, 2, 2, 1).toString());
+        patient.getUserGroups().add(userGroupsFacade.find(PATIENTS_TYPE_ID));
+        usersFacade.create(patient);
     }
 
     public void createNewSchedule(Methods method, Date startTime) {

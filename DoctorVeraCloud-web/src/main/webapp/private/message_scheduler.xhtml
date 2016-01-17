@@ -1,0 +1,374 @@
+<ui:composition template="index.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        <h:outputText value="#{MESSAGE.MESSAGE_SCHEDULER_TITLE}" />
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="messageSchedulerTableForm">
+            <p:growl id="growl" showDetail="true" severity="info" />
+
+
+            <!--Context Menu-->
+            <p:contextMenu for="messageSchedulerTable">
+                <p:menuitem update="messageSchedulerTable growl" rendered="#{securityUtils.checkPermissions('MESSAGE_SCHEDULER_UPDATE')}">
+                    <p:commandLink styleClass="ui-menuitem-link" action="#{messageSchedulerView.setNewMessageScheduler(null)}"
+                                   oncomplete="PF('editSchedulerDialog').show();"
+                                   update=":messageSchedulerEditForm:editSchedulerDialog">
+                        <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
+                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.MESSAGE_SCHEDULER_UPDATE_BUTTON}" />
+                    </p:commandLink>
+                </p:menuitem>
+
+                <p:menuitem update="messageSchedulerTable growl" rendered="#{securityUtils.checkPermissions('MESSAGE_SCHEDULER_DELETE')}">
+                    <p:commandLink styleClass="ui-menuitem-link" action="#{messageSchedulerView.deleteSelectedScheduler}" ajax="false"
+                                   update="messageSchedulerTable growl" process="@none">
+                        <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.MESSAGE_SCHEDULER_DELETE_BUTTON}" />
+                        <p:confirm header="#{MESSAGE.MESSAGE_SCHEDULER_DELETE_CONFIRM_TITLE}" icon="ui-icon-alert"
+                                   message="#{MESSAGE.MESSAGE_SCHEDULER_DELETE_CONFIRM_MESSAGE}" />
+                    </p:commandLink>
+                </p:menuitem>
+
+            </p:contextMenu>
+
+            <!--Table-->
+            <p:dataTable id="messageSchedulerTable" styleClass="messageSchedulerTable"
+                         var="scheduler" widgetVar="messageSchedulerTable"
+                         value="#{messageSchedulerView.allMessageScheduler}" rowKey="#{scheduler.id}"
+                         selection="#{messageSchedulerView.selectedMessageScheduler}" selectionMode="single"
+                         paginator="true" rows="10" rowStyleClass="#{messageSchedulerView.getRowStyle(scheduler)}"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowsPerPageTemplate="10,15,20,100" lazy="true">
+
+                <p:ajax event="contextMenu" update=":messageSchedulerEditForm:editSchedulerDialog" />
+
+                <!-- Identifier -->
+                <p:column headerText="#{MESSAGE.ENTITY_ID}"
+                          sortBy="#{scheduler.messageSchedulerId}" filterBy="#{scheduler.messageSchedulerId}"
+                          filterMatchMode="equals" width="75" filterStyleClass="idFilter">
+                    <h:outputText value="#{scheduler.id}" />
+                </p:column>
+
+                <!-- Message Template Name-->
+                <p:column headerText="#{MESSAGE.ENTITY_NAME}"
+                          filterBy="#{scheduler.messageTemplate.name}"
+                          filterMatchMode="contains" style="width:200px;">
+                    <h:outputText value="#{scheduler.messageTemplate.name}"/>
+                </p:column>
+
+                <!-- Delivery Groups Name-->
+                <p:column headerText="#{MESSAGE.MESSAGE_SCHEDULER_DELIVERY_GROUPS}" width="200"
+                          filterBy="#{scheduler.deliveryGroups}" filterMatchMode="in" >
+                    <f:facet name="filter">
+                        <p:selectOneMenu id="deliveryGroupsFilter" onchange="PF('messageSchedulerTable').filter()" value="#{messageSchedulerView.groupFilter}" converter="deliveryGroupConverter">
+                            <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true" id = "deliveryGroupsFilterEmptyOption"/>
+                            <f:selectItems value="#{messageSchedulerView.allDeliveryGroups}"
+                                           itemValue="#{group}" itemLabel="#{group.name}" var="group"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+
+                    <ul>
+                        <ui:repeat var="group" value="#{scheduler.deliveryGroups}">
+                            <li><h:outputText value="#{group.name}"></h:outputText></li>
+                        </ui:repeat>
+                    </ul>
+                </p:column>
+
+                <!-- Date when delivery starts -->
+                <p:column headerText="#{MESSAGE.MESSAGE_SCHEDULER_DATE_START}"
+                          sortBy="#{scheduler.dateStart}" filterBy="#{scheduler.dateStart}"
+                          filterFunction="#{messageSchedulerView.filterByDate}">
+                    <f:facet name="filter">
+                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" style="width:100px;" id="startDateFilter">
+                            <p:ajax event="dateSelect" oncomplete="PF('messageSchedulerTable').filter()"/>
+                        </p:calendar>
+                    </f:facet>
+                    <h:outputText value="#{scheduler.dateStart}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </h:outputText>
+                </p:column>
+
+                <!-- Date when delivery ends-->
+                <p:column headerText="#{MESSAGE.MESSAGE_SCHEDULER_DATE_END}"
+                          sortBy="#{scheduler.dateEnd}" filterBy="#{scheduler.dateEnd}"
+                          filterFunction="#{messageSchedulerView.filterByDate}">
+                    <f:facet name="filter">
+                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" style="width:100px;" id="endDateFilter">
+                            <p:ajax event="dateSelect" oncomplete="PF('messageSchedulerTable').filter()"/>
+                        </p:calendar>
+                    </f:facet>
+                    <h:outputText value="#{scheduler.dateEnd}"/>
+                </p:column>
+
+                <!-- Time on which delivery will take place-->
+                <p:column headerText="#{MESSAGE.MESSAGE_SCHEDULER_TIME}"
+                          sortBy="#{scheduler.time}" filterBy="#{scheduler.time}" >
+                    <f:facet name="filter">
+                        <p:calendar pattern="HH:mm" timeOnly="true"  styleClass="calendarFilter" style="width:100px;" id="timeFilter">
+                            <p:ajax event="dateSelect" oncomplete="PF('messageSchedulerTable').filter()"/>
+                        </p:calendar>
+                    </f:facet>
+                    <h:outputText value="#{scheduler.time}">
+                        <f:convertDateTime pattern="HH:mm"/>
+                    </h:outputText>
+                </p:column>
+
+                <!-- Days Of Week on which delivery will take place -->
+                <p:column headerText="#{MESSAGE.MESSAGE_SCHEDULER_DAY_OF_WEEK}"
+                          filterBy="#{scheduler.daysOfWeek}" filterMatchMode="in" width="200">
+                    <f:facet name="filter">
+                        <p:selectOneMenu id="daysFilter" onchange="PF('messageSchedulerTable').filter()"
+                                         value="#{messageSchedulerView.dayFilter}"
+                                         converter="dayOfWeekConverter">
+                            <f:selectItem id = "daysFilterEmptyOption"
+                                          itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}"
+                                          itemValue="#{null}" noSelectionOption="true" />
+                            <f:selectItems value="#{messageSchedulerView.daysOfWeek}"
+                                           itemValue="#{day}" itemLabel="#{day.localName}" var="day"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+
+                    <ul>
+                        <ui:repeat var="dayOfWeek" value="#{scheduler.daysOfWeek}">
+                            <li><h:outputText value="#{dayOfWeek.localName}"></h:outputText></li>
+                        </ui:repeat>
+                    </ul>
+                </p:column>
+
+                <!-- Preview Button -->
+                <p:column width="50">
+                    <p:commandButton id="previewButton"
+                                     process="messageSchedulerTable"
+                                     update=":messageSchedulerTableForm:messageContent"
+                                     oncomplete="PF('messageContent').show();"
+                                     icon="ui-icon-search">
+                        <f:setPropertyActionListener value="#{scheduler}" target="#{messageSchedulerView.selectedMessageScheduler}" />
+                    </p:commandButton>
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton id="resetFilters" value="#{MESSAGE.USERS_CLEAR_FILTERS}"
+                                     onsuccess="PF('messageSchedulerTable').clearFilters();"
+                                     update="timeFilter startDateFilter endDateFilter deliveryGroupsFilter"
+                                     actionListener="#{messageSchedulerView.resetSelectorFiltersFilter}" >
+                        <p:resetInput target="timeFilter"/>
+                        <p:resetInput target="startDateFilter"/>
+                        <p:resetInput target="endDateFilter"/>
+                        <p:resetInput target="deliveryGroupsFilter"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{MESSAGE.MESSAGE_SCHEDULER_CREATE_BUTTON}" icon="ui-icon-plus"
+                                     actionListener = "#{messageSchedulerView.createNewScheduler()}"
+                                     oncomplete="PF('addSchedulerDialog').show();"
+                                     update=":messageSchedulerAddForm:addSchedulerTable :messageSchedulerEditForm:editSchedulerTable"
+                                     rendered="#{securityUtils.checkPermissions('MESSAGE_SCHEDULER_ADD')}"/>
+                </f:facet>
+
+            </p:dataTable>
+
+            <p:overlayPanel widgetVar="messageContent" id="messageContent" showEffect="fade" hideEffect="fade" dismissable="true" showCloseIcon="true"
+                            for="headerForm:overlayPanelPlace" dynamic="false" >
+                <p:outputPanel>
+                    <h:outputText value="#{messageSchedulerView.selectedMessageScheduler.messageTemplate.content}" escape="false" />
+                </p:outputPanel>
+            </p:overlayPanel>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton value="#{MESSAGE.APPLICATION_YES}"
+                                 type="button" styleClass="ui-confirmdialog-yes"
+                                 icon="ui-icon-check" />
+                <p:commandButton value="#{MESSAGE.APPLICATION_NO}"
+                                 type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+        </h:form>
+
+        <h:form id="messageSchedulerAddForm">
+
+            <p:dialog header="#{MESSAGE.MESSAGE_SCHEDULER_ADD_DIALOG_TITLE}"
+                      id="addSchedulerDialog" widgetVar="addSchedulerDialog" modal="false">
+                <p:growl id="growl" showDetail="true" severity="info" />
+                <p:ajax event="close" update=":messageSchedulerTableForm:messageSchedulerTable" />
+
+                <h:panelGrid columns="3" cellpadding="5" id="addSchedulerTable">
+
+                    <!-- Scheduler Template -->
+                    <h:outputLabel for="schedulerTemplate" value="#{MESSAGE.MESSAGE_SCHEDULER_TEMPLATE}" />
+
+                    <p:selectOneMenu id="schedulerTemplate" value="#{messageSchedulerView.newMessageScheduler.messageTemplate}" converter="messageTemplateConverter"
+                                     effect="fade" filter="true" filterMatchMode="contains" required="true"
+                                     requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" styleClass="mySelectOneMenu">
+                        <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{messageSchedulerView.allMessageTemplates}" var="messageTemplate"
+                                       itemLabel="#{messageTemplate.id}) #{messageTemplate.name}" itemValue="#{messageTemplate}" />
+
+                        <p:ajax event="change" update="schedulerTemplateMessage" />
+                    </p:selectOneMenu>
+                    <p:message for="schedulerTemplate" id="schedulerTemplateMessage" />
+
+                    <!-- Scheduler Groups for Sending Message -->
+                    <h:outputLabel for="schedulerDeliveryGroup" value="#{MESSAGE.MESSAGE_SCHEDULER_DELIVERY_GROUPS}" />
+
+                    <p:selectCheckboxMenu id="schedulerDeliveryGroup" value="#{messageSchedulerView.newMessageScheduler.deliveryGroups}" converter="deliveryGroupConverter"
+                                     effect="fade" style="" filter="true" filterMatchMode="contains" required="true" styleClass="mySelectOneMenu"
+                                     requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" label="#{MESSAGE.MESSAGE_SCHEDULER_DELIVERY_GROUPS}">
+                        <f:selectItems value="#{messageSchedulerView.allDeliveryGroups}" var="deliveryGroup"
+                                       itemLabel="#{deliveryGroup.id}) #{deliveryGroup.name}" itemValue="#{deliveryGroup}" />
+                        <p:ajax  update="schedulerDeliveryGroupMessage" />
+                    </p:selectCheckboxMenu>
+                    <p:message for="schedulerTemplate" id="schedulerDeliveryGroupMessage" />
+
+                    <!-- Start Date of message Sending -->
+                    <h:outputLabel for="schedulerDateStart" value="#{MESSAGE.MESSAGE_SCHEDULER_DATE_START}" />
+
+                    <p:calendar value="#{messageSchedulerView.newMessageScheduler.dateStart}"
+                                id="schedulerDateStart"  pattern="dd-MM-yyyy" styleClass="myTextField"
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" binding="#{startDate}">
+                        <p:ajax event="dateSelect" update="schedulerDateStartMessage growl"/>
+                    </p:calendar>
+                    <p:message for="schedulerDateStart"  id="schedulerDateStartMessage" />
+
+
+                    <!-- End Date of message Sending -->
+                    <h:outputLabel for="schedulerDateEnd" value="#{MESSAGE.MESSAGE_SCHEDULER_DATE_END}" />
+
+                    <p:calendar value="#{messageSchedulerView.newMessageScheduler.dateEnd}"
+                                id="schedulerDateEnd"  pattern="dd-MM-yyyy" styleClass="myTextField"
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" validator="#{dateRangeValidator.validate}">
+                        <f:attribute name="startDate" value="#{startDate}"/>
+                        <p:ajax event="dateSelect" update="schedulerDateEndMessage  growl"/>
+                    </p:calendar>
+                    <p:message for="schedulerDateEnd" id="schedulerDateEndMessage" />
+
+
+                    <!-- Time of message Sending -->
+                    <h:outputLabel for="schedulerDateEnd" value="#{MESSAGE.MESSAGE_SCHEDULER_TIME}" />
+
+                    <p:calendar value="#{messageSchedulerView.newMessageScheduler.time}"
+                                id="schedulerTime"  pattern="HH:mm" timeOnly="true" styleClass="myTextField"
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" timeZone="" minHour="6" maxHour="22">
+                        <p:ajax event="dateSelect" update="schedulerTimeMessage growl"/>
+                    </p:calendar>
+                    <p:message for="schedulerTime" id="schedulerTimeMessage" />
+
+                    <!-- Day Of Week for message Sending -->
+                    <h:outputLabel for="schedulerDayOfWeek" value="#{MESSAGE.MESSAGE_SCHEDULER_DAY_OF_WEEK}" />
+                    <p:selectManyCheckbox id="schedulerDayOfWeek" value="#{messageSchedulerView.newMessageScheduler.daysOfWeek}" layout="grid" columns="3"
+                                          required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" converter="dayOfWeekConverter">
+                        <f:selectItems value="#{messageSchedulerView.daysOfWeek}"
+                                       var="dayOfWeek" itemLabel="#{dayOfWeek.localName}" itemValue="#{dayOfWeek}" />
+                    </p:selectManyCheckbox>
+                    <p:message for="schedulerDayOfWeek" id="schedulerDayOfWeekMessage" />
+
+                    <!-- Action Buttons-->
+                    <h:outputLabel for="messageScheduleraveButton" value="" />
+                    <p:commandButton id="messageScheduleraveButton"
+                                     value="#{MESSAGE.MESSAGE_SCHEDULER_CREATE_BUTTON}" icon="ui-icon-plus"
+                                     actionListener="#{messageSchedulerView.saveNewScheduler}"
+                                     update="addSchedulerTable growl"
+                                     rendered="#{securityUtils.checkPermissions('MESSAGE_SCHEDULER_ADD')}"/>
+
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+
+        <h:form id="messageSchedulerEditForm">
+
+            <p:dialog header="#{MESSAGE.MESSAGE_SCHEDULER_EDIT_DIALOG_TITLE}"
+                      widgetVar="editSchedulerDialog"  id="editSchedulerDialog">
+                <p:growl id="growl" showDetail="true" />
+                <p:ajax event="close" update=":messageSchedulerTableForm:messageSchedulerTable" />
+
+                <h:panelGrid columns="3" cellpadding="5" id="editSchedulerTable">
+
+                    <!-- Scheduler Template -->
+                    <h:outputLabel for="schedulerTemplate" value="#{MESSAGE.MESSAGE_SCHEDULER_TEMPLATE}" />
+
+                    <p:selectOneMenu id="schedulerTemplate" value="#{messageSchedulerView.selectedMessageScheduler.messageTemplate}" converter="messageTemplateConverter"
+                                     effect="fade" filter="true" filterMatchMode="contains" required="true"
+                                     requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" styleClass="mySelectOneMenu">
+                        <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{messageSchedulerView.allMessageTemplates}" var="messageTemplate"
+                                       itemLabel="#{messageTemplate.id}) #{messageTemplate.name}" itemValue="#{messageTemplate}" />
+
+                        <p:ajax event="change" update="schedulerTemplateMessage" />
+                    </p:selectOneMenu>
+                    <p:message for="schedulerTemplate" id="schedulerTemplateMessage" />
+
+                    <!-- Scheduler Groups for Sending Message -->
+                    <h:outputLabel for="schedulerDeliveryGroup" value="#{MESSAGE.MESSAGE_SCHEDULER_DELIVERY_GROUPS}" />
+
+                    <p:selectCheckboxMenu id="schedulerDeliveryGroup"  effect="fade" styleClass="mySelectOneMenu"
+                                          value="#{messageSchedulerView.selectedMessageScheduler.deliveryGroups}" converter="deliveryGroupConverter"
+                                          label="#{MESSAGE.MESSAGE_SCHEDULER_DELIVERY_GROUPS}"
+                                          filter="true" filterMatchMode="contains" collectionType="java.util.ArrayList"
+                                          required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <f:selectItems value="#{messageSchedulerView.allDeliveryGroups}" var="deliveryGroup"
+                                       itemLabel="#{deliveryGroup.id}) #{deliveryGroup.name}" itemValue="#{deliveryGroup}" />
+                        <p:ajax  update="schedulerDeliveryGroupMessage" />
+                    </p:selectCheckboxMenu>
+
+                    <p:message for="schedulerTemplate" id="schedulerDeliveryGroupMessage" />
+
+                    <!-- Start Date of message Sending -->
+                    <h:outputLabel for="schedulerDateStart" value="#{MESSAGE.MESSAGE_SCHEDULER_DATE_START}" />
+
+                    <p:calendar value="#{messageSchedulerView.selectedMessageScheduler.dateStart}"
+                                id="schedulerDateStart"  pattern="dd-MM-yyyy" styleClass="myTextField"
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" binding="#{startDateEdit}">
+                        <p:ajax event="dateSelect" update="schedulerDateStartMessage growl"/>
+                    </p:calendar>
+                    <p:message for="schedulerDateStart" id="schedulerDateStartMessage" />
+
+
+                    <!-- End Date of message Sending -->
+                    <h:outputLabel for="schedulerDateEnd" value="#{MESSAGE.MESSAGE_SCHEDULER_DATE_END}" />
+
+                    <p:calendar value="#{messageSchedulerView.selectedMessageScheduler.dateEnd}"
+                                id="schedulerDateEnd"  pattern="dd-MM-yyyy" styleClass="myTextField"
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" validator="#{dateRangeValidator.validate}">
+                        <f:attribute name="startDate" value="#{startDateEdit}"/>
+                        <p:ajax event="dateSelect" update="schedulerDateEndMessage  growl"/>
+                    </p:calendar>
+                    <p:message for="schedulerDateEnd" id="schedulerDateEndMessage" />
+
+
+                    <!-- Time of message Sending -->
+                    <h:outputLabel for="schedulerDateEnd" value="#{MESSAGE.MESSAGE_SCHEDULER_TIME}" />
+
+                    <p:calendar value="#{messageSchedulerView.selectedMessageScheduler.time}"
+                                id="schedulerTime"  pattern="HH:mm" timeOnly="true" styleClass="myTextField"
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" timeZone="" minHour="6" maxHour="22">
+                        <p:ajax event="dateSelect" update="schedulerTimeMessage growl"/>
+                    </p:calendar>
+                    <p:message for="schedulerTime" id="schedulerTimeMessage" />
+
+                    <!-- Day Of Week for message Sending -->
+                    <h:outputLabel for="schedulerDayOfWeek" value="#{MESSAGE.MESSAGE_SCHEDULER_DAY_OF_WEEK}" />
+                    <p:selectManyCheckbox id="schedulerDayOfWeek" value="#{messageSchedulerView.selectedMessageScheduler.daysOfWeek}"
+                                          collectionType="java.util.ArrayList" layout="grid" columns="3"
+                                          required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" converter="dayOfWeekConverter">
+                        <f:selectItems value="#{messageSchedulerView.daysOfWeek}"
+                                       var="dayOfWeek" itemLabel="#{dayOfWeek.localName}" itemValue="#{dayOfWeek}" />
+                    </p:selectManyCheckbox>
+                    <p:message for="schedulerDayOfWeek" id="schedulerDayOfWeekMessage" />
+
+                    <!-- Action Buttons-->
+                    <h:outputLabel for="messageScheduleraveButton" value="" />
+                    <p:commandButton id="messageScheduleraveButton"
+                                     value="#{MESSAGE.MESSAGE_SCHEDULER_UPDATE_BUTTON}" icon="ui-icon-plus"
+                                     actionListener="#{messageSchedulerView.saveSelectedScheduler}"
+                                     update="editSchedulerTable growl"
+                                     rendered="#{securityUtils.checkPermissions('MESSAGE_SCHEDULER_UPDATE')}"/>
+
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

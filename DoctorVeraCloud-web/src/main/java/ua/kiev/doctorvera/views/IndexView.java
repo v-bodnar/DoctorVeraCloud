@@ -143,10 +143,24 @@ public class IndexView implements Serializable{
         monthAppointments = new LineChartModel();
         ChartSeries appointments = new ChartSeries();
         appointments.setLabel(INDEX_APPOINTMENTS_COUNT.toString());
-        for(DateTime dayOfMonth = startOfMonth; dayOfMonth.isBefore(endOfMonth); dayOfMonth = dayOfMonth.plusDays(1)){
-            appointments.set(dayOfMonth.toString(pattern), scheduleFacade.findByEmployeeAndDateBetween(authorizedUser,
-                    dayOfMonth.toDate(), dayOfMonth.millisOfDay().withMaximumValue().toDate()).size());
+
+        Map<DateTime, Integer> thisMonthAppointments = new HashMap();
+        for(Schedule schedule : scheduleFacade.findByEmployeeAndDateBetween(authorizedUser, startOfMonth.toDate(), endOfMonth.toDate())) {
+            DateTime oneDay = new DateTime (schedule.getDateTimeStart()).dayOfYear().getDateTime();
+            if(thisMonthAppointments.get(oneDay) == null){
+                thisMonthAppointments.put(oneDay, 1);
+            }else{
+                thisMonthAppointments.put(oneDay, thisMonthAppointments.get(oneDay) + 1);
+            }
         }
+        for(DateTime dayOfMonth = startOfMonth; dayOfMonth.isBefore(endOfMonth); dayOfMonth = dayOfMonth.plusDays(1)){
+            appointments.set(dayOfMonth.toString(pattern), thisMonthAppointments.get(dayOfMonth) == null ? 0 : thisMonthAppointments.get(dayOfMonth));
+        }
+
+//        for(DateTime dayOfMonth = startOfMonth; dayOfMonth.isBefore(endOfMonth); dayOfMonth = dayOfMonth.plusDays(1)){
+//            appointments.set(dayOfMonth.toString(pattern), scheduleFacade.findByEmployeeAndDateBetween(authorizedUser,
+//                    dayOfMonth.toDate(), dayOfMonth.millisOfDay().withMaximumValue().toDate()).size());
+//        }
 
         monthAppointments.addSeries(appointments);
         monthAppointments.setTitle(INDEX_APPOINTMENTS_COUNT.toString());
@@ -178,10 +192,23 @@ public class IndexView implements Serializable{
         yearAppointments = new LineChartModel();
         ChartSeries appointments = new ChartSeries();
         appointments.setLabel(INDEX_APPOINTMENTS_COUNT.toString());
-        for(DateTime monthOfYear = startOfYear; monthOfYear.isBefore(endOfYear); monthOfYear = monthOfYear.plusDays(1)){
-            appointments.set(monthOfYear.toString(pattern), scheduleFacade.findByEmployeeAndDateBetween(authorizedUser,
-                    monthOfYear.toDate(), monthOfYear.millisOfDay().withMaximumValue().toDate()).size());
+
+        Map<DateTime, Integer> thisYearAppointments = new HashMap();
+        for(Schedule schedule : scheduleFacade.findByEmployeeAndDateBetween(authorizedUser, startOfYear.toDate(), endOfYear.toDate())) {
+            DateTime oneMonth = new DateTime (schedule.getDateTimeStart()).monthOfYear().getDateTime();
+            if(thisYearAppointments.get(oneMonth) == null){
+                thisYearAppointments.put(oneMonth, 1);
+            }else{
+                thisYearAppointments.put(oneMonth, thisYearAppointments.get(oneMonth) + 1);
+            }
         }
+        for(DateTime monthOfYear = startOfYear; monthOfYear.isBefore(endOfYear); monthOfYear = monthOfYear.plusDays(1)){
+            appointments.set(monthOfYear.toString(pattern), thisYearAppointments.get(monthOfYear) == null ? 0 : thisYearAppointments.get(monthOfYear));
+        }
+//        for(DateTime monthOfYear = startOfYear; monthOfYear.isBefore(endOfYear); monthOfYear = monthOfYear.plusDays(1)){
+//            appointments.set(monthOfYear.toString(pattern), scheduleFacade.findByEmployeeAndDateBetween(authorizedUser,
+//                    monthOfYear.toDate(), monthOfYear.millisOfDay().withMaximumValue().toDate()).size());
+//        }
 
         yearAppointments.addSeries(appointments);
         yearAppointments.setTitle(INDEX_APPOINTMENTS_COUNT.toString());
