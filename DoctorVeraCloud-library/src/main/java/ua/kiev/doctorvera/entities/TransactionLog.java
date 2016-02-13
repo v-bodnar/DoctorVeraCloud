@@ -2,6 +2,7 @@ package ua.kiev.doctorvera.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -27,9 +28,16 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
     @Enumerated(EnumType.ORDINAL)
     private Status status;
 
-    @JoinColumn(name = "MessageScheduler", referencedColumnName = "MessageSchedulerId")
+    @JoinColumn(name = "MessageTemplate", referencedColumnName = "MessageTemplateId")
     @ManyToOne(optional = false)
-    private MessageScheduler messageScheduler;
+    private MessageTemplate messageTemplate;
+
+    @Size(max = 255)
+    @Column(name = "Details")
+    private String details;
+
+    @Column(name = "RecipientsCount")
+    private Integer recipientsCount;
 
     @Basic(optional = false)
     @NotNull
@@ -46,12 +54,13 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
     @ManyToOne(optional = false)
     private Users userCreated;
 
-    public static enum Status {
+    public enum Status {
         NEW,
+        PROGRESS,
         SENT,
         DELIVERED,
         DELIVERY_ERROR,
-        SEND_ERROR;
+        SEND_ERROR
     }
 
 
@@ -63,12 +72,12 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
         this.transactionLogId = transactionLogId;
     }
 
-    public MessageScheduler getMessageScheduler() {
-        return messageScheduler;
+    public MessageTemplate getMessageTemplate() {
+        return messageTemplate;
     }
 
-    public void setMessageScheduler(MessageScheduler messageScheduler) {
-        this.messageScheduler = messageScheduler;
+    public void setMessageTemplate(MessageTemplate messageTemplate) {
+        this.messageTemplate = messageTemplate;
     }
 
     public Status getStatus() {
@@ -77,6 +86,22 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public Integer getRecipientsCount() {
+        return recipientsCount;
+    }
+
+    public void setRecipientsCount(Integer recipientsCount) {
+        this.recipientsCount = recipientsCount;
     }
 
     @Override
@@ -120,19 +145,24 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
         TransactionLog that = (TransactionLog) o;
 
         if (deleted != that.deleted) return false;
-        if (!transactionLogId.equals(that.transactionLogId)) return false;
+        if (transactionLogId != null ? !transactionLogId.equals(that.transactionLogId) : that.transactionLogId != null)
+            return false;
         if (status != that.status) return false;
-        if (!messageScheduler.equals(that.messageScheduler)) return false;
-        if (!dateCreated.equals(that.dateCreated)) return false;
-        return userCreated.equals(that.userCreated);
+        if (!messageTemplate.equals(that.messageTemplate)) return false;
+        if (details != null ? !details.equals(that.details) : that.details != null) return false;
+        if (recipientsCount != null ? !recipientsCount.equals(that.recipientsCount) : that.recipientsCount != null)
+            return false;
+        return dateCreated.equals(that.dateCreated) && userCreated.equals(that.userCreated);
 
     }
 
     @Override
     public int hashCode() {
-        int result = transactionLogId.hashCode();
+        int result = transactionLogId != null ? transactionLogId.hashCode() : 0;
         result = 31 * result + status.hashCode();
-        result = 31 * result + messageScheduler.hashCode();
+        result = 31 * result + messageTemplate.hashCode();
+        result = 31 * result + (details != null ? details.hashCode() : 0);
+        result = 31 * result + (recipientsCount != null ? recipientsCount.hashCode() : 0);
         result = 31 * result + dateCreated.hashCode();
         result = 31 * result + (deleted ? 1 : 0);
         result = 31 * result + userCreated.hashCode();

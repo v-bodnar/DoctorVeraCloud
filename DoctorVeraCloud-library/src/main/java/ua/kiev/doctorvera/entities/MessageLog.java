@@ -2,6 +2,7 @@ package ua.kiev.doctorvera.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -25,9 +26,11 @@ public class MessageLog implements Serializable, Identified<Integer>{
     @Column(name = "UId")
     private String uId;
 
-    @Basic
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "Status")
-    private Byte status;
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     @JoinColumn(name = "Transaction", referencedColumnName = "TransactionLogId")
     @ManyToOne(optional = false)
@@ -36,6 +39,10 @@ public class MessageLog implements Serializable, Identified<Integer>{
     @JoinColumn(name = "Recipient", referencedColumnName = "UserId")
     @ManyToOne(optional = false)
     private Users recipient;
+
+    @Size(max = 200)
+    @Column(name = "Details")
+    private String details;
 
     @Basic(optional = false)
     @NotNull
@@ -52,6 +59,14 @@ public class MessageLog implements Serializable, Identified<Integer>{
     @ManyToOne(optional = false)
     private Users userCreated;
 
+    public enum Status {
+        NEW,
+        SENT,
+        DELIVERED,
+        DELIVERY_ERROR,
+        SEND_ERROR
+    }
+
 
     public Integer getMessageLogId() {
         return messageLogId;
@@ -65,10 +80,10 @@ public class MessageLog implements Serializable, Identified<Integer>{
     public void setuId(String uId) {
         this.uId = uId;
     }
-    public Byte getStatus() {
+    public Status getStatus() {
         return status;
     }
-    public void setStatus(Byte status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -86,6 +101,14 @@ public class MessageLog implements Serializable, Identified<Integer>{
 
     public void setTransaction(TransactionLog transaction) {
         this.transaction = transaction;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     @Override
@@ -129,11 +152,12 @@ public class MessageLog implements Serializable, Identified<Integer>{
         MessageLog that = (MessageLog) o;
 
         if (deleted != that.deleted) return false;
-        if (!messageLogId.equals(that.messageLogId)) return false;
-        if (!uId.equals(that.uId)) return false;
-        if (!status.equals(that.status)) return false;
+        if (messageLogId != null ? !messageLogId.equals(that.messageLogId) : that.messageLogId != null) return false;
+        if (uId != null ? !uId.equals(that.uId) : that.uId != null) return false;
+        if (status != that.status) return false;
         if (!transaction.equals(that.transaction)) return false;
         if (!recipient.equals(that.recipient)) return false;
+        if (details != null ? !details.equals(that.details) : that.details != null) return false;
         if (!dateCreated.equals(that.dateCreated)) return false;
         return userCreated.equals(that.userCreated);
 
@@ -141,14 +165,25 @@ public class MessageLog implements Serializable, Identified<Integer>{
 
     @Override
     public int hashCode() {
-        int result = messageLogId.hashCode();
-        result = 31 * result + uId.hashCode();
+        int result = messageLogId != null ? messageLogId.hashCode() : 0;
+        result = 31 * result + (uId != null ? uId.hashCode() : 0);
         result = 31 * result + status.hashCode();
         result = 31 * result + transaction.hashCode();
         result = 31 * result + recipient.hashCode();
+        result = 31 * result + (details != null ? details.hashCode() : 0);
         result = 31 * result + dateCreated.hashCode();
         result = 31 * result + (deleted ? 1 : 0);
         result = 31 * result + userCreated.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageLog{" +
+                "messageLogId=" + messageLogId +
+                ", status=" + status +
+                ", details='" + details + '\'' +
+                ", recipient=" + recipient +
+                '}';
     }
 }

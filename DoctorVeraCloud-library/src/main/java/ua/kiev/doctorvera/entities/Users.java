@@ -96,13 +96,17 @@ public class Users implements Serializable,Identified<Integer> {
     @Column(name = "Color", nullable=false, columnDefinition="varchar(150) default 'ffffff'")
     private String color;
 
-    @ManyToOne(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinColumn(name = "Address")
     private Address address;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn (name = "UserCreated")
     private Users userCreated;
+
+    @ManyToOne
+    @JoinColumn (name = "Locale")
+    private Locale locale;
 
     @OrderColumn(name="UserGroup")
     @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
@@ -299,6 +303,14 @@ public class Users implements Serializable,Identified<Integer> {
         this.address = address;
     }
 
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
     @XmlTransient
     public Collection<UserGroups> getUserGroups() {
         return userGroups;
@@ -372,8 +384,7 @@ public class Users implements Serializable,Identified<Integer> {
         if (description != null ? !description.equals(users.description) : users.description != null) return false;
         if (dateCreated != null ? !dateCreated.equals(users.dateCreated) : users.dateCreated != null) return false;
         if (!Arrays.equals(avatarImage, users.avatarImage)) return false;
-        if (color != null ? !color.equals(users.color) : users.color != null) return false;
-        return messagingAccepted.equals(users.messagingAccepted);
+        return color != null ? color.equals(users.color) : users.color == null && messagingAccepted.equals(users.messagingAccepted);
 
     }
 

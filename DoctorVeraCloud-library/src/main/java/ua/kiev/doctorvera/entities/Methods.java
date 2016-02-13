@@ -6,24 +6,14 @@
 package ua.kiev.doctorvera.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entity class Describes User
@@ -46,7 +36,6 @@ public class Methods implements Serializable,Identified<Integer> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "MethodId")
     private Integer methodId;
     @Basic(optional = false)
@@ -78,16 +67,10 @@ public class Methods implements Serializable,Identified<Integer> {
     @NotNull
     @Column(name = "Deleted")
     private boolean deleted;
-    /*
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "method")
-    private Collection<DoctorsHasMethod> doctorsHasMethodCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "method")
+
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, mappedBy = "method")
     private Collection<Prices> pricesCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "method")
-    private Collection<Schedule> scheduleCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "method")
-    private Collection<Share> shareCollection;
-    */
+
     @JoinColumn(name = "MethodType", referencedColumnName = "MethodTypeId")
     @ManyToOne(optional = false)
     private MethodTypes methodType;
@@ -174,15 +157,6 @@ public class Methods implements Serializable,Identified<Integer> {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
-/*
-    @XmlTransient
-    public Collection<DoctorsHasMethod> getDoctorsHasMethodCollection() {
-        return doctorsHasMethodCollection;
-    }
-
-    public void setDoctorsHasMethodCollection(Collection<DoctorsHasMethod> doctorsHasMethodCollection) {
-        this.doctorsHasMethodCollection = doctorsHasMethodCollection;
-    }
 
     @XmlTransient
     public Collection<Prices> getPricesCollection() {
@@ -193,24 +167,6 @@ public class Methods implements Serializable,Identified<Integer> {
         this.pricesCollection = pricesCollection;
     }
 
-    @XmlTransient
-    public Collection<Schedule> getScheduleCollection() {
-        return scheduleCollection;
-    }
-
-    public void setScheduleCollection(Collection<Schedule> scheduleCollection) {
-        this.scheduleCollection = scheduleCollection;
-    }
-
-    @XmlTransient
-    public Collection<Share> getShareCollection() {
-        return shareCollection;
-    }
-
-    public void setShareCollection(Collection<Share> shareCollection) {
-        this.shareCollection = shareCollection;
-    }
-*/
     public MethodTypes getMethodType() {
         return methodType;
     }

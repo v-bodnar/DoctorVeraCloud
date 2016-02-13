@@ -30,12 +30,7 @@ public class Policy implements Serializable,Identified<Integer> {
     private Integer policyId;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "Name")
-    private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 255)
     @Column(name = "StringId")
     private String stringId;
     @Basic(optional = false)
@@ -76,7 +71,6 @@ public class Policy implements Serializable,Identified<Integer> {
 
     public Policy(Integer policyId, String name, Date dateCreated, boolean deleted) {
         this.policyId = policyId;
-        this.name = name;
         this.dateCreated = dateCreated;
         this.deleted = deleted;
     }
@@ -87,14 +81,6 @@ public class Policy implements Serializable,Identified<Integer> {
 
     public void setPolicyId(Integer policyId) {
         this.policyId = policyId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {
@@ -164,19 +150,16 @@ public class Policy implements Serializable,Identified<Integer> {
 
         if (deleted != policy.deleted) return false;
         if (policyId != null ? !policyId.equals(policy.policyId) : policy.policyId != null) return false;
-        if (!name.equals(policy.name)) return false;
         if (!stringId.equals(policy.stringId)) return false;
         if (!policyGroup.equals(policy.policyGroup)) return false;
         if (description != null ? !description.equals(policy.description) : policy.description != null) return false;
-        if (dateCreated != null ? !dateCreated.equals(policy.dateCreated) : policy.dateCreated != null) return false;
-        return !(userCreated != null ? !userCreated.equals(policy.userCreated) : policy.userCreated != null);
+        return dateCreated != null ? dateCreated.equals(policy.dateCreated) : policy.dateCreated == null && !(userCreated != null ? !userCreated.equals(policy.userCreated) : policy.userCreated != null);
 
     }
 
     @Override
     public int hashCode() {
         int result = policyId != null ? policyId.hashCode() : 0;
-        result = 31 * result + name.hashCode();
         result = 31 * result + stringId.hashCode();
         result = 31 * result + policyGroup.hashCode();
         result = 31 * result + (description != null ? description.hashCode() : 0);
@@ -191,7 +174,6 @@ public class Policy implements Serializable,Identified<Integer> {
         return "Policy{" +
                 "dateCreated=" + dateCreated +
                 ", policyId=" + policyId +
-                ", name='" + name + '\'' +
                 ", stringId='" + stringId + '\'' +
                 ", policyGroup='" + policyGroup + '\'' +
                 ", description='" + description + '\'' +
