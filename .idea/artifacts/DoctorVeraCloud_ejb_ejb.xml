@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="ejb-jar" name="DoctorVeraCloud-ejb:ejb">
-    <output-path>$PROJECT_DIR$/DoctorVeraCloud-ejb/target</output-path>
-    <root id="archive" name="DoctorVeraCloud-ejb-0.0.1-SNAPSHOT.jar">
-      <element id="artifact" artifact-name="DoctorVeraCloud-ejb:ejb exploded" />
-    </root>
-  </artifact>
-</component>

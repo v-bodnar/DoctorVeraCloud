@@ -12,24 +12,25 @@
 		<class>ua.kiev.doctorvera.entities.Payments</class>
 		<class>ua.kiev.doctorvera.entities.Plan</class>
 		<class>ua.kiev.doctorvera.entities.Policy</class>
-		<class>ua.kiev.doctorvera.entities.PolicyHasUserGroups</class>
 		<class>ua.kiev.doctorvera.entities.Prices</class>
 		<class>ua.kiev.doctorvera.entities.Rooms</class>
 		<class>ua.kiev.doctorvera.entities.Schedule</class>
 		<class>ua.kiev.doctorvera.entities.Share</class>
 		<class>ua.kiev.doctorvera.entities.Users</class>
-		<class>ua.kiev.doctorvera.entities.UsersHasUserGroups</class>
 		<class>ua.kiev.doctorvera.entities.UserGroups</class>
 		<class>ua.kiev.doctorvera.entities.DeliveryGroup</class>
 		<class>ua.kiev.doctorvera.entities.MessageLog</class>
 		<class>ua.kiev.doctorvera.entities.MessageScheduler</class>
 		<class>ua.kiev.doctorvera.entities.MessageTemplate</class>
 		<class>ua.kiev.doctorvera.entities.TransactionLog</class>
+		<class>ua.kiev.doctorvera.entities.Locale</class>
+		<class>ua.kiev.doctorvera.entities.MessageBundle</class>
 		<properties>
 			<property name="hibernate.transaction.jta.platform"
 				value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />
 				<property name="hibernate.dialect" value = "org.hibernate.dialect.MySQLDialect" />
 				<property name="hibernate.show_sql" value ="false" />
+				<property name="hbm2ddl.auto" value="create-drop"/>
 		</properties>
 	</persistence-unit>
 </persistence>

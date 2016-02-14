@@ -7089,8 +7089,8 @@ if ( window.getComputedStyle ) {
 		var width, minWidth, maxWidth,
 			computed = _computed || getStyles( elem ),
 
-			// getPropertyValue is only needed for .css('filter') in IE9, see #12537
-			ret = computed ? computed.getPropertyValue( name ) || computed[ name ] : undefined,
+			// getStringValue is only needed for .css('filter') in IE9, see #12537
+			ret = computed ? computed.getStringValue( name ) || computed[ name ] : undefined,
 			style = elem.style;
 
 		if ( computed ) {

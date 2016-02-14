@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="DoctorVeraCloud-web:war">
-    <output-path>$PROJECT_DIR$/DoctorVeraCloud-web/target</output-path>
-    <root id="archive" name="DoctorVeraCloud-web-0.0.1-SNAPSHOT.war">
-      <element id="artifact" artifact-name="DoctorVeraCloud-web:war exploded" />
-    </root>
-  </artifact>
-</component>

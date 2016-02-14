@@ -1,0 +1,31 @@
+<ui:composition template="index.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+
+    <ui:define name="title">
+        <h:outputText value="test"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:dataTable var="car" value="#{usersTableView.allUsers}" widgetVar="carsTable">
+
+
+                <p:column filterBy="#{car.firstName}" headerText="Status" filterMatchMode="equals">
+                    <f:facet name="filter">
+                        <p:selectManyCheckbox onchange="PF('carsTable').filter()">
+                            <!--<f:converter converterId="javax.faces.Boolean" />-->
+                            <f:selectItems value="#{usersTableView.allUserGroupsNames}" />
+                        </p:selectManyCheckbox>
+                    </f:facet>
+                    <h:outputText value="#{car.firstName}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
