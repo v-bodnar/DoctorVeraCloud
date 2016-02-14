@@ -43,7 +43,7 @@ public abstract class AbstractFacade<T extends Identified<Integer>> implements C
     /**
      * This field identifies key of the map with table joins and column conditions inside filters map
      */
-    private final String JOINS_AND_CONDITIONS = Config.getInstance().getProperty("JOINS_AND_CONDITIONS");
+    //private final String JOINS_AND_CONDITIONS = Config.getInstance().getString("JOINS_AND_CONDITIONS");
 
     /**
      * Just setting actual Class of T.class to entityClass variable
@@ -186,7 +186,7 @@ public abstract class AbstractFacade<T extends Identified<Integer>> implements C
     public List<T> find(List<T> entityList){
         List<T> foundEntityList = new LinkedList<>();
         for(T entity : entityList) {
-            getEntityManager().find(entityClass, entity.getId());
+            foundEntityList.add(getEntityManager().find(entityClass, entity.getId()));
         }
         return foundEntityList;
     }
@@ -482,7 +482,12 @@ public abstract class AbstractFacade<T extends Identified<Integer>> implements C
      */
     @Override
     public List<T> initializeLazyEntity(List<T> entityList) {
-        return initializeLazyEntity(entityList, null, null);
+        List<T> result = initializeLazyEntity(entityList, null, null);
+        if (result == null){
+            return new ArrayList<T>();
+        }else{
+            return result;
+        }
     }
 
 }

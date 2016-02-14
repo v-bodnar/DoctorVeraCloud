@@ -35,9 +35,9 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         super(Users.class);
     }
 
-    private final Integer DOCTOR_GROUP_ID = Integer.parseInt(Config.getInstance().getProperty("DOCTORS_USER_GROUP_ID"));
+    private final Integer DOCTOR_GROUP_ID = Integer.parseInt(Config.getInstance().getString("DOCTORS_USER_GROUP_ID"));
 
-    private final Integer PATIENT_GROUP_ID = Integer.parseInt(Config.getProperty("PATIENTS_USER_GROUP_ID"));
+    private final Integer PATIENT_GROUP_ID = Integer.parseInt(Config.getInstance().getString("PATIENTS_USER_GROUP_ID"));
 
     /**
     * Searches for User by his username(unique value)
