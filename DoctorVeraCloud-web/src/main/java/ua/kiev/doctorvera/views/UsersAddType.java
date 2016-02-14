@@ -69,8 +69,8 @@ public class UsersAddType implements Serializable {
 	}
 	
 	public void onTransfer(){
-		final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
-		final String successTitle = Message.getInstance().getString("USER_TYPES_SAVED");
+		final String successMessage = Message.getMessage("APPLICATION_SAVED");
+		final String successTitle = Message.getMessage("USER_TYPES_SAVED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 

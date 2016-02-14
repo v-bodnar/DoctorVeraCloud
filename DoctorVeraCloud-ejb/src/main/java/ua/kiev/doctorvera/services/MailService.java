@@ -1,17 +1,19 @@
 package ua.kiev.doctorvera.services;
 
+import ua.kiev.doctorvera.entities.MessageLog;
+import ua.kiev.doctorvera.entities.TransactionLog;
 import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.MessageLogFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.TransactionLogFacadeLocal;
 import ua.kiev.doctorvera.resources.Config;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -20,7 +22,7 @@ import java.util.logging.Logger;
 @Stateless
 public class MailService implements MailServiceLocal {
 
-    private final static Logger LOG = Logger.getLogger(SchedulerService.class.getName());
+    private final static Logger LOG = Logger.getLogger(MailService.class.getName());
     private final Properties properties = new Properties();
     private String from;
     private String login;
@@ -29,32 +31,38 @@ public class MailService implements MailServiceLocal {
     private int totalEmailsToSend = 0;
     private int sentEmails = 0;
 
+    @EJB
+    TransactionLogFacadeLocal transactionLogFacade;
+
+    @EJB
+    MessageLogFacadeLocal messageLogFacade;
+
     @PostConstruct
     public void init(){
         //create properties
-        properties.put("mail.smtp.auth", Config.getInstance().getProperty("SMTP_AUTH"));
-        properties.put("mail.smtp.starttls.enable", Config.getInstance().getProperty("SMTP_STARTTLS"));
-        properties.put("mail.smtp.host", Config.getInstance().getProperty("SMTP_SERVER"));
-        properties.put("mail.smtp.port", Config.getInstance().getProperty("SMTP_PORT"));
+        properties.put("mail.smtp.auth", Config.getInstance().getString("SMTP_AUTH"));
+        properties.put("mail.smtp.starttls.enable", Config.getInstance().getString("SMTP_STARTTLS"));
+        properties.put("mail.smtp.host", Config.getInstance().getString("SMTP_SERVER"));
+        properties.put("mail.smtp.port", Config.getInstance().getString("SMTP_PORT"));
 
-        login = Config.getInstance().getProperty("SMTP_LOGIN");
-        password = Config.getInstance().getProperty("SMTP_PASSWORD");
-        from = Config.getInstance().getProperty("EMAIL_FROM");
+        login = Config.getInstance().getString("SMTP_LOGIN");
+        password = Config.getInstance().getString("SMTP_PASSWORD");
+        from = Config.getInstance().getString("EMAIL_FROM");
     }
-
-    public void sendEmail(Users user, String text, String subject){
+    @Override
+    public void sendEmail(Users user, String text, String subject, TransactionLog transactionLog){
         List<Users> userList = new LinkedList<>();
         userList.add(user);
-        sendEmail(userList, text, subject);
+        sendEmail(userList, text, subject, transactionLog);
     }
 
-    public void sendEmail(List<Users> userList, String text, String subject){
+    @Override
+    public void sendEmail(List<Users> userList, String text, String subject, TransactionLog transactionLog){
         totalEmailsToSend = userList.size();
         sentEmails = 0;
         LOG.info("Starting to sent " + totalEmailsToSend + " emails");
 
-        try {
-            Session emailSession = Session.getDefaultInstance(properties,
+            Session emailSession = Session.getInstance(properties,
                     new javax.mail.Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
                             return new PasswordAuthentication(login, password);
@@ -66,34 +74,67 @@ public class MailService implements MailServiceLocal {
                     LOG.info("User: " + user.getFirstName() + " " + user.getLastName() + " has no email");
                     return;
                 }
-                MimeMessage message = new MimeMessage(emailSession);
-                message.setFrom(new InternetAddress(from));
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
-                message.setSubject(subject);
-                message.setText(processMessageText(text, user), "utf-8", "html");
-                Transport.send(message);
-                sentEmails++;
+
+                MessageLog messageLog = new MessageLog();
+                messageLog.setUserCreated(transactionLog.getUserCreated());
+                messageLog.setDateCreated(new Date());
+                messageLog.setRecipient(user);
+                messageLog.setTransaction(transactionLog);
+                messageLog.setStatus(MessageLog.Status.NEW);
+                messageLogFacade.create(messageLog);
+
+                try{
+                    MimeMessage message = new MimeMessage(emailSession);
+                    message.setFrom(new InternetAddress(from));
+                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
+                    message.setSubject(subject);
+                    message.setText(processMessageText(text, user, transactionLog), "utf-8", "html");
+                    Transport.send(message);
+
+                    messageLog.setStatus(MessageLog.Status.SENT);
+                    messageLogFacade.edit(messageLog);
+                    sentEmails++;
+                } catch (NoSuchProviderException e) {
+                    messageLog.setStatus(MessageLog.Status.SEND_ERROR);
+                    messageLog.setDetails(e.getMessage());
+                    messageLogFacade.edit(messageLog);
+
+                    LOG.severe(e.getMessage());
+                } catch (MessagingException e) {
+                    messageLog.setStatus(MessageLog.Status.SEND_ERROR);
+                    messageLog.setDetails(e.getMessage());
+                    messageLogFacade.edit(messageLog);
+
+                    LOG.severe(e.getMessage());
+                } catch (Exception e) {
+                    messageLog.setStatus(MessageLog.Status.SEND_ERROR);
+                    messageLog.setDetails(e.getMessage());
+                    messageLogFacade.edit(messageLog);
+
+                    LOG.severe(e.getMessage());
+                }
+
                 LOG.info("Email to user: " + user.getFirstName() + " " + user.getLastName() + " email: " + user.getEmail() + " has been sent");
             }
-        } catch (NoSuchProviderException e) {
-            LOG.severe(e.getMessage());
-        } catch (MessagingException e) {
-            LOG.severe(e.getMessage());
-        } catch (Exception e) {
-            LOG.severe(e.getMessage());
-        }
+
+            transactionLog.setStatus(TransactionLog.Status.SENT);
+            transactionLog.setRecipientsCount(totalEmailsToSend);
+            transactionLog.setDetails(sentEmails + " of total " + totalEmailsToSend + " were successfully sent");
+            transactionLogFacade.edit(transactionLog);
+
     }
 
-    private String processMessageText(String text, Users user){
-
+    private String processMessageText(String text, Users user, TransactionLog transactionLog){
         if(user.getFirstName() != null)
-            text.replaceAll("$usersFirstName",user.getFirstName());
+            text = text.replaceAll("$usersFirstName",user.getFirstName());
         if(user.getLastName() != null)
-            text.replaceAll("$usersLastName",user.getLastName());
+            text = text.replaceAll("$usersLastName",user.getLastName());
         if(user.getMiddleName() != null)
-            text.replaceAll("$usersMiddleName",user.getMiddleName());
+            text = text.replaceAll("$usersMiddleName",user.getMiddleName());
         if(user.getEmail() != null)
-            text.replaceAll("$usersEmail",user.getEmail());
+            text = text.replaceAll("$usersEmail",user.getEmail());
+        if(user.getEmail() != null)
+            text = text.replaceAll("$transactionId", "" + transactionLog.getId());
         return text;
     }
 

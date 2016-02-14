@@ -204,7 +204,7 @@
 
 			<p:dialog header="#{MESSAGE.USER_TYPES_POLICIES_PICKER_TITLE}"
 					  widgetVar="addPolicyToTypeDialog" id="addPolicyToTypeDialog" width="710" height="400">
-				<p:growl id="growl" showDetail="true" />
+				<p:growl id="growl" showDetail="true" autoUpdate="true"/>
 				<p:ajax event="close" update="growl" />
 
 				<p:selectOneMenu id="securityPolicySelector" value="#{userGroupsTableView.selectedSecurityPolicy}" style="width:305px">

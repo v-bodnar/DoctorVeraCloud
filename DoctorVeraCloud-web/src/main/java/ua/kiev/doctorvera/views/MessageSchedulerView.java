@@ -80,8 +80,8 @@ public class MessageSchedulerView implements Serializable {
     public void deleteSelectedScheduler(){
         messageSchedulerFacade.remove(selectedMessageScheduler);
         scheduleService.removeEvent(selectedMessageScheduler);
-        final String successMessage = Message.getInstance().getString("MESSAGE_SCHEDULER_DELETED");
-        final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+        final String successMessage = Message.getMessage("MESSAGE_SCHEDULER_DELETED");
+        final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
 
@@ -91,8 +91,8 @@ public class MessageSchedulerView implements Serializable {
         selectedMessageScheduler.setUserCreated(authorizedUser);
         messageSchedulerFacade.edit(selectedMessageScheduler);
         scheduleService.changeEvent(selectedMessageScheduler);
-        final String successMessage = Message.getInstance().getString("MESSAGE_SCHEDULER_UPDATED");
-        final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+        final String successMessage = Message.getMessage("MESSAGE_SCHEDULER_UPDATED");
+        final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('editSchedulerDialog').hide()");
@@ -104,8 +104,8 @@ public class MessageSchedulerView implements Serializable {
         newMessageScheduler.setUserCreated(authorizedUser);
         messageSchedulerFacade.create(newMessageScheduler);
         scheduleService.scheduleEvent(newMessageScheduler);
-        final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
-        final String successTitle = Message.getInstance().getString("MESSAGE_SCHEDULER_SAVED");
+        final String successMessage = Message.getMessage("APPLICATION_SAVED");
+        final String successTitle = Message.getMessage("MESSAGE_SCHEDULER_SAVED");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('addSchedulerDialog').hide()");

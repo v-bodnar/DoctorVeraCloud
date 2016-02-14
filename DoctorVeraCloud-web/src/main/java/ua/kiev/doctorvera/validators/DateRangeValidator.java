@@ -21,7 +21,6 @@ import java.util.Map;
 @Named(value = "dateRangeValidator")
 @ViewScoped
 public class DateRangeValidator implements Validator, ClientValidator, Serializable {
-    private static final String MESSAGE_TITLE = Message.getInstance().getString("VALIDATOR_ERROR_TITLE");
 
     @Override
     public Map<String, Object> getMetadata() {
@@ -41,7 +40,7 @@ public class DateRangeValidator implements Validator, ClientValidator, Serializa
         if (validationMessage.isEmpty()){
             return;
         }else{
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, MESSAGE_TITLE, validationMessage));
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, Message.getMessage("VALIDATOR_ERROR_TITLE"), validationMessage));
         }
     }
 }

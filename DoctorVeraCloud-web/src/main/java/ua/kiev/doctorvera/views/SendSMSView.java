@@ -47,8 +47,8 @@ public class SendSMSView implements Serializable {
 		phone = Utils.stripPhone(phone);
 		ArrayList<String> result = smsGateway.send(phone, text);
 		LOG.info("SMS sent, tracking id: " + result.get(0) + " Status: " + result.get(2));
-		final String successMessage = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
-		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successMessage = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
+		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 

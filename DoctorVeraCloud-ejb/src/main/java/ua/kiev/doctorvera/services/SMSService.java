@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.services;
 
+import ua.kiev.doctorvera.entities.TransactionLog;
 import ua.kiev.doctorvera.entities.Users;
 
 import javax.ejb.Stateless;
@@ -11,12 +12,12 @@ import java.util.List;
 @Stateless
 public class SMSService implements SMSServiceLocal{
     @Override
-    public void sendSMS(Users user, String message) {
+    public void sendSMS(Users user, String message, TransactionLog transactionLog) {
         //todo
     }
 
     @Override
-    public void sendSMS(List<Users> userList, String message) {
+    public void sendSMS(List<Users> userList, String message, TransactionLog transactionLog) {
         //todo
     }
 }

@@ -12,7 +12,6 @@ import ua.kiev.doctorvera.views.SessionParams;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -75,8 +74,8 @@ public class SecurityUtils implements Serializable{
     @PostConstruct
     public void init(){
 
-        SUPER_ADMIN_ID = Integer.parseInt(Config.getInstance().getProperty("SUPER_ADMIN_ID"));
-        SUPER_ADMIN_USER_GROUP_ID = Integer.parseInt(Config.getProperty("SUPER_ADMIN_USER_GROUP_ID"));
+        SUPER_ADMIN_ID = Integer.parseInt(Config.getInstance().getString("SUPER_ADMIN_ID"));
+        SUPER_ADMIN_USER_GROUP_ID = Integer.parseInt(Config.getInstance().getString("SUPER_ADMIN_USER_GROUP_ID"));
         if(!alreadySynchronized){
             synchronize();
             checkAdminPermissions();
@@ -114,17 +113,16 @@ public class SecurityUtils implements Serializable{
         Map<String, Policy> allPoliciesInDb = new HashMap();
         if(allPoliciesInDb.isEmpty()) {
             for (Policy policy : policyFacade.initializeLazyEntity(policyFacade.findAll())) {
-                allPoliciesInDb.put(policy.getName(), policy);
+                allPoliciesInDb.put(policy.getStringId(), policy);
             }
         }
 
         for (SecurityPolicy securityPolicy : securityPolicies) {
-            Policy policy = allPoliciesInDb.get(securityPolicy.getName());
+            Policy policy = allPoliciesInDb.get(securityPolicy.name());
 
             if (policy == null) {
                 //policy has not been found and has to be created
                 Policy newPolicy = new Policy();
-                newPolicy.setName(securityPolicy.getName());
                 newPolicy.setStringId(securityPolicy.name());
                 newPolicy.setPolicyGroup(securityPolicy.getPolicyGroup().name());
                 newPolicy.setDateCreated(new Date());
@@ -134,7 +132,6 @@ public class SecurityUtils implements Serializable{
                 policy = newPolicy;
             } else if (!isEqual(policy, securityPolicy)) {
                 //policy has been found and needs synchronization
-                policy.setName(securityPolicy.getName());
                 policy.setStringId(securityPolicy.name());
                 policy.setPolicyGroup(securityPolicy.getPolicyGroup().name());
                 policy.setDateCreated(new Date());
@@ -160,17 +157,21 @@ public class SecurityUtils implements Serializable{
 
         List<UserGroups> groups = userTypesFacade.findByUser(superAdmin);
 
-        if(!groups.contains(superAdminGroup))
+        if(!groups.contains(superAdminGroup)) {
             superAdmin.getUserGroups().add(superAdminGroup);
-        usersFacade.edit(superAdmin);
-            //userTypesFacade.addUser(superAdmin, superAdminGroup, sessionParams.getAuthorizedUser());
+            usersFacade.edit(superAdmin);
+        }
 
         List<Policy> convertedPolicies = convertPoliciesToEntities(Arrays.asList(SecurityPolicy.values()));
+        boolean updatePolicies = false;
         for(Policy policy : convertedPolicies){
-            policy.getUserGroups().add(superAdminGroup);
-            //policyFacade.addUserGroups(superAdminGroup, policy, sessionParams.getAuthorizedUser());
+            if (!policy.getUserGroups().contains(superAdminGroup)) {
+                policy.getUserGroups().add(superAdminGroup);
+                updatePolicies = true;
+            }
         }
-        policyFacade.edit(convertedPolicies);
+        if(updatePolicies)
+            policyFacade.edit(convertedPolicies);
     }
 
     /**
@@ -196,7 +197,7 @@ public class SecurityUtils implements Serializable{
         for(SecurityPolicy policyEnum : securityPolicyList){
             result.add(allMappedPolicies.get(policyEnum));
         }
-        return policyFacade.find(result);
+        return policyFacade.initializeLazyEntity(result);
     }
 
     /**
@@ -208,8 +209,7 @@ public class SecurityUtils implements Serializable{
      */
     private static boolean isEqual(Policy policyFromDB, SecurityPolicy  policyEnum) {
         boolean equals = false;
-        if (policyEnum.getName().equals(policyFromDB.getName()) &&
-                policyEnum.name().equals(policyFromDB.getStringId()) &&
+        if (policyEnum.name().equals(policyFromDB.getStringId()) &&
                 policyEnum.getPolicyGroup().name().equals(policyFromDB.getPolicyGroup())
                 ) {
             equals = true;

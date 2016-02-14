@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 public class AuthenFilter implements Filter {
@@ -26,6 +27,7 @@ public class AuthenFilter implements Filter {
 	private final String REGISTER_PAGE = Mapping.getInstance().getString("REGISTER_PAGE");
 	private final String PERMISSION_DENIED_PAGE = Mapping.getInstance().getString("PERMISSION_DENIED_PAGE");
 	private static final String SECURITY_POLICY_PARAM_NAME = "securityPolicy";
+	private boolean localeLoaded = false;
 
 	
 	public void init(FilterConfig config) throws ServletException {
@@ -43,6 +45,12 @@ public class AuthenFilter implements Filter {
 		System.setProperty("file.encoding", "UTF-8");
 
 		//String securityPolicy = request.getParameter(SECURITY_POLICY_PARAM_NAME);
+
+		if(sessionparams != null && !localeLoaded){
+			sessionparams.setPreferredLocale(request.getLocale());
+			Locale.setDefault(request.getLocale());
+			localeLoaded = true;
+		}
 
 		if (url.contains(LOGIN_PAGE) || url.contains(REGISTER_PAGE)) {
 			// bruteReveal(request);

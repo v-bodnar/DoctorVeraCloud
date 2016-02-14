@@ -20,7 +20,6 @@ import java.util.Map;
 public class UsersValidator implements Validator, ClientValidator,Serializable {
 
     //private static final Logger LOG = Logger.getLogger(UsersValidator.class.getName());
-    private static final String MESSAGE_TITLE = Message.getInstance().getString("VALIDATOR_REQUIRED");
 
     @Inject
     private ua.kiev.doctorvera.validators.Validator validator;
@@ -80,7 +79,7 @@ public class UsersValidator implements Validator, ClientValidator,Serializable {
         if (message.equals("")) {
             return;
         } else
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, MESSAGE_TITLE, message));
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, Message.getMessage("VALIDATOR_REQUIRED"), message));
 
     }
 }

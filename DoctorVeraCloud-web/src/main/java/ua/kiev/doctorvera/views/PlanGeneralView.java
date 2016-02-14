@@ -29,7 +29,7 @@ import java.util.List;
 @ViewScoped
 public class PlanGeneralView implements Serializable {
 	
-	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Config.getInstance().getProperty("DOCTORS_USER_GROUP_ID"));
+	private final Integer DOCTORS_TYPE_ID = Integer.parseInt(Config.getInstance().getString("DOCTORS_USER_GROUP_ID"));
 	
 	@EJB
 	private PlanFacadeLocal planFacade;

@@ -4,93 +4,32 @@
  */
 package ua.kiev.doctorvera.resources;
 
-import java.io.*;
-import java.net.URL;
-import java.util.ListResourceBundle;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.Set;
+import java.util.ResourceBundle;
 
-public class Config extends ListResourceBundle implements Serializable {
+public class Config extends LocalizedResource {
+    private static final String BUNDLE_NAME = "config";
 
+    // We do not have locale for config constants so we have only one instance of
+    // ResourceBundle and can use it for all locales
     private static Config instance;
-    private static final String path = "/config.xml";
-    private static Properties properties = new Properties();
-    private static URL url;
-    private static File file;
-    Object[][] entriesArray;
-
-    public Config() {
+    public Config(){
         super();
-        url = this.getClass().getResource(path);
-        file = new File(url.getPath());
-        setList();
+        instance = this;
     }
 
     @Override
-    public Object[][] getContents() {
-        return entriesArray;
+    String getBundleName() {
+        return BUNDLE_NAME;
     }
 
-    private void setList() {
-        Set<String> keys = properties.stringPropertyNames();
-        entriesArray = new Object[keys.size()][2];
-        int i = 0;
-        for (String key : keys) {
-            entriesArray[i][0] = key;
-            entriesArray[i][1] = properties.getProperty(key);
-            i++;
-        }
+    public static ResourceBundle getInstance() {
+        if (instance == null) return new Config();
+        else
+            return instance;
     }
 
-    public static enum Key {
-        DATASOURCE_JNDI,
-        COUNTRY,
-        LANGUAGE,
-        PROJECT_NAME,
-        SUPER_ADMIN_ID,
-        SUPER_ADMIN_USER_GROUP_ID,
-        DOCTORS_USER_GROUP_ID,
-        PATIENTS_USER_GROUP_ID
-    }
-
-    public static Config getInstance() {
-        if (instance == null) {
-            instance = new Config();
-            try{
-                properties.loadFromXML(url.openStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            //Setting Default Locale
-            Locale.setDefault(new Locale(properties.getProperty(Key.LANGUAGE.toString()),
-                    properties.getProperty(Key.COUNTRY.toString())));
-        }
-        return instance;
-    }
-
-    public static String getProperty(Key key) {
-        return properties.getProperty(key.toString());
-    }
-
-    public static String getProperty(String key) {
-        return properties.getProperty(key);
-    }
-
-    public static Boolean setProperty(String key, String value) {
-        try {
-            FileOutputStream fileOutput = new FileOutputStream(file);
-            properties.setProperty(key, value);
-            properties.storeToXML(fileOutput, "Configuration file", "UTF-8");
-            fileOutput.close();
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+    public static String getMessage(String key) {
+        if(getInstance() == null) return "";
+        return getInstance().getString(key);
     }
 }

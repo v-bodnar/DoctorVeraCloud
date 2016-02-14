@@ -22,7 +22,6 @@ import java.util.Map;
 public class PriceValidator implements Validator, ClientValidator,Serializable {
 	
 	//private static final Logger LOG = Logger.getLogger(UsersValidator.class.getName());
-	private static final String MESSAGE_TITLE = Message.getInstance().getString("VALIDATOR_ERROR_TITLE");
 	
 	@EJB
 	private PricesFacadeLocal pricesFacade;
@@ -60,26 +59,26 @@ public class PriceValidator implements Validator, ClientValidator,Serializable {
 		switch(fieldName){
 			case "notZero":
 				if((Float)value==0)
-					message = Message.getInstance().getString("VALIDATOR_PRICE_ZERO");
+					message = Message.getMessage("VALIDATOR_PRICE_ZERO");
 				break;
 			case "date":
-				if(((Date)value).after(new Date()))
-					message = Message.getInstance().getString("VALIDATOR_PRICE_AFTER_NOW");
+				if(((Date)value).before(new Date()))
+					message = Message.getMessage("VALIDATOR_PRICE_AFTER_NOW");
 				
 				break;	
 				
 		}
 		 
 		if(message.equals("")) {
-			//String successMessage = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
+			//String successMessage = Message.getMessage(Message.Messages.APPLICATION_SAVED);
 			//FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(successMessage));
-			//String successMessage = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
-			//String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+			//String successMessage = Message.getMessage(Message.Messages.APPLICATION_SAVED);
+			//String successTitle = Message.getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
 			//FacesContext.getCurrentInstance().addMessage("firstName", new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 			return;
 			}
 		else 
-			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, MESSAGE_TITLE, message));
+			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, Message.getMessage("VALIDATOR_ERROR_TITLE"), message));
 		
 	}
 

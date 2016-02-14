@@ -20,7 +20,7 @@
 		</resource-bundle>
 
 		<locale-config>
-			<default-locale>en</default-locale>
+			<default-locale>ru_RU</default-locale>
 		</locale-config>
 
 		<action-listener>org.primefaces.application.DialogActionListener</action-listener>

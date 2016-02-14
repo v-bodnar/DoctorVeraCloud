@@ -167,8 +167,8 @@ public class UsersTableView implements Serializable {
 		addressFacade.remove(selectedUser.getAddress());
 		usersFacade.remove(selectedUser);
 		//allUsers.remove(selectedUser);
-		final String successMessage = Message.getInstance().getString("USERS_DELETE_CONFIRM_TITLE");
-		final String successTitle = Message.getInstance().getString("USERS_DELETED");
+		final String successMessage = Message.getMessage("USERS_DELETE_CONFIRM_TITLE");
+		final String successTitle = Message.getMessage("USERS_DELETED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 	
@@ -200,16 +200,16 @@ public class UsersTableView implements Serializable {
 			addFlag = true; //Means that user transfered from left picker to right picker
 			
 		//Constructing success message
-		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		String successMessage;
 		if(targetList != null && targetList.contains(event.getItems().get(0)))
-			successMessage = Message.getInstance().getString("USERS_ADD_SUCCESS_START") + " " +
+			successMessage = Message.getMessage("USERS_ADD_SUCCESS_START") + " " +
 				selectedUser.getFirstName() + " " + selectedUser.getFirstName() +
-				Message.getInstance().getString("USERS_ADD_SUCCESS_END")+ " ";
+				Message.getMessage("USERS_ADD_SUCCESS_END")+ " ";
 		else
-			successMessage = Message.getInstance().getString("USERS_REMOVE_SUCCESS_START") + " " +
+			successMessage = Message.getMessage("USERS_REMOVE_SUCCESS_START") + " " +
 				selectedUser.getFirstName() + " " + selectedUser.getFirstName() +
-				Message.getInstance().getString("USERS_REMOVE_SUCCESS_END") + " ";
+				Message.getMessage("USERS_REMOVE_SUCCESS_END") + " ";
 
 		//Iterating each transfered user
 		for(Object userTypeObject : event.getItems()){

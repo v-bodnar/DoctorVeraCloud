@@ -177,7 +177,7 @@
 								#{MESSAGE.SECURITY_POLICY_PROFILE_EDIT_MESSAGING_ACCEPTED}
 							</f:facet>
 							<f:facet name="input">
-							<p:selectBooleanCheckbox value="#{userRegisterView.user.messagingAccepted}"
+							<p:selectBooleanCheckbox value="#{userProfileView.user.messagingAccepted}"
 											 id="messagingAccepted" name="messagingAccepted"/>
 							</f:facet><p:ajax event="save" update="messagingAcceptedMessage growl" listener="#{userProfileView.save}"/>
 						</p:inplace></p:column>

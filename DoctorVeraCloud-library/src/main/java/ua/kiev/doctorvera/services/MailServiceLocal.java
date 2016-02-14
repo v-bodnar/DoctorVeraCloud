@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.services;
 
+import ua.kiev.doctorvera.entities.TransactionLog;
 import ua.kiev.doctorvera.entities.Users;
 
 import javax.ejb.Local;
@@ -11,6 +12,6 @@ import java.util.Map;
  */
 @Local
 public interface MailServiceLocal {
-    void sendEmail(Users user, String message,  String subject);
-    void sendEmail(List<Users> userList, String message, String subject);
+    void sendEmail(Users user, String message, String subject, TransactionLog transactionLog);
+    void sendEmail(List<Users> userList, String message, String subject, TransactionLog transactionLog);
 }

@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 @ViewScoped
 public class ScheduleGeneralView implements Serializable {
 	private final static Logger LOG = Logger.getLogger(ScheduleView.class.getName());
-	private final Integer DOCTORS_USER_GROUP_ID = Integer.parseInt(Config.getInstance().getProperty("DOCTORS_USER_GROUP_ID"));
+	private final Integer DOCTORS_USER_GROUP_ID = Integer.parseInt(Config.getInstance().getString("DOCTORS_USER_GROUP_ID"));
 
 	@EJB
 	private UsersFacadeLocal usersFacade;

@@ -109,8 +109,8 @@ public class UserProfileView implements Serializable{
 			user.setAddress(address);
 		}
 		usersFacade.edit(user);
-		final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
-		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successMessage = Message.getMessage("APPLICATION_SAVED");
+		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		Message.showMessage(successTitle, successMessage);
 	}
 

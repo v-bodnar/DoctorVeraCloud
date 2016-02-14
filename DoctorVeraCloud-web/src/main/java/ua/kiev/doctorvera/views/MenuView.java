@@ -28,41 +28,44 @@ public class MenuView implements Serializable {
 
     private MenuModel menuModel;
 
-    private final String planMenuHeader = Message.getInstance().getString("MENU_ITEM_PLAN");
-    private final String mainMenuHeader = Message.getInstance().getString("MENU_HEADER");
-    private final String scheduleMenuHeader = Message.getInstance().getString("MENU_HEADER_SCHEDULE");
-    private final String financeMenuHeader = Message.getInstance().getString("MENU_HEADER_FINANCE");
-    private final String mainPageValue = Message.getInstance().getString("MENU_ITEM_MAIN");
+    private final String planMenuHeader = Message.getMessage("MENU_ITEM_PLAN");
+    private final String mainMenuHeader = Message.getMessage("MENU_HEADER");
+    private final String scheduleMenuHeader = Message.getMessage("MENU_HEADER_SCHEDULE");
+    private final String financeMenuHeader = Message.getMessage("MENU_HEADER_FINANCE");
+    private final String settingsMenuHeader = Message.getMessage("MENU_HEADER_SETTINGS");
+    private final String mainPageValue = Message.getMessage("MENU_ITEM_MAIN");
     private final String mainPageUrl = Mapping.getInstance().getString("MAIN_PAGE");
-    private final String usersPageValue = Message.getInstance().getString("MENU_ITEM_USERS");
+    private final String usersPageValue = Message.getMessage("MENU_ITEM_USERS");
     private final String usersPageUrl = Mapping.getInstance().getString("USERS_PAGE");
-    private final String userTypesPageValue = Message.getInstance().getString("MENU_ITEM_USER_TYPES");
+    private final String userTypesPageValue = Message.getMessage("MENU_ITEM_USER_TYPES");
     private final String userTypesPageUrl = Mapping.getInstance().getString("USER_TYPES_PAGE");
-    private final String roomsPageValue = Message.getInstance().getString("MENU_ITEM_ROOMS");
+    private final String roomsPageValue = Message.getMessage("MENU_ITEM_ROOMS");
     private final String roomsPageUrl = Mapping.getInstance().getString("ROOMS_PAGE");
-    private final String sendSMSPageValue = Message.getInstance().getString("MENU_ITEM_SEND_SMS");
+    private final String sendSMSPageValue = Message.getMessage("MENU_ITEM_SEND_SMS");
     private final String sendSMSPageUrl = Mapping.getInstance().getString("SEND_SMS_PAGE");
-    private final String methodsPageValue = Message.getInstance().getString("MENU_ITEM_METHODS");
+    private final String methodsPageValue = Message.getMessage("MENU_ITEM_METHODS");
     private final String methodsPageUrl = Mapping.getInstance().getString("METHODS_PAGE");
     private final String planPageUrl = Mapping.getInstance().getString("PLAN_PAGE");
-    private final String paymentsPageValue = Message.getInstance().getString("MENU_ITEM_PAYMENTS");
+    private final String paymentsPageValue = Message.getMessage("MENU_ITEM_PAYMENTS");
     private final String paymentsPageUrl = Mapping.getInstance().getString("PAYMENTS_PAGE");
     private final String schedulePageUrl = Mapping.getInstance().getString("SCHEDULE_PAGE");
-    private final String planGeneralPageValue = Message.getInstance().getString("MENU_ITEM_PLAN_GENERAL");
+    private final String planGeneralPageValue = Message.getMessage("MENU_ITEM_PLAN_GENERAL");
     private final String planGeneralPageUrl = Mapping.getInstance().getString("PLAN_GENERAL_PAGE");
-    private final String scheduleGeneralPageValue = Message.getInstance().getString("MENU_ITEM_SCHEDULE_GENERAL");
+    private final String scheduleGeneralPageValue = Message.getMessage("MENU_ITEM_SCHEDULE_GENERAL");
     private final String scheduleGeneralPageUrl = Mapping.getInstance().getString("SCHEDULE_GENERAL_PAGE");
-    private final String schedulePersonalPageValue = Message.getInstance().getString("MENU_ITEM_PERSONAL_SCHEDULE");
-    private final String deliveryGroupHeader = Message.getInstance().getString("MENU_HEADER_DELIVERY");
+    private final String schedulePersonalPageValue = Message.getMessage("MENU_ITEM_PERSONAL_SCHEDULE");
+    private final String deliveryGroupHeader = Message.getMessage("MENU_HEADER_DELIVERY");
     private final String schedulePersonalPageUrl = Mapping.getInstance().getString("SCHEDULE_PERSONAL_PAGE");
-    private final String deliveryGroupsPageValue = Message.getInstance().getString("MENU_ITEM_DELIVERY_GROUPS");
+    private final String deliveryGroupsPageValue = Message.getMessage("MENU_ITEM_DELIVERY_GROUPS");
     private final String deliveryGroupsPageURL = Mapping.getInstance().getString("DELIVERY_GROUPS_PAGE");
-    private final String smsTemplatesPageValue = Message.getInstance().getString("MENU_ITEM_SMS_TEMPLATES");
+    private final String smsTemplatesPageValue = Message.getMessage("MENU_ITEM_SMS_TEMPLATES");
     private final String smsTemplatesPageUrl = Mapping.getInstance().getString("SMS_TEMPLATES_PAGE");
-    private final String emailTemplatesPageValue = Message.getInstance().getString("MENU_ITEM_EMAIL_TEMPLATES");
+    private final String emailTemplatesPageValue = Message.getMessage("MENU_ITEM_EMAIL_TEMPLATES");
     private final String emailTemplatesPageUrl = Mapping.getInstance().getString("EMAIL_TEMPLATES_PAGE");
-    private final String messageSchedulerPageValue = Message.getInstance().getString("MENU_ITEM_MESSAGE_SCHEDULER");
+    private final String messageSchedulerPageValue = Message.getMessage("MENU_ITEM_MESSAGE_SCHEDULER");
     private final String messageSchedulerPageUrl = Mapping.getInstance().getString("MESSAGE_SCHEDULER_PAGE");
+    private final String localizationPageValue = Message.getMessage("MENU_ITEM_LOCALIZATION");
+    private final String localizationPageUrl = Mapping.getInstance().getString("LOCALIZATION_PAGE");
     private static final String APPLICATION_ROOT_URL = Mapping.getInstance().getString("APPLICATION_ROOT_PATH");
     private static final Logger LOG = Logger.getLogger(MenuView.class.getName());
     private static final String SECURITY_POLICY_PARAM_NAME = "securityPolicy";
@@ -255,6 +258,20 @@ public class MenuView implements Serializable {
 
         deliverySubmenu.setRendered(isRendered(deliverySubmenu));
         menuModel.addElement(deliverySubmenu);
+
+        DefaultSubMenu settingsSubmenu = new DefaultSubMenu(settingsMenuHeader);
+
+        item = new DefaultMenuItem(localizationPageValue);
+        item.setUrl(localizationPageUrl);
+        item.setIcon("ui-icon-script");
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_LOCALIZATION));
+        if (url != null && url.equals(APPLICATION_ROOT_URL + localizationPageUrl)) {
+            item.setStyleClass("ui-state-active");
+        }
+        settingsSubmenu.addElement(item);
+
+        settingsSubmenu.setRendered(isRendered(settingsSubmenu));
+        menuModel.addElement(settingsSubmenu);
 
     }
     private boolean isRendered(DefaultSubMenu menuGroup){

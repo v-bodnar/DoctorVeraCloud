@@ -23,7 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
-import static ua.kiev.doctorvera.resources.Message.Messages.*;
 
 @Named(value = "planValidator")
 @SessionScoped
@@ -32,8 +31,8 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
     //@Named(value="#{planView.plan}")
 	//private Plan plan;
 	
-	private final String errorTitle = Message.getInstance().getString("VALIDATOR_ERROR_TITLE") + "\n";
-	private final String errorUpdateMessage = Message.getInstance().getString("PLAN_VALIDATE_SCHEDULE_UPDATE");
+	private final String errorTitle = Message.getMessage("VALIDATOR_ERROR_TITLE") + "\n";
+	private final String errorUpdateMessage = Message.getMessage("PLAN_VALIDATE_SCHEDULE_UPDATE");
 	
 	@EJB
 	private RoomsFacadeLocal roomsFacade;
@@ -65,8 +64,8 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
 		
 		String message = "";
 
-		if(start != null && end != null && !start.before(end)) 
-			message = Message.getInstance().getString("PLAN_VALIDATE_DATE");
+		if(start != null && end != null && !start.before(end))
+			message = Message.getMessage("PLAN_VALIDATE_DATE");
 		
 		if(message.equals(""))
 			return;
@@ -85,7 +84,7 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
 		String errorMessage = null;
 		
 		if(plansCrossed.size() != 0){
-			errorMessage = Message.getInstance().getString("PLAN_VALIDATE_SCHEDULE_UPDATE");
+			errorMessage = Message.getMessage("PLAN_VALIDATE_SCHEDULE_UPDATE");
 			FacesContext context = FacesContext.getCurrentInstance();
 			FacesMessage fMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorTitle , errorMessage);
 			context.addMessage(null, fMessage);
@@ -185,7 +184,7 @@ public class PlanValidator implements Validator, ClientValidator,Serializable {
 					formater.format(plan.getDateTimeEnd()) + " " + 
 					plan.getDoctor().getFirstName() + plan.getDoctor().getLastName() + "\n";
 			}
-			Message.showError(VALIDATOR_ERROR_TITLE, errorMessage);
+			Message.showError(Message.getMessage("VALIDATOR_ERROR_TITLE"), errorMessage);
 			return true;
     		//throw new ValidatorException(fMessage);
 		}

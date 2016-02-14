@@ -15,11 +15,10 @@ public class RoomsConverter implements Converter {
 
     @EJB
     private RoomsFacadeLocal roomsFacade;
-    private static final String SELECTOR_DEFAULT = Message.getMessage("APPLICATION_SELECT_ONE");
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if (value != null && !value.equals(SELECTOR_DEFAULT)){
+        if (value != null && !value.equals(Message.getMessage("APPLICATION_SELECT_ONE"))){
             return roomsFacade.find(Integer.parseInt(value));
         }else {
             return null;

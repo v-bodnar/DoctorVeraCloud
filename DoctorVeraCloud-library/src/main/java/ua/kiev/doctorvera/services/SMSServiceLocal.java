@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.services;
 
+import ua.kiev.doctorvera.entities.TransactionLog;
 import ua.kiev.doctorvera.entities.Users;
 
 import javax.ejb.Local;
@@ -10,6 +11,6 @@ import java.util.List;
  */
 @Local
 public interface SMSServiceLocal {
-    void sendSMS(Users user, String message);
-    void sendSMS(List<Users> userList, String message);
+    void sendSMS(Users user, String message, TransactionLog transactionLog);
+    void sendSMS(List<Users> userList, String message, TransactionLog transactionLog);
 }

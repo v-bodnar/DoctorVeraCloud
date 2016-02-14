@@ -18,8 +18,6 @@ import java.util.Map;
 public class AddressValidator implements Validator, ClientValidator, Serializable {
 	
 	//private static final Logger LOG = Logger.getLogger(UsersValidator.class.getName());
-	private static final String MESSAGE_TITLE = Message.getInstance().getString("VALIDATOR_REQUIRED");
-	
 	@Override
 	public Map<String, Object> getMetadata() {
 		return null;
@@ -55,7 +53,7 @@ public class AddressValidator implements Validator, ClientValidator, Serializabl
 			return;
 			}
 		else 
-			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, MESSAGE_TITLE, message));
+			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, Message.getMessage("VALIDATOR_REQUIRED"), message));
 		
 	}
 

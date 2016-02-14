@@ -37,7 +37,7 @@ import java.util.logging.Logger;
 public class PlanView implements Serializable {
 	
 	private final static Logger LOG = Logger.getLogger(PlanView.class.getName());
-	private final Integer DOCTORS_USER_GROUP_ID = Integer.parseInt(Config.getInstance().getProperty("DOCTORS_USER_GROUP_ID"));
+	private final Integer DOCTORS_USER_GROUP_ID = Integer.parseInt(Config.getInstance().getString("DOCTORS_USER_GROUP_ID"));
 	@EJB
 	private RoomsFacadeLocal roomsFacade;
 	
@@ -203,8 +203,8 @@ public class PlanView implements Serializable {
     	LOG.info("Event id: " + event.getId() + " updated");
     	
     	
-		final String successMessage = Message.getInstance().getString("PLAN_EDITED");
-		final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
+		final String successMessage = Message.getMessage("PLAN_EDITED");
+		final String successTitle = Message.getMessage("PLAN_ADD_DIALOG_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
      
@@ -228,8 +228,8 @@ public class PlanView implements Serializable {
     	eventModel.updateEvent(event);
     	LOG.info("Event id: " + event.getId() + " updated");
     	
-		final String successMessage = Message.getInstance().getString("PLAN_EDITED");
-		final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
+		final String successMessage = Message.getMessage("PLAN_EDITED");
+		final String successTitle = Message.getMessage("PLAN_ADD_DIALOG_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
 
@@ -255,8 +255,8 @@ public class PlanView implements Serializable {
             eventModel.addEvent(event);
             LOG.info("new event id: " + event.getId() + " scheduled");
             
-    		final String successMessage = Message.getInstance().getString("PLAN_SAVED");
-    		final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
+    		final String successMessage = Message.getMessage("PLAN_SAVED");
+    		final String successTitle = Message.getMessage("PLAN_ADD_DIALOG_TITLE");
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     		RequestContext context = RequestContext.getCurrentInstance();
     		context.execute("PF('addPlanDialog').hide();");
@@ -286,8 +286,8 @@ public class PlanView implements Serializable {
             eventModel.updateEvent(event);
             LOG.info("Event id: " + event.getId() + " updated");
             
-    		final String successMessage = Message.getInstance().getString("PLAN_EDITED");
-    		final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
+    		final String successMessage = Message.getMessage("PLAN_EDITED");
+    		final String successTitle = Message.getMessage("PLAN_ADD_DIALOG_TITLE");
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     	}
 
@@ -305,8 +305,8 @@ public class PlanView implements Serializable {
     		LOG.info("Plan id: " + plan.getId() + " deleted");
     		LOG.info("Event id: " + event.getId() + " deleted");
     		
-    		final String successMessage = Message.getInstance().getString("PLAN_DELETED");
-    		final String successTitle = Message.getInstance().getString("PLAN_ADD_DIALOG_TITLE");
+    		final String successMessage = Message.getMessage("PLAN_DELETED");
+    		final String successTitle = Message.getMessage("PLAN_ADD_DIALOG_TITLE");
     		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     	}
     }
@@ -351,8 +351,8 @@ public class PlanView implements Serializable {
 	public void deleteSelectedRoom(){
 		roomsFacade.remove(selectedRoom);
 		allRooms.remove(selectedRoom);
-		final String successMessage = Message.getInstance().getMessage(Message.Rooms.ROOMS_DELETED);
-		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		final String successMessage = Message.getMessage(Message.Rooms.ROOMS_DELETED);
+		final String successTitle = Message.getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}	
 	
@@ -360,8 +360,8 @@ public class PlanView implements Serializable {
 		selectedRoom.setDateCreated(new Date());
 		selectedRoom.setUserCreated(authorizedUser);
 		roomsFacade.edit(selectedRoom);
-		final String successMessage = Message.getInstance().getMessage(Message.Rooms.ROOMS_EDITED);
-		final String successTitle = Message.getInstance().getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
+		final String successMessage = Message.getMessage(Message.Rooms.ROOMS_EDITED);
+		final String successTitle = Message.getMessage(Message.Validator.VALIDATOR_SUCCESS_TITLE);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
     
@@ -370,8 +370,8 @@ public class PlanView implements Serializable {
 		newRoom.setUserCreated(authorizedUser);
 		roomsFacade.create(newRoom);
 		allRooms.add(newRoom);
-		final String successMessage = Message.getInstance().getMessage(Message.Messages.APPLICATION_SAVED);
-		final String successTitle = Message.getInstance().getMessage(Message.Rooms.ROOMS_SAVED);
+		final String successMessage = Message.getMessage(Message.Messages.APPLICATION_SAVED);
+		final String successTitle = Message.getMessage(Message.Rooms.ROOMS_SAVED);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 */

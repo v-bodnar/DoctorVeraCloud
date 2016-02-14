@@ -20,11 +20,9 @@ public class MessageTemplateConverter implements Converter {
     @EJB
     private MessageTemplateFacadeLocal messageTemplateFacade;
 
-    private static final String SELECTOR_DEFAULT = Message.getMessage("APPLICATION_SELECT_ONE");
-
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if (value == null || value.equals(SELECTOR_DEFAULT)) {
+        if (value == null || value.equals(Message.getMessage("APPLICATION_SELECT_ONE"))) {
             return null;
         }else {
             return messageTemplateFacade.find(Integer.parseInt(value));

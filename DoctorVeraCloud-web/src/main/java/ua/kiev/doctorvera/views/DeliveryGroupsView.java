@@ -105,8 +105,8 @@ public class DeliveryGroupsView  implements Serializable {
     public void deleteSelectedDeliveryGroup(){
         deliveryGroupFacade.remove(selectedGroup);
         allDeliveryGroups.remove(selectedGroup);
-        final String successMessage = Message.getInstance().getString("DELIVERY_GROUPS_DELETED");
-        final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+        final String successMessage = Message.getMessage("DELIVERY_GROUPS_DELETED");
+        final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
 
@@ -115,8 +115,8 @@ public class DeliveryGroupsView  implements Serializable {
         selectedGroup.setDateCreated(new Date());
         selectedGroup.setUserCreated(authorizedUser);
         deliveryGroupFacade.edit(selectedGroup);
-        final String successMessage = Message.getInstance().getString("DELIVERY_GROUPS_EDITED");
-        final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+        final String successMessage = Message.getMessage("DELIVERY_GROUPS_EDITED");
+        final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('editGroupDialog').hide()");
@@ -129,8 +129,8 @@ public class DeliveryGroupsView  implements Serializable {
         deliveryGroupFacade.create(newDeliveryGroup);
         newDeliveryGroup = deliveryGroupFacade.find(newDeliveryGroup);
         allDeliveryGroups.add(newDeliveryGroup);
-        final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
-        final String successTitle = Message.getInstance().getString("DELIVERY_GROUPS_SAVED");
+        final String successMessage = Message.getMessage("APPLICATION_SAVED");
+        final String successTitle = Message.getMessage("DELIVERY_GROUPS_SAVED");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('addDeliveryGroupDialog').hide()");
@@ -149,12 +149,12 @@ public class DeliveryGroupsView  implements Serializable {
             addFlag = true; //Means that user transferred from left picker to right picker
 
         //Constructing success message
-        final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+        final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
         String successMessage;
         if(targetList != null && targetList.contains(event.getItems().get(0)))
-            successMessage = Message.getInstance().getString("DELIVERY_GROUPS_ADD_USER_GROUP_SUCCESS_START");
+            successMessage = Message.getMessage("DELIVERY_GROUPS_ADD_USER_GROUP_SUCCESS_START");
         else
-            successMessage = Message.getInstance().getString("DELIVERY_GROUPS_REMOVE_USER_GROUP_SUCCESS_START");
+            successMessage = Message.getMessage("DELIVERY_GROUPS_REMOVE_USER_GROUP_SUCCESS_START");
 
         //Iterating each transferred userGroup
         for(Object userObject : event.getItems()){
@@ -187,9 +187,9 @@ public class DeliveryGroupsView  implements Serializable {
 
         //Constructing success message
         if(addFlag)
-            successMessage += Message.getInstance().getString("DELIVERY_GROUPS_ADD_USER_GROUP_SUCCESS_END") + " " + selectedGroup.getName();
+            successMessage += Message.getMessage("DELIVERY_GROUPS_ADD_USER_GROUP_SUCCESS_END") + " " + selectedGroup.getName();
         else
-            successMessage += Message.getInstance().getString("DELIVERY_GROUPS_REMOVE_USER_GROUP_SUCCESS_END") + " " + selectedGroup.getName();
+            successMessage += Message.getMessage("DELIVERY_GROUPS_REMOVE_USER_GROUP_SUCCESS_END") + " " + selectedGroup.getName();
 
         LOG.info(successMessage);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
@@ -208,12 +208,12 @@ public class DeliveryGroupsView  implements Serializable {
             addFlag = true; //Means that user transferred from left picker to right picker
 
         //Constructing success message
-        final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+        final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
         String successMessage;
         if(targetList != null && targetList.contains(event.getItems().get(0)))
-            successMessage = Message.getInstance().getString("DELIVERY_GROUPS_ADD_USERS_SUCCESS_START");
+            successMessage = Message.getMessage("DELIVERY_GROUPS_ADD_USERS_SUCCESS_START");
         else
-            successMessage = Message.getInstance().getString("DELIVERY_GROUPS_REMOVE_USERS_SUCCESS_START");
+            successMessage = Message.getMessage("DELIVERY_GROUPS_REMOVE_USERS_SUCCESS_START");
 
         //Iterating each transfered user
         for(Object userObject : event.getItems()){
@@ -247,9 +247,9 @@ public class DeliveryGroupsView  implements Serializable {
 
         //Constructing success message
         if(addFlag)
-            successMessage += Message.getInstance().getString("DELIVERY_GROUPS_ADD_USERS_SUCCESS_END") + " " + selectedGroup.getName();
+            successMessage += Message.getMessage("DELIVERY_GROUPS_ADD_USERS_SUCCESS_END") + " " + selectedGroup.getName();
         else
-            successMessage += Message.getInstance().getString("DELIVERY_GROUPS_REMOVE_USERS_SUCCESS_END") + " " + selectedGroup.getName();
+            successMessage += Message.getMessage("DELIVERY_GROUPS_REMOVE_USERS_SUCCESS_END") + " " + selectedGroup.getName();
 
         LOG.info(successMessage);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));

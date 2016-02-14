@@ -3,9 +3,7 @@ package ua.kiev.doctorvera.services;
 import org.joda.time.DateTime;
 import ua.kiev.doctorvera.entities.*;
 import ua.kiev.doctorvera.entities.Schedule;
-import ua.kiev.doctorvera.facadeLocal.MessageSchedulerFacadeLocal;
-import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
-import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.*;
 import ua.kiev.doctorvera.resources.Config;
 
 import javax.annotation.Resource;
@@ -38,15 +36,26 @@ public class SchedulerService implements ScheduleServiceLocal {
     private MessageSchedulerFacadeLocal messageSchedulerFacade;
 
     @EJB
+    private MessageTemplateFacadeLocal messageTemplateFacade;
+
+    @EJB
+    private PricesFacadeLocal pricesFacade;
+
+    @EJB
     private UsersFacadeLocal usersFacade;
 
-    private final Integer USERS_BREAK_ID = Integer.parseInt(Config.getInstance().getProperty("USERS_BREAK_ID"));
+    @EJB
+    TransactionLogFacadeLocal transactionLogFacade;
+
     private final static String MESSAGE_SCHEDULER_PREFIX = "MESSAGE_SCHEDULER_";
     private final static String SCHEDULE_PREFIX = "SCHEDULE_";
     private final static Logger LOG = Logger.getLogger(SchedulerService.class.getName());
-    private final Integer EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE = Integer.parseInt(Config.getInstance().getProperty("EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE"));
-    private final Integer SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE = Integer.parseInt(Config.getInstance().getProperty("SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE"));
+    private final Integer USERS_BREAK_ID = Integer.parseInt(Config.getInstance().getString("USERS_BREAK_ID"));
+    private final Integer EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE = Integer.parseInt(Config.getInstance().getString("EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE"));
+    private final Integer SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE = Integer.parseInt(Config.getInstance().getString("SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE"));
 
+
+    @Override
     public void scheduleEvent(MessageScheduler scheduler){
         System.out.println(new Date());
         int hour = new DateTime(scheduler.getTime()).getHourOfDay();
@@ -69,7 +78,7 @@ public class SchedulerService implements ScheduleServiceLocal {
 
         System.out.println("Created new timer, next execution: " + timer.getNextTimeout() + " in " + timer.getTimeRemaining()/60000 + " minutes");
     }
-
+    @Override
     public void changeEvent(MessageScheduler scheduler){
         removeEvent(scheduler);
         scheduleEvent(scheduler);
@@ -86,6 +95,19 @@ public class SchedulerService implements ScheduleServiceLocal {
 
     @Override
     public void scheduleEvent(Schedule schedule) {
+        LOG.info("" + new Date());
+        Date deliveryTime = new DateTime(schedule.getDateTimeStart()).minusDays(1).withHourOfDay(14).withMinuteOfHour(0).withSecondOfMinute(0).toDate();
+
+        if(new Date().after(deliveryTime)){
+            sendMessage(schedule);
+        }else{
+            TimerConfig timerConfig = new TimerConfig();
+            timerConfig.setInfo(SCHEDULE_PREFIX + schedule.getId());
+
+            Timer timer = timerService.createSingleActionTimer(deliveryTime, timerConfig);
+
+            System.out.println("Created new single action timer, next execution: " + timer.getNextTimeout() + " in " + timer.getTimeRemaining()/60000 + " minutes");
+        }
     }
 
     @Override
@@ -132,23 +154,30 @@ public class SchedulerService implements ScheduleServiceLocal {
 
     private void sendMessage(MessageScheduler messageScheduler){
 
+        TransactionLog transactionLog = new TransactionLog();
+        transactionLog.setUserCreated(messageScheduler.getUserCreated());
+        transactionLog.setMessageTemplate(messageScheduler.getMessageTemplate());
+        transactionLog.setDateCreated(new Date());
+        transactionLog.setStatus(TransactionLog.Status.PROGRESS);
+        transactionLogFacade.create(transactionLog);
+
         if(messageScheduler.getMessageTemplate().getType() == MessageTemplate.Type.EMAIL){
             //Sending EmailMessage
             if(messageScheduler.getUser() != null){
                 mailService.sendEmail(messageScheduler.getUser(), messageScheduler.getMessageTemplate().getContent(),
-                        messageScheduler.getMessageTemplate().getName());
+                        messageScheduler.getMessageTemplate().getName(), transactionLog);
             }else if(messageScheduler.getDeliveryGroups() != null && !messageScheduler.getDeliveryGroups().isEmpty()){
                 mailService.sendEmail(extractUsersFromDeliveryGroup(messageScheduler.getDeliveryGroups()),
                         messageScheduler.getMessageTemplate().getContent(),
-                        messageScheduler.getMessageTemplate().getName());
+                        messageScheduler.getMessageTemplate().getName(),transactionLog);
             }
         }else if(messageScheduler.getMessageTemplate().getType() == MessageTemplate.Type.SMS){
             //Sending SMSMessage
             if(messageScheduler.getUser() != null){
-                smsService.sendSMS(messageScheduler.getUser(), messageScheduler.getMessageTemplate().getContent());
+                smsService.sendSMS(messageScheduler.getUser(), messageScheduler.getMessageTemplate().getContent(), transactionLog);
             }else if(messageScheduler.getDeliveryGroups() != null && !messageScheduler.getDeliveryGroups().isEmpty()){
                 smsService.sendSMS(extractUsersFromDeliveryGroup(messageScheduler.getDeliveryGroups()),
-                        messageScheduler.getMessageTemplate().getContent());
+                        messageScheduler.getMessageTemplate().getContent(), transactionLog);
             }
         }
     }
@@ -157,14 +186,29 @@ public class SchedulerService implements ScheduleServiceLocal {
         if (schedule.getPatient().equals(usersFacade.find(USERS_BREAK_ID)))
             return;
 
-        MessageScheduler emailMessageScheduler = messageSchedulerFacade.initializeLazyEntity(messageSchedulerFacade.find(EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE));
-        MessageScheduler smsMessageScheduler = messageSchedulerFacade.initializeLazyEntity(messageSchedulerFacade.find(SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE));
+        MessageTemplate emailMessageTemplate = messageTemplateFacade.initializeLazyEntity(messageTemplateFacade.find(EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE));
+        MessageTemplate smsMessageTemplate = messageTemplateFacade.initializeLazyEntity(messageTemplateFacade.find(SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE));
 
-        if(schedule.getPatient() != null){ //todo process template
+        if(schedule.getPatient() != null){
+            TransactionLog emailTransactionLog = new TransactionLog();
+            emailTransactionLog.setUserCreated(schedule.getUserCreated());
+            emailTransactionLog.setMessageTemplate(emailMessageTemplate);
+            emailTransactionLog.setDateCreated(new Date());
+            emailTransactionLog.setStatus(TransactionLog.Status.PROGRESS);
+            transactionLogFacade.create(emailTransactionLog);
 
-            mailService.sendEmail(schedule.getPatient(), emailMessageScheduler.getMessageTemplate().getContent(),
-                    emailMessageScheduler.getMessageTemplate().getName());
-            smsService.sendSMS(schedule.getPatient(), smsMessageScheduler.getMessageTemplate().getContent());
+            mailService.sendEmail(schedule.getPatient(),
+                    processMessageText(emailMessageTemplate.getContent(), schedule),
+                    emailMessageTemplate.getName(), emailTransactionLog);
+
+            TransactionLog smsTransactionLog = new TransactionLog();
+            smsTransactionLog.setUserCreated(schedule.getUserCreated());
+            smsTransactionLog.setMessageTemplate(smsMessageTemplate);
+            smsTransactionLog.setDateCreated(new Date());
+            smsTransactionLog.setStatus(TransactionLog.Status.PROGRESS);
+            transactionLogFacade.create(smsTransactionLog);
+
+            smsService.sendSMS(schedule.getPatient(), processMessageText(smsMessageTemplate.getContent(), schedule), smsTransactionLog);
         }
     }
 
@@ -175,8 +219,8 @@ public class SchedulerService implements ScheduleServiceLocal {
             text = text.replace("$appointmentStartTime", "" + new SimpleDateFormat("HH:mm").format(schedule.getDateTimeStart()));
         if(schedule.getMethod() != null && schedule.getMethod().getShortName() != null)
             text = text.replace("$appointmentMethodName", schedule.getMethod().getShortName());
-//        if(schedule.getMethod() != null && schedule.getMethod().get() != null)
-//            text = text.replace("$appointmentMethodPrice", "" + new SimpleDateFormat("HH:mm").format(schedule.getDateTimeStart()));
+        if(schedule.getMethod() != null && schedule.getMethod() != null && pricesFacade.findLastPrice(schedule.getMethod())!=null)
+            text = text.replace("$appointmentMethodPrice", "" + pricesFacade.findLastPrice(schedule.getMethod()).getTotal());
         if(schedule.getDoctor() != null)
             text = text.replace("$doctorsFirstName", schedule.getDoctor().getFirstName());
         if(schedule.getDoctor()  != null)

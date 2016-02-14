@@ -33,8 +33,8 @@ import java.util.regex.Pattern;
 @ViewScoped
 public class MessageTemplatesView implements Serializable{
 
-    private final static Integer MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS = Integer.parseInt(Config.getInstance().getProperty("MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS"));
-    private final static Integer MAXIMUM_LATIN_SYMBOLS_IN_SMS = Integer.parseInt(Config.getInstance().getProperty("MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS"));
+    private final static Integer MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS = Integer.parseInt(Config.getInstance().getString("MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS"));
+    private final static Integer MAXIMUM_LATIN_SYMBOLS_IN_SMS = Integer.parseInt(Config.getInstance().getString("MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS"));
 
     @EJB
     private MessageTemplateFacadeLocal messageTemplateFacade;
@@ -78,8 +78,8 @@ public class MessageTemplatesView implements Serializable{
     //Deletes selected message Template
     public void deleteSelectedTemplate(){
         messageTemplateFacade.remove(selectedMessageTemplate);
-        final String successMessage = Message.getInstance().getString("MESSAGE_TEMPLATES_DELETED");
-        final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+        final String successMessage = Message.getMessage("MESSAGE_TEMPLATES_DELETED");
+        final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
 
@@ -88,8 +88,8 @@ public class MessageTemplatesView implements Serializable{
         selectedMessageTemplate.setDateCreated(new Date());
         selectedMessageTemplate.setUserCreated(authorizedUser);
         messageTemplateFacade.edit(selectedMessageTemplate);
-        final String successMessage = Message.getInstance().getString("MESSAGE_TEMPLATES_UPDATED");
-        final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+        final String successMessage = Message.getMessage("MESSAGE_TEMPLATES_UPDATED");
+        final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('editTemplateDialog').hide()");
@@ -101,8 +101,8 @@ public class MessageTemplatesView implements Serializable{
         selectedMessageTemplate.setUserCreated(authorizedUser);
         selectedMessageTemplate.setId(null);
         messageTemplateFacade.create(selectedMessageTemplate);
-        final String successMessage = Message.getInstance().getString("MESSAGE_TEMPLATES_SAVED");
-        final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+        final String successMessage = Message.getMessage("MESSAGE_TEMPLATES_SAVED");
+        final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('editTemplateDialog').hide()");
@@ -114,8 +114,8 @@ public class MessageTemplatesView implements Serializable{
         newMessageTemplate.setUserCreated(authorizedUser);
         newMessageTemplate.setType(messageType);
         messageTemplateFacade.create(newMessageTemplate);
-        final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
-        final String successTitle = Message.getInstance().getString("MESSAGE_TEMPLATES_SAVED");
+        final String successMessage = Message.getMessage("APPLICATION_SAVED");
+        final String successTitle = Message.getMessage("MESSAGE_TEMPLATES_SAVED");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('addTemplateDialog').hide()");

@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 public class MethodsView implements Serializable {
 	
 	private final static Logger LOG = Logger.getLogger(MethodsView.class.getName());
-	private final static Integer DOCTORS_TYPE_ID = Integer.parseInt(Config.getInstance().getProperty("DOCTORS_USER_GROUP_ID"));
+	private final static Integer DOCTORS_TYPE_ID = Integer.parseInt(Config.getInstance().getString("DOCTORS_USER_GROUP_ID"));
 	
 	
 	//Facade for CRUD operations with Users
@@ -172,8 +172,8 @@ public class MethodsView implements Serializable {
 		methodsFacade.remove(selectedMethod);
 		allMethods.remove(selectedMethod);
 		LOG.info("Method " + selectedMethod.getShortName() + " with id: " + selectedMethod.getId() + "removed");
-		final String successMessage = Message.getInstance().getString("METHODS_DELETED");
-		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successMessage = Message.getMessage("METHODS_DELETED");
+		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}	
 	
@@ -183,8 +183,8 @@ public class MethodsView implements Serializable {
 		methodsFacade.edit(selectedMethod);
         cleanMethodTypes();
 		LOG.info("Changed method " + selectedMethod.getShortName() + " with id: " + selectedMethod.getId());
-		final String successMessage = Message.getInstance().getString("METHODS_EDITED");
-		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successMessage = Message.getMessage("METHODS_EDITED");
+		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		RequestContext.getCurrentInstance().update("methodsForm:methodsTable");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 		RequestContext.getCurrentInstance().execute("PF('addMethodDialog').hide();");
@@ -201,8 +201,8 @@ public class MethodsView implements Serializable {
 		price.setDateTime(new Date());
 		pricesFacade.create(price);
 		LOG.info("Created new method: " + selectedMethod.getShortName());
-		final String successTitle = Message.getInstance().getString("APPLICATION_SAVED");
-		final String successMessage = Message.getInstance().getString("METHODS_SAVED");
+		final String successTitle = Message.getMessage("APPLICATION_SAVED");
+		final String successMessage = Message.getMessage("METHODS_SAVED");
 		RequestContext.getCurrentInstance().update("methodsForm:methodsTable");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 		RequestContext.getCurrentInstance().execute("PF('addMethodDialog').hide();");
@@ -214,8 +214,8 @@ public class MethodsView implements Serializable {
 		price.setMethod(selectedMethod);
 		pricesFacade.create(price);
 		LOG.info("Price " + price.getTotal() + " for method " + selectedMethod.getShortName() + " changed, changes will take place " + price.getDateTime());
-		final String successTitle = Message.getInstance().getString("APPLICATION_SAVED");
-		final String successMessage = Message.getInstance().getString("METHODS_PRICE_CREATED");
+		final String successTitle = Message.getMessage("APPLICATION_SAVED");
+		final String successMessage = Message.getMessage("METHODS_PRICE_CREATED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 		RequestContext.getCurrentInstance().execute("PF('addPriceDialog').hide();");
     }
@@ -235,12 +235,12 @@ public class MethodsView implements Serializable {
 			addFlag = true; //Means that user transfered from left picker to right picker
 			
 		//Constructing success message
-		final String successTitle = Message.getInstance().getString("METHODS_SAVED");
+		final String successTitle = Message.getMessage("METHODS_SAVED");
 		String successMessage;
 		if(targetList != null && targetList.contains(event.getItems().get(0)))
-			successMessage = Message.getInstance().getString("METHODS_ADD_SUCCESS_START");
+			successMessage = Message.getMessage("METHODS_ADD_SUCCESS_START");
 		else
-			successMessage = Message.getInstance().getString("METHODS_REMOVE_SUCCESS_START");
+			successMessage = Message.getMessage("METHODS_REMOVE_SUCCESS_START");
 		
 		//Iterating each transfered user
 		for(Object userObject : event.getItems()){
@@ -275,9 +275,9 @@ public class MethodsView implements Serializable {
 		
 		//Constructing success message
 		if(addFlag)
-			successMessage += " " + Message.getInstance().getString("METHODS_ADD_SUCCESS_END") + " " + selectedMethod.getShortName();
+			successMessage += " " + Message.getMessage("METHODS_ADD_SUCCESS_END") + " " + selectedMethod.getShortName();
 		else
-			successMessage += " " + Message.getInstance().getString("METHODS_REMOVE_SUCCESS_END") + " " + selectedMethod.getShortName();
+			successMessage += " " + Message.getMessage("METHODS_REMOVE_SUCCESS_END") + " " + selectedMethod.getShortName();
 		
 		LOG.info(successMessage);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));

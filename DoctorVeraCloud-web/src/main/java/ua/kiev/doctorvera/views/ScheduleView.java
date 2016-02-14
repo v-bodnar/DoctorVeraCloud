@@ -7,6 +7,7 @@ import ua.kiev.doctorvera.entities.*;
 import ua.kiev.doctorvera.facadeLocal.*;
 import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.services.ScheduleServiceLocal;
 import ua.kiev.doctorvera.utils.RandomPasswordGenerator;
 import ua.kiev.doctorvera.utils.Utils;
 import ua.kiev.doctorvera.validators.PlanValidator;
@@ -23,8 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static ua.kiev.doctorvera.resources.Message.Messages.*;
-
 @Named(value = "scheduleView")
 @ViewScoped
 public class ScheduleView implements Serializable {
@@ -32,11 +31,11 @@ public class ScheduleView implements Serializable {
     private final static Logger LOG = Logger.getLogger(ScheduleView.class.getName());
     private final static long FIVE_MINUTES_IN_MILLIS = 360000;//millisecs
 
-    private final Integer PATIENTS_TYPE_ID = Integer.parseInt(Config.getInstance().getProperty("PATIENTS_USER_GROUP_ID"));
-    private final Integer ASSISTANTS_TYPE_ID = Integer.parseInt(Config.getInstance().getProperty("ASSISTANTS_USER_GROUP_ID"));
-    private final Integer METHOD_BREAK_ID = Integer.parseInt(Config.getInstance().getProperty("METHOD_BREAK_ID"));
-    private final Integer USERS_BREAK_ID = Integer.parseInt(Config.getInstance().getProperty("USERS_BREAK_ID"));
-    private final Integer DOCTORS_USER_GROUP_ID = Integer.parseInt(Config.getInstance().getProperty("DOCTORS_USER_GROUP_ID"));
+    private final Integer PATIENTS_TYPE_ID = Integer.parseInt(Config.getInstance().getString("PATIENTS_USER_GROUP_ID"));
+    private final Integer ASSISTANTS_TYPE_ID = Integer.parseInt(Config.getInstance().getString("ASSISTANTS_USER_GROUP_ID"));
+    private final Integer METHOD_BREAK_ID = Integer.parseInt(Config.getInstance().getString("METHOD_BREAK_ID"));
+    private final Integer USERS_BREAK_ID = Integer.parseInt(Config.getInstance().getString("USERS_BREAK_ID"));
+    private final Integer DOCTORS_USER_GROUP_ID = Integer.parseInt(Config.getInstance().getString("DOCTORS_USER_GROUP_ID"));
     @EJB
     private RoomsFacadeLocal roomsFacade;
 
@@ -60,6 +59,9 @@ public class ScheduleView implements Serializable {
 
     @EJB
     private MethodTypesFacadeLocal methodTypesFacade;
+
+    @EJB
+    private ScheduleServiceLocal scheduleService;
 
     @Inject
     private SessionParams sessionParams;
@@ -297,7 +299,7 @@ public class ScheduleView implements Serializable {
                     schedule = scheduleFacade.find(schedule.getId());
                     newSchedule.setParentSchedule(schedule);
                     scheduleFacade.create(newSchedule);
-
+                    scheduleService.scheduleEvent(schedule);
                     //Creating corresponding Schedule event
                     event = eventFromSchedule(newSchedule);
                     event.setEditable(false);
@@ -309,13 +311,14 @@ public class ScheduleView implements Serializable {
                     breakEvent.setStartDate(event.getEndDate());
                     breakEvent.setEndDate(new Date(event.getEndDate().getTime() + breakTime));
                     scheduleFacade.edit(breakSchedule);
+                    scheduleService.changeEvent(schedule);
                     //eventModel.updateEvent(breakEvent);
                 } else if (breakSchedule != null && nextScheduleHasSamePatient) {
                     DefaultScheduleEvent breakEvent = findScheduleEvent(breakSchedule);
                     scheduleFacade.remove(breakSchedule);
                 }
 
-                Message.showMessage(VALIDATOR_SUCCESS_TITLE, SCHEDULE_EDITED);//Sending success message
+                Message.showMessage(Message.getMessage("VALIDATOR_SUCCESS_TITLE"), Message.getMessage("SCHEDULE_EDITED"));//Sending success message
                 RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').hide();");
             } else {
                 LOG.info("Validation exception. New Schedule is not persisted!");
@@ -338,7 +341,7 @@ public class ScheduleView implements Serializable {
             eventModel.updateEvent(event);
             LOG.info("Event id: " + event.getId() + " updated");
 
-            Message.showMessage(PLAN_ADD_DIALOG_TITLE, PLAN_EDITED);//Sending success message
+            Message.showMessage(Message.getMessage("PLAN_ADD_DIALOG_TITLE"), Message.getMessage("PLAN_EDITED"));//Sending success message
         }
     }
 
@@ -364,7 +367,7 @@ public class ScheduleView implements Serializable {
             planFacade.edit(plan);
 
             eventModel.updateEvent(event);
-            Message.showMessage(PLAN_ADD_DIALOG_TITLE, PLAN_EDITED);//Sending success message
+            Message.showMessage(Message.getMessage("PLAN_ADD_DIALOG_TITLE"), Message.getMessage("PLAN_EDITED"));//Sending success message
         }
     }
 
@@ -478,7 +481,7 @@ public class ScheduleView implements Serializable {
                 createNewSchedule(method, startTime);
                 startTime = schedule.getDateTimeEnd();
                 scheduleFacade.create(schedule);
-
+                scheduleService.scheduleEvent(schedule);
                 //Creating corresponding Schedule event
                 event = eventFromSchedule(schedule);
                 eventModel.addEvent(event);
@@ -494,7 +497,7 @@ public class ScheduleView implements Serializable {
             event.setEditable(false);
             eventModel.addEvent(event);
 
-            Message.showMessage(VALIDATOR_SUCCESS_TITLE, SCHEDULE_SAVED);//Sending success message
+            Message.showMessage(Message.getMessage("VALIDATOR_SUCCESS_TITLE"), Message.getMessage("SCHEDULE_SAVED"));//Sending success message
             RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').hide();"); //Closing dialog window
         } else {
             LOG.warning("Validation exception. New Schedule is not persisted!");
@@ -542,7 +545,7 @@ public class ScheduleView implements Serializable {
                     createNewSchedule(method, startTime);
                     startTime = schedule.getDateTimeEnd();
                     scheduleFacade.create(schedule);
-
+                    scheduleService.scheduleEvent(schedule);
                     //Creating corresponding Schedule event
                     event = eventFromSchedule(schedule);
                     eventModel.addEvent(event);
@@ -568,7 +571,7 @@ public class ScheduleView implements Serializable {
                 schedule = scheduleFacade.find(schedule.getId());
                 newSchedule.setParentSchedule(schedule);
                 scheduleFacade.create(newSchedule);
-
+                scheduleService.scheduleEvent(schedule);
                 //Creating corresponding Schedule event
                 event = eventFromSchedule(newSchedule);
                 event.setEditable(false);
@@ -582,7 +585,7 @@ public class ScheduleView implements Serializable {
                 scheduleFacade.remove(breakSchedule);
             }
 
-            Message.showMessage(VALIDATOR_SUCCESS_TITLE, SCHEDULE_EDITED);//Sending success message
+            Message.showMessage(Message.getMessage("VALIDATOR_SUCCESS_TITLE"), Message.getMessage("SCHEDULE_EDITED"));//Sending success message
             RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').hide();");
         } else
             LOG.info("Validation exception. New Schedule is not persisted!");
@@ -595,12 +598,13 @@ public class ScheduleView implements Serializable {
                 scheduleFacade.remove(breakRecord);
             }
             scheduleFacade.remove(schedule);
+            scheduleService.removeEvent(schedule);
             eventModel.deleteEvent(event);
 
             LOG.info("Schedule id: " + schedule.getId() + " deleted");
             LOG.info("Event id: " + event.getId() + " deleted");
 
-            Message.showMessage(VALIDATOR_SUCCESS_TITLE, SCHEDULE_DELETED);
+            Message.showMessage(Message.getMessage("VALIDATOR_SUCCESS_TITLE"), Message.getMessage("SCHEDULE_DELETED"));
         }
     }
 
@@ -622,7 +626,7 @@ public class ScheduleView implements Serializable {
             event = eventFromPlan(plan);
             eventModel.addEvent(event);
 
-            Message.showMessage(PLAN_ADD_DIALOG_TITLE, PLAN_SAVED);
+            Message.showMessage(Message.getMessage("PLAN_ADD_DIALOG_TITLE"), Message.getMessage("PLAN_SAVED"));
             RequestContext.getCurrentInstance().execute("PF('addPlanDialog').hide();");
             RequestContext.getCurrentInstance().execute("PF('schedule').update()");
         } else
@@ -644,12 +648,12 @@ public class ScheduleView implements Serializable {
             addFlag = true; //Means that user transfered from left picker to right picker
 
         //Constructing success message
-        final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+        final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
         String successMessage;
         if (targetList != null && targetList.contains(event.getItems().get(0)))
-            successMessage = Message.getInstance().getString("SCHEDULE_METHOD_ADD_SUCCESS_START");
+            successMessage = Message.getMessage("SCHEDULE_METHOD_ADD_SUCCESS_START");
         else
-            successMessage = Message.getInstance().getString("SCHEDULE_METHOD_REMOVE_SUCCESS_START");
+            successMessage = Message.getMessage("SCHEDULE_METHOD_REMOVE_SUCCESS_START");
 
         //Iterating each transfered method
         for (Object methodObject : event.getItems()) {
@@ -669,9 +673,9 @@ public class ScheduleView implements Serializable {
         /*
         //Constructing success message
         if(addFlag)
-            successMessage += Message.getInstance().getMessage("SCHEDULE_METHOD_ADD_SUCCESS_END);
+            successMessage += Message.getMessage("SCHEDULE_METHOD_ADD_SUCCESS_END);
         else
-            successMessage += Message.getInstance().getMessage("SCHEDULE_METHOD_REMOVE_SUCCESS_END);
+            successMessage += Message.getMessage("SCHEDULE_METHOD_REMOVE_SUCCESS_END);
 
         LOG.info(successMessage);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
@@ -849,17 +853,17 @@ public class ScheduleView implements Serializable {
 
     public void printForm(){
         // TODO implement
-        Message.showError(LOGIN_ERROR_TITLE, APPLICATION_NOT_IMPLEMENTED);
+        Message.showError(Message.getMessage("LOGIN_ERROR_TITLE"), Message.getMessage("APPLICATION_NOT_IMPLEMENTED"));
     }
 
     public void printSecureAgreement(){
         // TODO implement
-        Message.showError(LOGIN_ERROR_TITLE, APPLICATION_NOT_IMPLEMENTED);
+        Message.showError(Message.getMessage("LOGIN_ERROR_TITLE"), Message.getMessage("APPLICATION_NOT_IMPLEMENTED"));
     }
 
     public void printPrintIncomeForm(){
         // TODO implement
-        Message.showError(LOGIN_ERROR_TITLE, APPLICATION_NOT_IMPLEMENTED);
+        Message.showError(Message.getMessage("LOGIN_ERROR_TITLE"), Message.getMessage("APPLICATION_NOT_IMPLEMENTED"));
     }
 
     public List<String> completeFirstNames(String letters) {

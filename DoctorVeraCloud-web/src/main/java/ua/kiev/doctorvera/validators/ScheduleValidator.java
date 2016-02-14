@@ -9,7 +9,6 @@ import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
-import ua.kiev.doctorvera.views.SessionParams;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -19,12 +18,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import static ua.kiev.doctorvera.resources.Message.Messages.*;
 
 @Named(value = "scheduleValidator")
 @ViewScoped
@@ -33,8 +30,8 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
     //@Named(value="#{planView.plan}")
 	//private Plan plan;
 	
-	private final String ERROR_TITLE = Message.getInstance().getString("VALIDATOR_ERROR_TITLE") + "\n";
-	private final String ERROR_UPDATE_MESSAGE = Message.getInstance().getString("PLAN_VALIDATE_SCHEDULE_UPDATE");
+	private final String ERROR_TITLE = Message.getMessage("VALIDATOR_ERROR_TITLE") + "\n";
+	private final String ERROR_UPDATE_MESSAGE = Message.getMessage("PLAN_VALIDATE_SCHEDULE_UPDATE");
 
 	@EJB
 	private RoomsFacadeLocal roomsFacade;
@@ -83,7 +80,7 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 		String message = "";
 		//Checking if date is inside of any Plan record
 		if(planFacade.findByRoomAndDateInside(schedule.getRoom(), startDate) == null)
-			return Message.getInstance().getString("SCHEDULE_VALIDATE_NOT_IN_PLAN_START");
+			return Message.getMessage("SCHEDULE_VALIDATE_NOT_IN_PLAN_START");
 		
 		//Checking if date is not crossed with any existing schedule record
 		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -92,7 +89,7 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 		//Creating Validation Error message for crossed schedule
 		Schedule breakSchedule = scheduleFacade.findChildSchedule(schedule);
 		if (!scheduleCrossed.equals(schedule) && !scheduleCrossed.equals(breakSchedule)) {
-			message += Message.getInstance().getString("SCHEDULE_VALIDATE_SCHEDULE_UPDATE") +
+			message += Message.getMessage("SCHEDULE_VALIDATE_SCHEDULE_UPDATE") +
 					formater.format(scheduleCrossed.getDateTimeStart()) + " - " +
 					formater.format(scheduleCrossed.getDateTimeEnd()) + " " +
 					scheduleCrossed.getDoctor().getFirstName() + scheduleCrossed.getDoctor().getLastName() + "\n";
@@ -103,7 +100,7 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 		scheduleCrossed = scheduleFacade.findByRoomAndDateInside(schedule.getRoom(), startDate);
 		if (scheduleCrossed == null) return "";
 		if (!scheduleCrossed.equals(schedule) && !scheduleCrossed.equals(breakSchedule)) {
-			message += Message.getInstance().getString("SCHEDULE_VALIDATE_SCHEDULE_UPDATE") +
+			message += Message.getMessage("SCHEDULE_VALIDATE_SCHEDULE_UPDATE") +
 					formater.format(scheduleCrossed.getDateTimeStart()) + " - " +
 					formater.format(scheduleCrossed.getDateTimeEnd()) + " " +
 					scheduleCrossed.getDoctor().getFirstName() + scheduleCrossed.getDoctor().getLastName() + "\n";
@@ -123,7 +120,7 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 		
 		//Schedule event start and end time must be inside plans record time interval 
 		if(!isInsidePlan(currentSchedule, currentRoom, end)){
-			Message.showError(ERROR_TITLE, SCHEDULE_VALIDATE_NOT_IN_PLAN);
+			Message.showError(Message.getMessage("ERROR_TITLE"), Message.getMessage("SCHEDULE_VALIDATE_NOT_IN_PLAN"));
 			return false;
 		}
 		
@@ -142,7 +139,7 @@ public class ScheduleValidator implements Validator, ClientValidator,Serializabl
 		}
 
 		if(schedulesCrossed.size() != 0){
-			Message.showError(ERROR_TITLE, SCHEDULE_VALIDATE_SCHEDULE_UPDATE);
+			Message.showError(Message.getMessage("ERROR_TITLE"), Message.getMessage("SCHEDULE_VALIDATE_SCHEDULE_UPDATE"));
 
 			SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			

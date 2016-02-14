@@ -7,8 +7,11 @@ import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Created by Volodymyr Bodnar on 10.02.2015.
@@ -18,6 +21,8 @@ import java.io.Serializable;
 @SessionScoped
 public class SessionParams implements Serializable {
 
+    public static final Locale DEFAULT_LOCALE = new Locale("ru", "Ru");
+
     @EJB
     private RoomsFacadeLocal roomsFacade;
 
@@ -25,6 +30,21 @@ public class SessionParams implements Serializable {
     private Rooms planRoom;
     private Rooms scheduleRoom;
     private Users profileUser;
+    private Locale currentLocale;
+    //Preferred by browser Locale
+    private Locale preferredLocale;
+
+    public void setDefaultLocale(){
+        if(authorizedUser.getLocale() == null){
+            currentLocale = new Locale("ru", "RU");
+        }else{
+            currentLocale = new Locale(authorizedUser.getLocale().getLanguageCode(), authorizedUser.getLocale().getCountryCode());
+        }
+
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(currentLocale);
+        Locale.setDefault(currentLocale);
+        ResourceBundle.clearCache();
+    }
 
     //Holds value of the delivery messageType
     private MessageTemplate.Type deliveryMessageType;
@@ -67,6 +87,9 @@ public class SessionParams implements Serializable {
 
     public void setAuthorizedUser(Users authorizedUser) {
         this.authorizedUser = authorizedUser;
+        if(currentLocale == null){
+            setDefaultLocale();
+        }
     }
 
     public MessageTemplate.Type getDeliveryMessageType() {
@@ -75,5 +98,21 @@ public class SessionParams implements Serializable {
 
     public void setDeliveryMessageType(MessageTemplate.Type deliveryMessageType) {
         this.deliveryMessageType = deliveryMessageType;
+    }
+
+    public Locale getCurrentLocale() {
+        return currentLocale;
+    }
+
+    public void setCurrentLocale(Locale locale){
+        currentLocale = locale;
+    }
+
+    public Locale getPreferredLocale() {
+        return preferredLocale;
+    }
+
+    public void setPreferredLocale(Locale preferredLocale) {
+        this.preferredLocale = preferredLocale;
     }
 }

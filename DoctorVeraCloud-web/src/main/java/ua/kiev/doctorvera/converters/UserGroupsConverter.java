@@ -16,11 +16,9 @@ public class UserGroupsConverter implements Converter {
     @EJB
     private UserGroupsFacadeLocal userGroupsFacade;
 
-    private static final String SELECTOR_DEFAULT = Message.getMessage("APPLICATION_SELECT_ONE");
-
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if (value == null || value.equals(SELECTOR_DEFAULT)) {
+        if (value == null || value.equals(Message.getMessage("APPLICATION_SELECT_ONE"))) {
             return null;
         }else {
             return userGroupsFacade.find(Integer.parseInt(value));

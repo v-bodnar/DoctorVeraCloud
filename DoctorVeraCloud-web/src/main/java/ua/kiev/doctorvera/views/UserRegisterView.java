@@ -55,7 +55,7 @@ public class UserRegisterView implements Serializable {
 		//user.setAvatarImage(Mapping.getInstance().getString("APPLICATION_AVATAR_DEFAULT"));
 		address = new Address();
 		address.setUserCreated(usersFacade.findByUsername("root"));
-		patientsGroup = userGroupsFacade.find(Integer.parseInt(Config.getProperty(Config.Key.PATIENTS_USER_GROUP_ID)));
+		patientsGroup = userGroupsFacade.find(Integer.parseInt(Config.getInstance().getString("PATIENTS_USER_GROUP_ID")));
 		authorizedUser = sessionParams.getAuthorizedUser();
 	}
 	

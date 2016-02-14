@@ -1,0 +1,132 @@
+<ui:composition template="index.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        <h:outputText value="#{MESSAGE.LOCALIZATION_PAGE_TITLE}"/>
+    </ui:define>
+    <ui:define name="content">
+
+        <h:form id="settingsForm">
+            <p:growl id="growl" showDetail="true" severity="info" showSummary="true"/>
+
+            <p:commandButton value="#{MESSAGE.LOCALIZATION_ADD_LOCALE_BUTTON}" icon="ui-icon-plus"
+                             actionListener = "#{localizationView.initNewLocale}" process="@none"
+                             oncomplete="PF('addLocaleDialog').show();"   update=":addLocaleForm:addLocaleDialog"/>
+            <p:commandButton value="#{MESSAGE.LOCALIZATION_ADD_MESSAGE_BUTTON}" icon="ui-icon-plus"
+                             actionListener = "#{localizationView.initNewMessage}" process="@this"
+                             oncomplete="PF('addMessageDialog').show();" update=":addMessageForm:addMessageDialog"/>
+
+            <p:tabView id="localeTabContainer" value="#{localizationView.availableLocales}" var="locale" dynamic="true">
+                <p:ajax event="tabChange" listener="#{localizationView.onTabChange(locale)}"/>
+                <p:tab title="#{locale.getDisplayLanguage()}" >
+                    <p:dataTable id="languageGrid" widgetVar="languageGrid" value="#{localizationView.allMessages}" var="messages"
+                                 styleClass="languageGrid" paginator="true" rows="10" rowsPerPageTemplate="10,15,20,100"
+                                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}">
+                        <p:ajax event="filter" global="false" process="@this"/>
+                        <p:column headerText="#{MESSAGE.MESSAGE_BUNDLE_MESSAGE_KEY}" filterBy="#{messages.messageKey}"  filterMatchMode="contains"  sortBy="#{messages.messageKey}" >
+                            <h:outputText value="#{messages.messageKey}" />
+                        </p:column>
+
+                        <p:column  headerText="#{MESSAGE.MESSAGE_BUNDLE_MESSAGE_VALUE}" filterBy="#{messages.value}" filterMatchMode="contains" sortBy="#{messages.value}">
+                            <p:inplace editor="true" emptyLabel="#{messages.value}" disabled="#{!securityUtils.checkPermissions('LOCALIZATION_EDIT_CONSTANT')}">
+                                <p:inputText value="#{messages.value}" required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
+                                <p:ajax event="save" listener="#{localizationView.save(messages)}" update=":settingsForm:growl" process="@this"/>
+                            </p:inplace>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:tab>
+
+            </p:tabView>
+        </h:form>
+
+
+        <h:form id="addLocaleForm">
+
+            <p:dialog id="addLocaleDialog" header="#{MESSAGE.LOCALIZATION_ADD_LOCALE_DIALOG_TITLE}" widgetVar="addLocaleDialog" modal="false">
+                <p:growl id="growl" showDetail="true" severity="info" showSummary="true"/>
+                <p:ajax event="close" update=":settingsForm:localeTabContainer" />
+
+                <h:panelGrid id="addLocaleGrid" columns="3" cellpadding="5">
+
+                    <h:outputLabel for="languageCode" value="#{MESSAGE.LOCALE_LANGUAGE_CODE}" />
+                    <p:inputText id="languageCode" value="#{localizationView.newLocale.languageCode}"
+                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="languageCodeMessage" />
+                    </p:inputText>
+                    <p:message for="languageCode" id="languageCodeMessage" />
+
+                    <h:outputLabel for="countryCode" value="#{MESSAGE.LOCALE_COUNTRY_CODE}" />
+                    <p:inputText id="countryCode" value="#{localizationView.newLocale.countryCode}"
+                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="countryCodeMessage" />
+                    </p:inputText>
+                    <p:message for="countryCode" id="countryCodeMessage" />
+
+                    <h:outputLabel for="language" value="#{MESSAGE.LOCALE_LANGUAGE}" />
+                    <p:inputText id="language" value="#{localizationView.newLocale.language}"
+                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="languageMessage" />
+                    </p:inputText>
+                    <p:message for="language" id="languageMessage" />
+
+                    <h:outputLabel for="languageNative" value="#{MESSAGE.LOCALE_LANGUDAGE_NATIVE}" />
+                    <p:inputText id="languageNative" value="#{localizationView.newLocale.languageNative}"
+                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="languageNativeMessage" />
+                    </p:inputText>
+                    <p:message for="languageNative" id="languageNativeMessage" />
+
+                    <h:outputLabel for="localeSaveButton" value="" />
+                    <p:commandButton id="localeSaveButton" value="#{MESSAGE.LOCALIZATION_ADD_LOCALE_BUTTON}" icon="ui-icon-plus"
+                                     actionListener="#{localizationView.createNewLocale}"
+                                     update=":settingsForm:localeTabContainer growl"
+                                     rendered="#{securityUtils.checkPermissions('LOCALIZATION_ADD_LOCALE')}"/>
+
+                </h:panelGrid>
+
+            </p:dialog>
+        </h:form>
+
+        <h:form id="addMessageForm">
+
+            <p:dialog id="addMessageDialog" header="#{MESSAGE.LOCALIZATION_ADD_MESSAGE_DIALOG_TITLE}" widgetVar="addMessageDialog" modal="false">
+                <p:growl id="growl" showDetail="true" severity="info" showSummary="true" />
+                <p:ajax event="close" update=":settingsForm:localeTabContainer" />
+
+                <h:panelGrid id="addMessageGrid" columns="3" cellpadding="5">
+
+                    <h:outputLabel for="messageKey" value="#{MESSAGE.MESSAGE_BUNDLE_MESSAGE_KEY}" />
+                    <p:inputText id="messageKey" value="#{localizationView.newMessage.messageKey}"
+                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                                 validator="#{messageBundleValidator.validate}">
+                        <f:attribute name="name" value="messageKey" />
+                        <p:ajax event="blur" update="messageKeyMessage" />
+                    </p:inputText>
+                    <p:message for="messageKey" id="messageKeyMessage" />
+
+                    <h:outputLabel for="messageValue" value="#{MESSAGE.MESSAGE_BUNDLE_MESSAGE_VALUE}" />
+                    <p:inputText id="messageValue" value="#{localizationView.newMessage.value}"
+                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                                 validator="#{messageBundleValidator.validate}">
+                        <f:attribute name="name" value="messageValue" />
+                        <p:ajax event="blur" update="messageValueMessage" />
+                    </p:inputText>
+                    <p:message for="messageValue" id="messageValueMessage" />
+
+                    <h:outputLabel for="messageSaveButton" value="" />
+                    <p:commandButton id="messageSaveButton" value="#{MESSAGE.LOCALIZATION_ADD_MESSAGE_BUTTON}" icon="ui-icon-plus"
+                                     actionListener="#{localizationView.createNewMessage}"
+                                     update="addMessageGrid growl"
+                                     rendered="#{securityUtils.checkPermissions('LOCALIZATION_ADD_CONSTANT')}"/>
+
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

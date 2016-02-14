@@ -25,8 +25,6 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static ua.kiev.doctorvera.resources.Message.Messages.*;
-
 /**
  * Created by volodymyr.bodnar on 21.07.2015.
  */
@@ -142,7 +140,7 @@ public class IndexView implements Serializable{
 
         monthAppointments = new LineChartModel();
         ChartSeries appointments = new ChartSeries();
-        appointments.setLabel(INDEX_APPOINTMENTS_COUNT.toString());
+        appointments.setLabel(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
 
         Map<DateTime, Integer> thisMonthAppointments = new HashMap();
         for(Schedule schedule : scheduleFacade.findByEmployeeAndDateBetween(authorizedUser, startOfMonth.toDate(), endOfMonth.toDate())) {
@@ -163,18 +161,18 @@ public class IndexView implements Serializable{
 //        }
 
         monthAppointments.addSeries(appointments);
-        monthAppointments.setTitle(INDEX_APPOINTMENTS_COUNT.toString());
+        monthAppointments.setTitle(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
         monthAppointments.setLegendPosition("ne");
         monthAppointments.setAnimate(true);
         monthAppointments.setZoom(true);
         monthAppointments.setSeriesColors("459e00");
 
-        DateAxis axis = new DateAxis(INDEX_DAY_OF_MONTH.toString());
+        DateAxis axis = new DateAxis(Message.getMessage("INDEX_DAY_OF_MONTH"));
         axis.setTickAngle(-50);
         monthAppointments.getAxes().put(AxisType.X, axis);
 
         Axis yAxis = monthAppointments.getAxis(AxisType.Y);
-        yAxis.setLabel(INDEX_APPOINTMENTS_COUNT.toString());
+        yAxis.setLabel(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
     }
 
     public void populateYearAppointments(){
@@ -191,7 +189,7 @@ public class IndexView implements Serializable{
 
         yearAppointments = new LineChartModel();
         ChartSeries appointments = new ChartSeries();
-        appointments.setLabel(INDEX_APPOINTMENTS_COUNT.toString());
+        appointments.setLabel(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
 
         Map<DateTime, Integer> thisYearAppointments = new HashMap();
         for(Schedule schedule : scheduleFacade.findByEmployeeAndDateBetween(authorizedUser, startOfYear.toDate(), endOfYear.toDate())) {
@@ -211,18 +209,18 @@ public class IndexView implements Serializable{
 //        }
 
         yearAppointments.addSeries(appointments);
-        yearAppointments.setTitle(INDEX_APPOINTMENTS_COUNT.toString());
+        yearAppointments.setTitle(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
         yearAppointments.setLegendPosition("ne");
         yearAppointments.setAnimate(true);
         yearAppointments.setZoom(true);
         yearAppointments.setSeriesColors("459e00");
 
-        DateAxis axis = new DateAxis(INDEX_MONTH_OF_YEAR.toString());
+        DateAxis axis = new DateAxis(Message.getMessage("INDEX_MONTH_OF_YEAR"));
         axis.setTickAngle(-50);
         yearAppointments.getAxes().put(AxisType.X, axis);
 
         Axis yAxis = yearAppointments.getAxis(AxisType.Y);
-        yAxis.setLabel(INDEX_APPOINTMENTS_COUNT.toString());
+        yAxis.setLabel(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
     }
 
     public void populateMonthSalary(){
@@ -239,7 +237,7 @@ public class IndexView implements Serializable{
 
         monthSalary = new LineChartModel();
         ChartSeries salary = new ChartSeries();
-        salary.setLabel(INDEX_MONTH_SALARY.toString());
+        salary.setLabel(Message.getMessage("INDEX_MONTH_SALARY"));
 
         for(DateTime dayOfMonth = startOfMonth; dayOfMonth.isBefore(endOfMonth); dayOfMonth = dayOfMonth.plusDays(1)){
             List<Schedule> appointmentsOfMonth = scheduleFacade.findByEmployeeAndDateBetween(authorizedUser,
@@ -248,18 +246,18 @@ public class IndexView implements Serializable{
         }
 
         monthSalary.addSeries(salary);
-        monthSalary.setTitle(INDEX_MONTH_SALARY_CUR.toString());
+        monthSalary.setTitle(Message.getMessage("INDEX_MONTH_SALARY_CUR"));
         monthSalary.setLegendPosition("ne");
         monthSalary.setAnimate(true);
         monthSalary.setZoom(true);
         monthSalary.setSeriesColors("459e00");
 
-        DateAxis axis = new DateAxis(INDEX_DAY_OF_MONTH.toString());
+        DateAxis axis = new DateAxis(Message.getMessage("INDEX_DAY_OF_MONTH"));
         axis.setTickAngle(-50);
         monthSalary.getAxes().put(AxisType.X, axis);
 
         Axis yAxis = monthSalary.getAxis(AxisType.Y);
-        yAxis.setLabel(INDEX_MONTH_SALARY_CUR.toString());
+        yAxis.setLabel(Message.getMessage("INDEX_MONTH_SALARY_CUR"));
     }
     
     public void populateYearSalary(){
@@ -276,7 +274,7 @@ public class IndexView implements Serializable{
 
         yearSalary = new LineChartModel();
         ChartSeries salary = new ChartSeries();
-        salary.setLabel(INDEX_YEAR_SALARY.toString());
+        salary.setLabel(Message.getMessage("INDEX_YEAR_SALARY"));
         for(DateTime monthOfYear = startOfYear; monthOfYear.isBefore(endOfYear); monthOfYear = monthOfYear.plusMonths(1)){
             List<Schedule> appointmentsOfYear = scheduleFacade.findByEmployeeAndDateBetween(authorizedUser,
                     startOfYear.toDate(), monthOfYear.dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue().toDate());
@@ -284,17 +282,17 @@ public class IndexView implements Serializable{
         }
 
         yearSalary.addSeries(salary);
-        yearSalary.setTitle(INDEX_YEAR_SALARY_CUR.toString());
+        yearSalary.setTitle(Message.getMessage("INDEX_YEAR_SALARY_CUR"));
         yearSalary.setLegendPosition("ne");
         yearSalary.setAnimate(true);
         yearSalary.setSeriesColors("459e00");
 
-        DateAxis axis = new DateAxis(INDEX_MONTH_OF_YEAR.toString());
+        DateAxis axis = new DateAxis(Message.getMessage("INDEX_MONTH_OF_YEAR"));
         axis.setTickAngle(-50);
         yearSalary.getAxes().put(AxisType.X, axis);
 
         Axis yAxis = yearSalary.getAxis(AxisType.Y);
-        yAxis.setLabel(INDEX_YEAR_SALARY_CUR.toString());
+        yAxis.setLabel(Message.getMessage("INDEX_YEAR_SALARY_CUR"));
     }
 
     public void populateStatistics(){
@@ -453,18 +451,18 @@ public class IndexView implements Serializable{
     }
 
     private void populateMonthNames(){
-        monthNames.put(CALENDAR_MONTH_1.toString(), 1);
-        monthNames.put(CALENDAR_MONTH_2.toString(), 2);
-        monthNames.put(CALENDAR_MONTH_3.toString(), 3);
-        monthNames.put(CALENDAR_MONTH_4.toString(), 4);
-        monthNames.put(CALENDAR_MONTH_5.toString(), 5);
-        monthNames.put(CALENDAR_MONTH_6.toString(), 6);
-        monthNames.put(CALENDAR_MONTH_7.toString(), 7);
-        monthNames.put(CALENDAR_MONTH_8.toString(), 8);
-        monthNames.put(CALENDAR_MONTH_9.toString(), 9);
-        monthNames.put(CALENDAR_MONTH_10.toString(), 10);
-        monthNames.put(CALENDAR_MONTH_11.toString(), 11);
-        monthNames.put(CALENDAR_MONTH_12.toString(), 12);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_1"), 1);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_2").toString(), 2);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_3").toString(), 3);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_4").toString(), 4);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_5").toString(), 5);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_6").toString(), 6);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_7").toString(), 7);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_8").toString(), 8);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_9").toString(), 9);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_10").toString(), 10);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_11").toString(), 11);
+        monthNames.put(Message.getMessage("CALENDAR_MONTH_12").toString(), 12);
     }
     private void populateYears(){
         //HashSet<String> years = new HashSet();

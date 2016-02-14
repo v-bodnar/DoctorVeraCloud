@@ -54,10 +54,10 @@ public class UploadImageView implements Serializable {
 
 	private final static Logger LOG = Logger.getLogger(UploadImageView.class.getName());
 	private final String AVATAR_IMAGES_PATH = Mapping.getInstance().getString("APPLICATION_AVATAR_IMAGES_PATH");
-	private final String SUCCESS_MESSAGE = Message.getInstance().getString("PROFILE_CROP_AVATAR_SUCCESS_MESSAGE");
-	private final String SUCCESS_TITLE = Message.getInstance().getString("PROFILE_CROP_AVATAR_SUCCESS_TITLE");
-	private final String ERROR_MESSAGE = Message.getInstance().getString("PROFILE_CROP_AVATAR_ERROR_MESSAGE");
-	private final String ERROR_TITLE = Message.getInstance().getString("PROFILE_CROP_AVATAR_ERROR_TITLE");
+	private final String SUCCESS_MESSAGE = Message.getMessage("PROFILE_CROP_AVATAR_SUCCESS_MESSAGE");
+	private final String SUCCESS_TITLE = Message.getMessage("PROFILE_CROP_AVATAR_SUCCESS_TITLE");
+	private final String ERROR_MESSAGE = Message.getMessage("PROFILE_CROP_AVATAR_ERROR_MESSAGE");
+	private final String ERROR_TITLE = Message.getMessage("PROFILE_CROP_AVATAR_ERROR_TITLE");
 
 	public UploadImageView(){}
 

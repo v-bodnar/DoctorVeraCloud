@@ -193,8 +193,8 @@ public class UserGroupsTableView implements Serializable {
 	public void deleteSelectedType(){
 		userGroupsFacade.remove(selectedGroup);
 		allGroups.remove(selectedGroup);
-		final String successMessage = Message.getInstance().getString("USER_TYPES_DELETED");
-		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successMessage = Message.getMessage("USER_TYPES_DELETED");
+		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}	
 	
@@ -203,8 +203,8 @@ public class UserGroupsTableView implements Serializable {
 		selectedGroup.setDateCreated(new Date());
 		selectedGroup.setUserCreated(authorizedUser);
 		userGroupsFacade.edit(selectedGroup);
-		final String successMessage = Message.getInstance().getString("USER_TYPES_EDITED");
-		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successMessage = Message.getMessage("USER_TYPES_EDITED");
+		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
     
@@ -214,8 +214,8 @@ public class UserGroupsTableView implements Serializable {
 		newType.setUserCreated(authorizedUser);
 		userGroupsFacade.create(newType);
 		allGroups.add(newType);
-		final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
-		final String successTitle = Message.getInstance().getString("USER_TYPES_SAVED");
+		final String successMessage = Message.getMessage("APPLICATION_SAVED");
+		final String successTitle = Message.getMessage("USER_TYPES_SAVED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 	
@@ -234,12 +234,12 @@ public class UserGroupsTableView implements Serializable {
 			addFlag = true; //Means that user transfered from left picker to right picker
 			
 		//Constructing success message
-		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		String successMessage;
 		if(targetList != null && targetList.contains(event.getItems().get(0)))
-			successMessage = Message.getInstance().getString("USER_TYPES_ADD_SUCCESS_START");
+			successMessage = Message.getMessage("USER_TYPES_ADD_SUCCESS_START");
 		else
-			successMessage = Message.getInstance().getString("USER_TYPES_REMOVE_SUCCESS_START");
+			successMessage = Message.getMessage("USER_TYPES_REMOVE_SUCCESS_START");
 		
 		//Iterating each transfered user
 		for(Object userObject : event.getItems()){
@@ -279,9 +279,9 @@ public class UserGroupsTableView implements Serializable {
 		
 		//Constructing success message
 		if(addFlag)
-			successMessage += Message.getInstance().getString("USER_TYPES_ADD_SUCCESS_END") + " " + selectedGroup.getName();
+			successMessage += Message.getMessage("USER_TYPES_ADD_SUCCESS_END") + " " + selectedGroup.getName();
 		else
-			successMessage += Message.getInstance().getString("USER_TYPES_REMOVE_SUCCESS_END") + " " + selectedGroup.getName();
+			successMessage += Message.getMessage("USER_TYPES_REMOVE_SUCCESS_END") + " " + selectedGroup.getName();
 		
 		LOG.info(successMessage);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
@@ -302,19 +302,19 @@ public class UserGroupsTableView implements Serializable {
 			addFlag = true; //Means that user transferred from left picker to right picker
 
 		//Constructing success message
-		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		String successMessage;
 		if(targetList != null && targetList.contains(event.getItems().get(0)))
-			successMessage = Message.getInstance().getString("USER_TYPES_POLICIES_ADD_SUCCESS_START");
+			successMessage = Message.getMessage("USER_TYPES_POLICIES_ADD_SUCCESS_START");
 		else
-			successMessage = Message.getInstance().getString("USER_TYPES_POLICIES_REMOVE_SUCCESS_START");
+			successMessage = Message.getMessage("USER_TYPES_POLICIES_REMOVE_SUCCESS_START");
 
 		//Iterating each transferred policy
 		for(Object policyObject : event.getItems()){
 			Policy policyTransferred = policyFacade.initializeLazyEntity((Policy)policyObject);
 
 			//Constructing success message
-			successMessage += policyTransferred.getName() + ", ";
+			successMessage += policyTransferred.getStringId() + ", ";
 
 			if(addFlag){
 				//Add group to user transferred
@@ -343,9 +343,9 @@ public class UserGroupsTableView implements Serializable {
 
 		//Constructing success message
 		if(addFlag)
-			successMessage += Message.getInstance().getString("USER_TYPES_POLICIES_ADD_SUCCESS_END") + " " + selectedGroup.getName();
+			successMessage += Message.getMessage("USER_TYPES_POLICIES_ADD_SUCCESS_END") + " " + selectedGroup.getName();
 		else
-			successMessage += Message.getInstance().getString("USER_TYPES_POLICIES_REMOVE_SUCCESS_END") + " " + selectedGroup.getName();
+			successMessage += Message.getMessage("USER_TYPES_POLICIES_REMOVE_SUCCESS_END") + " " + selectedGroup.getName();
 
 		LOG.info(successMessage);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));

@@ -88,8 +88,8 @@ public class RoomsView implements Serializable {
 	public void deleteSelectedRoom(){
 		roomsFacade.remove(selectedRoom);
 		allRooms.remove(selectedRoom);
-		final String successMessage = Message.getInstance().getString("ROOMS_DELETED");
-		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successMessage = Message.getMessage("ROOMS_DELETED");
+		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}	
 	
@@ -97,8 +97,8 @@ public class RoomsView implements Serializable {
 		selectedRoom.setDateCreated(new Date());
 		selectedRoom.setUserCreated(authorizedUser);
 		roomsFacade.edit(selectedRoom);
-		final String successMessage = Message.getInstance().getString("ROOMS_EDITED");
-		final String successTitle = Message.getInstance().getString("VALIDATOR_SUCCESS_TITLE");
+		final String successMessage = Message.getMessage("ROOMS_EDITED");
+		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
     }
     
@@ -107,8 +107,8 @@ public class RoomsView implements Serializable {
 		newRoom.setUserCreated(authorizedUser);
 		roomsFacade.create(newRoom);
 		allRooms.add(newRoom);
-		final String successMessage = Message.getInstance().getString("APPLICATION_SAVED");
-		final String successTitle = Message.getInstance().getString("ROOMS_SAVED");
+		final String successMessage = Message.getMessage("APPLICATION_SAVED");
+		final String successTitle = Message.getMessage("ROOMS_SAVED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
 	}
 

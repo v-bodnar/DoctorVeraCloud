@@ -1,7 +1,8 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:p="http://primefaces.org/ui">
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:f="http://java.sun.com/jsf/core">
 
 	<p:layout>
 		<p:layoutUnit position="center">
@@ -15,11 +16,12 @@
 		</p:layoutUnit>
 
 		<p:layoutUnit id="headerEast" position="east" resizable="true"
-			size="350">
+			size="450">
 			<h:form id="userAuthform">
+				<p:growl id = "growll" autoUpdate="true"/>
 			<p:panelGrid styleClass="userProfilePanel" id="userAuthGrid">
 				<p:row>
-					<p:column colspan="2">
+					<p:column colspan="3">
 						<h:outputText value="#{MESSAGE.LOGIN_WELCOME}" />
 					</p:column>
 					<p:column rowspan="3">
@@ -35,6 +37,14 @@
 				</p:row>
 				<p:row>
 					<p:column>
+						<p:selectOneMenu id="languageSelector" value="#{headerView.selectedLocale}" converter="localeConverter" >
+							<f:selectItem itemValue="#{null}" itemLabel="#{headerView.selectedLocale.displayLanguage}" noSelectionOption="true" />
+							<f:selectItems value="#{headerView.allAvailableLocales}" itemValue="#{locale}" itemLabel="#{locale.displayLanguage}" var="locale"/>
+							<p:ajax listener="#{headerView.onLanguageSelect}" update="userAuthGrid languageSelectorMessage growll" oncomplete="javascript:location.reload(true)"/>
+							<p:message for="languageSelector" id="languageSelectorMessage" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
 						<p:commandLink
 							action="#{userProfileView.init(sessionParams.authorizedUser.id)}"
 							value="#{MESSAGE.LOGIN_USER_PROFILE}"
@@ -42,11 +52,13 @@
 					</p:column>
 					<p:column>
 						<p:commandLink actionListener="#{userLoginView.logout}"
-							value="#{MESSAGE.LOGIN_LOGOUT_BUTTON}"
-							oncomplete="window.location = '#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.LOGIN_PAGE}';" />
+									   value="#{MESSAGE.LOGIN_LOGOUT_BUTTON}" process="@this"
+									   oncomplete="javascript:location.reload(true)" />
 					</p:column>
 				</p:row>
+
 			</p:panelGrid>
+
 			</h:form>
 		</p:layoutUnit>
 	</p:layout>

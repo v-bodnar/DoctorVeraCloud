@@ -32,12 +32,12 @@ public class UserLoginView implements Serializable {
 //    @Inject
 //    private SecurityUtils securityUtils;
 
-    private final String ERROR_MESSAGE = Message.getInstance().getString("LOGIN_ERROR");
-    private final String WELCOME_MESSAGE = Message.getInstance().getString("LOGIN_WELCOME");
-    private final String ERROR_MESSAGE_TITLE = Message.getInstance().getString("LOGIN_ERROR_TITLE");
-    private final String WELCOME_MESSAGE_TITLE = Message.getInstance().getString("LOGIN_WELCOME_TITLE");
-    private final String GOODBY_MESSAGE_TITLE = Message.getInstance().getString("LOGIN_GOODBY_TITLE");
-    private final String GOODBY_MESSAGE = Message.getInstance().getString("LOGIN_GOODBY");
+    private final String ERROR_MESSAGE = Message.getMessage("LOGIN_ERROR");
+    private final String WELCOME_MESSAGE = Message.getMessage("LOGIN_WELCOME");
+    private final String ERROR_MESSAGE_TITLE = Message.getMessage("LOGIN_ERROR_TITLE");
+    private final String WELCOME_MESSAGE_TITLE = Message.getMessage("LOGIN_WELCOME_TITLE");
+    private final String GOODBY_MESSAGE_TITLE = Message.getMessage("LOGIN_GOODBY_TITLE");
+    private final String GOODBY_MESSAGE = Message.getMessage("LOGIN_GOODBY");
         
     public UserLoginView(){};
     

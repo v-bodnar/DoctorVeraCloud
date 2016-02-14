@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Entity class Describes Scheduler for sending messages
@@ -83,13 +82,13 @@ public class MessageScheduler  implements Serializable, Identified<Integer>{
     private Users userCreated;
 
     public enum DayOfWeek implements Identified<Integer> {
-        MONDAY(Message.getInstance().getString("CALENDAR_MONDAY")),
-        TUESDAY(Message.getInstance().getString("CALENDAR_TUESDAY")),
-        WEDNESDAY(Message.getInstance().getString("CALENDAR_WEDNESDAY")),
-        THURSDAY(Message.getInstance().getString("CALENDAR_THURSDAY")),
-        FRIDAY(Message.getInstance().getString("CALENDAR_FRIDAY")),
-        SATURDAY(Message.getInstance().getString("CALENDAR_SATURDAY")),
-        SUNDAY(Message.getInstance().getString("CALENDAR_SUNDAY"));
+        MONDAY(Message.getMessage("CALENDAR_MONDAY")),
+        TUESDAY(Message.getMessage("CALENDAR_TUESDAY")),
+        WEDNESDAY(Message.getMessage("CALENDAR_WEDNESDAY")),
+        THURSDAY(Message.getMessage("CALENDAR_THURSDAY")),
+        FRIDAY(Message.getMessage("CALENDAR_FRIDAY")),
+        SATURDAY(Message.getMessage("CALENDAR_SATURDAY")),
+        SUNDAY(Message.getMessage("CALENDAR_SUNDAY"));
 
         DayOfWeek(String localName){
             this.localName=localName;
