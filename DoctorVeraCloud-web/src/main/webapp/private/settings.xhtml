@@ -96,6 +96,68 @@
                             </p:inplace></h:panelGroup>
                         <p:message for="smtpStartTls" id="smtpStartTlsMessage" />
 
+
+                        <!--SMS GATEWAY-->
+                        <h:outputLabel for="smsGateway" value="#{MESSAGE.MDS_SMS_GATEWAY}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:inputText id="smsGateway" value="#{settingsView.allConstants.get('SMS_GATEWAY').value}"
+                                             required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMS_GATEWAY')}" update="growl smsGatewayMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smsGateway" id="smsGatewayMessage" />
+
+                        <!--SMS GATEWAY ALPHA NAME-->
+                        <h:outputLabel for="smsGatewayAlpha" value="#{MESSAGE.MDS_SMS_GATEWAY_ALPHA_NAME}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:inputText id="smsGatewayAlpha" value="#{settingsView.allConstants.get('SMS_GATEWAY_ALPHA_NAME').value}"
+                                             required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMS_GATEWAY_ALPHA_NAME')}" update="growl smsGatewayAlphaMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smsGatewayAlpha" id="smsGatewayAlphaMessage" />
+
+                        <!--SMS GATEWAY LOGIN-->
+                        <h:outputLabel for="smsGatewayLogin" value="#{MESSAGE.MDS_SMS_GATEWAY_LOGIN}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:inputText id="smsGatewayLogin" value="#{settingsView.allConstants.get('SMS_GATEWAY_LOGIN').value}"
+                                             required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMS_GATEWAY_LOGIN')}" update="growl smsGatewayLoginMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smsGatewayLogin" id="smsGatewayLoginMessage" />
+
+                        <!--SMS GATEWAY PASSWORD-->
+                        <h:outputLabel for="smsGatewayPassword" value="#{MESSAGE.MDS_SMS_GATEWAY_PASSWORD}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <f:facet name="output">******</f:facet>
+                                <p:password  id="smsGatewayPassword" value="#{settingsView.allConstants.get('SMS_GATEWAY_PASSWORD').value}"
+                                             required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMS_GATEWAY_PASSWORD')}" update="growl smsGatewayPasswordMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smsGatewayPassword" id="smsGatewayPasswordMessage" />
+
+                        <!--MAXIMUM CYRILLIC SYMBOLS IN ONE SMS-->
+                        <h:outputLabel for="maxSymCyr" value="#{MESSAGE.MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:inputText  id="maxSymCyr" value="#{settingsView.allConstants.get('MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS').value}"
+                                              required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS')}" update="growl maxSymCyrMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="maxSymCyr" id="maxSymCyrMessage" />
+
+                        <!--MAXIMUM LATIN SYMBOLS IN ONE SMS-->
+                        <h:outputLabel for="maxSym" value="#{MESSAGE.MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:inputText  id="maxSym" value="#{settingsView.allConstants.get('MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS').value}"
+                                              required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS')}" update="growl maxSymMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="maxSym" id="maxSymMessage" />
+
                         <!--SMS Template-->
                         <h:outputLabel for="smsTemplate" value="#{MESSAGE.MDS_SMS_TEMPLATE}" />
                         <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
@@ -122,25 +184,6 @@
                             </p:inplace></h:panelGroup>
                         <p:message for="emailTemplate" id="emailTemplateMessage" />
 
-                        <!--MAXIMUM CYRILLIC SYMBOLS IN ONE SMS-->
-                        <h:outputLabel for="maxSymCyr" value="#{MESSAGE.MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS}" />
-                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
-                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
-                                <p:inputText  id="maxSymCyr" value="#{settingsView.allConstants.get('MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS').value}"
-                                              required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
-                                <p:ajax event="save" listener="#{settingsView.saveSettings('MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS')}" update="growl maxSymCyrMessage" process="@this"/>
-                            </p:inplace></h:panelGroup>
-                        <p:message for="maxSymCyr" id="maxSymCyrMessage" />
-
-                        <!--MAXIMUM LATIN SYMBOLS IN ONE SMS-->
-                        <h:outputLabel for="maxSym" value="#{MESSAGE.MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS}" />
-                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
-                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
-                                <p:inputText  id="maxSym" value="#{settingsView.allConstants.get('MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS').value}"
-                                              required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
-                                <p:ajax event="save" listener="#{settingsView.saveSettings('MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS')}" update="growl maxSymMessage" process="@this"/>
-                            </p:inplace></h:panelGroup>
-                        <p:message for="maxSym" id="maxSymMessage" />
                     </h:panelGrid>
                     </h:form>
                 </p:tab>

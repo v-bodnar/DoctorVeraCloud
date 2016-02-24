@@ -15,6 +15,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import ua.kiev.doctorvera.resources.Config;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,10 +32,10 @@ import java.util.logging.Logger;
  * @since       1.0
  */
 public class SMSGateway{
-    private final String LOGIN = "cloud";
-    private final String PASS = "88Zcy7nmhzeoutmn";
-    private final String FROM = "Doctor Vera";
-    private final String SMS_SEND_URL = "https://api.life.com.ua/ip2sms/";
+    private final String LOGIN = Config.getInstance().getString("SMS_GATEWAY_LOGIN");
+    private final String PASS = Config.getInstance().getString("SMS_GATEWAY_PASSWORD");
+    private final String FROM = Config.getInstance().getString("SMS_GATEWAY_ALPHA_NAME");
+    private final String SMS_SEND_URL = Config.getInstance().getString("SMS_GATEWAY");
     //private final String SMS_SATE_URL = "https://api.life.com.ua/ip2sms-request/";
     
     private final static Logger LOG = Logger.getLogger(SMSGateway.class.getName());
