@@ -42,7 +42,6 @@ public class SessionParams implements Serializable {
         }
 
         FacesContext.getCurrentInstance().getViewRoot().setLocale(currentLocale);
-        Locale.setDefault(currentLocale);
         ResourceBundle.clearCache();
     }
 

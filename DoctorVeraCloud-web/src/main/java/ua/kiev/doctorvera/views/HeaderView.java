@@ -56,7 +56,6 @@ public class HeaderView implements Serializable {
         FacesContext.getCurrentInstance().getViewRoot().setLocale(selectedLocale);
         ResourceBundle.clearCache(Thread.currentThread().getContextClassLoader());
         sessionParams.setCurrentLocale(selectedLocale);
-        Locale.setDefault(selectedLocale);
 
         ApplicationResourceBundle applicationBundle = ApplicationAssociate.getCurrentInstance().getResourceBundles().get("MESSAGE");
         try {
