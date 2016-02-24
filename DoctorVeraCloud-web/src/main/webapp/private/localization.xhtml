@@ -9,7 +9,7 @@
     </ui:define>
     <ui:define name="content">
 
-        <h:form id="settingsForm">
+        <h:form id="localizationForm">
             <p:growl id="growl" showDetail="true" severity="info" showSummary="true"/>
 
             <p:commandButton value="#{MESSAGE.LOCALIZATION_ADD_LOCALE_BUTTON}" icon="ui-icon-plus"
@@ -33,7 +33,7 @@
                         <p:column  headerText="#{MESSAGE.MESSAGE_BUNDLE_MESSAGE_VALUE}" filterBy="#{messages.value}" filterMatchMode="contains" sortBy="#{messages.value}">
                             <p:inplace editor="true" emptyLabel="#{messages.value}" disabled="#{!securityUtils.checkPermissions('LOCALIZATION_EDIT_CONSTANT')}">
                                 <p:inputText value="#{messages.value}" required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
-                                <p:ajax event="save" listener="#{localizationView.save(messages)}" update=":settingsForm:growl" process="@this"/>
+                                <p:ajax event="save" listener="#{localizationView.save(messages)}" update=":localizationForm:growl" process="@this"/>
                             </p:inplace>
                         </p:column>
 
@@ -48,7 +48,7 @@
 
             <p:dialog id="addLocaleDialog" header="#{MESSAGE.LOCALIZATION_ADD_LOCALE_DIALOG_TITLE}" widgetVar="addLocaleDialog" modal="false">
                 <p:growl id="growl" showDetail="true" severity="info" showSummary="true"/>
-                <p:ajax event="close" update=":settingsForm:localeTabContainer" />
+                <p:ajax event="close" update=":localizationForm:localeTabContainer" />
 
                 <h:panelGrid id="addLocaleGrid" columns="3" cellpadding="5">
 
@@ -83,7 +83,7 @@
                     <h:outputLabel for="localeSaveButton" value="" />
                     <p:commandButton id="localeSaveButton" value="#{MESSAGE.LOCALIZATION_ADD_LOCALE_BUTTON}" icon="ui-icon-plus"
                                      actionListener="#{localizationView.createNewLocale}"
-                                     update=":settingsForm:localeTabContainer growl"
+                                     update=":localizationForm:localeTabContainer growl"
                                      rendered="#{securityUtils.checkPermissions('LOCALIZATION_ADD_LOCALE')}"/>
 
                 </h:panelGrid>
@@ -95,7 +95,7 @@
 
             <p:dialog id="addMessageDialog" header="#{MESSAGE.LOCALIZATION_ADD_MESSAGE_DIALOG_TITLE}" widgetVar="addMessageDialog" modal="false">
                 <p:growl id="growl" showDetail="true" severity="info" showSummary="true" />
-                <p:ajax event="close" update=":settingsForm:localeTabContainer" />
+                <p:ajax event="close" update=":localizationForm:localeTabContainer" />
 
                 <h:panelGrid id="addMessageGrid" columns="3" cellpadding="5">
 

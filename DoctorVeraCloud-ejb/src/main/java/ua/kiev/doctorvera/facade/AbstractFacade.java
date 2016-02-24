@@ -41,11 +41,6 @@ public abstract class AbstractFacade<T extends Identified<Integer>> implements C
     private Class<T> entityClass;
 
     /**
-     * This field identifies key of the map with table joins and column conditions inside filters map
-     */
-    //private final String JOINS_AND_CONDITIONS = Config.getInstance().getString("JOINS_AND_CONDITIONS");
-
-    /**
      * Just setting actual Class of T.class to entityClass variable
      *
      * @param entityClass actual Class of T.class

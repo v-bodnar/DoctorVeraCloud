@@ -145,8 +145,8 @@
                     <!-- Template  System flag-->
                     <h:outputLabel for="templateSystem"
                                    value="#{MESSAGE.SMS_TEMPLATE_SYSTEM}" />
-                    <p:inputSwitch value="#{messageTemplatesView.newMessageTemplate.system}" id="templateSystem"
-                    offLabel="#{MESSAGE.APPLICATION_NO}" onLabel="#{MESSAGE.APPLICATION_YES}"/>
+                    <p:selectBooleanButton value="#{messageTemplatesView.newMessageTemplate.system}" id="templateSystem"
+                                   offLabel="#{MESSAGE.APPLICATION_NO}" onLabel="#{MESSAGE.APPLICATION_YES}"/>
                     <p:message for="templateSystem" id="templateSystemMessage" />
 
                     <!-- Template Description-->
@@ -218,7 +218,7 @@
                     <!-- Template  System flag-->
                     <h:outputLabel for="templateSystem"
                                    value="#{MESSAGE.SMS_TEMPLATE_SYSTEM}" />
-                    <p:inputSwitch value="#{messageTemplatesView.selectedMessageTemplate.system}" id="templateSystem"
+                    <p:selectBooleanButton value="#{messageTemplatesView.selectedMessageTemplate.system}" id="templateSystem"
                                    offLabel="#{MESSAGE.APPLICATION_NO}" onLabel="#{MESSAGE.APPLICATION_YES}"/>
                     <p:message for="templateSystem" id="templateSystemMessage" />
 
@@ -234,7 +234,7 @@
 
                     <!-- Action Buttons-->
                     <p:commandButton id="smsTemplateSaveButton"
-                                     value="#{MESSAGE.MESSAGE_TEMPLATES_SAVE_BUTTON}" icon="ui-icon-plus"
+                                     value="#{MESSAGE.APPLICATION_SAVE_BUTTON}" icon="ui-icon-plus"
                                      actionListener="#{messageTemplatesView.saveSelectedTemplate}"
                                      update="templateDescriptionMessage templateNameMessage growl"
                                      rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_UPDATE') : securityUtils.checkPermissions('EMAIL_TEMPLATES_UPDATE')}"/>

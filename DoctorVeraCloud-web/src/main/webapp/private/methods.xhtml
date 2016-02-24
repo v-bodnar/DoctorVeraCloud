@@ -221,7 +221,7 @@
 					<h:outputLabel for="methodEditButton" value="" 
 					rendered="#{methodsView.selectedMethod.id!=null}"/>
 					<p:commandButton id="methodEditButton"
-						value="#{MESSAGE.METHODS_SAVE_BUTTON}" icon="ui-icon-plus"
+						value="#{MESSAGE.APPLICATION_SAVE_BUTTON}" icon="ui-icon-plus"
 						action="#{methodsView.saveSelectedMethod}"
 						update="growl errorMessage"
 						rendered="#{methodsView.selectedMethod.id!=null}"
@@ -268,7 +268,7 @@
 						
 					<h:outputLabel for="priceSaveButton" value=""/>
 					<p:commandButton id="priceSaveButton"
-						value="#{MESSAGE.METHODS_SAVE_BUTTON}" icon="ui-icon-plus"
+						value="#{MESSAGE.APPLICATION_SAVE_BUTTON}" icon="ui-icon-plus"
 						action="#{methodsView.createNewPrice}"
 						update="growl priceDateMessage priceMessage"
 						styleClass="myButton"

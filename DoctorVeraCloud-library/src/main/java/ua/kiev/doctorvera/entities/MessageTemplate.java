@@ -44,7 +44,7 @@ public class MessageTemplate  implements Serializable, Identified<Integer>{
     @Basic(optional = false)
     @NotNull
     @Column(name = "System")
-    private boolean system;
+    private Boolean system;
 
     @Basic(optional = false)
     @NotNull
@@ -109,11 +109,15 @@ public class MessageTemplate  implements Serializable, Identified<Integer>{
         this.type = type;
     }
 
-    public boolean isSystem() {
+    public Boolean getSystem() {
         return system;
     }
 
-    public void setSystem(boolean system) {
+    public Boolean isSystem() {
+        return system;
+    }
+
+    public void setSystem(Boolean system) {
         this.system = system;
     }
 

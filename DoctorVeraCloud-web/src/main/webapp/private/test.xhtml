@@ -4,27 +4,43 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+                xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+                xmlns:c="http://java.sun.com/jstl/core">
 
     <ui:define name="title">
         <h:outputText value="test"/>
+        <c:set var="isSMSType" value="#{messageTemplatesView.messageType == 'EMAIL'}" />
+        <h:outputText value="#{isSMSType ? MESSAGE.SMS_TEMPLATES_TITLE : MESSAGE.EMAIL_TEMPLATES_TITLE}" />
     </ui:define>
 
     <ui:define name="content">
-        <h:form>
-            <p:dataTable var="car" value="#{usersTableView.allUsers}" widgetVar="carsTable">
 
+        <h:form id="smsTemplatesAddForm">
+            <c:set var="isSMSType" value="#{messageTemplatesView.messageType == 'SMS'}" />
+            <p:commandButton value="#{MESSAGE.MESSAGE_TEMPLATES_CREATE_BUTTON}" icon="ui-icon-plus"
+                             actionListener="#{messageTemplatesView.createNewTemplate()}"
+                             oncomplete="PF('addTemplateDialog').show();"
+                             update="addTemplateTable"
+            />
+            <p:dialog header="#{MESSAGE.MESSAGE_TEMPLATES_ADD_DIALOG_TITLE}"
+                      id="addTemplateDialog" widgetVar="addTemplateDialog" modal="false">
+                <p:growl id="growl" showDetail="true" severity=""/>
+                <p:growl id="growl1" showDetail="true" severity="" autoUpdate=""/>
+                <p:ajax event="close" />
 
-                <p:column filterBy="#{car.firstName}" headerText="Status" filterMatchMode="equals">
-                    <f:facet name="filter">
-                        <p:selectManyCheckbox onchange="PF('carsTable').filter()">
-                            <!--<f:converter converterId="javax.faces.Boolean" />-->
-                            <f:selectItems value="#{usersTableView.allUserGroupsNames}" />
-                        </p:selectManyCheckbox>
-                    </f:facet>
-                    <h:outputText value="#{car.firstName}" />
-                </p:column>
-            </p:dataTable>
+                <h:panelGrid columns="3" cellpadding="5" id="addTemplateTable">
+
+                    <!-- Template  System flag-->
+                    <h:outputLabel for="templateSystem"
+                                   value="#{MESSAGE.SMS_TEMPLATE_SYSTEM}" />
+                    <p:inputSwitch value="#{messageTemplatesView.test}" id="templateSystem">
+                        <p:ajax update="templateSystemMessage" />
+                            </p:inputSwitch>
+                    <p:message for="templateSystem" id="templateSystemMessage" />
+                </h:panelGrid>
+
+            </p:dialog>
+
         </h:form>
     </ui:define>
 

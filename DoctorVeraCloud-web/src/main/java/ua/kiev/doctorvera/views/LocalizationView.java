@@ -1,5 +1,7 @@
 package ua.kiev.doctorvera.views;
 
+import com.sun.faces.application.ApplicationAssociate;
+import com.sun.faces.application.ApplicationResourceBundle;
 import org.primefaces.context.RequestContext;
 import ua.kiev.doctorvera.entities.*;
 import ua.kiev.doctorvera.facadeLocal.LocaleFacadeLocal;
@@ -18,6 +20,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -93,6 +96,25 @@ public class LocalizationView implements Serializable{
         }
         Message.showMessage(Message.getMessage("APPLICATION_SUCCESSFUL_TITLE"), Message.getMessage("LOCALIZATION_MESSAGE_SAVE_SUCCESS"));
         LOG.info("Changes to constant saved");
+    }
+
+    public void reloadMessageBundle() throws IOException {
+        ResourceBundle.clearCache(Thread.currentThread().getContextClassLoader());
+        ApplicationResourceBundle applicationBundle = ApplicationAssociate.getCurrentInstance().getResourceBundles().get("MESSAGE");
+        try {
+            Field field = applicationBundle.getClass().getDeclaredField("resources");
+            field.setAccessible(true);
+            Map<Locale, ResourceBundle> resources = (Map<Locale, ResourceBundle>) field.get(applicationBundle);
+            resources.clear();
+        } catch (NoSuchFieldException e1) {
+            e1.printStackTrace();
+        } catch (IllegalAccessException e1) {
+            e1.printStackTrace();
+        }
+
+        LOG.info("Message Bundle reload called");
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        externalContext.redirect(((HttpServletRequest) externalContext.getRequest()).getRequestURI());
     }
 
     public List<Locale> getAvailableLocales() {
