@@ -27,6 +27,7 @@ public enum SecurityPolicy implements Serializable{
     MENU_ITEM_EMAIL_TEMPLATES(SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_MESSAGE_SCHEDULER(SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_LOCALIZATION(SecurityPolicyGroup.MENU_GROUP),
+    MENU_ITEM_SETTINGS(SecurityPolicyGroup.MENU_GROUP),
 
     /**
      * Users page
@@ -133,6 +134,15 @@ public enum SecurityPolicy implements Serializable{
     LOCALIZATION_ADD_LOCALE(SecurityPolicyGroup.LOCALIZATION_GROUP),
     LOCALIZATION_ADD_CONSTANT(SecurityPolicyGroup.LOCALIZATION_GROUP),
     LOCALIZATION_EDIT_CONSTANT(SecurityPolicyGroup.LOCALIZATION_GROUP),
+    /**
+     * Settings page
+     */
+    SETTINGS_MDS_TAB(SecurityPolicyGroup.SETTINGS_GROUP),
+    SETTINGS_MDS_SAVE(SecurityPolicyGroup.SETTINGS_GROUP),
+    SETTINGS_APPLICATION_TAB(SecurityPolicyGroup.SETTINGS_GROUP),
+    SETTINGS_APPLICATION_SAVE(SecurityPolicyGroup.SETTINGS_GROUP),
+    SETTINGS_PATHS_TAB(SecurityPolicyGroup.SETTINGS_GROUP),
+    SETTINGS_PATHS_SAVE(SecurityPolicyGroup.SETTINGS_GROUP),
     ;
 
     private SecurityPolicyGroup policyGroup;
@@ -165,7 +175,8 @@ public enum SecurityPolicy implements Serializable{
         SMS_TEMPLATES_GROUP("SECURITY_SMS_TEMPLATES_DESCRIPTION"),
         EMAIL_TEMPLATES_GROUP("SECURITY_EMAIL_TEMPLATES_DESCRIPTION"),
         MESSAGE_SCHEDULER_GROUP("SECURITY_MESSAGE_SCHEDULER_DESCRIPTION"),
-        LOCALIZATION_GROUP("SECURITY_MESSAGE_LOCALIZATION_DESCRIPTION");
+        LOCALIZATION_GROUP("SECURITY_MESSAGE_LOCALIZATION_DESCRIPTION"),
+        SETTINGS_GROUP("SECURITY_MESSAGE_SETTINGS_DESCRIPTION");
         SecurityPolicyGroup(String description){
             this.description = description;
         }

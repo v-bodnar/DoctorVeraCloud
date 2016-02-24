@@ -66,6 +66,8 @@ public class MenuView implements Serializable {
     private final String messageSchedulerPageUrl = Mapping.getInstance().getString("MESSAGE_SCHEDULER_PAGE");
     private final String localizationPageValue = Message.getMessage("MENU_ITEM_LOCALIZATION");
     private final String localizationPageUrl = Mapping.getInstance().getString("LOCALIZATION_PAGE");
+    private final String settingsPageValue = Message.getMessage("MENU_ITEM_SETTINGS");
+    private final String settingsPageUrl = Mapping.getInstance().getString("SETTINGS_PAGE");
     private static final String APPLICATION_ROOT_URL = Mapping.getInstance().getString("APPLICATION_ROOT_PATH");
     private static final Logger LOG = Logger.getLogger(MenuView.class.getName());
     private static final String SECURITY_POLICY_PARAM_NAME = "securityPolicy";
@@ -266,6 +268,15 @@ public class MenuView implements Serializable {
         item.setIcon("ui-icon-script");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_LOCALIZATION));
         if (url != null && url.equals(APPLICATION_ROOT_URL + localizationPageUrl)) {
+            item.setStyleClass("ui-state-active");
+        }
+        settingsSubmenu.addElement(item);
+
+        item = new DefaultMenuItem(settingsPageValue);
+        item.setUrl(settingsPageUrl);
+        item.setIcon("ui-icon-gear");
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SETTINGS));
+        if (url != null && url.equals(APPLICATION_ROOT_URL + settingsPageUrl)) {
             item.setStyleClass("ui-state-active");
         }
         settingsSubmenu.addElement(item);

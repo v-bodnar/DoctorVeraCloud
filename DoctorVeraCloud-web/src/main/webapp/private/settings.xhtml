@@ -1,0 +1,274 @@
+<ui:composition template="index.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        <h:outputText value="#{MESSAGE.SETTINGS_PAGE_TITLE}"/>
+    </ui:define>
+    <ui:define name="content">
+            <p:tabView id="settingsTabContainer">
+                <p:tab title="#{MESSAGE.SETTINGS_MDS_TAB_TITLE}" rendered="#{securityUtils.checkPermissions('SETTINGS_MDS_TAB')}">
+                    <h:form id="settingsMDSTabForm">
+                    <p:growl id="growl" showDetail="true" severity="info" showSummary="true"/>
+
+                    <h:panelGrid id="settingsMDSTabGrid" columns="3" cellpadding="5">
+
+                        <!--EMAIL-->
+                        <h:outputLabel for="email" value="#{MESSAGE.MDS_EMAIL_SERVER}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:inputText id="email" value="#{settingsView.allConstants.get('EMAIL_FROM').value}"
+                                             required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('EMAIL_FROM')}" update="growl emailMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="email" id="emailMessage" />
+
+                        <!--SMTP SERVER-->
+                        <h:outputLabel for="smtpServer" value="#{MESSAGE.MDS_SMTP_SERVER}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                        <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                            <p:inputText id="smtpServer" value="#{settingsView.allConstants.get('SMTP_SERVER').value}"
+                                         required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
+                            <p:ajax event="save" listener="#{settingsView.saveSettings('SMTP_SERVER')}" update="growl smtpServerMessage" process="@this"/>
+                        </p:inplace></h:panelGroup>
+                        <p:message for="smtpServer" id="smtpServerMessage" />
+
+                        <!--SMTP PORT-->
+                        <h:outputLabel for="smtpPort" value="#{MESSAGE.MDS_SMTP_PORT}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:inputText id="smtpPort" value="#{settingsView.allConstants.get('SMTP_PORT').value}"
+                                             required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMTP_PORT')}" update="growl smtpPortMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smtpPort" id="smtpPortMessage" />
+
+                        <!--AUTHENTICATION FLAG-->
+                        <h:outputLabel for="smtpAuth" value="#{MESSAGE.MDS_SMTP_AUTH}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:selectBooleanCheckbox  id="smtpAuth" value="#{settingsView.allConstants.get('SMTP_AUTH').value}"
+                                             required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMTP_AUTH')}" update="growl smtpAuthMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smtpAuth" id="smtpAuthMessage" />
+
+                        <!--LOGIN-->
+                        <h:outputLabel for="smtpLogin" value="#{MESSAGE.MDS_SMTP_LOGIN}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:inputText  id="smtpLogin" value="#{settingsView.allConstants.get('SMTP_LOGIN').value}"
+                                                          required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMTP_LOGIN')}" update="growl smtpLoginMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smtpLogin" id="smtpLoginMessage" />
+
+                        <!--PASSWORD-->
+                        <h:outputLabel for="smtpPassword" value="#{MESSAGE.MDS_SMTP_PASSWORD}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <f:facet name="output">******</f:facet>
+                                <p:password  id="smtpPassword" value="#{settingsView.allConstants.get('SMTP_PASSWORD').value}"
+                                                          required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMTP_PASSWORD')}" update="growl smtpPasswordMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smtpPassword" id="smtpPasswordMessage" />
+
+                        <!--SSL FLAG-->
+                        <h:outputLabel for="smtpSSL" value="#{MESSAGE.MDS_SMTP_SSL}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:selectBooleanCheckbox  id="smtpSSL" value="#{settingsView.allConstants.get('SMTP_SSL').value}"
+                                                          required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMTP_SSL')}" update="growl smtpSSLMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smtpSSL" id="smtpSSLMessage" />
+
+                        <!--STARTTLS FLAG-->
+                        <h:outputLabel for="smtpStartTls" value="#{MESSAGE.MDS_SMTP_STARTTLS}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:selectBooleanCheckbox  id="smtpStartTls" value="#{settingsView.allConstants.get('SMTP_STARTTLS').value}"
+                                                          required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMTP_STARTTLS')}" update="growl smtpStartTlsMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smtpStartTls" id="smtpStartTlsMessage" />
+
+                        <!--SMS Template-->
+                        <h:outputLabel for="smsTemplate" value="#{MESSAGE.MDS_SMS_TEMPLATE}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <f:facet name="output">#{settingsView.findTemplate(settingsView.allConstants.get('SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE').value)}</f:facet>
+                                <p:selectOneMenu id="smsTemplate" value="#{settingsView.allConstants.get('SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE').value}"
+                                                          required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                    <f:selectItems value="#{settingsView.smsTemplates}" itemValue="#{template.messageTemplateId}" itemLabel="#{template.name}" var="template"/>
+                                </p:selectOneMenu>
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE')}" update="growl smsTemplateMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smsTemplate" id="smsTemplateMessage" />
+
+                        <!--Emai Template-->
+                        <h:outputLabel for="emailTemplate" value="#{MESSAGE.MDS_EMAIL_TEMPLATE}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <f:facet name="output">#{settingsView.findTemplate(settingsView.allConstants.get('EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE').value)}</f:facet>
+                                <p:selectOneMenu id="emailTemplate" value="#{settingsView.allConstants.get('EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE').value}"
+                                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                    <f:selectItems value="#{settingsView.emailTemplates}" itemValue="#{mailTemplate.messageTemplateId}" itemLabel="#{mailTemplate.name}" var="mailTemplate"/>
+                                </p:selectOneMenu>
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE')}" update="growl emailTemplateMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="emailTemplate" id="emailTemplateMessage" />
+
+                        <!--MAXIMUM CYRILLIC SYMBOLS IN ONE SMS-->
+                        <h:outputLabel for="maxSymCyr" value="#{MESSAGE.MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:inputText  id="maxSymCyr" value="#{settingsView.allConstants.get('MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS').value}"
+                                              required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('MDS_MAXIMUM_CYRILLIC_SYMBOLS_IN_SMS')}" update="growl maxSymCyrMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="maxSymCyr" id="maxSymCyrMessage" />
+
+                        <!--MAXIMUM LATIN SYMBOLS IN ONE SMS-->
+                        <h:outputLabel for="maxSym" value="#{MESSAGE.MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:inputText  id="maxSym" value="#{settingsView.allConstants.get('MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS').value}"
+                                              required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('MDS_MAXIMUM_LATIN_SYMBOLS_IN_SMS')}" update="growl maxSymMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="maxSym" id="maxSymMessage" />
+                    </h:panelGrid>
+                    </h:form>
+                </p:tab>
+
+                <p:tab title="#{MESSAGE.SETTINGS_APPLICATION_TAB_TITLE}" rendered="#{securityUtils.checkPermissions('SETTINGS_APPLICATION_TAB')}">
+                    <h:form id="settingsSystemConstantsForm">
+                        <p:growl id="growl" showDetail="true" severity="info" showSummary="true"/>
+
+                        <h:panelGrid id="settingsSystemConstantsGrid" columns="3" cellpadding="5">
+
+                            <!--DOCTORS USER GROUP-->
+                            <h:outputLabel for="doctorsUserGroup" value="#{MESSAGE.SETTINGS_DOCTORS_GROUP}" />
+                            <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                                <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                    <f:facet name="output">#{settingsView.findUserGroup(settingsView.allConstants.get('DOCTORS_USER_GROUP_ID').value)}</f:facet>
+                                    <p:selectOneMenu id="doctorsUserGroup" value="#{settingsView.allConstants.get('DOCTORS_USER_GROUP_ID').value}"
+                                                     required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                        <f:selectItems value="#{settingsView.userGroups}" itemValue="#{userGroups.id}" itemLabel="#{userGroups.name}" var="userGroups"/>
+                                    </p:selectOneMenu>
+                                    <p:ajax event="save" listener="#{settingsView.saveSettings('DOCTORS_USER_GROUP_ID')}" update="growl doctorsUserGroupMessage" process="@this"/>
+                                </p:inplace></h:panelGroup>
+                            <p:message for="doctorsUserGroup" id="doctorsUserGroupMessage" />
+
+                            <!--ASSISTANTS USER GROUP-->
+                            <h:outputLabel for="assistantsUserGroup" value="#{MESSAGE.SETTINGS_ASSISTANTS_GROUP}" />
+                            <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                                <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                    <f:facet name="output">#{settingsView.findUserGroup(settingsView.allConstants.get('ASSISTANTS_USER_GROUP_ID').value)}</f:facet>
+                                    <p:selectOneMenu id="assistantsUserGroup" value="#{settingsView.allConstants.get('ASSISTANTS_USER_GROUP_ID').value}"
+                                                     required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                        <f:selectItems value="#{settingsView.userGroups}" itemValue="#{userGroups.id}" itemLabel="#{userGroups.name}" var="userGroups"/>
+                                    </p:selectOneMenu>
+                                    <p:ajax event="save" listener="#{settingsView.saveSettings('ASSISTANTS_USER_GROUP_ID')}" update="growl assistantsUserGroupMessage" process="@this"/>
+                                </p:inplace></h:panelGroup>
+                            <p:message for="assistantsUserGroup" id="assistantsUserGroupMessage" />
+
+                            <!--PATIENTS USER GROUP-->
+                            <h:outputLabel for="patientsUserGroup" value="#{MESSAGE.SETTINGS_PATIENTS_GROUP}" />
+                            <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                                <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                    <f:facet name="output">#{settingsView.findUserGroup(settingsView.allConstants.get('PATIENTS_USER_GROUP_ID').value)}</f:facet>
+                                    <p:selectOneMenu id="patientsUserGroup" value="#{settingsView.allConstants.get('PATIENTS_USER_GROUP_ID').value}"
+                                                     required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                        <f:selectItems value="#{settingsView.userGroups}" itemValue="#{userGroups.id}" itemLabel="#{userGroups.name}" var="userGroups"/>
+                                    </p:selectOneMenu>
+                                    <p:ajax event="save" listener="#{settingsView.saveSettings('PATIENTS_USER_GROUP_ID')}" update="growl patientsUserGroupMessage" process="@this"/>
+                                </p:inplace></h:panelGroup>
+                            <p:message for="patientsUserGroup" id="patientsUserGroupMessage" />
+
+                            <!--SUPER ADMIN USER GROUP-->
+                            <h:outputLabel for="superAdminUserGroup" value="#{MESSAGE.SETTINGS_SUPER_ADMIN_GROUP}" />
+                            <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                                <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                    <f:facet name="output">#{settingsView.findUserGroup(settingsView.allConstants.get('SUPER_ADMIN_USER_GROUP_ID').value)}</f:facet>
+                                    <p:selectOneMenu id="superAdminUserGroup" value="#{settingsView.allConstants.get('SUPER_ADMIN_USER_GROUP_ID').value}"
+                                                     required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                        <f:selectItems value="#{settingsView.userGroups}" itemValue="#{userGroups.id}" itemLabel="#{userGroups.name}" var="userGroups"/>
+                                    </p:selectOneMenu>
+                                    <p:ajax event="save" listener="#{settingsView.saveSettings('SUPER_ADMIN_USER_GROUP_ID')}" update="growl superAdminUserGroupMessage" process="@this"/>
+                                </p:inplace></h:panelGroup>
+                            <p:message for="superAdminUserGroup" id="superAdminUserGroupMessage" />
+
+                            <!--BREAK METHOD-->
+                            <h:outputLabel for="breakMethod" value="#{MESSAGE.SETTINGS_METHOD_BREAK}" />
+                            <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                                <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                    <f:facet name="output">#{settingsView.findMethod(settingsView.allConstants.get('METHOD_BREAK_ID').value)}</f:facet>
+                                    <p:selectOneMenu id="breakMethod" value="#{settingsView.allConstants.get('METHOD_BREAK_ID').value}"
+                                                     required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                        <f:selectItems value="#{settingsView.methods}" itemValue="#{method.id}" itemLabel="#{method.shortName}" var="method"/>
+                                    </p:selectOneMenu>
+                                    <p:ajax event="save" listener="#{settingsView.saveSettings('METHOD_BREAK_ID')}" update="growl breakMethodMessage" process="@this"/>
+                                </p:inplace></h:panelGroup>
+                            <p:message for="breakMethod" id="breakMethodMessage" />
+
+                            <!--SUPER ADMIN USER-->
+                            <h:outputLabel for="superAdminUser" value="#{MESSAGE.SETTINGS_SUPER_ADMIN_USER}" />
+                            <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                                <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                    <f:facet name="output">#{settingsView.findUser(settingsView.allConstants.get('SUPER_ADMIN_ID').value)}</f:facet>
+                                    <p:selectOneMenu id="superAdminUser" value="#{settingsView.allConstants.get('SUPER_ADMIN_ID').value}"
+                                                     required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                        <f:selectItems value="#{settingsView.users}" itemValue="#{user.id}" itemLabel="#{user.firstName} #{user.lastName}" var="user"/>
+                                    </p:selectOneMenu>
+                                    <p:ajax event="save" listener="#{settingsView.saveSettings('SUPER_ADMIN_ID')}" update="growl superAdminUserMessage" process="@this"/>
+                                </p:inplace></h:panelGroup>
+                            <p:message for="superAdminUser" id="superAdminUserMessage" />
+
+                            <!--BREAK USER-->
+                            <h:outputLabel for="breakUser" value="#{MESSAGE.SETTINGS_BREAK_USER}" />
+                            <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                                <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                    <f:facet name="output">#{settingsView.findUser(settingsView.allConstants.get('USERS_BREAK_ID').value)}</f:facet>
+                                    <p:selectOneMenu id="breakUser" value="#{settingsView.allConstants.get('USERS_BREAK_ID').value}"
+                                                     required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                        <f:selectItems value="#{settingsView.users}" itemValue="#{user.id}" itemLabel="#{user.firstName} #{user.lastName}" var="user"/>
+                                    </p:selectOneMenu>
+                                    <p:ajax event="save" listener="#{settingsView.saveSettings('USERS_BREAK_ID')}" update="growl breakUserMessage" process="@this"/>
+                                </p:inplace></h:panelGroup>
+                            <p:message for="breakUser" id="breakUserMessage" />
+
+                        </h:panelGrid>
+                    </h:form>
+                </p:tab>
+
+                <p:tab title="#{MESSAGE.SETTINGS_PATHS_TAB_TITLE}" rendered="#{securityUtils.checkPermissions('SETTINGS_PATHS_TAB')}">
+                    <h:form id="settingsPathsForm">
+
+
+                        <h:dataTable id="settingsPathsGrid" value="#{settingsView.allPaths}" var="path">
+                            <p:growl id="growl" showDetail="true" severity="info" showSummary="true"/>
+                            <p:column>
+                                <h:outputLabel  value="#{path.messageKey}" />
+                            </p:column>
+                            <p:column>
+                                <span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                                <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_PATHS_SAVE')}">
+                                    <p:inputText  value="#{path.value}" required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
+                                    <p:ajax event="save" listener="#{settingsView.savePaths(path)}" update="growl" process="@this"/>
+                                </p:inplace>
+                            </p:column>
+
+
+
+                        </h:dataTable>
+                    </h:form>
+                </p:tab>
+
+            </p:tabView>
+    </ui:define>
+</ui:composition>

@@ -1,12 +1,8 @@
 package ua.kiev.doctorvera.facadeLocal;
 
-import org.primefaces.model.SortOrder;
 import ua.kiev.doctorvera.entities.MessageTemplate;
-import ua.kiev.doctorvera.entities.Users;
 
-import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Interface for declaring main operations with MessageTemplate entity
@@ -15,4 +11,7 @@ import java.util.Map;
  */
 public interface MessageTemplateFacadeLocal  extends CRUDFacade<MessageTemplate>{
 
+    List<MessageTemplate> findByType(MessageTemplate.Type type);
+    List<MessageTemplate> findByType(MessageTemplate.Type type, Boolean system);
+    List<MessageTemplate> findByName(String Name);
 }

@@ -159,4 +159,27 @@ public class MessageBundleFacade extends AbstractFacade<MessageBundle> implement
 
         return messages;
     }
+
+    /**
+     * This method retrieves list of MessageBundle entities by given type
+     * that contains keys and corresponding string values
+     * @param type to search for
+     * @return
+     */
+    @Override
+    public List<MessageBundle> findAllMessagesByType(MessageBundle.Type type){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<MessageBundle> cq = cb.createQuery(MessageBundle.class);
+
+        Root root = cq.from(MessageBundle.class);
+        cq.distinct(true);
+        cq.orderBy(cb.asc(root.get("messageKey")));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        Predicate typePredicate = cb.and(cb.equal(root.get("type"), type));
+        cq.select(root).where(deletedPredicate, typePredicate);
+
+        List<MessageBundle> messages = getEntityManager().createQuery(cq).getResultList();
+
+        return messages;
+    }
 }

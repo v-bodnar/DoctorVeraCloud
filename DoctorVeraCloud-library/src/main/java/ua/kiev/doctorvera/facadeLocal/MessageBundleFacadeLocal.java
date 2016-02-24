@@ -49,4 +49,12 @@ public interface MessageBundleFacadeLocal extends CRUDFacade<MessageBundle> {
      * @return
      */
     List<MessageBundle> findAllMessagesByLocale(Locale locale);
+
+    /**
+     * This method retrieves list of MessageBundle entities by given type
+     * that contains keys and corresponding string values
+     * @param type to search for
+     * @return
+     */
+    List<MessageBundle> findAllMessagesByType(MessageBundle.Type type);
 }
