@@ -13,6 +13,9 @@
 				<h:outputText id="overlayPanelPlace" style="position: relative; top:160px;left:100px;"/>
 			</h:form>
 			<h3 class="pageTitle"><ui:insert name="title" /></h3>
+			<p:notificationBar position="top" effect="slide" styleClass="top" widgetVar="notificationBar">
+				<h:outputText value="#{testView.message}" style="font-size:36px;" />
+			</p:notificationBar>
 		</p:layoutUnit>
 
 		<p:layoutUnit id="headerEast" position="east" resizable="true"

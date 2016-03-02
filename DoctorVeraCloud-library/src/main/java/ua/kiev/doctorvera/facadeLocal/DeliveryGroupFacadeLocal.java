@@ -4,6 +4,7 @@ import ua.kiev.doctorvera.entities.DeliveryGroup;
 import ua.kiev.doctorvera.entities.UserGroups;
 import ua.kiev.doctorvera.entities.Users;
 
+import javax.ejb.Local;
 import javax.persistence.EntityManager;
 import javax.transaction.*;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @author Volodymyr Bodnar
  * @date 22.11.2015.
  */
+@Local
 public interface DeliveryGroupFacadeLocal extends CRUDFacade<DeliveryGroup>{
 
     /**

@@ -9,6 +9,7 @@ import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Message;
 import ua.kiev.doctorvera.services.ScheduleServiceLocal;
 import ua.kiev.doctorvera.utils.RandomPasswordGenerator;
+import ua.kiev.doctorvera.utils.TemplateProcessUtil;
 import ua.kiev.doctorvera.utils.Utils;
 import ua.kiev.doctorvera.validators.PlanValidator;
 import ua.kiev.doctorvera.validators.ScheduleValidator;
@@ -19,6 +20,7 @@ import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -62,6 +64,9 @@ public class ScheduleView implements Serializable {
 
     @EJB
     private ScheduleServiceLocal scheduleService;
+
+    @EJB
+    private FileRepositoryFacadeLocal fileRepositoryFacade;
 
     @Inject
     private SessionParams sessionParams;
@@ -777,8 +782,11 @@ public class ScheduleView implements Serializable {
         patient.setUserCreated(authorizedUser);
         patient.setUsername(Utils.generateUsername(patient.getLastName(), patient.getFirstName()));
         patient.setPassword(RandomPasswordGenerator.generatePswd(8, 10, 2, 2, 1).toString());
-        patient.getUserGroups().add(userGroupsFacade.find(PATIENTS_TYPE_ID));
+
         usersFacade.create(patient);
+        UserGroups patients = userGroupsFacade.initializeLazyEntity(userGroupsFacade.find(PATIENTS_TYPE_ID));
+        patients.getUsers().add(patient);
+        userGroupsFacade.edit(patients);
     }
 
     public void createNewSchedule(Methods method, Date startTime) {
@@ -851,19 +859,19 @@ public class ScheduleView implements Serializable {
         this.schedule = schedule;
     }
 
-    public void printForm(){
-        // TODO implement
-        Message.showError(Message.getMessage("LOGIN_ERROR_TITLE"), Message.getMessage("APPLICATION_NOT_IMPLEMENTED"));
+    public StreamedContent printForm() throws IOException {
+        FileRepository usersForm = fileRepositoryFacade.find(Integer.parseInt(Config.getMessage("PERSONAL_DATA_FORM_TEMPLATE")));
+        return TemplateProcessUtil.processTemplate(usersForm, patient, authorizedUser, schedule);
     }
 
-    public void printSecureAgreement(){
-        // TODO implement
-        Message.showError(Message.getMessage("LOGIN_ERROR_TITLE"), Message.getMessage("APPLICATION_NOT_IMPLEMENTED"));
+    public StreamedContent printSecureAgreement() throws IOException {
+        FileRepository usersForm = fileRepositoryFacade.find(Integer.parseInt(Config.getMessage("PERSONAL_DATA_SECURITY_TEMPLATE")));
+        return TemplateProcessUtil.processTemplate(usersForm, patient, authorizedUser, schedule);
     }
 
-    public void printPrintIncomeForm(){
-        // TODO implement
-        Message.showError(Message.getMessage("LOGIN_ERROR_TITLE"), Message.getMessage("APPLICATION_NOT_IMPLEMENTED"));
+    public StreamedContent printPrintIncomeForm() throws IOException {
+        FileRepository usersForm = fileRepositoryFacade.find(Integer.parseInt(Config.getMessage("INCOME_FORM_TEMPLATE")));
+        return TemplateProcessUtil.processTemplate(usersForm, patient, authorizedUser, schedule);
     }
 
     public List<String> completeFirstNames(String letters) {

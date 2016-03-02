@@ -3,6 +3,7 @@ package ua.kiev.doctorvera.facadeLocal;
 import org.primefaces.model.SortOrder;
 import ua.kiev.doctorvera.entities.MessageScheduler;
 
+import javax.ejb.Local;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
  * @author Volodymyr Bodnar
  * @date 22.11.2015.
  */
+@Local
 public interface MessageSchedulerFacadeLocal extends CRUDFacade<MessageScheduler> {
 
 }

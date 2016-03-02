@@ -2,13 +2,9 @@ package ua.kiev.doctorvera.views;
 
 import com.sun.faces.application.ApplicationAssociate;
 import com.sun.faces.application.ApplicationResourceBundle;
-import org.primefaces.context.RequestContext;
-import ua.kiev.doctorvera.entities.MessageBundle;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.LocaleFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
-import ua.kiev.doctorvera.resources.DBControl;
-import ua.kiev.doctorvera.resources.Message;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;

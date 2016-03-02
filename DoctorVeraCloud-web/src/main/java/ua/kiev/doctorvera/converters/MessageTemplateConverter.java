@@ -9,7 +9,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.resource.cci.Streamable;
 
 /**
  * Created by volodymyr.bodnar on 25.11.2015.

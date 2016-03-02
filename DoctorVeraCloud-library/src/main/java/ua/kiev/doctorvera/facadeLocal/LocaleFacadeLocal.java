@@ -2,6 +2,7 @@ package ua.kiev.doctorvera.facadeLocal;
 
 import ua.kiev.doctorvera.entities.Locale;
 
+import javax.ejb.Local;
 import java.util.List;
 
 /**
@@ -10,6 +11,7 @@ import java.util.List;
  * @author Volodymyr Bodnar
  * @date 23.01.2015.
  */
+@Local
 public interface LocaleFacadeLocal extends CRUDFacade<Locale> {
     /**
      * Converts java.util.Locale to entity for persistent storage

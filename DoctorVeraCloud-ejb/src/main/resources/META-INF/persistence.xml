@@ -6,7 +6,6 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:app/jdbc/OpenshiftDoctorVera</jta-data-source>
 		<class>ua.kiev.doctorvera.entities.Address</class>
-		<class>ua.kiev.doctorvera.entities.DoctorsHasMethod</class>
 		<class>ua.kiev.doctorvera.entities.Methods</class>
 		<class>ua.kiev.doctorvera.entities.MethodTypes</class>
 		<class>ua.kiev.doctorvera.entities.Payments</class>
@@ -25,6 +24,7 @@
 		<class>ua.kiev.doctorvera.entities.TransactionLog</class>
 		<class>ua.kiev.doctorvera.entities.Locale</class>
 		<class>ua.kiev.doctorvera.entities.MessageBundle</class>
+		<class>ua.kiev.doctorvera.entities.FileRepository</class>
 		<properties>
 			<property name="hibernate.transaction.jta.platform"
 				value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />

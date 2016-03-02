@@ -239,12 +239,19 @@
 
                             <p:fieldset legend="#{MESSAGE.SCHEDULE_TAB_DOCUMENTS}" toggleable="true" toggleSpeed="500" collapsed="true">
                                 <h:panelGrid columns="1" cellpadding="5">
-                                    <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_FORM}" title="#{MESSAGE.SCHEDULE_PRINT_FORM}"
-                                                     actionListener="#{scheduleView.printForm}" icon="ui-icon-print" update="growl" style="width:300px"/>
-                                    <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}" title="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}"
-                                                     actionListener="#{scheduleView.printSecureAgreement}" icon="ui-icon-print" update="growl" style="width:300px"/>
-                                    <p:commandButton type="button" value="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}" title="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}"
-                                                     actionListener="#{scheduleView.printPrintIncomeForm}" icon="ui-icon-print" update="growl" style="width:300px"/>
+                                    <p:commandButton value="#{MESSAGE.SCHEDULE_PRINT_FORM}"
+                                                     ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                                                     icon="ui-icon-print" update="growl" style="width:300px" process="@none">
+                                        <p:fileDownload value="#{scheduleView.printForm()}" />
+                                    </p:commandButton>
+                                    <p:commandButton  value="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                                                      icon="ui-icon-print" update="growl" style="width:300px" process="@none">
+                                        <p:fileDownload value="#{scheduleView.printSecureAgreement()}" />
+                                    </p:commandButton>
+                                    <p:commandButton value="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                                                     icon="ui-icon-print" update="growl" style="width:300px" process="@none">
+                                        <p:fileDownload value="#{scheduleView.printPrintIncomeForm()}" />
+                                    </p:commandButton>
 
                                 </h:panelGrid>
                             </p:fieldset>

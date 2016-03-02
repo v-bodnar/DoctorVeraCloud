@@ -134,7 +134,7 @@ public class Users implements Serializable,Identified<Integer> {
     @Basic(optional = false)
     @NotNull
     @Column(name = "MessagingAccepted", columnDefinition="tinyint(1) default 0")
-    private Boolean messagingAccepted;
+    private boolean messagingAccepted;
 
     public Users() {
     }
@@ -369,6 +369,7 @@ public class Users implements Serializable,Identified<Integer> {
         Users users = (Users) o;
 
         if (deleted != users.deleted) return false;
+        if (messagingAccepted != users.messagingAccepted) return false;
         if (userId != null ? !userId.equals(users.userId) : users.userId != null) return false;
         if (!foreigner.equals(users.foreigner)) return false;
         if (!username.equals(users.username)) return false;
@@ -384,7 +385,7 @@ public class Users implements Serializable,Identified<Integer> {
         if (description != null ? !description.equals(users.description) : users.description != null) return false;
         if (dateCreated != null ? !dateCreated.equals(users.dateCreated) : users.dateCreated != null) return false;
         if (!Arrays.equals(avatarImage, users.avatarImage)) return false;
-        return color != null ? color.equals(users.color) : users.color == null && messagingAccepted.equals(users.messagingAccepted);
+        return color != null ? color.equals(users.color) : users.color == null;
 
     }
 
@@ -406,7 +407,7 @@ public class Users implements Serializable,Identified<Integer> {
         result = 31 * result + (deleted ? 1 : 0);
         result = 31 * result + Arrays.hashCode(avatarImage);
         result = 31 * result + (color != null ? color.hashCode() : 0);
-        result = 31 * result + messagingAccepted.hashCode();
+        result = 31 * result + (messagingAccepted? 1 : 0);
         return result;
     }
 
