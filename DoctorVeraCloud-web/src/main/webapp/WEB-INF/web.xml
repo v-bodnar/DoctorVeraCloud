@@ -29,6 +29,14 @@
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
+	<filter>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -57,7 +65,7 @@
 	    <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
 	    <param-value>true</param-value>
 	</context-param>
-	
+
 	<context-param>
 	   <param-name>primefaces.FONT_AWESOME</param-name>
 	   <param-value>true</param-value>

@@ -143,6 +143,8 @@ public enum SecurityPolicy implements Serializable{
     SETTINGS_APPLICATION_SAVE(SecurityPolicyGroup.SETTINGS_GROUP),
     SETTINGS_PATHS_TAB(SecurityPolicyGroup.SETTINGS_GROUP),
     SETTINGS_PATHS_SAVE(SecurityPolicyGroup.SETTINGS_GROUP),
+    SETTINGS_TEMPLATES_TAB(SecurityPolicyGroup.SETTINGS_GROUP),
+    SETTINGS_TEMPLATES_SAVE(SecurityPolicyGroup.SETTINGS_GROUP),
     ;
 
     private SecurityPolicyGroup policyGroup;

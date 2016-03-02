@@ -1,5 +1,9 @@
 package ua.kiev.doctorvera.views;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import ua.kiev.doctorvera.entities.*;
 import ua.kiev.doctorvera.facadeLocal.*;
 import ua.kiev.doctorvera.resources.Message;
@@ -9,10 +13,15 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Logger;
-
 /**
  * Created by volodymyr.bodnar on 2/15/2016.
  */
@@ -39,6 +48,9 @@ public class SettingsView implements Serializable {
     @EJB
     MethodsFacadeLocal methodsFacade;
 
+    @EJB
+    FileRepositoryFacadeLocal fileRepositoryFacade;
+
     @Inject
     private SessionParams sessionParams;
 
@@ -59,9 +71,6 @@ public class SettingsView implements Serializable {
         for(MessageBundle constant : messageBundleFacade.findAllMessagesByType(MessageBundle.Type.CONFIG)){
             allConstants.put(constant.getMessageKey(), constant);
         }
-//        for(MessageBundle path : messageBundleFacade.findAllMessagesByType(MessageBundle.Type.MAPPING)){
-//            allPaths.put(path.getMessageKey(), path);
-//        }
         allPaths = messageBundleFacade.findAllMessagesByType(MessageBundle.Type.MAPPING);
         smsTemplates = messageTemplateFacade.findByType(MessageTemplate.Type.SMS, true);
         emailTemplates = messageTemplateFacade.findByType(MessageTemplate.Type.EMAIL, true);
@@ -86,6 +95,40 @@ public class SettingsView implements Serializable {
         messageBundleFacade.edit(path);
         Message.showMessage(Message.getMessage("APPLICATION_SUCCESSFUL_TITLE"), Message.getMessage("APPLICATION_SAVED"));
         LOG.info("Changes to settings paths saved");
+    }
+
+    public void handleFileUpload(FileUploadEvent event) throws IOException {
+        UploadedFile uploadedFile = event.getFile();
+        String  constantName = (String)event.getComponent().getAttributes().get("constantName");
+        LOG.info("Time " + new Date() + " Starting to upload file:");
+        Integer fileId;
+        if (uploadedFile != null) {
+            fileId = fileRepositoryFacade.saveFile(uploadedFile.getContents(), uploadedFile.getFileName(), authorizedUser);
+            LOG.info("File successfully uploaded id: " + fileId);
+            MessageBundle constant = allConstants.get(constantName);
+            constant.setValue("" + fileId);
+            messageBundleFacade.edit(constant);
+            Message.showMessage(Message.getMessage("APPLICATION_SUCCESSFUL_TITLE"), Message.getMessage("APPLICATION_SAVED"));
+            LOG.info("Changes to settings constant " + constantName + " saved");
+        }
+    }
+
+    public StreamedContent downloadTemplate(String templateName){
+        MessageBundle constant = allConstants.get(templateName);
+        FileRepository file = fileRepositoryFacade.find(Integer.parseInt(constant.getValue()));
+        InputStream inputStream = new ByteArrayInputStream(file.getFile());
+        return new DefaultStreamedContent(inputStream, file.getMimeType(), file.getFileNameWithExtention());
+    }
+
+    public String getFilename(String templateName) throws IOException {
+        MessageBundle constant = allConstants.get(templateName);
+        FileRepository file = fileRepositoryFacade.find(Integer.parseInt(constant.getValue()));
+        if(file == null){
+            return null;
+        }else{
+            return file.getFileNameWithExtention();
+        }
+
     }
 
     public Map<String, MessageBundle> getAllConstants() {

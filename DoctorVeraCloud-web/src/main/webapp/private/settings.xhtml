@@ -311,6 +311,83 @@
                         </h:dataTable>
                     </h:form>
                 </p:tab>
+                <p:tab title="#{MESSAGE.SETTINGS_TEMPLATES_TAB_TITLE}" rendered="#{securityUtils.checkPermissions('SETTINGS_TEMPLATES_TAB')}">
+
+                <h:form id="settingsTemplatesForm">
+                        <p:growl id="growl" autoUpdate="true"/>
+                        <h:panelGrid id="settingsTemplatesGrid" columns="2" cellpadding="5" styleClass="settingsTemplatesGrid">
+                            <!-- Personal Data Security Agreement Template-->
+                            <h:outputLabel for="personalDataSecurity" value="#{MESSAGE.SETTINGS_PERSONAL_DATA_SECURITY_TEMPLATE}"/>
+                            <p:toolbar><f:facet name="left">
+                                <h:outputLabel for="personalDataSecurity" value="#{settingsView.getFilename('PERSONAL_DATA_SECURITY_TEMPLATE')}" styleClass="settingsFileNameLabel"/>
+                                <p:fileUpload id="personalDataSecurity" label="#{MESSAGE.APPLICATION_UPLOAD}" mode="advanced"
+                                              fileUploadListener="#{settingsView.handleFileUpload}"
+                                              sizeLimit="10000000" allowTypes="/(\.|\/)(doc|docx)$/"
+                                              auto="true" process="@none"  update="settingsTemplatesGrid">
+                                    <f:attribute name="constantName" value="PERSONAL_DATA_SECURITY_TEMPLATE"/>
+                                </p:fileUpload>
+
+                                <p:commandButton value="#{MESSAGE.APPLICATION_DOWNLOAD}"
+                                                 ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" style="margin-top: 3px">
+                                    <p:fileDownload value="#{settingsView.downloadTemplate('PERSONAL_DATA_SECURITY_TEMPLATE')}" />
+                                </p:commandButton>
+                            </f:facet></p:toolbar>
+
+                            <!-- Personal Data Form Template-->
+                            <h:outputLabel for="personalDataForm" value="#{MESSAGE.SETTINGS_PERSONAL_DATA_FORM_TEMPLATE}"/>
+                            <p:toolbar><f:facet name="left">
+                                <h:outputLabel for="personalDataForm" value="#{settingsView.getFilename('PERSONAL_DATA_FORM_TEMPLATE')}" styleClass="settingsFileNameLabel"/>
+                                <p:fileUpload id="personalDataForm" label="#{MESSAGE.APPLICATION_UPLOAD}" mode="advanced"
+                                              fileUploadListener="#{settingsView.handleFileUpload}"
+                                              sizeLimit="10000000" allowTypes="/(\.|\/)(doc|docx)$/"
+                                              auto="true" process="@this" update="settingsTemplatesGrid">
+                                    <f:attribute name="constantName" value="PERSONAL_DATA_FORM_TEMPLATE"/>
+                                </p:fileUpload>
+
+                                <p:commandButton value="#{MESSAGE.APPLICATION_DOWNLOAD}"
+                                                 ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" style="margin-top: 3px">
+                                    <p:fileDownload value="#{settingsView.downloadTemplate('PERSONAL_DATA_FORM_TEMPLATE')}" />
+                                </p:commandButton>
+                            </f:facet></p:toolbar>
+
+                            <!-- Income Template-->
+                            <h:outputLabel for="income" value="#{MESSAGE.SETTINGS_INCOME_FORM_TEMPLATE}"/>
+                            <p:toolbar><f:facet name="left">
+                                <h:outputLabel for="income" value="#{settingsView.getFilename('INCOME_FORM_TEMPLATE')}" styleClass="settingsFileNameLabel"/>
+                                <p:fileUpload id="income" label="#{MESSAGE.APPLICATION_UPLOAD}" mode="advanced"
+                                              fileUploadListener="#{settingsView.handleFileUpload}"
+                                              sizeLimit="10000000" allowTypes="/(\.|\/)(doc|docx)$/"
+                                              auto="true" process="@none" update="settingsTemplatesGrid">
+                                    <f:attribute name="constantName" value="INCOME_FORM_TEMPLATE"/>
+                                </p:fileUpload>
+
+                                <p:commandButton value="#{MESSAGE.APPLICATION_DOWNLOAD}"
+                                                 ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" style="margin-top: 3px">
+                                    <p:fileDownload value="#{settingsView.downloadTemplate('PERSONAL_DATA_FORM_TEMPLATE')}" />
+                                </p:commandButton>
+                            </f:facet></p:toolbar>
+
+                            <!-- Outcome Template-->
+                            <h:outputLabel for="outcome" value="#{MESSAGE.SETTINGS_OUTCOME_FORM_TEMPLATE}"/>
+                            <p:toolbar><f:facet name="left">
+                                <h:outputLabel for="outcome" value="#{settingsView.getFilename('OUTCOME_FORM_TEMPLATE')}" styleClass="settingsFileNameLabel"/>
+                                <p:fileUpload id="outcome" label="#{MESSAGE.APPLICATION_UPLOAD}" mode="advanced"
+                                              fileUploadListener="#{settingsView.handleFileUpload}"
+                                              sizeLimit="10000000" allowTypes="/(\.|\/)(doc|docx)$/"
+                                              auto="true" process="@none" update="settingsTemplatesGrid">
+                                    <f:attribute name="constantName" value="OUTCOME_FORM_TEMPLATE"/>
+                                </p:fileUpload>
+
+                                <p:commandButton value="#{MESSAGE.APPLICATION_DOWNLOAD}"
+                                                 ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" style="margin-top: 3px">
+                                    <p:fileDownload value="#{settingsView.downloadTemplate('OUTCOME_FORM_TEMPLATE')}" />
+                                </p:commandButton>
+                            </f:facet></p:toolbar>
+
+
+                        </h:panelGrid>
+                </h:form>
+                </p:tab>
 
             </p:tabView>
     </ui:define>

@@ -56,12 +56,18 @@
 	text-align: center;
 	width:100%;
 }
-.avatarGrid .ui-fileupload-buttonbar{
+.avatarGrid .ui-fileupload-buttonbar,
+.settingsTemplatesGrid .ui-fileupload-buttonbar{
 	background:none;
 	border:none;
 }
-.avatarGrid .ui-fileupload-content {
+.avatarGrid .ui-fileupload-content,
+.settingsTemplatesGrid .ui-fileupload-content {
     display: none;
+}
+
+.settingsTemplatesGrid .ui-fileupload{
+	float: left;
 }
 .profileDetailsGrid{
 	width:100%;
@@ -202,4 +208,11 @@ input, textarea {
 }
 .futureSchedulerRow{
 	color: gold;
+}
+
+.settingsFileNameLabel{
+	float: left;
+	margin-top: 9px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
