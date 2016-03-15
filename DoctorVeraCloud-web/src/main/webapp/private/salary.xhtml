@@ -1,0 +1,207 @@
+<ui:composition template="index.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        <h:outputText value="#{MESSAGE.SALARY_TITLE}"/>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="salaryForm">
+            <p:growl id="growl" showDetail="true"  showSummary="true" />
+
+            <p:dataTable id="salaryTable" widgetVar="salaryTable" value="#{salaryView.scheduleList}" var="schedule"
+                         styleClass="salaryTable" >
+
+                <p:column  headerText="#{MESSAGE.ENTITY_ID}" sortBy="#{schedule.id}"
+                           filterBy="#{schedule.id}" filterMatchMode="contains" >
+                    <h:outputText value="#{schedule.id}"/>
+                </p:column>
+
+                <p:column  headerText="#{MESSAGE.PAYMENTS_DATE_TIME}" sortBy="#{schedule.dateTimeStart}"
+                           filterBy="#{schedule.dateTimeStart}" filterMatchMode="contains" >
+                    <f:facet name="filter">
+                        <p:calendar pattern="yyyy-MM-dd" styleClass="calendarFilter" id="dateStartFilter">
+                            <p:ajax event="dateSelect" oncomplete="PF('salaryTable').filter()"/>
+                        </p:calendar>
+                    </f:facet>
+                    <h:outputText value="#{schedule.dateTimeStart}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column  headerText="#{MESSAGE.SCHEDULE_METHOD}" sortBy="#{schedule.method.shortName}"
+                           filterBy="#{schedule.method.shortName}" filterMatchMode="contains" >
+                    <h:outputText value="#{schedule.method.shortName}"/>
+                </p:column>
+
+                <p:column  headerText="#{MESSAGE.SCHEDULE_PATIENT}" sortBy="#{schedule.patient.lastName}"
+                           filterBy="#{schedule.patient.lastName} #{schedule.patient.firstName}" filterMatchMode="contains" >
+                    <h:outputText value="#{schedule.patient.lastName} #{schedule.patient.firstName}"/>
+                </p:column>
+
+                <p:column  headerText="#{MESSAGE.SALARY_COST}"
+                           filterBy="#{salaryView.financialData.get(schedule).get('COST')}" filterMatchMode="contains"
+                           sortBy="#{salaryView.financialData.get(schedule).get('COST')}">
+                    <h:outputText value="#{salaryView.financialData.get(schedule).get('COST')}">
+                        <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column  headerText="#{MESSAGE.SALARY_PAID}"
+                           filterBy="#{salaryView.financialData.get(schedule).get('PAID')}" filterMatchMode="contains"
+                           sortBy="#{salaryView.financialData.get(schedule).get('PAID')}">
+                    <h:outputText value="#{salaryView.financialData.get(schedule).get('PAID')}" >
+                        <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
+                </h:outputText>
+                </p:column>
+
+                <p:column  headerText="#{MESSAGE.SALARY_DOCTOR}"
+                           filterBy="#{salaryView.financialData.get(schedule).get('DOCTOR')}" filterMatchMode="contains"
+                           sortBy="#{salaryView.financialData.get(schedule).get('DOCTOR')}">
+                    <h:outputText value="#{salaryView.financialData.get(schedule).get('DOCTOR')}" >
+                        <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column  headerText="#{MESSAGE.SALARY_ASSISTANT}"
+                           filterBy="#{salaryView.financialData.get(schedule).get('ASSISTANT')}" filterMatchMode="contains"
+                           sortBy="#{salaryView.financialData.get(schedule).get('ASSISTANT')}">
+                    <h:outputText value="#{salaryView.financialData.get(schedule).get('ASSISTANT')}" >
+                        <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column  headerText="#{MESSAGE.SALARY_DOCTOR_DIRECTED}"
+                           filterBy="#{salaryView.financialData.get(schedule).get('DOCTOR_DIRECTED')}" filterMatchMode="contains"
+                           sortBy="#{salaryView.financialData.get(schedule).get('DOCTOR_DIRECTED')}">
+                    <h:outputText value="#{salaryView.financialData.get(schedule).get('DOCTOR_DIRECTED')}" >
+                        <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column  headerText="#{MESSAGE.SALARY_CENTER}"
+                           filterBy="#{salaryView.financialData.get(schedule).get('CENTER')}" filterMatchMode="contains"
+                           sortBy="#{salaryView.financialData.get(schedule).get('CENTER')}">
+                    <h:outputText value="#{salaryView.financialData.get(schedule).get('CENTER')}" >
+                        <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
+                    </h:outputText>
+                </p:column>
+
+                <p:columnGroup type="footer">
+                    <p:row>
+                        <p:column colspan="4" style="text-align:right" footerText="#{MESSAGE.SALARY_TOTAL}"/>
+                        <p:column footerText="#{salaryView.costSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                        <p:column footerText="#{salaryView.paidSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                        <p:column footerText="#{salaryView.doctorsSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                        <p:column footerText="#{salaryView.assistantsSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                        <p:column footerText="#{salaryView.doctorDirectedSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                        <p:column footerText="#{salaryView.centerSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                    </p:row>
+                </p:columnGroup>
+
+                <f:facet name="header">
+                    <!--<p:commandButton id="resetFilters" value="#{MESSAGE.USERS_CLEAR_FILTERS}" onsuccess="PF('salaryTable').clearFilters();"/>-->
+
+                    <h:outputLabel for="dateStart" value=" #{MESSAGE.SALARY_FROM} " />
+
+                    <p:calendar value="#{salaryView.dateStart}"
+                                id="dateStart"  pattern="dd-MM-yyyy" styleClass="myTextField"
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="dateSelect" update=":salaryForm:growl"/>
+                    </p:calendar>
+
+                    <h:outputLabel for="dateEnd" value=" #{MESSAGE.SALARY_TO} " />
+                    <p:calendar value="#{salaryView.dateEnd}"
+                                id="dateEnd"  pattern="dd-MM-yyyy" styleClass="myTextField"
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="dateSelect" update=":salaryForm:growl"/>
+                    </p:calendar>
+
+                    <p:selectOneMenu id="employee" value="#{salaryView.selectedEmployee}" converter="usersConverter" style="top:8px;margin-left: 5px; margin-right: 5px;">
+                        <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true"/>
+                        <f:selectItems value="#{salaryView.allEmployees}" itemValue="#{employee}" itemLabel="#{employee.lastName} #{employee.firstName}" var="employee"/>
+                    </p:selectOneMenu>
+
+                    <p:commandButton value="#{MESSAGE.SALARY_CALCULATE}" icon="fa fa-slideshare"
+                                     actionListener = "#{salaryView.searchAppointments()}"
+                                     update=":salaryForm:salaryTable :salaryForm:growl"/>
+                </f:facet>
+                <f:facet name="footer">
+                    <p:commandButton value="#{MESSAGE.SALARY_ADD_PAYMENT}" icon="fa fa-money"
+                                     actionListener = "#{salaryView.fillPaymentForm}" oncomplete="PF('addPaymentDialog').show();"
+                                     update=":addPaymentForm:addPaymentTable" process="@this"/>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+        <h:form id="addPaymentForm"
+                onkeypress="if( event.keyCode == 13){event.preventDefault()}">
+            <p:growl id="growl" showDetail="true" severity="info" />
+
+            <p:dialog header="#{MESSAGE.PAYMENTS_ADD_TITLE}"
+                      widgetVar="addPaymentDialog" modal="false" closeOnEscape="true">
+
+                <h:panelGrid columns="3" cellpadding="5"
+                             style="margin:auto;width:100%;" id="addPaymentTable">
+
+                    <!-- Type -->
+                    <h:outputLabel for="type" value="#{MESSAGE.PAYMENTS_TYPE}"/>
+                    <p:selectOneRadio id="type" value="#{paymentsView.isPositive}"
+                                      required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" disabled="true">
+                        <f:selectItem itemLabel="#{MESSAGE.PAYMENTS_TYPE_INCOMING}" itemValue="true" />
+                        <f:selectItem itemLabel="#{MESSAGE.PAYMENTS_TYPE_OUTOMING}" itemValue="false" />
+                    </p:selectOneRadio>
+                    <p:message for="type" id="typeMessage" />
+
+                    <!-- Total -->
+                    <h:outputLabel for="total" value="#{MESSAGE.PAYMENTS_TOTAL}" />
+                    <p:inputText value="#{paymentsView.newPayment.total}"
+                                 id="total" name="total" required="true"
+                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                                 converter="javax.faces.Float">
+                        <p:ajax event="blur" update="totalMessage" process="total" />
+                        <f:validateDoubleRange />
+                    </p:inputText>
+                    <p:message for="total" id="totalMessage" />
+
+                    <!-- Description -->
+                    <h:outputLabel for="description" value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+                    <p:inputTextarea rows="6" cols="20" id="description"
+                                     value="#{paymentsView.newPayment.description}"
+                                     required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                                     validato="priceValidator.validate">
+                        <f:attribute name="name" value="notZero" />
+                        <p:ajax event="blur" update="descriptionMessage"  process="description"/>
+                    </p:inputTextarea>
+                    <p:message for="description" id="descriptionMessage" />
+
+                    <!-- Date Time -->
+                    <h:outputLabel for="dataTime" value="#{MESSAGE.PAYMENTS_DATE_TIME}" />
+                    <p:clock pattern="dd.MMMMM.yyyy" id="dataTime"/>
+                    <h:outputText value=""/>
+
+                    <!-- Recipient -->
+                    <h:outputLabel for="recipient" value="#{MESSAGE.PAYMENTS_CASHIER}" />
+                    <h:outputText value="#{paymentsView.newPayment.recipient.firstName} #{paymentsView.newPayment.recipient.lastName}" id="recipient"/>
+                    <h:outputText value=""/>
+
+                    <!-- Cashier -->
+                    <h:outputLabel for="cashier" value="#{MESSAGE.PAYMENTS_CASHIER}" />
+                    <h:outputText value="#{paymentsView.authorizedUser.firstName} #{paymentsView.authorizedUser.lastName}" id="cashier"/>
+                    <h:outputText value=""/>
+
+                    <!-- Add && print button -->
+                    <p:commandButton value="#{MESSAGE.PAYMENTS_ADD_PRINT_BUTTON}"
+                                     icon="ui-icon-print" style="margin:auto" ajax="false"
+                                     update="growl" process="@form"
+                                     rendered="#{securityUtils.checkPermissions('PAYMENTS_ADD')}">
+                        <p:fileDownload value="#{paymentsView.createAndPrintPayment()}" />
+                    </p:commandButton>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

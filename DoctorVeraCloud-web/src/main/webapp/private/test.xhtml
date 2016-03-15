@@ -15,32 +15,11 @@
 
     <ui:define name="content">
 
-        <h:form id="smsTemplatesAddForm">
-            <c:set var="isSMSType" value="#{messageTemplatesView.messageType == 'SMS'}" />
-            <p:commandButton value="#{MESSAGE.MESSAGE_TEMPLATES_CREATE_BUTTON}" icon="ui-icon-plus"
-                             actionListener="#{messageTemplatesView.createNewTemplate()}"
-                             oncomplete="PF('addTemplateDialog').show();"
-                             update="addTemplateTable"
-            />
-            <p:dialog header="#{MESSAGE.MESSAGE_TEMPLATES_ADD_DIALOG_TITLE}"
-                      id="addTemplateDialog" widgetVar="addTemplateDialog" modal="false">
-                <p:growl id="growl" showDetail="true" severity=""/>
-                <p:growl id="growl1" showDetail="true" severity="" autoUpdate=""/>
-                <p:ajax event="close" />
-
-                <h:panelGrid columns="3" cellpadding="5" id="addTemplateTable">
-
-                    <!-- Template  System flag-->
-                    <h:outputLabel for="templateSystem"
-                                   value="#{MESSAGE.SMS_TEMPLATE_SYSTEM}" />
-                    <p:inputSwitch value="#{messageTemplatesView.test}" id="templateSystem">
-                        <p:ajax update="templateSystemMessage" />
-                            </p:inputSwitch>
-                    <p:message for="templateSystem" id="templateSystemMessage" />
-                </h:panelGrid>
-
-            </p:dialog>
-
+        <h:form id="smsTemplatesAddForm" enctype="multipart/form-data">
+            <p:commandButton value="Show" onclick="PF('notificationBar').show()" type="button" icon="ui-icon-arrow-1-s"/>
+            <p:commandButton value="Hide" onclick="PF('notificationBar').hide()" type="button" icon="ui-icon-arrow-1-n"/>
+            <p:commandButton value="SendMessage" action="#{testView.sendMessage}" />
+            <p:poll interval="10" listener="#{testView.showMessage}" />
         </h:form>
     </ui:define>
 

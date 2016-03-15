@@ -6,7 +6,7 @@ import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.MessageLogFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.TransactionLogFacadeLocal;
 import ua.kiev.doctorvera.resources.Config;
-import ua.kiev.doctorvera.utils.TemplateProcessUtil;
+import ua.kiev.doctorvera.utils.TemplateProcessor;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -126,7 +126,9 @@ public class MailService implements MailServiceLocal {
     }
 
     private String processMessageText(String text, Users user, TransactionLog transactionLog){
-        text = TemplateProcessUtil.replaceUsingUsersData(text, user);
+        TemplateProcessor processUtil = new TemplateProcessor();
+        processUtil.setUser(user);
+        text = processUtil.replaceUsingUsersData(text);
         text = text.replaceAll("$transactionId", transactionLog.getId() == null ? "" : "" + transactionLog.getId());
         return text;
     }

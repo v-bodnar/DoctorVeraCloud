@@ -3,7 +3,9 @@ package ua.kiev.doctorvera.views;
 import org.primefaces.model.menu.*;
 import ua.kiev.doctorvera.entities.MessageTemplate;
 import ua.kiev.doctorvera.entities.Rooms;
+import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Mapping;
 import ua.kiev.doctorvera.resources.Message;
 import ua.kiev.doctorvera.security.SecurityPolicy;
@@ -34,52 +36,65 @@ public class MenuView implements Serializable {
     private final String financeMenuHeader = Message.getMessage("MENU_HEADER_FINANCE");
     private final String settingsMenuHeader = Message.getMessage("MENU_HEADER_SETTINGS");
     private final String mainPageValue = Message.getMessage("MENU_ITEM_MAIN");
-    private final String mainPageUrl = Mapping.getInstance().getString("MAIN_PAGE");
+    private final String mainPageUrl = Mapping.getMessage("MAIN_PAGE");
     private final String usersPageValue = Message.getMessage("MENU_ITEM_USERS");
-    private final String usersPageUrl = Mapping.getInstance().getString("USERS_PAGE");
-    private final String userTypesPageValue = Message.getMessage("MENU_ITEM_USER_TYPES");
-    private final String userTypesPageUrl = Mapping.getInstance().getString("USER_TYPES_PAGE");
+    private final String usersPageUrl = Mapping.getMessage("USERS_PAGE");
+    private final String userGroupsPageValue = Message.getMessage("MENU_ITEM_USER_TYPES");
+    private final String userGroupsPageUrl = Mapping.getMessage("USER_TYPES_PAGE");
     private final String roomsPageValue = Message.getMessage("MENU_ITEM_ROOMS");
-    private final String roomsPageUrl = Mapping.getInstance().getString("ROOMS_PAGE");
+    private final String roomsPageUrl = Mapping.getMessage("ROOMS_PAGE");
     private final String sendSMSPageValue = Message.getMessage("MENU_ITEM_SEND_SMS");
-    private final String sendSMSPageUrl = Mapping.getInstance().getString("SEND_SMS_PAGE");
+    private final String sendSMSPageUrl = Mapping.getMessage("SEND_SMS_PAGE");
     private final String methodsPageValue = Message.getMessage("MENU_ITEM_METHODS");
-    private final String methodsPageUrl = Mapping.getInstance().getString("METHODS_PAGE");
-    private final String planPageUrl = Mapping.getInstance().getString("PLAN_PAGE");
+    private final String methodsPageUrl = Mapping.getMessage("METHODS_PAGE");
+    private final String planPageUrl = Mapping.getMessage("PLAN_PAGE");
     private final String paymentsPageValue = Message.getMessage("MENU_ITEM_PAYMENTS");
-    private final String paymentsPageUrl = Mapping.getInstance().getString("PAYMENTS_PAGE");
-    private final String schedulePageUrl = Mapping.getInstance().getString("SCHEDULE_PAGE");
+    private final String paymentsPageUrl = Mapping.getMessage("PAYMENTS_PAGE");
+    private final String schedulePageUrl = Mapping.getMessage("SCHEDULE_PAGE");
     private final String planGeneralPageValue = Message.getMessage("MENU_ITEM_PLAN_GENERAL");
-    private final String planGeneralPageUrl = Mapping.getInstance().getString("PLAN_GENERAL_PAGE");
+    private final String planGeneralPageUrl = Mapping.getMessage("PLAN_GENERAL_PAGE");
     private final String scheduleGeneralPageValue = Message.getMessage("MENU_ITEM_SCHEDULE_GENERAL");
-    private final String scheduleGeneralPageUrl = Mapping.getInstance().getString("SCHEDULE_GENERAL_PAGE");
+    private final String scheduleGeneralPageUrl = Mapping.getMessage("SCHEDULE_GENERAL_PAGE");
     private final String schedulePersonalPageValue = Message.getMessage("MENU_ITEM_PERSONAL_SCHEDULE");
     private final String deliveryGroupHeader = Message.getMessage("MENU_HEADER_DELIVERY");
-    private final String schedulePersonalPageUrl = Mapping.getInstance().getString("SCHEDULE_PERSONAL_PAGE");
+    private final String schedulePersonalPageUrl = Mapping.getMessage("SCHEDULE_PERSONAL_PAGE");
     private final String deliveryGroupsPageValue = Message.getMessage("MENU_ITEM_DELIVERY_GROUPS");
-    private final String deliveryGroupsPageURL = Mapping.getInstance().getString("DELIVERY_GROUPS_PAGE");
+    private final String deliveryGroupsPageURL = Mapping.getMessage("DELIVERY_GROUPS_PAGE");
     private final String smsTemplatesPageValue = Message.getMessage("MENU_ITEM_SMS_TEMPLATES");
-    private final String smsTemplatesPageUrl = Mapping.getInstance().getString("SMS_TEMPLATES_PAGE");
+    private final String smsTemplatesPageUrl = Mapping.getMessage("SMS_TEMPLATES_PAGE");
     private final String emailTemplatesPageValue = Message.getMessage("MENU_ITEM_EMAIL_TEMPLATES");
-    private final String emailTemplatesPageUrl = Mapping.getInstance().getString("EMAIL_TEMPLATES_PAGE");
+    private final String emailTemplatesPageUrl = Mapping.getMessage("EMAIL_TEMPLATES_PAGE");
     private final String messageSchedulerPageValue = Message.getMessage("MENU_ITEM_MESSAGE_SCHEDULER");
-    private final String messageSchedulerPageUrl = Mapping.getInstance().getString("MESSAGE_SCHEDULER_PAGE");
+    private final String messageSchedulerPageUrl = Mapping.getMessage("MESSAGE_SCHEDULER_PAGE");
     private final String localizationPageValue = Message.getMessage("MENU_ITEM_LOCALIZATION");
-    private final String localizationPageUrl = Mapping.getInstance().getString("LOCALIZATION_PAGE");
+    private final String localizationPageUrl = Mapping.getMessage("LOCALIZATION_PAGE");
     private final String settingsPageValue = Message.getMessage("MENU_ITEM_SETTINGS");
-    private final String settingsPageUrl = Mapping.getInstance().getString("SETTINGS_PAGE");
-    private static final String APPLICATION_ROOT_URL = Mapping.getInstance().getString("APPLICATION_ROOT_PATH");
+    private final String settingsPageUrl = Mapping.getMessage("SETTINGS_PAGE");
+    private final String financialSettingsPageValue = Message.getMessage("MENU_ITEM_FINANCIAL_SETTINGS");
+    private final String financialSettingsPageUrl = Mapping.getMessage("FINANCIAL_SETTINGS_PAGE");
+    private final String salaryPageValue = Message.getMessage("MENU_ITEM_SALARY");
+    private final String salarySettingsPageUrl = Mapping.getMessage("SALARY_PAGE");
+    private static final String APPLICATION_ROOT_URL = "";
     private static final Logger LOG = Logger.getLogger(MenuView.class.getName());
     private static final String SECURITY_POLICY_PARAM_NAME = "securityPolicy";
 
     @EJB
     private RoomsFacadeLocal roomsFacade;
 
+    @EJB
+    private UsersFacadeLocal usersFacade;
+
     @Inject
     SessionParams sessionParams;
 
     @Inject
     SecurityUtils securityUtils;
+
+    Users authorizedUser;
+
+    boolean authorisedUserIsDoctor = false;
+
+    boolean authorisedUserIsAssistant = false;
 
 
     @PostConstruct
@@ -91,6 +106,9 @@ public class MenuView implements Serializable {
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "Get url exception: {0}", e.getMessage());
         }
+        authorizedUser = sessionParams.getAuthorizedUser();
+        authorisedUserIsDoctor = usersFacade.isDoctor(authorizedUser);
+        authorisedUserIsAssistant = usersFacade.isAssistant(authorizedUser);
 
         List<Rooms> allRooms = roomsFacade.findAll();
         menuModel = new DynamicMenuModel();
@@ -108,7 +126,8 @@ public class MenuView implements Serializable {
         item = new DefaultMenuItem(schedulePersonalPageValue);
         item.setIcon("ui-icon-calendar");
         item.setCommand("#{menuView.redirectToSchedule(null)}");
-        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_PERSONAL_SCHEDULE));
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_PERSONAL_SCHEDULE)
+                && (authorisedUserIsDoctor || authorisedUserIsAssistant));
         if (url != null && url.equals(APPLICATION_ROOT_URL + schedulePageUrl)) {
             item.setStyleClass("ui-state-active");
         }
@@ -123,18 +142,18 @@ public class MenuView implements Serializable {
         }
         mainSubmenu.addElement(item);
 
-        item = new DefaultMenuItem(userTypesPageValue);
-        item.setUrl(userTypesPageUrl);
-        item.setIcon("ui-icon-tag");
+        item = new DefaultMenuItem(userGroupsPageValue);
+        item.setUrl(userGroupsPageUrl);
+        item.setIcon("fa fa-group fa-fw");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_USER_GROUPS));
-        if (url != null && url.equals(APPLICATION_ROOT_URL + userTypesPageUrl)) {
+        if (url != null && url.equals(APPLICATION_ROOT_URL + userGroupsPageUrl)) {
             item.setStyleClass("ui-state-active");
         }
         mainSubmenu.addElement(item);
 
         item = new DefaultMenuItem(roomsPageValue);
         item.setUrl(roomsPageUrl);
-        item.setIcon("ui-icon-home");
+        item.setIcon("fa fa-bed  fa-fw");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_ROOMS));
         if (url != null && url.equals(APPLICATION_ROOT_URL + roomsPageUrl)) {
             item.setStyleClass("ui-state-active");
@@ -166,9 +185,8 @@ public class MenuView implements Serializable {
 
         for (Rooms room : allRooms) {
             item = new DefaultMenuItem(room.getName());
-            item.setIcon("ui-icon-calendar");
+            item.setIcon("fa fa-calendar-o  fa-fw");
             item.setCommand("#{menuView.redirectToPlan(" + room.getId() + ")}");
-            item.setIcon("ui-icon-calendar");
             item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_PLAN));
             planSubmenu.addElement(item);
         }
@@ -188,7 +206,7 @@ public class MenuView implements Serializable {
 
         for (Rooms room : allRooms) {
             item = new DefaultMenuItem(room.getName());
-            item.setIcon("ui-icon-calendar");
+            item.setIcon("fa fa-calendar fa-fw");
             item.setCommand("#{menuView.redirectToSchedule(" + room.getId() + ")}");
             item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SCHEDULE));
             scheduleSubmenu.addElement(item);
@@ -200,12 +218,31 @@ public class MenuView implements Serializable {
 
         item = new DefaultMenuItem(paymentsPageValue);
         item.setUrl(paymentsPageUrl);
-        item.setIcon("ui-icon-cart");
+        item.setIcon("fa fa-credit-card  fa-fw");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_PAYMENTS));
-        financeSubmenu.addElement(item);
         if (url != null && url.equals(APPLICATION_ROOT_URL + paymentsPageUrl)) {
             item.setStyleClass("ui-state-active");
         }
+        financeSubmenu.addElement(item);
+
+        item = new DefaultMenuItem(salaryPageValue);
+        item.setUrl(salarySettingsPageUrl);
+        item.setIcon("fa fa-bitcoin fa-fw");
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SALARY));
+        if (url != null && url.equals(APPLICATION_ROOT_URL + salarySettingsPageUrl)) {
+            item.setStyleClass("ui-state-active");
+        }
+        financeSubmenu.addElement(item);
+
+        item = new DefaultMenuItem(financialSettingsPageValue);
+        item.setUrl(financialSettingsPageUrl);
+        item.setIcon("fa fa-money fa-fw");
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_FINANCIAL_SETTINGS));
+        if (url != null && url.equals(APPLICATION_ROOT_URL + financialSettingsPageUrl)) {
+            item.setStyleClass("ui-state-active");
+        }
+        financeSubmenu.addElement(item);
+
         financeSubmenu.setRendered(isRendered(financeSubmenu));
         menuModel.addElement(financeSubmenu);
 
@@ -213,7 +250,7 @@ public class MenuView implements Serializable {
 
         item = new DefaultMenuItem(deliveryGroupsPageValue);
         item.setUrl(deliveryGroupsPageURL);
-        item.setIcon("ui-icon-person");
+        item.setIcon("fa fa-group fa-fw");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_DELIVERY_GROUPS));
         if (url != null && url.equals(APPLICATION_ROOT_URL + deliveryGroupsPageURL)) {
             item.setStyleClass("ui-state-active");
@@ -265,7 +302,7 @@ public class MenuView implements Serializable {
 
         item = new DefaultMenuItem(localizationPageValue);
         item.setUrl(localizationPageUrl);
-        item.setIcon("ui-icon-script");
+        item.setIcon("fa fa-language fa-fw");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_LOCALIZATION));
         if (url != null && url.equals(APPLICATION_ROOT_URL + localizationPageUrl)) {
             item.setStyleClass("ui-state-active");

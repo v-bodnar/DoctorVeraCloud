@@ -1,0 +1,196 @@
+<ui:composition template="index.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        <h:outputText value="#{MESSAGE.FINANCIAL_SETTINGS_TITLE}"/>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="financialSettingsForm">
+            <p:growl id="growl" showDetail="true"  showSummary="true" autoUpdate=""/>
+
+            <p:contextMenu for="financialSettingsTable">
+                <p:menuitem update="financialSettingsTable growl" rendered="#{securityUtils.checkPermissions('FINANCIAL_SETTINGS_DELETE')}" styleClass="dv-menu-item">
+                    <p:commandLink styleClass="ui-menuitem-link"
+                                   action="#{financialSettingsView.deleteSelectedShare}"
+                                   update="financialSettingsTable growl" ajax="false" process="@this">
+                        <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
+                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.APPLICATION_MENU_ITEM_DELETE}" />
+                        <p:confirm header="#{MESSAGE.APPLICATION_ATTENTION}" icon="ui-icon-alert"
+                                   message="#{MESSAGE.FINANCIAL_SETTINGS_DELETE_CONFIRM_MESSAGE}" />
+                    </p:commandLink>
+                </p:menuitem>
+
+                <p:menuitem update="financialSettingsTable growl" rendered="#{securityUtils.checkPermissions('FINANCIAL_SETTINGS_UPDATE')}" styleClass="dv-menu-item">
+                    <p:commandLink styleClass="ui-menuitem-link" action="#{financialSettingsView.selectShare()}"
+                                   oncomplete="PF('addShareDialog').show();"
+                                   update=":financialSettingsAddForm:addShareDialog" process="@this">
+                        <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
+                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.APPLICATION_MENU_ITEM_EDIT}" />
+                    </p:commandLink>
+                </p:menuitem>
+            </p:contextMenu>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton value="#{MESSAGE.DELIVERY_GROUPS_DELETE_CONFIRM_YES}"
+                                 type="button" styleClass="ui-confirmdialog-yes"
+                                 icon="ui-icon-check" />
+                <p:commandButton value="#{MESSAGE.DELIVERY_GROUPS_DELETE_CONFIRM_NO}"
+                                 type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+            <p:dataTable id="financialSettingsTable" widgetVar="financialSettingsTable" value="#{financialSettingsView.allShares}" var="share"
+                         styleClass="financialSettingsTable" paginator="true" rows="10" rowsPerPageTemplate="10,15,20,100"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowKey="#{share.id}" selection="#{financialSettingsView.selectedShare}" selectionMode="single">
+                <p:ajax event="filter" global="false" process="@this"/>
+                <p:ajax event="contextMenu" update=":financialSettingsAddForm:addShareDialog" />
+                <p:column headerText="#{MESSAGE.SHARE_DOCTORS_PART}"
+                          filterBy="#{share.percentageDoctor} #{share.salaryDoctor}" filterMatchMode="contains"
+                          sortBy="#{share.percentageDoctor} #{share.salaryDoctor}" >
+                    <h:outputText value="#{share.percentageDoctor!=null?share.percentageDoctor:share.salaryDoctor}
+                    #{share.percentageDoctor!=null?'%':MESSAGE.APPLICATION_CURRENCY}" />
+                </p:column>
+
+                <p:column  headerText="#{MESSAGE.SHARE_ASSISTANTS_PART}"
+                           filterBy="#{share.percentageAssistant} #{share.salaryAssistant}" filterMatchMode="contains"
+                           sortBy="#{share.percentageAssistant} #{share.salaryAssistant}">
+                    <h:outputText value="#{share.percentageAssistant!=null?share.percentageAssistant:share.salaryAssistant}
+                    #{share.percentageAssistant!=null?'%':MESSAGE.APPLICATION_CURRENCY}" />
+                </p:column>
+
+                <p:column headerText="#{MESSAGE.SHARE_DATE}" filterBy="#{share.date}" filterMatchMode="contains" sortBy="#{share.date}">
+                    <f:facet name="filter">
+                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" style="width:100px;" id="dataTimeFilter">
+                            <p:ajax event="dateSelect" oncomplete="PF('financialSettingsTable').filter()"/>
+                        </p:calendar>
+                    </f:facet>
+                    <h:outputText value="#{share.date}" >
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </h:outputText>
+                </p:column>
+
+                <f:facet name="footer">
+                    <p:commandButton id="resetFilters" value="#{MESSAGE.USERS_CLEAR_FILTERS}"
+                                     onsuccess="PF('financialSettingsTable').clearFilters();"
+                                     update="dataTimeFilter">
+                        <p:resetInput target="dataTimeFilter"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{MESSAGE.FINANCIAL_SETTINGS_CREATE_BUTTON}" icon="ui-icon-plus"
+                                     actionListener = "#{financialSettingsView.createNewShare}"
+                                     oncomplete="PF('addShareDialog').show();"
+                                     update=":financialSettingsAddForm:addShareTable :financialSettingsEditForm:editShareTable"
+                                     rendered="#{securityUtils.checkPermissions('FINANCIAL_SETTINGS_CREATE')}"/>
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+
+        <h:form id="financialSettingsAddForm">
+            <p:dialog header="#{MESSAGE.FINANCIAL_SETTINGS_ADD_DIALOG_TITLE}"
+                      id="addShareDialog" widgetVar="addShareDialog" modal="false" height="600">
+                <p:growl id="growl" showDetail="true" severity="info" />
+                <p:ajax event="close" update=":financialSettingsForm:financialSettingsTable" />
+
+                <h:panelGrid columns="3" cellpadding="5" id="addShareTable">
+
+                    <!-- Persentage or fixed value radio -->
+                    <h:outputLabel for="type" value="#{MESSAGE.SHARE_PART_TYPE}" />
+                    <p:selectOneRadio id="type" value="#{financialSettingsView.fixed}"
+                                      required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" >
+                        <f:selectItem itemLabel="#{MESSAGE.APPLICATION_CURRENCY}" itemValue="true" />
+                        <f:selectItem itemLabel="#{MESSAGE.APPLICATION_PERCENTS}" itemValue="false" />
+                        <p:ajax update="doctorsPart assistantsPart" />
+                    </p:selectOneRadio>
+                    <p:message for="type" id="typeMessage" />
+
+                    <!-- Doctors Part-->
+                    <h:outputLabel for="doctorsPart" value="#{MESSAGE.SHARE_DOCTORS_PART}" />
+                    <p:inputMask value="#{financialSettingsView.fixed?financialSettingsView.selectedShare.salaryDoctor:financialSettingsView.selectedShare.percentageDoctor}"
+                                 id="doctorsPart" name="doctorsPart" mask="9?99999" slotChar=""
+                                 required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="doctorsPartMessage" process="doctorsPart" />
+                    </p:inputMask>
+                    <p:message for="doctorsPart" id="doctorsPartMessage" />
+
+                    <!-- Assistants Part-->
+                    <h:outputLabel for="assistantsPart" value="#{MESSAGE.SHARE_ASSISTANTS_PART}" />
+                    <p:inputMask value="#{financialSettingsView.fixed?financialSettingsView.selectedShare.salaryAssistant:financialSettingsView.selectedShare.percentageAssistant}"
+                                 id="assistantsPart" name="assistantsPart" mask="9?99999" slotChar=""
+                                 required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="assistantsPartMessage" process="assistantsPart" />
+                    </p:inputMask>
+                    <p:message for="assistantsPart" id="assistantsPartMessage" />
+
+                    <!-- Date from which current share is valid -->
+                    <h:outputLabel for="dateTime" value="#{MESSAGE.SHARE_DATE}" />
+
+                    <p:calendar value="#{financialSettingsView.selectedShare.date}"
+                                id="dateTime"  pattern="dd-MM-yyyy" styleClass="myTextField"
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="dateSelect" update="dateTimeMessage growl"/>
+                    </p:calendar>
+                    <p:message for="dateTime"  id="dateTimeMessage" />
+
+                    <!-- Methods List for which current rule will be applied -->
+                    <h:outputLabel for="methodsPicker" value="#{MESSAGE.SHARE_METHODS}" />
+                    <p:pickList id="methodsPicker" value="#{financialSettingsView.methodsDualListModel}" var="method" effect="bounce"
+                                itemValue="#{method}" itemLabel="#{method.shortName}"
+                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker"
+                                converter = "methodsConverter">
+
+                        <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.FINANCIAL_SETTINGS_METHODS_SOURCE}"/></f:facet>
+                        <f:facet name="targetCaption"><h:outputText value="#{MESSAGE.FINANCIAL_SETTINGS_METHODS_TARGET}"/></f:facet>
+
+                        <p:ajax event="transfer" listener="#{financialSettingsView.onMethodTransfer}" update="growl" />
+                    </p:pickList>
+                    <p:message for="methodsPicker"  id="methodsPickerMessage" />
+
+                    <!-- Doctors List for which current rule will be applied -->
+                    <h:outputLabel for="doctorsPicker" value="#{MESSAGE.SHARE_DOCTORS}" />
+                    <p:pickList id="doctorsPicker" value="#{financialSettingsView.doctorsDualListModel}" var="user" effect="bounce"
+                                itemValue="#{user}" itemLabel="#{user.firstName} #{user.lastName}"
+                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker"
+                                converter = "usersConverter">
+
+                        <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.FINANCIAL_SETTINGS_DOCTORS_SOURCE}"/></f:facet>
+                        <f:facet name="targetCaption"><h:outputText value="#{MESSAGE.FINANCIAL_SETTINGS_DOCTORS_TARGET}"/></f:facet>
+
+                        <p:ajax event="transfer" listener="#{financialSettingsView.onDoctorTransfer}" update="growl" />
+                    </p:pickList>
+                    <p:message for="doctorsPicker"  id="doctorsPickerMessage" />
+
+                    <!-- Assistants List for which current rule will be applied -->
+                    <h:outputLabel for="assistantsPicker" value="#{MESSAGE.SHARE_ASSISTANTS}" />
+                    <p:pickList id="assistantsPicker" value="#{financialSettingsView.assistantsDualListModel}" var="user" effect="bounce"
+                                itemValue="#{user}" itemLabel="#{user.firstName} #{user.lastName}"
+                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" styleClass="typePicker"
+                                converter = "usersConverter">
+
+                        <f:facet name="sourceCaption"><h:outputText value="#{MESSAGE.FINANCIAL_SETTINGS_ASSISTANTS_SOURCE}"/></f:facet>
+                        <f:facet name="targetCaption"><h:outputText value="#{MESSAGE.FINANCIAL_SETTINGS_ASSISTANTS_TARGET}"/></f:facet>
+
+                        <p:ajax event="transfer" listener="#{financialSettingsView.onAssistantTransfer}" update="growl" />
+                    </p:pickList>
+                    <p:message for="assistantsPicker"  id="assistantsPickerMessage" />
+
+                    <!-- Action Buttons-->
+                    <h:outputLabel for="shareSaveButton" value="" />
+                    <p:commandButton id="shareSaveButton"
+                                     value="#{financialSettingsView.selectedShare.id==null?MESSAGE.FINANCIAL_SETTINGS_CREATE_BUTTON:MESSAGE.FINANCIAL_SETTINGS_SAVE_BUTTON}" icon="ui-icon-plus"
+                                     actionListener="#{financialSettingsView.saveShare}"
+                                     update="addShareTable growl"
+                                     rendered="#{securityUtils.checkPermissions('FINANCIAL_SETTINGS_CREATE')}"/>
+
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+        <h:form id="financialSettingsEditForm">
+            <h:panelGrid columns="3" cellpadding="5" id="editShareTable">
+            </h:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

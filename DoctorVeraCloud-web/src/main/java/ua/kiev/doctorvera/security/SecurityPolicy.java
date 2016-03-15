@@ -28,7 +28,8 @@ public enum SecurityPolicy implements Serializable{
     MENU_ITEM_MESSAGE_SCHEDULER(SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_LOCALIZATION(SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_SETTINGS(SecurityPolicyGroup.MENU_GROUP),
-
+    MENU_ITEM_FINANCIAL_SETTINGS(SecurityPolicyGroup.MENU_GROUP),
+    MENU_ITEM_SALARY(SecurityPolicyGroup.MENU_GROUP),
     /**
      * Users page
      */
@@ -145,6 +146,18 @@ public enum SecurityPolicy implements Serializable{
     SETTINGS_PATHS_SAVE(SecurityPolicyGroup.SETTINGS_GROUP),
     SETTINGS_TEMPLATES_TAB(SecurityPolicyGroup.SETTINGS_GROUP),
     SETTINGS_TEMPLATES_SAVE(SecurityPolicyGroup.SETTINGS_GROUP),
+    /**
+     * Financial settings page
+     */
+    FINANCIAL_SETTINGS_CREATE(SecurityPolicyGroup.FINANCIAL_SETTINGS_GROUP),
+    FINANCIAL_SETTINGS_READ(SecurityPolicyGroup.FINANCIAL_SETTINGS_GROUP),
+    FINANCIAL_SETTINGS_UPDATE(SecurityPolicyGroup.FINANCIAL_SETTINGS_GROUP),
+    FINANCIAL_SETTINGS_DELETE(SecurityPolicyGroup.FINANCIAL_SETTINGS_GROUP),
+    /**
+     * Salary page
+     */
+    SALARY_UPDATE(SecurityPolicyGroup.SALARY_GROUP),
+    SALARY_DELETE(SecurityPolicyGroup.SALARY_GROUP),
     ;
 
     private SecurityPolicyGroup policyGroup;
@@ -177,8 +190,10 @@ public enum SecurityPolicy implements Serializable{
         SMS_TEMPLATES_GROUP("SECURITY_SMS_TEMPLATES_DESCRIPTION"),
         EMAIL_TEMPLATES_GROUP("SECURITY_EMAIL_TEMPLATES_DESCRIPTION"),
         MESSAGE_SCHEDULER_GROUP("SECURITY_MESSAGE_SCHEDULER_DESCRIPTION"),
-        LOCALIZATION_GROUP("SECURITY_MESSAGE_LOCALIZATION_DESCRIPTION"),
-        SETTINGS_GROUP("SECURITY_MESSAGE_SETTINGS_DESCRIPTION");
+        LOCALIZATION_GROUP("SECURITY_LOCALIZATION_DESCRIPTION"),
+        SETTINGS_GROUP("SECURITY_SETTINGS_DESCRIPTION"),
+        FINANCIAL_SETTINGS_GROUP("SECURITY_FINANCIAL_SETTINGS_DESCRIPTION"),
+        SALARY_GROUP("SECURITY_SALARY_DESCRIPTION");
         SecurityPolicyGroup(String description){
             this.description = description;
         }
