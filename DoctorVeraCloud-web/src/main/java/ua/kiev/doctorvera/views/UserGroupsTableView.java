@@ -351,4 +351,13 @@ public class UserGroupsTableView implements Serializable {
 		Message.showMessage(successTitle, successMessage);
 	}
 
+	public String getSecurityPolicyDescription(String securityPolicy){
+		if(securityPolicy == null || securityPolicy.isEmpty()) return "";
+		return Message.getMessage("SECURITY_POLICY_" + securityPolicy);
+	}
+	public String getSecurityPolicyGroupDescription(SecurityPolicy.SecurityPolicyGroup securityPolicyGroup){
+		if(securityPolicyGroup == null) return "";
+		return Message.getMessage("SECURITY_" + securityPolicyGroup.name() + "_DESCRIPTION");
+	}
+
 }

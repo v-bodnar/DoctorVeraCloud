@@ -18,7 +18,7 @@
 
                 <p:menuitem value="#{MESSAGE.MENU_ITEM_SEND_SMS}" update="usersTable growl" icon="ui-icon-mail-closed"
                             action="#{sendSMSView.setPhone(usersTableView.selectedUser.phoneNumberMobile)}" ajax="true"
-                            oncomplete="window.location.replace('#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.SEND_SMS_PAGE}')"
+                            oncomplete="window.location.replace('#{MAPPINGS.SEND_SMS_PAGE}')"
                             rendered="#{securityUtils.checkPermissions('USERS_SEND_SMS')}"/>
 
                 <p:menuitem value="#{MESSAGE.USERS_PROFILE}" update="usersTable growl" icon="ui-icon-search"

@@ -208,12 +208,13 @@
 				<p:ajax event="close" update="growl" />
 
 				<p:selectOneMenu id="securityPolicySelector" value="#{userGroupsTableView.selectedSecurityPolicy}" style="width:305px">
-					<f:selectItems value="#{userGroupsTableView.allSecurityPolicyGroups}" itemValue="#{securityGroup}" itemLabel="#{securityGroup.description}" var="securityGroup"/>
+					<f:selectItems value="#{userGroupsTableView.allSecurityPolicyGroups}" itemValue="#{securityGroup}"
+								   itemLabel="#{userGroupsTableView.getSecurityPolicyGroupDescription(securityGroup)}" var="securityGroup"/>
 					<p:ajax listener="#{userGroupsTableView.constructPoliciesPickList}" update="addPolicyToTypePickList"/>
 				</p:selectOneMenu>
 
 				<p:pickList id="addPolicyToTypePickList" value="#{userGroupsTableView.policiesDualListModel}" var="policy" effect="bounce"
-							itemValue="#{policy}" itemLabel="#{policy.name}"
+							itemValue="#{policy}" itemLabel="#{userGroupsTableView.getSecurityPolicyDescription(policy.stringId)}"
 							showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
 							converter = "policyConverter">
 
