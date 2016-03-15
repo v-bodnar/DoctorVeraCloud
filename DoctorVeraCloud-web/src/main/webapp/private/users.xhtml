@@ -23,22 +23,22 @@
 
                 <p:menuitem value="#{MESSAGE.USERS_PROFILE}" update="usersTable growl" icon="ui-icon-search"
                             action="#{userProfileView.init(usersTableView.selectedUser.id)}" ajax="true"
-                            oncomplete="window.location.replace('#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.USER_PROFILE_PAGE}')"
+                            oncomplete="window.location.replace('#{MAPPINGS.USER_PROFILE_PAGE}')"
                             rendered="#{securityUtils.checkPermissions('USERS_USERS_PROFILE')}"/>
 
                 <p:menuitem update="usersTable growl"
-                            rendered="#{securityUtils.checkPermissions('USERS_ADD_USER_TO_USER_GROUP')}">
+                            rendered="#{securityUtils.checkPermissions('USERS_ADD_USER_TO_USER_GROUP')}" styleClass="dv-menu-item">
                     <p:commandLink styleClass="ui-menuitem-link"
                                    action="#{usersTableView.constructPickList}"
                                    oncomplete="PF('addTypesToUserDialog').show();"
                                    update=":addTypesToUserForm:addTypesToUserDialog"
-                                   process="@this">
+                                   process="@this" >
                         <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-person"/>
                         <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.USERS_ADD_USERS}"/>
                     </p:commandLink>
                 </p:menuitem>
 
-                <p:menuitem update="usersTable growl" rendered="#{securityUtils.checkPermissions('USERS_DELETE_USER')}">
+                <p:menuitem update="usersTable growl" rendered="#{securityUtils.checkPermissions('USERS_DELETE_USER')}" styleClass="dv-menu-item">
                     <p:commandLink styleClass="ui-menuitem-link" action="#{usersTableView.deleteUser}" ajax="false"
                                    update="usersTable growl" process="@none">
                         <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close"/>
@@ -80,7 +80,7 @@
                 </p:column>
 
                 <p:column headerText="#{MESSAGE.USERS_BIRTH_DATE}" sortBy="#{user.birthDate}"
-                          filterBy="#{user.birthDate}" filterFunction="#{usersTableView.filterByBirthDate}">
+                          filterBy="#{user.birthDate}" >
                     <f:facet name="filter">
                         <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" id="birthDateFilter">
                             <p:ajax event="dateSelect" oncomplete="PF('usersTable').filter()"/>

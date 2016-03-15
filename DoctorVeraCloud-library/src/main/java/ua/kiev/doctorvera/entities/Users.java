@@ -131,6 +131,14 @@ public class Users implements Serializable,Identified<Integer> {
     @OrderColumn(name="deliveryGroup")
     private Collection<DeliveryGroup> deliveryGroups;
 
+    @ManyToMany(mappedBy="doctors")
+    @OrderColumn(name="shareCollectionDoctors")
+    private Collection<Share> shareCollectionDoctors;
+
+    @ManyToMany(mappedBy="assistants")
+    @OrderColumn(name="shareCollectionAssistants")
+    private Collection<Share> shareCollectionAssistants;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "MessagingAccepted", columnDefinition="tinyint(1) default 0")
@@ -309,6 +317,22 @@ public class Users implements Serializable,Identified<Integer> {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    public Collection<Share> getShareCollectionDoctors() {
+        return shareCollectionDoctors;
+    }
+
+    public void setShareCollectionDoctors(Collection<Share> shareCollectionDoctors) {
+        this.shareCollectionDoctors = shareCollectionDoctors;
+    }
+
+    public Collection<Share> getShareCollectionAssistants() {
+        return shareCollectionAssistants;
+    }
+
+    public void setShareCollectionAssistants(Collection<Share> shareCollectionAssistants) {
+        this.shareCollectionAssistants = shareCollectionAssistants;
     }
 
     @XmlTransient

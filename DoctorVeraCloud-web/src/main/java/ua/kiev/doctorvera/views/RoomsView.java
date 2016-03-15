@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.views;
 
+import org.primefaces.context.RequestContext;
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
@@ -99,6 +100,7 @@ public class RoomsView implements Serializable {
 		final String successMessage = Message.getMessage("ROOMS_EDITED");
 		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		RequestContext.getCurrentInstance().execute("PF('editRoomDialog').hide();");
     }
     
 	public void saveNewRoom(){
@@ -109,6 +111,7 @@ public class RoomsView implements Serializable {
 		final String successMessage = Message.getMessage("APPLICATION_SAVED");
 		final String successTitle = Message.getMessage("ROOMS_SAVED");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		RequestContext.getCurrentInstance().execute("PF('addRoomDialog').hide();");
 	}
 
 }

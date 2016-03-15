@@ -195,7 +195,7 @@ public class UserGroupsTableView implements Serializable {
 		allGroups.remove(selectedGroup);
 		final String successMessage = Message.getMessage("USER_TYPES_DELETED");
 		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		Message.showMessage(successTitle, successMessage);
 	}	
 	
 	//Updates selected User Group
@@ -205,7 +205,7 @@ public class UserGroupsTableView implements Serializable {
 		userGroupsFacade.edit(selectedGroup);
 		final String successMessage = Message.getMessage("USER_TYPES_EDITED");
 		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		Message.showMessage(successTitle, successMessage);
     }
     
     //Adds selected User Group
@@ -216,7 +216,7 @@ public class UserGroupsTableView implements Serializable {
 		allGroups.add(newType);
 		final String successMessage = Message.getMessage("APPLICATION_SAVED");
 		final String successTitle = Message.getMessage("USER_TYPES_SAVED");
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		Message.showMessage(successTitle, successMessage);
 	}
 	
 	//This method controls onTransfer event in the Pick List
@@ -284,7 +284,7 @@ public class UserGroupsTableView implements Serializable {
 			successMessage += Message.getMessage("USER_TYPES_REMOVE_SUCCESS_END") + " " + selectedGroup.getName();
 		
 		LOG.info(successMessage);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		Message.showMessage(successTitle, successMessage);
 	}
 
 	//This method controls onTransfer event in the Policies Pick List
@@ -348,7 +348,7 @@ public class UserGroupsTableView implements Serializable {
 			successMessage += Message.getMessage("USER_TYPES_POLICIES_REMOVE_SUCCESS_END") + " " + selectedGroup.getName();
 
 		LOG.info(successMessage);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		Message.showMessage(successTitle, successMessage);
 	}
 
 }

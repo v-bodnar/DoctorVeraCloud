@@ -55,6 +55,31 @@ public class PricesFacade extends AbstractFacade<Prices> implements PricesFacade
     }
 
     /**
+     Searches for actual price record for given date with the given method
+     @return Price record that is not marked as deleted
+     @param method method to search for
+     */
+    @Override
+    public Prices findPrice(Methods method, Date date){
+        if (method != null && method.getId() != null) {
+            CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+            CriteriaQuery<Prices> cq = cb.createQuery(Prices.class);
+            Root<Prices> root = cq.from(Prices.class);
+
+            Predicate datePredicate = cb.lessThanOrEqualTo(root.<Date>get("dateTime"), date);
+            Predicate methodPredicate = cb.equal(root.<String>get("method"), method);
+            Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+
+            cq.select(root).where(methodPredicate, deletedPredicate, datePredicate);
+            cq.orderBy(cb.desc(root.<Date>get("dateTime")));
+            cq.distinct(true);
+
+            return getEntityManager().createQuery(cq).setMaxResults(1).getSingleResult();
+        } else
+            return null;
+    }
+
+    /**
     Searches for all Prices records with the given method
     @return List<Prices> List of Prices records that are not marked as deleted
     @param method method to search for

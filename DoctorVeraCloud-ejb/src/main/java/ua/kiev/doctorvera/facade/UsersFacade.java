@@ -39,6 +39,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
 
     private final Integer PATIENT_GROUP_ID = Integer.parseInt(Config.getInstance().getString("PATIENTS_USER_GROUP_ID"));
 
+    private final Integer ASSISTANT_GROUP_ID = Integer.parseInt(Config.getInstance().getString("ASSISTANTS_USER_GROUP_ID"));
     /**
     * Searches for User by his username(unique value)
     * @returns Users entity that matches search parameter
@@ -294,7 +295,16 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
      */
     @Override
     public boolean isDoctor(Users user){
-       return user.getUserGroups().contains(userGroupsFacade.find(DOCTOR_GROUP_ID));
+       return initializeLazyEntity(user).getUserGroups().contains(userGroupsFacade.find(DOCTOR_GROUP_ID));
+    }
+
+    /**
+     * Checks if given user is in the group Assistants
+     * @param user - User that has to be checked
+     */
+    @Override
+    public boolean isAssistant(Users user){
+        return initializeLazyEntity(user).getUserGroups().contains(userGroupsFacade.find(ASSISTANT_GROUP_ID));
     }
 
     /**
@@ -303,7 +313,7 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
      */
     @Override
     public boolean isPatient(Users user){
-        return user.getUserGroups().contains(userGroupsFacade.find(PATIENT_GROUP_ID));
+        return initializeLazyEntity(user).getUserGroups().contains(userGroupsFacade.find(PATIENT_GROUP_ID));
     }
 
     /**

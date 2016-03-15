@@ -1,13 +1,16 @@
 package ua.kiev.doctorvera.views;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfWriter;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.StreamedContent;
+import ua.kiev.doctorvera.entities.FileRepository;
 import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.FileRepositoryFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.PaymentsFacadeLocal;
+import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.utils.TemplateProcessor;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,12 +19,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 
 @Named(value="paymentsView")
@@ -29,9 +31,11 @@ import java.util.logging.Logger;
 public class PaymentsView implements Serializable {
 	
 	private final static Logger LOG = Logger.getLogger(PaymentsView.class.getName());
-	
+
 	@EJB
 	private PaymentsFacadeLocal paymentsFacade;
+	@EJB
+	private FileRepositoryFacadeLocal fileRepositoryFacade;
 
 	@Inject
 	private SessionParams sessionParams;
@@ -114,44 +118,25 @@ public class PaymentsView implements Serializable {
 		LOG.info(successTitle);
 	}
     
-    public void printPayment() {
-        try {
-        	SimpleDateFormat sf = new SimpleDateFormat("dd.MMMMM.yyyy");
-            Document document = new Document(PageSize.A5);
-            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("c://testpdf.pdf"));
-            document.open();
-            document.addAuthor("Doctor Vera");
-            document.addCreator("Doctor Vera Cloud");
-            document.addSubject("Order");
-            document.addCreationDate();
-            document.addTitle("Order");
-
-            //FontFactory.register("\\resources\\fonts\\ARIALUNI.ttf","Arial Unicode MS");
-            //FontFactory.register("/resources/fonts/ARIALUNI.ttf","Arial Unicode MS");
-            FontFactory.register("C:\\Windows\\Fonts\\ARIALUNI.ttf", "Arial Unicode MS");
-            //FontFactory.register("C:/Windows/Fonts/ARIALUNI.ttf","Arial Unicode MS");
-            Set<String> fonts = FontFactory.getRegisteredFonts();
-            for (String font : fonts)
-            	LOG.info(font);
-            Font f = FontFactory.getFont("Arial Unicode MS", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            document.add(new Paragraph("Incoming Order " + newPayment.getId(),f));
-            document.add(new Paragraph("Кассир: " + newPayment.getUserCreated().getFirstName() + " " + newPayment.getUserCreated().getLastName(),f));
-            document.add(new Paragraph("Сумма: " + newPayment.getTotal(),f));
-            document.add(new Paragraph("Описание: " + newPayment.getDescription(),f));
-            document.add(new Paragraph("Дата: " + sf.format(newPayment.getDateCreated()),f));
-
-            document.close();
-            pdfWriter.close();
-            LOG.info("PDF document for order #" + newPayment.getId() + " created");
-         }
-         catch (Exception e) {
-            e.printStackTrace();
-         }
-    }
+    public StreamedContent printPayment() throws IOException, DocumentException {
+		TemplateProcessor processUtil = new TemplateProcessor();
+		processUtil.setCurrentUser(authorizedUser);
+		processUtil.setPayment(newPayment);
+		if(newPayment.getSchedule() == null) {
+			FileRepository usersForm = fileRepositoryFacade.find(Integer.parseInt(Config.getMessage("OUTCOME_FORM_TEMPLATE")));
+			processUtil.setUser(newPayment.getRecipient());
+			return processUtil.processTemplate(usersForm);
+		}else {
+			FileRepository usersForm = fileRepositoryFacade.find(Integer.parseInt(Config.getMessage("INCOME_FORM_TEMPLATE")));
+			processUtil.setUser(newPayment.getSchedule().getPatient());
+			processUtil.setSchedule(newPayment.getSchedule());
+			return processUtil.processTemplate(usersForm);
+		}
+	}
     
-	public void createAndPrintPayment(){
+	public StreamedContent createAndPrintPayment() throws IOException, DocumentException {
 		createPayment();
-		printPayment();
+		return printPayment();
 	}
 
 	private String createHtmlOrderFromPayment(Payments payment){

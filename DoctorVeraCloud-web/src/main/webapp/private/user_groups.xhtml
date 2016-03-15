@@ -12,7 +12,7 @@
 			<p:growl id="growl" showDetail="true" severity="info" />
 
 			<p:contextMenu for="userGroupsTable">
-				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_DELETE_USER_GROUP')}">
+				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_DELETE_USER_GROUP')}" styleClass="dv-menu-item">
 					<p:commandLink styleClass="ui-menuitem-link"
 						action="#{userGroupsTableView.deleteSelectedType}" ajax="false"
 						update="userGroupsTable growl">
@@ -23,16 +23,16 @@
 					</p:commandLink>
 				</p:menuitem>
 				
-				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_EDIT_USER_GROUP')}">
+				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_EDIT_USER_GROUP')}" styleClass="dv-menu-item">
 					<p:commandLink styleClass="ui-menuitem-link"
 						oncomplete="PF('editTypeDialog').show();"
 						update=":userTypesEditForm:editTypeDialog">
 						<h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-pencil" />
-						<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.USER_TYPES_EDIT_BUTTON}" />
+						<h:outputText styleClass="ui-menuitem-text tttt" value="#{MESSAGE.USER_TYPES_EDIT_BUTTON}" />
 					</p:commandLink>
 				</p:menuitem>
 				
-				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_ADD_USERS')}">
+				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_ADD_USERS')}" styleClass="dv-menu-item">
 					<p:commandLink styleClass="ui-menuitem-link"
 						action="#{userGroupsTableView.constructPickList()}"
 						oncomplete="PF('addUsersToTypeDialog').show();"
@@ -43,7 +43,7 @@
 					</p:commandLink>
 				</p:menuitem>
 
-				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_ADD_SECURITY_POLICIES')}">
+				<p:menuitem update="userGroupsTable growl" rendered="#{securityUtils.checkPermissions('USER_GROUPS_ADD_SECURITY_POLICIES')}" styleClass="dv-menu-item">
 					<p:commandLink styleClass="ui-menuitem-link"
 								   action="#{userGroupsTableView.constructPoliciesPickList(null)}"
 								   oncomplete="PF('addPolicyToTypeDialog').show();"

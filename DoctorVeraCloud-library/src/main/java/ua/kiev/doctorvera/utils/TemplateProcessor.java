@@ -9,8 +9,11 @@ import org.apache.poi.xwpf.usermodel.*;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import ua.kiev.doctorvera.entities.FileRepository;
+import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.resources.Message;
+
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,20 +22,25 @@ import java.util.List;
 /**
  * Created by volodymyr.bodnar on 2/27/2016.
  */
-public class TemplateProcessUtil {
+public class TemplateProcessor {
 
-    public static StreamedContent processTemplate(FileRepository fileRepository, Users user, Users currentUser, Schedule schedule) throws IOException {
+    Users currentUser;
+    Users user;
+    Schedule schedule;
+    Payments payment;
+
+    public StreamedContent processTemplate(FileRepository fileRepository) throws IOException {
 
         if (fileRepository.getExtension() == FileRepository.Extension.DOCX) {
-            return processDocXTemplate(fileRepository, user, currentUser, schedule);
+            return processDocXTemplate(fileRepository);
         } else if (fileRepository.getExtension() == FileRepository.Extension.DOC) {
-            return processDocTemplate(fileRepository, user, currentUser, schedule);
+            return processDocTemplate(fileRepository);
         } else {
             throw new IOException("Wrong file format, should be doc or docx");
         }
     }
 
-    public static StreamedContent processDocTemplate(FileRepository fileRepository, Users user, Users currentUser, Schedule schedule) throws IOException {
+    public StreamedContent processDocTemplate(FileRepository fileRepository) throws IOException {
         InputStream is = new ByteArrayInputStream(fileRepository.getFile());
         HWPFDocument doc = new HWPFDocument(is);
         Range r1 = doc.getRange();
@@ -42,9 +50,10 @@ public class TemplateProcessUtil {
             for (int x = 0; x < s.numParagraphs(); x++) {
                 Paragraph p = s.getParagraph(x);
                 String text = p.text();
-                text = replaceUsingUsersData(text, user);
-                text = replaceUsingCommonData(text, currentUser);
-                text = replaceUsingScheduleData(text, schedule);
+                text = replaceUsingUsersData(text);
+                text = replaceUsingCommonData(text);
+                text = replaceUsingScheduleData(text);
+                text = replaceUsingPaymentData(text);
                 for (int z = 0; z < p.numCharacterRuns(); z++) {
                     CharacterRun run = p.getCharacterRun(z);
                     if (z == 0) {
@@ -64,17 +73,17 @@ public class TemplateProcessUtil {
 
     }
 
-    public static StreamedContent processDocXTemplate(FileRepository fileRepository, Users user, Users currentUser, Schedule schedule) throws IOException {
+    public StreamedContent processDocXTemplate(FileRepository fileRepository) throws IOException {
         InputStream is = new ByteArrayInputStream(fileRepository.getFile());
         XWPFDocument doc = new XWPFDocument(is);
         for (XWPFParagraph p : doc.getParagraphs()) {
-            processRuns(p, user, currentUser, schedule);
+            processRuns(p);
         }
         for (XWPFTable tbl : doc.getTables()) {
             for (XWPFTableRow row : tbl.getRows()) {
                 for (XWPFTableCell cell : row.getTableCells()) {
                     for (XWPFParagraph p : cell.getParagraphs()) {
-                        processRuns(p, user, currentUser, schedule);
+                        processRuns(p);
                     }
                 }
             }
@@ -87,14 +96,15 @@ public class TemplateProcessUtil {
         return new DefaultStreamedContent(tempIs, fileRepository.getMimeType(), fileRepository.getFileNameWithExtention());
     }
 
-    private static void processRuns(XWPFParagraph p, Users user, Users currentUser, Schedule schedule) {
+    private void processRuns(XWPFParagraph p) {
         List<XWPFRun> runs = p.getRuns();
         if (runs != null && !runs.isEmpty()) {
             String text = p.getText();
-            text = replaceUsingUsersData(text, user);
-            text = replaceUsingCommonData(text, currentUser);
+            text = replaceUsingUsersData(text);
+            text = replaceUsingCommonData(text);
+            text = replaceUsingPaymentData(text);
             if (schedule != null)
-                text = replaceUsingScheduleData(text, schedule);
+                text = replaceUsingScheduleData(text);
             for (int i = runs.size() - 1; i > 0; i--) {
                 p.removeRun(i);
             }
@@ -103,8 +113,8 @@ public class TemplateProcessUtil {
         }
     }
 
-    public static String replaceUsingUsersData(String text, Users user) {
-        if (text == null) return null;
+    public String replaceUsingUsersData(String text) {
+        if (text == null || user == null) return null;
         SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
         if (text.contains("$usersFirstName"))
             text = text.replaceAll("\\$usersFirstName", user.getFirstName() == null ? "" : user.getFirstName());
@@ -127,22 +137,68 @@ public class TemplateProcessUtil {
         return text;
     }
 
-    public static String replaceUsingCommonData(String text, Users currentUser) {
-        if (text == null) return null;
+    public String replaceUsingCommonData(String text) {
+        if (text == null || currentUser == null) return null;
         SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
         if (text.contains("$currentDate"))
             text = text.replaceAll("\\$currentDate", formatter.format(new Date()));
-        if (text.contains("$currentUser") && currentUser != null)
-            text = text.replaceAll("\\$currentUser", currentUser.getFirstName() + " " + currentUser.getLastName());
+        if (text.contains("$currentUsersFirstName") && currentUser != null)
+            text = text.replaceAll("\\$currentUsersFirstName", currentUser.getFirstName());
+        if (text.contains("$currentUsersLastName") && currentUser != null)
+            text = text.replaceAll("\\$currentUsersLastName", currentUser.getLastName());
         return text;
     }
 
-    public static String replaceUsingScheduleData(String text, Schedule schedule) {
-        if (text == null) return null;
+    public String replaceUsingScheduleData(String text) {
+        if (text == null || schedule == null) return null;
         if (text.contains("$scheduleId"))
             text = text.replaceAll("\\$scheduleId", schedule.getId() == null ? "" : "" + schedule.getId());
-        if (text.contains("$scheduleMethods"))
-            text = text.replaceAll("\\$scheduleMethods", schedule.getMethod() == null ? "" : "" + schedule.getMethod().getShortName());
+        if (text.contains("$scheduleMethod"))
+            text = text.replaceAll("\\$scheduleMethod", schedule.getMethod() == null ? "" : "" + schedule.getMethod().getShortName());
         return text;
+    }
+
+    public String replaceUsingPaymentData(String text) {
+        if (text == null || payment == null) return null;
+        if (text.contains("$paymentId"))
+            text = text.replaceAll("\\$paymentId", payment.getId() == null ? "" : "" + payment.getId());
+        if (text.contains("$paymentTotal"))
+            text = text.replaceAll("\\$paymentTotal", payment.getTotal() + " " + Message.getMessage("APPLICATION_CURRENCY"));
+        if (text.contains("$paymentDescription"))
+            text = text.replaceAll("\\$paymentDescription", payment.getDescription());
+
+        return text;
+    }
+
+    public Users getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(Users currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public Payments getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payments payment) {
+        this.payment = payment;
     }
 }

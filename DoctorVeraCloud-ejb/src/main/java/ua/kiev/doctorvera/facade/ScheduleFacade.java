@@ -5,6 +5,7 @@
  */
 package ua.kiev.doctorvera.facade;
 
+import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Users;
@@ -17,6 +18,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -192,6 +194,26 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
     }
+    /**
+     * Searches for all Schedule records that have starting date between the given date range
+     * and are payed(payment exists for them)
+     *
+     * @param from - date to search from
+     * @param to   - date to search to
+     * @return List<Schedule> List of existing Schedule records that are not marked as deleted
+     */
+    @Override
+    public List<Schedule> findPayedByStartDateBetween(Date from, Date to){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
+        Root<Schedule> root = cq.from(Schedule.class);
+        Predicate paymentPredicate = cb.and(cb.isNotEmpty(root.<Collection<Payments>>get("payments")));
+        Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTimeStart"), from, to));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(datePredicate, deletedPredicate, paymentPredicate);
+        cq.distinct(true);
+        return getEntityManager().createQuery(cq).getResultList();
+    }
 
     /**
      * Searches for current Schedule records child
@@ -234,6 +256,59 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
         Predicate doctorDirectedPredicate = cb.and(cb.equal(root.<Users>get("doctorDirected"), employee));
         Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
         cq.select(root).where(datePredicate, deletedPredicate, cb.or(doctorPredicate, assistantPredicate, doctorDirectedPredicate));
+        cq.distinct(true);
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
+    /**
+     * Searches for all Schedule records that have starting date between the given date range
+     * And with the given doctor, and are payed(payment exists for them)
+     *
+     * @param employee Employee to search for
+     * @param from
+     * @param to
+     * @return List<Schedule> List of existing Schedule records that are not marked as deleted
+     */
+    @Override
+    public List<Schedule> findPayedByEmployeeAndDateBetween(Users employee, Date from, Date to){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
+        Root<Schedule> root = cq.from(Schedule.class);
+        Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTimeStart"), from, to));
+        Predicate doctorPredicate = cb.and(cb.equal(root.<Users>get("doctor"), employee));
+        Predicate paymentPredicate = cb.and(cb.isNotEmpty(root.<Collection<Payments>>get("payments")));
+        Predicate assistantPredicate = cb.and(cb.equal(root.<Users>get("assistant"), employee));
+        Predicate doctorDirectedPredicate = cb.and(cb.equal(root.<Users>get("doctorDirected"), employee));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(datePredicate, deletedPredicate, paymentPredicate, cb.or(doctorPredicate, assistantPredicate, doctorDirectedPredicate));
+        cq.distinct(true);
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
+    /**
+     * Searches for all Schedule records that are assigned to the given employee and
+     * start date is between the given date range inclusive from and exclusive to
+     * and are payed(payment exists for them)
+     *
+     * @param employee - employee to search by
+     * @param from     - start date of the given date range
+     * @param to       - end date of the given range
+     * @return List<Plan> List of existing Schedule records that are not marked as deleted
+     */
+    @Override
+    public List<Schedule> findPayedByEmployeeAndStartDateBetweenExclusiveTo(Users employee, Date from, Date to){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
+        Root<Schedule> root = cq.from(Schedule.class);
+        Predicate breakPredicate = cb.and(cb.equal(root.<Users>get("doctor"), usersFacade.find(USERS_BREAK_ID)));
+        Predicate doctorPredicate = cb.and(cb.equal(root.<Users>get("doctor"), employee));
+        Predicate assistantPredicate = cb.and(cb.equal(root.<Users>get("assistant"), employee));
+        Predicate paymentPredicate = cb.and(cb.isNotEmpty(root.<Collection<Payments>>get("payments")));
+        Predicate doctorDirectedPredicate = cb.and(cb.equal(root.<Users>get("doctorDirected"), employee));
+        Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTimeStart"), from, to));
+        Predicate datePredicate2 = cb.and(cb.notEqual(root.<Date>get("dateTimeStart"), to));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(datePredicate, datePredicate2, deletedPredicate,paymentPredicate, cb.or(doctorPredicate, assistantPredicate, doctorDirectedPredicate, breakPredicate));
         cq.distinct(true);
         return getEntityManager().createQuery(cq).getResultList();
     }

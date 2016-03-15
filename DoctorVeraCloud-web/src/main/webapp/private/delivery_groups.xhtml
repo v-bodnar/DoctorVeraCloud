@@ -12,7 +12,7 @@
             <p:growl id="growl" showDetail="true" severity="info" />
 
             <p:contextMenu for="deliveryGroupsTable">
-                <p:menuitem update="deliveryGroupsTable growl" rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_DELETE_USER_GROUP')}">
+                <p:menuitem update="deliveryGroupsTable growl" rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_DELETE_USER_GROUP')}" styleClass="dv-menu-item">
                     <p:commandLink styleClass="ui-menuitem-link"
                                    action="#{deliveryGroupsView.deleteSelectedDeliveryGroup}" ajax="false"
                                    update="deliveryGroupsTable growl">
@@ -23,7 +23,7 @@
                     </p:commandLink>
                 </p:menuitem>
 
-                <p:menuitem update="deliveryGroupsTable growl" rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_EDIT_USER_GROUP')}">
+                <p:menuitem update="deliveryGroupsTable growl" rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_EDIT_USER_GROUP')}" styleClass="dv-menu-item">
                     <p:commandLink styleClass="ui-menuitem-link"
                                    oncomplete="PF('editGroupDialog').show();"
                                    update=":deliveryGroupsEditForm:editGroupDialog">
@@ -32,7 +32,7 @@
                     </p:commandLink>
                 </p:menuitem>
 
-                <p:menuitem update="deliveryGroupsTable growl" rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_ADD_USERS')}">
+                <p:menuitem update="deliveryGroupsTable growl" rendered="#{securityUtils.checkPermissions('DELIVERY_GROUPS_ADD_USERS')}" styleClass="dv-menu-item">
                     <p:commandLink styleClass="ui-menuitem-link"
                                    action="#{deliveryGroupsView.constructUsersPickList()}"
                                    oncomplete="PF('addUsersToDeliveryGroupDialog').show();"

@@ -216,3 +216,16 @@ input, textarea {
 	margin-left: 5px;
 	margin-right: 5px;
 }
+.fa-fw {
+	text-align: center;
+	color: gray;
+	font-size: 60%;
+	padding-left:2px;
+	padding-right:2px;
+	position:relative;
+	top:4px;
+}
+
+.dv-menu-item{
+	display: none !important;
+}

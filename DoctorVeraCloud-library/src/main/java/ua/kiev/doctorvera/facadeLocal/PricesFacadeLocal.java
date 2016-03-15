@@ -5,6 +5,7 @@
  */
 package ua.kiev.doctorvera.facadeLocal;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -25,6 +26,13 @@ public interface PricesFacadeLocal extends CRUDFacade<Prices>{
     @param method method to search for
     */
     Prices findLastPrice(Methods method);
+
+    /**
+     Searches for actual price record for given date with the given method
+     @return Price record that is not marked as deleted
+     @param method method to search for
+     */
+    Prices findPrice(Methods method, Date date);
 
     /**
     Searches for all Prices records with the given method

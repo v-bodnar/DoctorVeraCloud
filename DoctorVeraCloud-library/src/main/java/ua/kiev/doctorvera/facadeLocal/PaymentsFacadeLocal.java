@@ -5,13 +5,10 @@
  */
 package ua.kiev.doctorvera.facadeLocal;
 
-import java.util.List;
-
-import javax.ejb.Local;
-import javax.persistence.EntityManager;
-
 import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Schedule;
+
+import javax.ejb.Local;
 
 /**
  * Interface for declaring main operations with Generic (Identified) entity

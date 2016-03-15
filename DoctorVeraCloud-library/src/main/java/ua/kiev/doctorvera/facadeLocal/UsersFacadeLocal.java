@@ -137,6 +137,12 @@ public interface UsersFacadeLocal extends CRUDFacade<Users>{
     boolean isPatient(Users user);
 
     /**
+     * Checks if given user is in the group Assistants
+     * @param user - User that has to be checked
+     */
+    boolean isAssistant(Users user);
+
+    /**
      * Searches all Users that contain given DeliveryGroup
      * @param deliveryGroup given DeliveryGroup
      * @return all found Users

@@ -9,7 +9,7 @@ import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Message;
 import ua.kiev.doctorvera.services.ScheduleServiceLocal;
 import ua.kiev.doctorvera.utils.RandomPasswordGenerator;
-import ua.kiev.doctorvera.utils.TemplateProcessUtil;
+import ua.kiev.doctorvera.utils.TemplateProcessor;
 import ua.kiev.doctorvera.utils.Utils;
 import ua.kiev.doctorvera.validators.PlanValidator;
 import ua.kiev.doctorvera.validators.ScheduleValidator;
@@ -38,6 +38,7 @@ public class ScheduleView implements Serializable {
     private final Integer METHOD_BREAK_ID = Integer.parseInt(Config.getInstance().getString("METHOD_BREAK_ID"));
     private final Integer USERS_BREAK_ID = Integer.parseInt(Config.getInstance().getString("USERS_BREAK_ID"));
     private final Integer DOCTORS_USER_GROUP_ID = Integer.parseInt(Config.getInstance().getString("DOCTORS_USER_GROUP_ID"));
+    private final Integer SERVICE_METHOD_TYPE_ID = Integer.parseInt(Config.getInstance().getString("SERVICE_METHOD_TYPE_ID"));
     @EJB
     private RoomsFacadeLocal roomsFacade;
 
@@ -67,6 +68,9 @@ public class ScheduleView implements Serializable {
 
     @EJB
     private FileRepositoryFacadeLocal fileRepositoryFacade;
+
+    @Inject
+    private PaymentsView paymentsView;
 
     @Inject
     private SessionParams sessionParams;
@@ -151,6 +155,7 @@ public class ScheduleView implements Serializable {
         patient = new Users();
         selectedMethods = new ArrayList<Methods>();
         allMethodTypes = methodTypesFacade.findAll();
+        allMethodTypes.remove(methodTypesFacade.find(SERVICE_METHOD_TYPE_ID));
         selectedMethodType = methodTypesFacade.findAll().get(0);
         breakTime = 5;
 
@@ -860,18 +865,45 @@ public class ScheduleView implements Serializable {
     }
 
     public StreamedContent printForm() throws IOException {
+        TemplateProcessor processUtil = new TemplateProcessor();
+        processUtil.setCurrentUser(authorizedUser);
+        processUtil.setUser(authorizedUser);
+        processUtil.setSchedule(schedule);
+
         FileRepository usersForm = fileRepositoryFacade.find(Integer.parseInt(Config.getMessage("PERSONAL_DATA_FORM_TEMPLATE")));
-        return TemplateProcessUtil.processTemplate(usersForm, patient, authorizedUser, schedule);
+        return processUtil.processTemplate(usersForm);
     }
 
     public StreamedContent printSecureAgreement() throws IOException {
+        TemplateProcessor processUtil = new TemplateProcessor();
+        processUtil.setCurrentUser(authorizedUser);
+        processUtil.setUser(authorizedUser);
+        processUtil.setSchedule(schedule);
+
         FileRepository usersForm = fileRepositoryFacade.find(Integer.parseInt(Config.getMessage("PERSONAL_DATA_SECURITY_TEMPLATE")));
-        return TemplateProcessUtil.processTemplate(usersForm, patient, authorizedUser, schedule);
+        return processUtil.processTemplate(usersForm);
     }
 
-    public StreamedContent printPrintIncomeForm() throws IOException {
-        FileRepository usersForm = fileRepositoryFacade.find(Integer.parseInt(Config.getMessage("INCOME_FORM_TEMPLATE")));
-        return TemplateProcessUtil.processTemplate(usersForm, patient, authorizedUser, schedule);
+    public void addPayment() throws IOException {
+            paymentsView.setIsPositive(true);
+            Payments payment = new Payments();
+            payment.setUserCreated(authorizedUser);
+            payment.setDateCreated(new Date());
+            payment.setDataTime(new Date());
+            payment.setRecipient(authorizedUser);
+            payment.setSchedule(schedule);
+            payment.setTotal(pricesFacade.findLastPrice(schedule.getMethod()).getTotal());
+
+            String description = Message.getMessage("SCHEDULE_PAYMENT_DESCRIPTION")
+                    + " " + schedule.getId() + " " + schedule.getMethod().getShortName();
+            payment.setDescription(description);
+
+            if(payment.getTotal() == 0){
+                Message.showError(Message.getMessage("APPLICATION_ERROR"), Message.getMessage("SCHEDULE_METHOD_NOT_CHOSEN"));
+                RequestContext.getCurrentInstance().execute("PF('addPaymentDialog').hide();");
+            }
+
+            paymentsView.setNewPayment(payment);
     }
 
     public List<String> completeFirstNames(String letters) {

@@ -12,7 +12,7 @@
 			<p:growl id="growl" showDetail="true" severity="info" />
 
 			<p:contextMenu for="roomsTable">
-				<p:menuitem update="roomsTable growl" rendered="#{securityUtils.checkPermissions('ROOMS_DELETE')}">
+				<p:menuitem update="roomsTable growl" rendered="#{securityUtils.checkPermissions('ROOMS_DELETE')}" styleClass="dv-menu-item">
 					<p:commandLink styleClass="ui-menuitem-link"
 						action="#{roomsView.deleteSelectedRoom}" ajax="false"
 						update="roomsTable growl" >
@@ -23,7 +23,7 @@
 					</p:commandLink>
 				</p:menuitem>
 
-				<p:menuitem update="roomsTable growl" rendered="#{securityUtils.checkPermissions('ROOMS_EDIT')}">
+				<p:menuitem update="roomsTable growl" rendered="#{securityUtils.checkPermissions('ROOMS_EDIT')}" styleClass="dv-menu-item">
 					<p:commandLink styleClass="ui-menuitem-link"
 						oncomplete="PF('editRoomDialog').show();"
 						update=":roomsEditForm:editRoomDialog">
@@ -145,7 +145,6 @@
 						value="#{MESSAGE.APPLICATION_SAVE_BUTTON}" icon="ui-icon-plus"
 						actionListener="#{roomsView.saveSelectedRoom}"
 						update="roomDescriptionMessage roomNameMessage growl"
-						oncomplete="PF('editRoomDialog').hide();"
 						rendered="#{securityUtils.checkPermissions('ROOMS_ADD')}"/>
 				</h:panelGrid>
 			</p:dialog>

@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 @Named
 @ViewScoped
 public class SettingsView implements Serializable {
-    private static final Logger LOG = Logger.getLogger(LocalizationView.class.getName());
+    private static final Logger LOG = Logger.getLogger(SettingsView.class.getName());
 
     @EJB
     LocaleFacadeLocal localeFacade;
@@ -50,6 +50,8 @@ public class SettingsView implements Serializable {
 
     @EJB
     FileRepositoryFacadeLocal fileRepositoryFacade;
+    @EJB
+    MethodTypesFacadeLocal methodTypesFacade;
 
     @Inject
     private SessionParams sessionParams;
@@ -64,6 +66,7 @@ public class SettingsView implements Serializable {
     private List<UserGroups> userGroups;
     private List<Users> users;
     private List<Methods> methods;
+    private List<MethodTypes> methodTypes;
 
     @PostConstruct
     public void init(){
@@ -77,6 +80,7 @@ public class SettingsView implements Serializable {
         userGroups = userGroupsFacade.findAll();
         users = usersFacade.findAll();
         methods = methodsFacade.findAll();
+        methodTypes = methodTypesFacade.findAll();
     }
 
     public void saveSettings(String key){
@@ -167,6 +171,14 @@ public class SettingsView implements Serializable {
         return methods;
     }
 
+    public List<MethodTypes> getMethodTypes() {
+        return methodTypes;
+    }
+
+    public void setMethodTypes(List<MethodTypes> methodTypes) {
+        this.methodTypes = methodTypes;
+    }
+
     public List<MessageBundle> getAllPaths() {
         return allPaths;
     }
@@ -205,6 +217,14 @@ public class SettingsView implements Serializable {
             return "";
         }else {
             return methodsFacade.find(Integer.parseInt(id)).getShortName();
+        }
+    }
+
+    public String findMethodType(String id){
+        if(id == null || id.isEmpty()){
+            return "";
+        }else {
+            return methodTypesFacade.find(Integer.parseInt(id)).getShortName();
         }
     }
 }

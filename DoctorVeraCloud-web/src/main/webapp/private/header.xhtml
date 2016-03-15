@@ -2,19 +2,21 @@
 				xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:p="http://primefaces.org/ui"
-				xmlns:f="http://java.sun.com/jsf/core">
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:pe="http://primefaces.org/ui/extensions">
 
 	<p:layout>
 		<p:layoutUnit position="center">
 			<h:form id="headerForm">
-				<a href="#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.MAIN_PAGE}">
+				<!--<h:link outcome="#{sessionParams.applicationRootPath}#{MAPPINGS.MAIN_PAGE}" >-->
+				<a href="#{sessionParams.applicationRootPath}#{MAPPINGS.MAIN_PAGE}">
 				<h:graphicImage value="#{MAPPINGS.APPLICATION_IMAGES_PATH}#{MAPPINGS.APPLICATION_LOGO}" style="float:left"/>
 				</a>
+				<!--</h:link>-->
 				<h:outputText id="overlayPanelPlace" style="position: relative; top:160px;left:100px;"/>
 			</h:form>
 			<h3 class="pageTitle"><ui:insert name="title" /></h3>
 			<p:notificationBar position="top" effect="slide" styleClass="top" widgetVar="notificationBar">
-				<h:outputText value="#{testView.message}" style="font-size:36px;" />
 			</p:notificationBar>
 		</p:layoutUnit>
 
@@ -24,6 +26,9 @@
 				<p:growl id = "growll" autoUpdate="true"/>
 			<p:panelGrid styleClass="userProfilePanel" id="userAuthGrid">
 				<p:row>
+					<p:column rowspan="2">
+						<pe:analogClock/>
+					</p:column>
 					<p:column colspan="3">
 						<h:outputText value="#{MESSAGE.LOGIN_WELCOME}" />
 					</p:column>
@@ -40,18 +45,21 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<p:selectOneMenu id="languageSelector" value="#{headerView.selectedLocale}" converter="localeConverter" >
-							<f:selectItem itemValue="#{null}" itemLabel="#{headerView.selectedLocale.displayLanguage}" noSelectionOption="true" />
-							<f:selectItems value="#{headerView.allAvailableLocales}" itemValue="#{locale}" itemLabel="#{locale.displayLanguage}" var="locale"/>
-							<p:ajax listener="#{headerView.onLanguageSelect}" update="userAuthGrid languageSelectorMessage growll" oncomplete="javascript:location.reload(true)"/>
-							<p:message for="languageSelector" id="languageSelectorMessage" />
-						</p:selectOneMenu>
+						<p:inplace style="text-decoration:underline; color:gold">
+							<f:facet name="output">#{headerView.selectedLocale.displayLanguage}</f:facet>
+							<p:selectOneMenu id="languageSelector" value="#{headerView.selectedLocale}" converter="localeConverter" >
+								<f:selectItem itemValue="#{null}" itemLabel="#{headerView.selectedLocale.displayLanguage}" noSelectionOption="true" />
+								<f:selectItems value="#{headerView.allAvailableLocales}" itemValue="#{locale}" itemLabel="#{locale.displayLanguage}" var="locale"/>
+								<p:ajax listener="#{headerView.onLanguageSelect}" update="userAuthGrid languageSelectorMessage growll" oncomplete="javascript:location.reload(true)"/>
+								<p:message for="languageSelector" id="languageSelectorMessage" />
+							</p:selectOneMenu>
+						</p:inplace>
 					</p:column>
 					<p:column>
 						<p:commandLink
 							action="#{userProfileView.init(sessionParams.authorizedUser.id)}"
 							value="#{MESSAGE.LOGIN_USER_PROFILE}"
-							oncomplete="window.location = '#{MAPPINGS.APPLICATION_ROOT_PATH}#{MAPPINGS.USER_PROFILE_PAGE}';" />
+							oncomplete="window.location = '#{sessionParams.applicationRootPath}#{MAPPINGS.USER_PROFILE_PAGE}';" process="@this"/>
 					</p:column>
 					<p:column>
 						<p:commandLink actionListener="#{userLoginView.logout}"

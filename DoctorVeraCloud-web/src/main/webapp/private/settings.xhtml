@@ -246,6 +246,32 @@
                                 </p:inplace></h:panelGroup>
                             <p:message for="superAdminUserGroup" id="superAdminUserGroupMessage" />
 
+                            <!--EMPLOYEE USER GROUP-->
+                            <h:outputLabel for="employeeUserGroup" value="#{MESSAGE.SETTINGS_EMPLOYEE_USER_GROUP}" />
+                            <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                                <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                    <f:facet name="output">#{settingsView.findUserGroup(settingsView.allConstants.get('EMPLOYEE_USER_GROUP_ID').value)}</f:facet>
+                                    <p:selectOneMenu id="employeeUserGroup" value="#{settingsView.allConstants.get('EMPLOYEE_USER_GROUP_ID').value}"
+                                                     required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                        <f:selectItems value="#{settingsView.userGroups}" itemValue="#{userGroups.id}" itemLabel="#{userGroups.name}" var="userGroups"/>
+                                    </p:selectOneMenu>
+                                    <p:ajax event="save" listener="#{settingsView.saveSettings('EMPLOYEE_USER_GROUP_ID')}" update="growl employeeUserGroupMessage" process="@this"/>
+                                </p:inplace></h:panelGroup>
+                            <p:message for="employeeUserGroup" id="employeeUserGroupMessage" />
+
+                            <!--SERVICE METHOD TYPE-->
+                            <h:outputLabel for="serviceMethodType" value="#{MESSAGE.SETTINGS_SERVICE_METHOD_TYPE}" />
+                            <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                                <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                    <f:facet name="output">#{settingsView.findMethodType(settingsView.allConstants.get('SERVICE_METHOD_TYPE_ID').value)}</f:facet>
+                                    <p:selectOneMenu id="serviceMethodType" value="#{settingsView.allConstants.get('SERVICE_METHOD_TYPE_ID').value}"
+                                                     required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                        <f:selectItems value="#{settingsView.methodTypes}" itemValue="#{methodType.id}" itemLabel="#{methodType.fullName}" var="methodType"/>
+                                    </p:selectOneMenu>
+                                    <p:ajax event="save" listener="#{settingsView.saveSettings('SERVICE_METHOD_TYPE_ID')}" update="growl serviceMethodTypeMessage" process="@this"/>
+                                </p:inplace></h:panelGroup>
+                            <p:message for="serviceMethodType" id="serviceMethodTypeMessage" />
+
                             <!--BREAK METHOD-->
                             <h:outputLabel for="breakMethod" value="#{MESSAGE.SETTINGS_METHOD_BREAK}" />
                             <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
@@ -363,7 +389,7 @@
 
                                 <p:commandButton value="#{MESSAGE.APPLICATION_DOWNLOAD}"
                                                  ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" style="margin-top: 3px">
-                                    <p:fileDownload value="#{settingsView.downloadTemplate('PERSONAL_DATA_FORM_TEMPLATE')}" />
+                                    <p:fileDownload value="#{settingsView.downloadTemplate('INCOME_FORM_TEMPLATE')}" />
                                 </p:commandButton>
                             </f:facet></p:toolbar>
 

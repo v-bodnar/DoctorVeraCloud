@@ -15,7 +15,7 @@
 
             <c:set var="isSMSType" value="#{messageTemplatesView.messageType == 'SMS'}" />
             <p:contextMenu for="smsTemplatesTable">
-                <p:menuitem update="smsTemplatesTable growl" rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_UPDATE') : securityUtils.checkPermissions('EMAIL_TEMPLATES_UPDATE')}">
+                <p:menuitem update="smsTemplatesTable growl" rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_UPDATE') : securityUtils.checkPermissions('EMAIL_TEMPLATES_UPDATE')}" styleClass="dv-menu-item">
                     <p:commandLink styleClass="ui-menuitem-link" action="#{messageTemplatesView.setNewMessageTemplate(null)}"
                                    oncomplete="PF('editTemplateDialog').show();"
                                    update=":smsTemplatesEditForm:editTemplateDialog">
@@ -24,7 +24,7 @@
                     </p:commandLink>
                 </p:menuitem>
 
-                <p:menuitem update="smsTemplatesTable growl" rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_DELETE') : securityUtils.checkPermissions('EMAIL_TEMPLATES_DELETE')}">
+                <p:menuitem update="smsTemplatesTable growl" rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_DELETE') : securityUtils.checkPermissions('EMAIL_TEMPLATES_DELETE')}" styleClass="dv-menu-item">
                     <p:commandLink styleClass="ui-menuitem-link" action="#{messageTemplatesView.deleteSelectedTemplate}" ajax="false"
                                    update="smsTemplatesTable growl" process="@none">
                         <h:outputText styleClass="ui-menuitem-icon ui-icon ui-icon-close" />
@@ -34,7 +34,7 @@
                     </p:commandLink>
                 </p:menuitem>
 
-                <p:menuitem update="smsTemplatesTable growl" rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_SEND') : securityUtils.checkPermissions('EMAIL_TEMPLATES_SEND')}">
+                <p:menuitem update="smsTemplatesTable growl" rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_SEND') : securityUtils.checkPermissions('EMAIL_TEMPLATES_SEND')}" styleClass="dv-menu-item">
                     <p:commandLink styleClass="ui-menuitem-link" ajax="false" update="smsTemplatesTable growl">
                         <h:outputText styleClass="ui-menuitem-icon ui-icon  ui-icon-mail-closed" />
                         <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.MESSAGE_TEMPLATES_SEND_BUTTON}" />

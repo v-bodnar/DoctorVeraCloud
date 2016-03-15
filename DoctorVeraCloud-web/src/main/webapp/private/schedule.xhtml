@@ -177,6 +177,7 @@
                                              converter="methodTypesConverter"
                                              required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
                                              styleClass="mySelectOneMenu">
+                                <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true"/>
                                 <f:selectItems value="#{scheduleView.allMethodTypes}" var="methodType"
                                                itemLabel="#{methodType.shortName}" itemValue="#{methodType}"/>
                                 <p:ajax event="change" update="methods" listener="#{scheduleView.constructPickList}"/>
@@ -237,20 +238,21 @@
                                            message="#{MESSAGE.SCHEDULE_DELETE_CONFIRM_MESSAGE}" icon="ui-icon-alert"/>
                             </p:commandButton>
 
+                            <p:message for="methods" id="emptyLine" rendered="#{scheduleView.schedule.id != null}"/>
                             <p:fieldset legend="#{MESSAGE.SCHEDULE_TAB_DOCUMENTS}" toggleable="true" toggleSpeed="500" collapsed="true">
                                 <h:panelGrid columns="1" cellpadding="5">
                                     <p:commandButton value="#{MESSAGE.SCHEDULE_PRINT_FORM}"
                                                      ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
-                                                     icon="ui-icon-print" update="growl" style="width:300px" process="@none">
+                                                     icon="ui-icon-print" update="growl" style="width:300px" process="@this">
                                         <p:fileDownload value="#{scheduleView.printForm()}" />
                                     </p:commandButton>
                                     <p:commandButton  value="#{MESSAGE.SCHEDULE_PRINT_SECURE_AGREEMENT}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
-                                                      icon="ui-icon-print" update="growl" style="width:300px" process="@none">
+                                                      icon="ui-icon-print" update="growl" style="width:300px" process="@this">
                                         <p:fileDownload value="#{scheduleView.printSecureAgreement()}" />
                                     </p:commandButton>
-                                    <p:commandButton value="#{MESSAGE.SCHEDULE_PRINT_INCOME_FORM}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
-                                                     icon="ui-icon-print" update="growl" style="width:300px" process="@none">
-                                        <p:fileDownload value="#{scheduleView.printPrintIncomeForm()}" />
+                                    <p:commandButton value="#{MESSAGE.SCHEDULE_ADD_PAYMENT}" style="width:300px" process="@this"
+                                                     icon="fa fa-money" update=":addPaymentForm:addPaymentTable"  actionListener="#{scheduleView.addPayment()}"
+                                                     oncomplete="PF('addPaymentDialog').show();">
                                     </p:commandButton>
 
                                 </h:panelGrid>
@@ -370,6 +372,68 @@
 
                 </h:panelGrid>
 
+            </p:dialog>
+        </h:form>
+
+        <h:form id="addPaymentForm"
+                onkeypress="if( event.keyCode == 13){event.preventDefault()}">
+            <p:growl id="growl" showDetail="true" severity="info" />
+
+            <p:dialog header="#{MESSAGE.PAYMENTS_ADD_TITLE}"
+                      widgetVar="addPaymentDialog" modal="false" closeOnEscape="true">
+
+                <h:panelGrid columns="3" cellpadding="5"
+                             style="margin:auto;width:100%;" id="addPaymentTable">
+
+                    <!-- Type -->
+                    <h:outputLabel for="type" value="#{MESSAGE.PAYMENTS_TYPE}"/>
+                    <p:selectOneRadio id="type" value="#{paymentsView.isPositive}"
+                                      required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" disabled="true">
+                        <f:selectItem itemLabel="#{MESSAGE.PAYMENTS_TYPE_INCOMING}" itemValue="true" />
+                        <f:selectItem itemLabel="#{MESSAGE.PAYMENTS_TYPE_OUTOMING}" itemValue="false" />
+                    </p:selectOneRadio>
+                    <p:message for="type" id="typeMessage" />
+
+                    <!-- Total -->
+                    <h:outputLabel for="total" value="#{MESSAGE.PAYMENTS_TOTAL}" />
+                    <p:inputText value="#{paymentsView.newPayment.total}"
+                                 id="total" name="total" required="true"
+                                 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                        <p:ajax event="blur" update="totalMessage" process="total" />
+                        <f:validateDoubleRange />
+                    </p:inputText>
+                    <p:message for="total" id="totalMessage" />
+
+                    <!-- Description -->
+                    <h:outputLabel for="description" value="#{MESSAGE.ENTITY_DESCRIPTION}" />
+                    <p:inputTextarea rows="6" cols="20" id="description"
+                                     value="#{paymentsView.newPayment.description}"
+                                     required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                                     validato="priceValidator.validate">
+                        <f:attribute name="name" value="notZero" />
+                        <p:ajax event="blur" update="descriptionMessage"  process="description"/>
+                    </p:inputTextarea>
+                    <p:message for="description" id="descriptionMessage" />
+
+                    <!-- Date Time -->
+                    <h:outputLabel for="dataTime" value="#{MESSAGE.PAYMENTS_DATE_TIME}" />
+                    <p:clock pattern="dd.MMMMM.yyyy" id="dataTime"/>
+                    <h:outputText value=""/>
+
+                    <!-- Cashier -->
+                    <h:outputLabel for="cashier" value="#{MESSAGE.PAYMENTS_CASHIER}" />
+                    <h:outputText value="#{paymentsView.authorizedUser.firstName} #{paymentsView.authorizedUser.lastName}" id="cashier"/>
+                    <h:outputText value=""/>
+
+                    <!-- Add && print button -->
+                    <p:commandButton value="#{MESSAGE.PAYMENTS_ADD_PRINT_BUTTON}"
+                                     icon="ui-icon-print" style="margin:auto"
+                                     update="growl" process="@form" ajax="false"
+                                     onclick="PF('addPaymentDialog').hide();"
+                                     rendered="#{securityUtils.checkPermissions('PAYMENTS_ADD')}">
+                        <p:fileDownload value="#{paymentsView.createAndPrintPayment()}" />
+                    </p:commandButton>
+                </h:panelGrid>
             </p:dialog>
         </h:form>
 

@@ -5,13 +5,19 @@ import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.RoomsFacadeLocal;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 /**
  * Created by Volodymyr Bodnar on 10.02.2015.
@@ -22,7 +28,7 @@ import java.util.ResourceBundle;
 public class SessionParams implements Serializable {
 
     public static final Locale DEFAULT_LOCALE = new Locale("ru", "Ru");
-
+    private static final Logger LOG = Logger.getLogger(SessionParams.class.getName());
     @EJB
     private RoomsFacadeLocal roomsFacade;
 
@@ -33,6 +39,7 @@ public class SessionParams implements Serializable {
     private Locale currentLocale;
     //Preferred by browser Locale
     private Locale preferredLocale;
+    private String applicationRootPath;
 
     public void setDefaultLocale(){
         if(authorizedUser.getLocale() == null){
@@ -113,5 +120,35 @@ public class SessionParams implements Serializable {
 
     public void setPreferredLocale(Locale preferredLocale) {
         this.preferredLocale = preferredLocale;
+    }
+
+    public String getApplicationRootPath() {
+        if(applicationRootPath == null){
+            setApplicationRootPath();
+            return applicationRootPath;
+        }else
+            return applicationRootPath;
+    }
+
+    public void setApplicationRootPath(String applicationRootPath) {
+        this.applicationRootPath = applicationRootPath;
+    }
+
+    public void setApplicationRootPath() {
+        HttpServletRequest servletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String uri = servletRequest.getRequestURI();
+        if (servletRequest.getQueryString() != null) {
+            uri += '?' + servletRequest.getQueryString();
+        }
+        URL reconstructedURL = null;
+        try {
+            reconstructedURL = new URL(servletRequest.getScheme(),
+                    servletRequest.getServerName(),
+                    servletRequest.getServerPort(),
+                    uri);
+        } catch (MalformedURLException e) {
+            LOG.severe(e.getMessage());
+        }
+        applicationRootPath = reconstructedURL.getProtocol() + "://" + reconstructedURL.getAuthority();
     }
 }

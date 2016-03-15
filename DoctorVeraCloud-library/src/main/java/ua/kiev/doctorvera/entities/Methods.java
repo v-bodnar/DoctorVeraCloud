@@ -68,7 +68,7 @@ public class Methods implements Serializable,Identified<Integer> {
     @Column(name = "Deleted")
     private boolean deleted;
 
-    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, mappedBy = "method")
+    @OneToMany(mappedBy = "method")
     private Collection<Prices> pricesCollection;
 
     @JoinColumn(name = "MethodType", referencedColumnName = "MethodTypeId")

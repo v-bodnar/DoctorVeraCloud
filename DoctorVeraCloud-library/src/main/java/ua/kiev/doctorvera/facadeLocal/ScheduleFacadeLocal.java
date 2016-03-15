@@ -98,6 +98,16 @@ public interface ScheduleFacadeLocal  extends CRUDFacade<Schedule>{
     List<Schedule> findByStartDateBetween(Date from, Date to);
 
     /**
+     * Searches for all Schedule records that have starting date between the given date range
+     * and are payed(payment exists for them)
+     *
+     * @param from - date to search from
+     * @param to   - date to search to
+     * @return List<Schedule> List of existing Schedule records that are not marked as deleted
+     */
+    List<Schedule> findPayedByStartDateBetween(Date from, Date to);
+
+    /**
      * Searches for current Schedule records child
      *
      * @param schedule - record whose child to search
@@ -117,6 +127,17 @@ public interface ScheduleFacadeLocal  extends CRUDFacade<Schedule>{
     List<Schedule> findByEmployeeAndDateBetween(Users employee, Date from, Date to);
 
     /**
+     * Searches for all Schedule records that have starting date between the given date range
+     * And with the given doctor, and are payed(payment exists for them)
+     *
+     * @param employee Employee to search for
+     * @param from
+     * @param to
+     * @return List<Schedule> List of existing Schedule records that are not marked as deleted
+     */
+    List<Schedule> findPayedByEmployeeAndDateBetween(Users employee, Date from, Date to);
+
+    /**
      * Searches for all Schedule records that are assigned to the given employee and
      * start date is between the given date range inclusive from and exclusive to
      *
@@ -126,6 +147,17 @@ public interface ScheduleFacadeLocal  extends CRUDFacade<Schedule>{
      * @return List<Plan> List of existing Schedule records that are not marked as deleted
      */
     List<Schedule> findByEmployeeAndStartDateBetweenExclusiveTo(Users employee, Date from, Date to);
+
+    /**
+     * Searches for all Schedule records that are assigned to the given employee and
+     * start date is between the given date range inclusive from and exclusive to
+     *
+     * @param employee - employee to search by
+     * @param from     - start date of the given date range
+     * @param to       - end date of the given range
+     * @return List<Plan> List of existing Schedule records that are not marked as deleted
+     */
+    List<Schedule> findPayedByEmployeeAndStartDateBetweenExclusiveTo(Users employee, Date from, Date to);
 
     /**
      * Searches for all Schedule records that are assigned to the given room and
