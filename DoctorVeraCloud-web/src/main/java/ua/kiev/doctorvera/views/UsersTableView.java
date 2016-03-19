@@ -272,7 +272,8 @@ public class UsersTableView implements Serializable {
 		options.put("modal", true);
 		options.put("draggable", false);
 		options.put("resizable", false);
-		options.put("contentHeight", 500);
+		options.put("contentHeight", 600);
+		options.put("contentWidth", 800);
 		RequestContext.getCurrentInstance().openDialog("add_user", options, null);
 	}
 

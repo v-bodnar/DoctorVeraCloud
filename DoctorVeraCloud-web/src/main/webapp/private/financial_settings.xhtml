@@ -82,7 +82,7 @@
                     <p:commandButton value="#{MESSAGE.FINANCIAL_SETTINGS_CREATE_BUTTON}" icon="ui-icon-plus"
                                      actionListener = "#{financialSettingsView.createNewShare}"
                                      oncomplete="PF('addShareDialog').show();"
-                                     update=":financialSettingsAddForm:addShareTable :financialSettingsEditForm:editShareTable"
+                                     update=":financialSettingsAddForm:addShareTable"
                                      rendered="#{securityUtils.checkPermissions('FINANCIAL_SETTINGS_CREATE')}"/>
                 </f:facet>
             </p:dataTable>
@@ -112,6 +112,7 @@
                                  id="doctorsPart" name="doctorsPart" mask="9?99999" slotChar=""
                                  required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                         <p:ajax event="blur" update="doctorsPartMessage" process="doctorsPart" />
+                        <f:convertNumber minFractionDigits="0" />
                     </p:inputMask>
                     <p:message for="doctorsPart" id="doctorsPartMessage" />
 
@@ -121,6 +122,7 @@
                                  id="assistantsPart" name="assistantsPart" mask="9?99999" slotChar=""
                                  required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
                         <p:ajax event="blur" update="assistantsPartMessage" process="assistantsPart" />
+                        <f:convertNumber minFractionDigits="0" />
                     </p:inputMask>
                     <p:message for="assistantsPart" id="assistantsPartMessage" />
 
@@ -187,10 +189,6 @@
                 </h:panelGrid>
             </p:dialog>
 
-        </h:form>
-        <h:form id="financialSettingsEditForm">
-            <h:panelGrid columns="3" cellpadding="5" id="editShareTable">
-            </h:panelGrid>
         </h:form>
     </ui:define>
 </ui:composition>

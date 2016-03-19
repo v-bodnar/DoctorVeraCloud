@@ -69,6 +69,9 @@ public class ScheduleView implements Serializable {
     @EJB
     private FileRepositoryFacadeLocal fileRepositoryFacade;
 
+    @EJB
+    private PaymentsFacadeLocal paymentsFacade;
+
     @Inject
     private PaymentsView paymentsView;
 
@@ -937,6 +940,12 @@ public class ScheduleView implements Serializable {
             }
         }
         return result;
+    }
+
+    public boolean isSelectedSchedulePayed(){
+        List<Payments> payment = paymentsFacade.findBySchedule(schedule);
+        if(payment.isEmpty()) return false;
+        else return true;
     }
 
     public Users getPatient() {

@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -65,16 +66,26 @@ public class SalaryView implements Serializable{
 
 
     @PostConstruct
-    public void init() throws ShareFacadeLocal.ShareNotFoundException{
+    public void init(){
         authorizedUser = sessionParams.getAuthorizedUser();
         scheduleList = scheduleFacade.findPayedByStartDateBetween(DateTime.now().withDayOfMonth(1).toDate(), new Date());
-        financialData = shareFacade.findFinancialDataOnScheduleList(scheduleList);
+        try {
+            financialData = shareFacade.findFinancialDataOnScheduleList(scheduleList);
+        } catch (ShareFacadeLocal.ShareNotFoundException e) {
+            financialData = new HashMap<>();
+            Message.showErrorInDialog(e.getMessage());
+        }
         allEmployees = usersFacade.findByGroup(Integer.parseInt(Config.getMessage("EMPLOYEE_USER_GROUP_ID")));
     }
 
-    public void searchAppointments() throws ShareFacadeLocal.ShareNotFoundException{
+    public void searchAppointments(){
         scheduleList = scheduleFacade.findPayedByEmployeeAndDateBetween(selectedEmployee, dateStart, dateEnd);
-        financialData = shareFacade.findFinancialDataOnScheduleList(scheduleList);
+        try {
+            financialData = shareFacade.findFinancialDataOnScheduleList(scheduleList);
+        } catch (ShareFacadeLocal.ShareNotFoundException e) {
+            financialData = new HashMap<>();
+            Message.showErrorInDialog(e.getMessage());
+        }
     }
 
     public void fillPaymentForm(){
@@ -169,36 +180,42 @@ public class SalaryView implements Serializable{
 
     public float getCostSum(){
         float sum = 0;
+        if(financialData.values().isEmpty()) return sum;
         for(Map<String, Float> map : financialData.values())
             sum += map.get(ShareFacadeLocal.Part.COST.name());
         return sum;
     }
     public float getPaidSum(){
         float sum = 0;
+        if(financialData.values().isEmpty()) return sum;
         for(Map<String, Float> map : financialData.values())
             sum += map.get(ShareFacadeLocal.Part.PAID.name());
         return sum;
     }
     public float getDoctorsSum(){
         float sum = 0;
+        if(financialData.values().isEmpty()) return sum;
         for(Map<String, Float> map : financialData.values())
             sum += map.get(ShareFacadeLocal.Part.DOCTOR.name());
         return sum;
     }
     public float getDoctorDirectedSum(){
         float sum = 0;
+        if(financialData.values().isEmpty()) return sum;
         for(Map<String, Float> map : financialData.values())
             sum += map.get(ShareFacadeLocal.Part.DOCTOR_DIRECTED.name());
         return sum;
     }
     public float getAssistantsSum(){
         float sum = 0;
+        if(financialData.values().isEmpty()) return sum;
         for(Map<String, Float> map : financialData.values())
             sum += map.get(ShareFacadeLocal.Part.ASSISTANT.name());
         return sum;
     }
     public float getCenterSum(){
         float sum = 0;
+        if(financialData.values().isEmpty()) return sum;
         for(Map<String, Float> map : financialData.values())
             sum += map.get(ShareFacadeLocal.Part.CENTER.name());
         return sum;

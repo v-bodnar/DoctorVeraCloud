@@ -89,7 +89,7 @@ public class FinancialSettingsView implements Serializable {
         } else if (selectedShare != null){
             List<Users> allDoctors = usersFacade.findByGroup(Integer.parseInt(Config.getMessage("DOCTORS_USER_GROUP_ID")));
             List<Users> targetDoctors = selectedShare.getDoctors() == null ? new ArrayList<>() : (List)selectedShare.getDoctors();
-            targetDoctors.removeAll(targetDoctors);
+            allDoctors.removeAll(targetDoctors);
             doctorsDualListModel = new DualListModel<>(allDoctors, targetDoctors);
         }else{
             doctorsDualListModel = new DualListModel<>(new ArrayList<Users>(), new ArrayList<Users>());
@@ -105,7 +105,7 @@ public class FinancialSettingsView implements Serializable {
         } else if (selectedShare != null){
             List<Users> allAssistants = usersFacade.findByGroup(Integer.parseInt(Config.getMessage("ASSISTANTS_USER_GROUP_ID")));
             List<Users> targetAssistants = selectedShare.getAssistants() == null ? new ArrayList<>() : (List)selectedShare.getAssistants();
-            targetAssistants.removeAll(targetAssistants);
+            allAssistants.removeAll(targetAssistants);
             assistantsDualListModel = new DualListModel<>(allAssistants, targetAssistants);
         }else{
             assistantsDualListModel = new DualListModel<>(new ArrayList<Users>(), new ArrayList<Users>());

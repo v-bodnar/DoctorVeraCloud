@@ -224,6 +224,7 @@
                                              update="errorMessage growl"
                                              oncomplete="PF('schedule').update();"
                                              rendered="#{scheduleView.schedule.id != null and securityUtils.checkPermissions('SCHEDULE_UPDATE')}"
+                                             disabled="#{scheduleView.isSelectedSchedulePayed()}"
                                              validateClient="scheduleValidator"
                                              styleClass="myButton"/>
                             <p:commandButton id="scheduleDeleteButton"
@@ -232,6 +233,7 @@
                                              actionListener="#{scheduleView.deleteSchedule}"
                                              update="errorMessage growl"
                                              rendered="#{scheduleView.schedule.id != null and securityUtils.checkPermissions('SCHEDULE_DELETE')}"
+                                             disabled="#{scheduleView.isSelectedSchedulePayed()}"
                                              oncomplete="PF('schedule').update(); PF('addScheduleDialog').hide();"
                                              styleClass="myButton">
                                 <p:confirm header="#{MESSAGE.SCHEDULE_DELETE_CONFIRM_TITLE}"
