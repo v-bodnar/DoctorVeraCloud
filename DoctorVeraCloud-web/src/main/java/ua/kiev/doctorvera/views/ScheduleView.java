@@ -84,6 +84,9 @@ public class ScheduleView implements Serializable {
     @Inject
     private ScheduleValidator scheduleValidator;
 
+    @Inject
+    private TemplateProcessor templateProcessor;
+
     private Users authorizedUser;
 
     private Rooms currentRoom;
@@ -137,7 +140,7 @@ public class ScheduleView implements Serializable {
 
     private String cssStyle;
 
-    private boolean sendNotification;
+    private boolean sendNotification = false;
 
     //Constructor)
     @PostConstruct
@@ -241,6 +244,7 @@ public class ScheduleView implements Serializable {
             schedule = new Schedule();
             patient = new Users();
             selectedMethodType = null;
+            sendNotification = false;
             schedule.setDoctor(plan.getDoctor());
             schedule.setRoom(plan.getRoom());
             schedule.setDateTimeStart(getEarliestTime(plan));
@@ -256,6 +260,7 @@ public class ScheduleView implements Serializable {
             patient = schedule.getPatient();
             selectedMethodType = schedule.getMethod().getMethodType();
             selectedMethods.add(schedule.getMethod());
+            sendNotification = false;
             constructPickList();
             if(!isBreakSchedule(schedule)){
                 RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').show()");
@@ -312,7 +317,8 @@ public class ScheduleView implements Serializable {
                     schedule = scheduleFacade.find(schedule.getId());
                     newSchedule.setParentSchedule(schedule);
                     scheduleFacade.create(newSchedule);
-                    scheduleService.scheduleEvent(schedule);
+                    if(isSendNotification())
+                        scheduleService.scheduleEvent(schedule);
                     //Creating corresponding Schedule event
                     event = eventFromSchedule(newSchedule);
                     event.setEditable(false);
@@ -324,7 +330,8 @@ public class ScheduleView implements Serializable {
                     breakEvent.setStartDate(event.getEndDate());
                     breakEvent.setEndDate(new Date(event.getEndDate().getTime() + breakTime));
                     scheduleFacade.edit(breakSchedule);
-                    scheduleService.changeEvent(schedule);
+                    if(isSendNotification())
+                        scheduleService.changeEvent(schedule);
                     //eventModel.updateEvent(breakEvent);
                 } else if (breakSchedule != null && nextScheduleHasSamePatient) {
                     DefaultScheduleEvent breakEvent = findScheduleEvent(breakSchedule);
@@ -506,7 +513,8 @@ public class ScheduleView implements Serializable {
                 createNewSchedule(method, startTime);
                 startTime = schedule.getDateTimeEnd();
                 scheduleFacade.create(schedule);
-                scheduleService.scheduleEvent(schedule);
+                if(isSendNotification())
+                    scheduleService.scheduleEvent(schedule);
                 //Creating corresponding Schedule event
                 event = eventFromSchedule(schedule);
                 eventModel.addEvent(event);
@@ -570,7 +578,8 @@ public class ScheduleView implements Serializable {
                     createNewSchedule(method, startTime);
                     startTime = schedule.getDateTimeEnd();
                     scheduleFacade.create(schedule);
-                    scheduleService.scheduleEvent(schedule);
+                    if(isSendNotification())
+                        scheduleService.scheduleEvent(schedule);
                     //Creating corresponding Schedule event
                     event = eventFromSchedule(schedule);
                     eventModel.addEvent(event);
@@ -596,7 +605,8 @@ public class ScheduleView implements Serializable {
                 schedule = scheduleFacade.find(schedule.getId());
                 newSchedule.setParentSchedule(schedule);
                 scheduleFacade.create(newSchedule);
-                scheduleService.scheduleEvent(schedule);
+                if(isSendNotification())
+                    scheduleService.scheduleEvent(schedule);
                 //Creating corresponding Schedule event
                 event = eventFromSchedule(newSchedule);
                 event.setEditable(false);
@@ -623,7 +633,8 @@ public class ScheduleView implements Serializable {
                 scheduleFacade.remove(breakRecord);
             }
             scheduleFacade.remove(schedule);
-            scheduleService.removeEvent(schedule);
+            if(isSendNotification())
+                scheduleService.removeEvent(schedule);
             eventModel.deleteEvent(event);
 
             LOG.info("Schedule id: " + schedule.getId() + " deleted");

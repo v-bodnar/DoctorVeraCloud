@@ -44,6 +44,11 @@
                             </p:selectBooleanCheckbox>
                             <p:message for="foreigner"/>
 
+                            <!-- Send Notification -->
+                            <h:outputLabel for="notification" value="#{MESSAGE.SCHEDULE_SEND_NOTIFICATION}"/>
+                            <p:selectBooleanCheckbox value="#{scheduleView.sendNotification}" id="notification" name="notification"/>
+                            <p:message for="notification"/>
+
                             <!-- Phone Number Mobile -->
                             <h:outputLabel for="phoneNumberMobile" id="phoneNumberMobileLabel"
                                            value="#{MESSAGE.USERS_PHONE_NUMBER_MOBILE}" disabled="#{scheduleView.patient.foreigner}"/>
@@ -165,7 +170,7 @@
                                 <h:inputHidden id="breakSlider" value="#{scheduleView.breakTime}" required="true"
                                                requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
                                         />
-                                <p:slider for="breakSlider" display="breakSlideroutput" step="5" minValue="5"
+                                <p:slider for="breakSlider" display="breakSlideroutput" step="5" minValue="5" styleClass="breakSlider"
                                           maxValue="60"
                                           displayTemplate="#{MESSAGE.SCHEDULE_BREAK_TIME} {value} #{MESSAGE.SCHEDULE_MINUTES}"/>
                             </h:panelGroup>
