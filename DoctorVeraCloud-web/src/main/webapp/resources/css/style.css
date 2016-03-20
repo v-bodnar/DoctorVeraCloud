@@ -106,9 +106,7 @@ font-size: 100% !important;
 .usersTable{
 	height: 95%;
 }
-.typePicker .ui-picklist-list{
-	width:220px !important;
-}
+
 .planCalendar{
 	padding:0 !important;
 	margin:0 !important;
@@ -145,18 +143,24 @@ font-size: 100% !important;
 }
 
 #scheduleForm .ui-selectonemenu{
+	width:378px !important;
+}
+.breakSlider{
 	width:410px !important;
 }
-
+input.ui-picklist-filter,
+div.ui-picklist-caption,
+ul.ui-picklist-list
+{
+	width:280px !important;
+}
 #scheduleForm input.ui-picklist-filter,
-#scheduleForm div.ui-picklist-caption 
+#scheduleForm div.ui-picklist-caption,
+#scheduleForm ul.ui-picklist-list
 {
-    width:155px !important;
+    width:177px !important;
 }
-#scheduleForm ul.ui-picklist-list 
-{
-    width:175px !important;
-}
+
 .fc-plan {
 	opacity: 0.5;
 }
@@ -166,16 +170,6 @@ font-size: 100% !important;
 }
 .ui-menu{
 	width: 15em !important;
-}
-
-#addPolicyToTypeForm\:addPolicyToTypePickList,
-#addPolicyToTypeForm\:addPolicyToTypePickList .ui-picklist-list
-{
-	width: 305px !important;
-	height: 300px !important;
-}
-#addPolicyToTypeForm\:addPolicyToTypePickList .ui-picklist-filter{
-	width: 93% !important;
 }
 #mainPageForm\:dashboard,
 #mainPageForm\:dashboard .ui-dashboard-column{
@@ -228,4 +222,14 @@ input, textarea {
 
 .dv-menu-item{
 	display: none !important;
+}
+
+.ui-selectoneradio .ui-state-active{
+	background: none !important;
+	background-color: #459e00 !important;
+}
+
+.ui-selectoneradio .ui-state-default{
+	background: none !important;
+	background-color: #fafaf4 !important;
 }
