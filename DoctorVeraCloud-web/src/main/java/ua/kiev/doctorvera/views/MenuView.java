@@ -72,6 +72,8 @@ public class MenuView implements Serializable {
     private final String settingsPageUrl = Mapping.getMessage("SETTINGS_PAGE");
     private final String financialSettingsPageValue = Message.getMessage("MENU_ITEM_FINANCIAL_SETTINGS");
     private final String financialSettingsPageUrl = Mapping.getMessage("FINANCIAL_SETTINGS_PAGE");
+    private final String statisticsPageValue = Message.getMessage("MENU_ITEM_STATISTICS");
+    private final String statisticsPageUrl = Mapping.getMessage("STATISTICS_PAGE");
     private final String salaryPageValue = Message.getMessage("MENU_ITEM_SALARY");
     private final String salarySettingsPageUrl = Mapping.getMessage("SALARY_PAGE");
     private static final String APPLICATION_ROOT_URL = "";
@@ -230,6 +232,15 @@ public class MenuView implements Serializable {
         item.setIcon("fa fa-bitcoin fa-fw");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SALARY));
         if (url != null && url.equals(APPLICATION_ROOT_URL + salarySettingsPageUrl)) {
+            item.setStyleClass("ui-state-active");
+        }
+        financeSubmenu.addElement(item);
+
+        item = new DefaultMenuItem(statisticsPageValue);
+        item.setUrl(statisticsPageUrl);
+        item.setIcon("fa fa-area-chart fa-fw");
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_STATISTICS));
+        if (url != null && url.equals(APPLICATION_ROOT_URL + statisticsPageUrl)) {
             item.setStyleClass("ui-state-active");
         }
         financeSubmenu.addElement(item);

@@ -1,0 +1,214 @@
+<ui:composition template="index.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title">
+        <h:outputText value="#{MESSAGE.STATISTICS_PAGE_TITLE}"/>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="statisticsForm">
+
+            <!-- Search panel -->
+            <p:panel style="text-align: center">
+                <h:outputLabel for="dateStart" value=" #{MESSAGE.SALARY_FROM} "/>
+
+                <p:calendar value="#{statisticsView.startDate}"
+                            id="dateStart" pattern="dd-MM-yyyy" styleClass="myTextField">
+                    <p:ajax event="dateSelect" />
+                </p:calendar>
+
+                <h:outputLabel for="dateEnd" value=" #{MESSAGE.SALARY_TO} "/>
+                <p:calendar value="#{statisticsView.endDate}"
+                            id="dateEnd" pattern="dd-MM-yyyy" styleClass="myTextField">
+                    <p:ajax event="dateSelect"/>
+                </p:calendar>
+
+                <p:selectOneMenu id="employee" value="#{statisticsView.selectedEmployee}" converter="usersConverter"
+                                 style="top:8px;margin-left: 5px; margin-right: 5px;">
+                    <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}"
+                                  noSelectionOption="true"/>
+                    <f:selectItems value="#{statisticsView.allEmployees}" itemValue="#{employee}"
+                                   itemLabel="#{employee.lastName} #{employee.firstName}" var="employee"/>
+                </p:selectOneMenu>
+
+                <p:selectOneMenu id="method" value="#{statisticsView.selectedMethod}" converter="methodsConverter"
+                                 style="top:8px;margin-left: 5px; margin-right: 5px;">
+                    <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}"
+                                  noSelectionOption="true"/>
+                    <f:selectItems value="#{statisticsView.allMethods}" itemValue="#{method}"
+                                   itemLabel="#{method.shortName}" var="method"/>
+                </p:selectOneMenu>
+
+                <p:commandButton value="#{MESSAGE.STATISTICS_CALCULATE}" icon="fa fa-slideshare"
+                                 actionListener="#{statisticsView.populateStatistics()}"
+                                 update="statisticsTabs"/>
+            </p:panel>
+        </h:form>
+        <p:tabView id="statisticsTabs">
+            <!-- Appointments panel -->
+            <p:tab id="appointments" title="#{MESSAGE.STATISTICS_APPOINTMENTS}"
+                   rendered="#{securityUtils.checkPermissions('STATISTICS_APPOINTMENTS')}">
+                <h:form id="appointmentsForm">
+                    <p:panelGrid style="width: 100%">
+                        <p:row>
+                            <p:column style="width: 50%">
+                                <h:outputText value="#{MESSAGE.INDEX_APPOINTMENTS_COUNT}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.appointmentsCountMonth}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.INDEX_AVERAGE_APPOINTMENTS_PER_DAY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.averageAppointmentsCountPerDay}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.INDEX_BEST_DAY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.maxAppointmentsPerDay}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.INDEX_WORST_DAY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.minAppointmentsPerDay}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_WORKING_DAYS_PER_PERIOD}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.workingDays}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:chart id="monthAppointmentsChart" type="line"
+                                         model="#{statisticsView.periodAppointments}"
+                                         responsive="true"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:chart id="methodsChart" type="pie"
+                                         model="#{statisticsView.methodsChart}"
+                                         responsive="true"/>
+                            </p:column>
+                            <p:column>
+                                <p:chart id="employeeChart" type="pie"
+                                         model="#{statisticsView.employeeChart}"
+                                         responsive="true"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
+
+
+            <p:tab id="salary" title="#{MESSAGE.STATISTICS_SALARY}"
+                   rendered="#{securityUtils.checkPermissions('STATISTICS_FINANCIAL')}">
+                <h:form id="salaryForm">
+                    <p:panelGrid style="width: 100%">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_SALARY_SUM}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.salarySum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_TOTAL_PAID}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.paidSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.INDEX_AVERAGE_DAY_SALARY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText
+                                        value="#{statisticsView.averageDaySalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_TOTAL_PAID_AVERAGE_PER_DAY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.averagePayedSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.INDEX_BEST_DAY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.maxDaySalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_CLINICS_INCOME}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.clinicsSalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.INDEX_WORST_DAY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.minDaySalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_CLINICS_INCOME_AVERAGE_PER_DAY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.averageClinicsSalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <h:outputText value="#{MESSAGE.STATISTICS_WORKING_DAYS_PER_PERIOD}"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <h:outputText
+                                        value="#{statisticsView.workingDays}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:chart id="totalPayedChart" type="line" model="#{statisticsView.totalPayedChart}"
+                                         responsive="true" style="width:100%"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:chart id="doctorsSalaryChart" type="line" model="#{statisticsView.doctorsSalaryChart}"
+                                         responsive="true" style="width:100%"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4">
+                                <p:chart id="clinicsSalaryChart" type="line" model="#{statisticsView.clinicsSalaryChart}"
+                                         responsive="true" style="width:100%"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+
+
+    </ui:define>
+</ui:composition>

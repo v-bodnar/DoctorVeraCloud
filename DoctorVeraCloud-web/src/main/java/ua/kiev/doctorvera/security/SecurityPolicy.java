@@ -30,6 +30,7 @@ public enum SecurityPolicy implements Serializable{
     MENU_ITEM_SETTINGS(SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_FINANCIAL_SETTINGS(SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_SALARY(SecurityPolicyGroup.MENU_GROUP),
+    MENU_ITEM_STATISTICS(SecurityPolicyGroup.MENU_GROUP),
     /**
      * Users page
      */
@@ -158,6 +159,12 @@ public enum SecurityPolicy implements Serializable{
      */
     SALARY_UPDATE(SecurityPolicyGroup.SALARY_GROUP),
     SALARY_DELETE(SecurityPolicyGroup.SALARY_GROUP),
+    /**
+     * Statistics page
+     */
+    STATISTICS_FINANCIAL(SecurityPolicyGroup.STATISTICS_GROUP),
+    STATISTICS_APPOINTMENTS(SecurityPolicyGroup.STATISTICS_GROUP),
+    STATISTICS_METHODS(SecurityPolicyGroup.STATISTICS_GROUP),
     ;
 
     private SecurityPolicyGroup policyGroup;
@@ -195,7 +202,8 @@ public enum SecurityPolicy implements Serializable{
         LOCALIZATION_GROUP("SECURITY_LOCALIZATION_GROUP_DESCRIPTION"),
         SETTINGS_GROUP("SECURITY_SETTINGS_GROUP_DESCRIPTION"),
         FINANCIAL_SETTINGS_GROUP("SECURITY_FINANCIAL_SETTINGS_GROUP_DESCRIPTION"),
-        SALARY_GROUP("SECURITY_SALARY_GROUP_DESCRIPTION");
+        SALARY_GROUP("SECURITY_SALARY_GROUP_DESCRIPTION"),
+        STATISTICS_GROUP("SECURITY_STATISTICS_GROUP_DESCRIPTION");
         SecurityPolicyGroup(String description){
             this.description = description;
         }

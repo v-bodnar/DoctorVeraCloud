@@ -8,8 +8,14 @@
         <p:dashboard id="dashboard" model="#{indexView.dashboard}" >
             <p:ajax event="reorder"/>
 
+            <p:panel id="weather" header="#{MESSAGE.INDEX_WEATHER}" toggleable="true" closable="true"
+                     rendered="#{!(indexView.doctor or indexView.assistant)}">
+                <p:outputPanel deferred="true" style="text-align: center; ">
+                    <h:outputText value="#{indexView.currentWeather}" escape="false"/>
+                </p:outputPanel>
+            </p:panel>
             <p:panel id="monthAppointments" header="#{MESSAGE.INDEX_MONTH_STATISTICS}" toggleable="true" closable="true"
-                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_MONTH_APPOINTMENTS')}" >
+                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_MONTH_APPOINTMENTS') and (indexView.doctor or indexView.assistant)}" >
                 <p:panelGrid >
                     <p:row>
                         <p:column style="width:25%">
@@ -61,6 +67,7 @@
                             <p:selectOneMenu value="#{indexView.selectedMonth}" style="width:100%">
                                 <p:ajax event="change" listener="#{indexView.init}"
                                         update="monthAppointments"/>
+                                <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true"/>
                                 <f:selectItems value="#{indexView.monthNames}"/>
                             </p:selectOneMenu>
                         </p:column>
@@ -70,18 +77,19 @@
 
 
             <p:panel id="monthSalary" header="#{MESSAGE.INDEX_MONTH_STATISTICS}" toggleable="true" closable="true"
-                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_MONTH_SALARY')}">
+                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_MONTH_SALARY') and (indexView.doctor or indexView.assistant)}">
                 <p:panelGrid>
                     <p:row>
                         <p:column style="width:25%">
                             <h:outputText value="#{MESSAGE.INDEX_MONTH_SALARY}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="0"/>
+                            <h:outputText value="#{indexView.monthSalarySum} #{MESSAGE.APPLICATION_CURRENCY}"/>
                         </p:column>
                         <p:column rowspan="6" style="width:69%">
                             <p:chart id="monthSalaryChart" type="line" model="#{indexView.monthSalary}"
                                      responsive="true" style="width:80%"/>
+                            <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true"/>
                             <h:outputText value="." style="visibility:hidden"/>
                         </p:column>
                     </p:row>
@@ -90,7 +98,7 @@
                             <h:outputText value="#{MESSAGE.INDEX_AVERAGE_DAY_SALARY}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="0, грн"/>
+                            <h:outputText value="#{indexView.averageDaySalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -98,7 +106,7 @@
                             <h:outputText value="#{MESSAGE.INDEX_BEST_DAY}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="0, грн"/>
+                            <h:outputText value="#{indexView.maxDaySalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -106,7 +114,7 @@
                             <h:outputText value="#{MESSAGE.INDEX_WORST_DAY}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="0, грн"/>
+                            <h:outputText value="#{indexView.minDaySalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -114,7 +122,7 @@
                             <h:outputText value="#{MESSAGE.INDEX_TOTAL_MONTH_WORK_DAYS}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="0, дней"/>
+                            <h:outputText value="#{indexView.workingDaysInMonth}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -122,6 +130,7 @@
                             <p:selectOneMenu value="#{indexView.selectedMonth}" style="width:100%">
                                 <p:ajax event="change" listener="#{indexView.init}"
                                         update="monthSalary"/>
+                                <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true"/>
                                 <f:selectItems value="#{indexView.monthNames}"/>
                             </p:selectOneMenu>
                         </p:column>
@@ -131,7 +140,7 @@
 
 
             <p:panel id="yearAppointments" header="#{MESSAGE.INDEX_YEAR_STATISTICS}" toggleable="true" closable="true"
-                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_YEAR_APPOINTMENTS')}">
+                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_YEAR_APPOINTMENTS') and (indexView.doctor or indexView.assistant)}">
                 <p:panelGrid>
                     <p:row>
                         <p:column style="width:25%">
@@ -181,6 +190,7 @@
                     <p:row>
                         <p:column colspan="2">
                             <p:selectOneMenu value="#{indexView.selectedYear}" style="width:100%">
+                                <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true"/>
                                 <p:ajax event="change" listener="#{indexView.init}"
                                         update="yearAppointments"/>
                                 <f:selectItems value="#{indexView.years}"/>
@@ -192,14 +202,14 @@
 
 
             <p:panel id="yearSalary" header="#{MESSAGE.INDEX_YEAR_STATISTICS}" toggleable="true" closable="true"
-                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_YEAR_SALARY')}">
+                     rendered="#{securityUtils.checkPermissions('MAIN_PAGE_YEAR_SALARY') and (indexView.doctor or indexView.assistant)}">
                 <p:panelGrid>
                     <p:row>
                         <p:column style="width:25%">
-                            <h:outputText value="#{MESSAGE.INDEX_MONTH_SALARY}"/>
+                            <h:outputText value="#{MESSAGE.INDEX_YEAR_SALARY}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="0"/>
+                            <h:outputText value="#{indexView.yearSalarySum} #{MESSAGE.APPLICATION_CURRENCY}"/>
                         </p:column>
                         <p:column rowspan="6" style="width:69%">
                             <p:chart id="yearSalaryChart" type="line" model="#{indexView.yearSalary}" responsive="true" style="width:80%"/>
@@ -211,7 +221,7 @@
                             <h:outputText value="#{MESSAGE.INDEX_AVERAGE_MONTH_SALARY}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="0, грн"/>
+                            <h:outputText value="#{indexView.averageMonthSalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -219,7 +229,7 @@
                             <h:outputText value="#{MESSAGE.INDEX_BEST_MONTH}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="0, грн"/>
+                            <h:outputText value="#{indexView.maxMonthSalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -227,7 +237,7 @@
                             <h:outputText value="#{MESSAGE.INDEX_WORST_MONTH}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="0, грн"/>
+                            <h:outputText value="#{indexView.minMonthSalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
                         </p:column>
                     </p:row>
 
@@ -236,7 +246,7 @@
                             <h:outputText value="#{MESSAGE.INDEX_TOTAL_YEAR_WORK_DAYS}"/>
                         </p:column>
                         <p:column>
-                            <h:outputText value="0, дней"/>
+                            <h:outputText value="#{indexView.workingDaysInYear}"/>
                         </p:column>
                     </p:row>
                     <p:row>
@@ -244,6 +254,7 @@
                             <p:selectOneMenu value="#{indexView.selectedYear}" style="width:100%">
                                 <p:ajax event="change" listener="#{indexView.init}"
                                         update="yearSalary"/>
+                                <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true"/>
                                 <f:selectItems value="#{indexView.years}"/>
                             </p:selectOneMenu>
                         </p:column>
@@ -252,11 +263,5 @@
             </p:panel>
 
         </p:dashboard>
-        <!--h:panelGrid columns="1" columnClasses="left,right" style="width:100%">
-            <p:chart type="line" model="#{indexView.monthAppointments}" datatipFormat="#{indexView.datatipFormat}" />
-            <p:chart type="line" model="#{indexView.yearAppointments}" datatipFormat="#{indexView.datatipFormat}"/>
-            <p:chart type="line" model="#{indexView.monthSalary}" datatipFormat="#{indexView.datatipFormat}"/>
-            <p:chart type="line" model="#{indexView.yearSalary}" datatipFormat="#{indexView.datatipFormat}"/>
-        </h:panelGrid-->
     </h:form>
 </ui:composition>

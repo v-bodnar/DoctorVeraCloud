@@ -11,6 +11,7 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.persistence.EntityManager;
 
+import ua.kiev.doctorvera.entities.Methods;
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Users;
@@ -136,6 +137,39 @@ public interface ScheduleFacadeLocal  extends CRUDFacade<Schedule>{
      * @return List<Schedule> List of existing Schedule records that are not marked as deleted
      */
     List<Schedule> findPayedByEmployeeAndDateBetween(Users employee, Date from, Date to);
+
+    /**
+     * Searches for all Schedule records that have starting date between the given date range
+     * And with the given doctor and method, and are payed(payment exists for them)
+     *
+     * @param employee Employee to search for
+     * @param method Method to search for
+     * @param from
+     * @param to
+     * @return List<Schedule> List of existing Schedule records that are not marked as deleted
+     */
+    List<Schedule> findPayedByEmployeeAndMethodAndDateBetween(Users employee, Methods method, Date from, Date to);
+
+    /**
+     * Searches for all Schedule records that have starting date between the given date range
+     * And with the given method, and are payed(payment exists for them)
+     *
+     * @param method Method to search for
+     * @param method Method to search for
+     * @param from
+     * @param to
+     * @return List<Schedule> List of existing Schedule records that are not marked as deleted
+     */
+    List<Schedule> findPayedByMethodAndDateBetween(Methods method, Date from, Date to);
+
+    /**
+     * Searches for all Schedule records that have starting date between the given date range
+     *
+     * @param from
+     * @param to
+     * @return List<Schedule> List of existing Schedule records that are not marked as deleted
+     */
+    List<Schedule> findPayedByDateBetween(Date from, Date to);
 
     /**
      * Searches for all Schedule records that are assigned to the given employee and

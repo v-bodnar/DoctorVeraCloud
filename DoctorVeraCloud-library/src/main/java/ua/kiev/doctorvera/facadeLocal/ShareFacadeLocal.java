@@ -14,7 +14,7 @@ import java.util.Map;
 @Local
 public interface ShareFacadeLocal  extends CRUDFacade<Share> {
 
-    Map<Schedule, Map<String, Float>> findFinancialDataOnScheduleList(List<Schedule> scheduleList);
+    Map<Schedule, Map<String, Float>> findFinancialDataOnScheduleList(List<Schedule> scheduleList) throws ShareNotFoundException;
 
     enum Part{
         DOCTOR,
@@ -25,7 +25,7 @@ public interface ShareFacadeLocal  extends CRUDFacade<Share> {
         PAID;
     }
 
-    class ShareNotFoundException extends RuntimeException{
+    class ShareNotFoundException extends Exception{
         public ShareNotFoundException(){super();}
         public ShareNotFoundException(String message){super(message);}
         public ShareNotFoundException(String message, Throwable cause){super(message,cause);}

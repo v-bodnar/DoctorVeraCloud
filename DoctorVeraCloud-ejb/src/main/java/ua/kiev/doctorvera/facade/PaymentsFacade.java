@@ -35,7 +35,7 @@ public class PaymentsFacade extends AbstractFacade<Payments> implements Payments
      * @return payment for the given Schedule record
      */
     @Override
-    public Payments findBySchedule(Schedule schedule){
+    public List<Payments> findBySchedule(Schedule schedule){
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Payments> cq = cb.createQuery(Payments.class);
         Root<Payments> root = cq.from(Payments.class);
@@ -43,10 +43,7 @@ public class PaymentsFacade extends AbstractFacade<Payments> implements Payments
         Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
         cq.select(root).where(schedulePredicate, deletedPredicate);
         cq.distinct(true);
-        if(getEntityManager().createQuery(cq).getResultList().isEmpty())
-            return null;
-        else
-            return getEntityManager().createQuery(cq).getSingleResult();
+        return getEntityManager().createQuery(cq).getResultList();
     }
 
 }

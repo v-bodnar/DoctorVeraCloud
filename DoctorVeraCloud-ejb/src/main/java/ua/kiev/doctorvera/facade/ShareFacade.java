@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.facade;
 
+import org.joda.time.DateTime;
 import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Share;
@@ -7,6 +8,7 @@ import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PricesFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.ShareFacadeLocal;
+import ua.kiev.doctorvera.resources.Message;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -37,14 +39,33 @@ public class ShareFacade extends AbstractFacade<Share> implements ShareFacadeLoc
     public Map<Schedule, Map<String, Float>> findFinancialDataOnScheduleList(List<Schedule> scheduleList) throws ShareNotFoundException {
         scheduleList = scheduleFacade.initializeLazyEntity(scheduleList);
         Map<Schedule, Map<String, Float>> result = new LinkedHashMap<>();
+        List<ShareNotFoundException> exceptions = new LinkedList<>();
         //Todo optimize query
         for(Schedule schedule : scheduleList){
             Map<String, Float> data = new HashMap<>();
             Float cost = pricesFacade.findPrice(schedule.getMethod(), schedule.getDateTimeStart()).getTotal();
             Float payed = calculatePayed(schedule);
-            Float doctor = calculateDoctorsSalary(schedule, findByDoctorsAndAssistantsAndSchedule(schedule));
-            Float doctorDirected = calculateDoctorsSalary(schedule, findByDoctorDirectedAndSchedule(schedule));
-            Float assistant = calculateAssistantSalary(schedule, findByDoctorsAndAssistantsAndSchedule(schedule));
+            Float doctor, assistant, doctorDirected;
+
+            try{
+                doctor = calculateDoctorsSalary(schedule, findByDoctorsAndAssistantsAndSchedule(schedule));
+            }catch (ShareNotFoundException e){
+                doctor = 0f;
+                exceptions.add(e);
+            }
+            try{
+                assistant = calculateAssistantSalary(schedule, findByDoctorsAndAssistantsAndSchedule(schedule));
+            }catch (ShareNotFoundException e){
+                assistant = 0f;
+                exceptions.add(e);
+            }
+            try{
+                doctorDirected = calculateDoctorsSalary(schedule, findByDoctorDirectedAndSchedule(schedule));
+            }catch (ShareNotFoundException e){
+                doctorDirected = 0f;
+                exceptions.add(e);
+            }
+
             Float center = payed - doctor - doctorDirected - assistant;
 
             data.put(Part.DOCTOR.name(), doctor);
@@ -55,7 +76,14 @@ public class ShareFacade extends AbstractFacade<Share> implements ShareFacadeLoc
             data.put(Part.COST.name(), cost);
             result.put(schedule, data);
         }
-
+        if(!exceptions.isEmpty()){
+            String message = "<ul>";
+            for(ShareNotFoundException e : exceptions){
+                message = "<li>" + e.getMessage() + "</li>";
+            }
+            message += "</ul>";
+            throw new ShareNotFoundException(message);
+        }
         return result;
     }
 
@@ -84,16 +112,20 @@ public class ShareFacade extends AbstractFacade<Share> implements ShareFacadeLoc
     }
 
     private Share findByDoctorDirectedAndSchedule(Schedule schedule) throws ShareNotFoundException {
-        if(schedule.getDoctorDirected() == null)
-                return null;
+        if(schedule.getDoctorDirected() == null){
+            Share zero = new Share();
+            zero.setPercentageDoctor(0f);
+            zero.setDate(new DateTime(schedule.getDateTimeStart()).minusYears(10).toDate());
+            return zero;
+        }
+
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Share> cq = cb.createQuery(Share.class);
         Root<Share> root = cq.from(Share.class);
         Predicate datePredicate = cb.and(cb.lessThan(root.<Date>get("date"), schedule.getDateTimeStart()));
-        Predicate doctorDirectedPredicate = cb.and(cb.isMember(schedule.getDoctorDirected(), root.<Collection<Users>>get("doctorDirected")));
-        Predicate assistantPredicate = cb.and(cb.isEmpty(root.<Collection<Users>>get("assistants")));
+        Predicate doctorDirectedPredicate = cb.and(cb.isMember(schedule.getDoctorDirected(), root.<Collection<Users>>get("doctors")));
         Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
-        cq.select(root).where(doctorDirectedPredicate, assistantPredicate, datePredicate, deletedPredicate);
+        cq.select(root).where(doctorDirectedPredicate, datePredicate, deletedPredicate);
         cq.distinct(true);
         cq.orderBy(cb.desc(root.get("date")));
         try {
@@ -105,23 +137,23 @@ public class ShareFacade extends AbstractFacade<Share> implements ShareFacadeLoc
 
     }
 
-    public float calculateDoctorsSalary(Schedule schedule, Share share){
+    public float calculateDoctorsSalary(Schedule schedule, Share share)throws ShareNotFoundException{
         if(share != null && share.getPercentageDoctor() != null){
             return calculatePercents(schedule.getPayments(),share.getPercentageDoctor());
         }else if(share != null && share.getSalaryDoctor() != null){
             return share.getSalaryDoctor();
         }else{
-            return 0;
+            throw new ShareNotFoundException(Message.getMessage("SHARE_NOT_FOUND") + schedule.getId() + " " + schedule.getDateTimeStart());
         }
     }
 
-    private float calculateAssistantSalary(Schedule schedule, Share share){
+    private float calculateAssistantSalary(Schedule schedule, Share share)throws ShareNotFoundException{
         if(share != null && share.getPercentageAssistant() != null){
             return calculatePercents(schedule.getPayments(),share.getPercentageAssistant());
         }else if(share != null && share.getSalaryAssistant() != null){
             return share.getSalaryAssistant();
         }else{
-            return 0;
+            throw new ShareNotFoundException(Message.getMessage("SHARE_NOT_FOUND") + schedule.getId() + " " + schedule.getDateTimeStart());
         }
     }
 

@@ -1,27 +1,35 @@
 package ua.kiev.doctorvera.views;
 
+import com.sun.syndication.feed.synd.SyndEntry;
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.io.SyndFeedInput;
+import com.sun.syndication.io.XmlReader;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
 import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
 import org.primefaces.model.chart.*;
-import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PaymentsFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
+import ua.kiev.doctorvera.facadeLocal.ShareFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.utils.StatisticsHelper;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -45,7 +53,14 @@ public class IndexView implements Serializable{
     @EJB
     private UsersFacadeLocal usersFacade;
 
+    @EJB
+    private ShareFacadeLocal shareFacade;
+
     private Users authorizedUser;
+
+    private Users selectedUser;
+
+    ShareFacadeLocal.Part function;
 
     private DashboardModel dashboard;
 
@@ -58,7 +73,9 @@ public class IndexView implements Serializable{
     private LineChartModel  yearSalary;
 
     //For Month Picker
-    private Map<String,Integer> monthNames = new LinkedHashMap<>();
+    private final static Map<String,Integer> monthNames = StatisticsHelper.populateMonthNames();
+
+    private final static DateTimeFormatter pattern = DateTimeFormat.forPattern("yyy-MM-dd");
     //For Month Picker
     private Integer selectedMonth;
     //For Year Picker
@@ -70,9 +87,9 @@ public class IndexView implements Serializable{
 
     private Integer appointmentsCountYear;
 
-    private Float averageAppointmentsCountPerDay;
+    private Float averageAppointmentsCountPerDay = 0f;
 
-    private Float averageAppointmentsCountPerMonth;
+    private Float averageAppointmentsCountPerMonth = 0f;
 
     private Integer maxAppointmentsPerDay;
 
@@ -86,26 +103,33 @@ public class IndexView implements Serializable{
 
     private Integer workingDaysInYear;
 
-    private Float monthSalarySum;
+    private Float monthSalarySum = 0f;
 
-    private Float yearSalarySum;
+    private Float yearSalarySum = 0f;
 
-    private Float averageDaySalary;
+    private Float averageDaySalary = 0f;
 
-    private Float averageMonthSalary;
+    private Float averageMonthSalary = 0f;
 
-    private Float minDaySalary;
+    private Float minDaySalary = 0f;
 
-    private Float maxDaySalary;
+    private Float maxDaySalary = 0f;
 
-    private Float minMonthSalary;
+    private Float minMonthSalary = 0f;
 
-    private Float maxMonthSalary;
+    private Float maxMonthSalary = 0f;
+
+    private String currentWeather = "";
 
 
     @PostConstruct
     public void init() {
         authorizedUser = sessionParams.getAuthorizedUser();
+        if(usersFacade.isDoctor(authorizedUser)){
+            function = ShareFacadeLocal.Part.DOCTOR;
+        }else if(usersFacade.isAssistant(authorizedUser)){
+            function = ShareFacadeLocal.Part.ASSISTANT;
+        }
 
         dashboard = new DefaultDashboardModel();
         DashboardColumn column = new DefaultDashboardColumn();
@@ -114,22 +138,19 @@ public class IndexView implements Serializable{
         column.addWidget("monthSalary");
         column.addWidget("yearAppointments");
         column.addWidget("yearSalary");
+        column.addWidget("weather");
 
         dashboard.addColumn(column);
-
-        populateMonthAppointments();
-        populateYearAppointments();
-        populateMonthSalary();
-        populateYearSalary();
-        populateMonthNames();
+        populateMonthStatistics();
+        populateYearStatistics();
         populateYears();
-        populateStatistics();
+        retrieveWeather();
     }
 
-    public void populateMonthAppointments(){
-        DateTimeFormatter pattern = DateTimeFormat.forPattern("yyy-MM-dd");
-        DateTime startOfMonth;
-        DateTime endOfMonth;
+    public void populateMonthStatistics(){
+        Users user = selectedUser == null ? authorizedUser : selectedUser;
+
+        DateTime startOfMonth, endOfMonth;
         if (selectedMonth == null){
             startOfMonth = new DateTime().dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
             endOfMonth = new DateTime();
@@ -138,335 +159,136 @@ public class IndexView implements Serializable{
             endOfMonth = new DateTime().withMonthOfYear(selectedMonth).dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue();
         }
 
-        monthAppointments = new LineChartModel();
-        ChartSeries appointments = new ChartSeries();
-        appointments.setLabel(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
+        List<Schedule> monthScheduleList;
+
+        Map<Schedule, Map<String, Float>> salaryData = null;
+        try {
+            if(isDoctor() || isAssistant()) {
+                monthScheduleList = scheduleFacade.findPayedByEmployeeAndDateBetween(user, startOfMonth.toDate(), endOfMonth.toDate());
+                salaryData = shareFacade.findFinancialDataOnScheduleList(monthScheduleList);
+            }else{
+                salaryData = new HashMap<>();
+                monthScheduleList = new LinkedList<>();
+            }
+        } catch (ShareFacadeLocal.ShareNotFoundException e) {
+            salaryData = new HashMap<>();
+            monthScheduleList = new LinkedList<>();
+            Message.showErrorInDialog(e.getMessage());
+        }
 
         Map<DateTime, Integer> thisMonthAppointments = new HashMap();
-        for(Schedule schedule : scheduleFacade.findByEmployeeAndDateBetween(authorizedUser, startOfMonth.toDate(), endOfMonth.toDate())) {
-            DateTime oneDay = new DateTime (schedule.getDateTimeStart()).dayOfYear().getDateTime();
+        Map<DateTime, Float> thisMonthSalary = new HashMap();
+        for(Schedule schedule : monthScheduleList) {
+            DateTime oneDay = new DateTime (schedule.getDateTimeStart()).dayOfYear().getDateTime().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0);
             if(thisMonthAppointments.get(oneDay) == null){
                 thisMonthAppointments.put(oneDay, 1);
+                thisMonthSalary.put(oneDay, salaryData.get(schedule).get(function.name()));
             }else{
                 thisMonthAppointments.put(oneDay, thisMonthAppointments.get(oneDay) + 1);
+                thisMonthSalary.put(oneDay, thisMonthSalary.get(oneDay) + salaryData.get(schedule).get(function.name()));
             }
         }
-        for(DateTime dayOfMonth = startOfMonth; dayOfMonth.isBefore(endOfMonth); dayOfMonth = dayOfMonth.plusDays(1)){
-            appointments.set(dayOfMonth.toString(pattern), thisMonthAppointments.get(dayOfMonth) == null ? 0 : thisMonthAppointments.get(dayOfMonth));
-        }
-
-//        for(DateTime dayOfMonth = startOfMonth; dayOfMonth.isBefore(endOfMonth); dayOfMonth = dayOfMonth.plusDays(1)){
-//            appointments.set(dayOfMonth.toString(pattern), scheduleFacade.findByEmployeeAndDateBetween(authorizedUser,
-//                    dayOfMonth.toDate(), dayOfMonth.millisOfDay().withMaximumValue().toDate()).size());
-//        }
-
-        monthAppointments.addSeries(appointments);
-        monthAppointments.setTitle(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
-        monthAppointments.setLegendPosition("ne");
-        monthAppointments.setAnimate(true);
-        monthAppointments.setZoom(true);
-        monthAppointments.setSeriesColors("459e00");
-
-        DateAxis axis = new DateAxis(Message.getMessage("INDEX_DAY_OF_MONTH"));
-        axis.setTickAngle(-50);
-        monthAppointments.getAxes().put(AxisType.X, axis);
-
-        Axis yAxis = monthAppointments.getAxis(AxisType.Y);
-        yAxis.setLabel(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
+        monthAppointments = StatisticsHelper.populateMonthAppointments(startOfMonth, endOfMonth, thisMonthAppointments);
+        monthSalary = StatisticsHelper.populateYearSalary(startOfMonth, endOfMonth, thisMonthSalary);
+        populateMonthStatistics(monthScheduleList, salaryData);
     }
 
-    public void populateYearAppointments(){
-        DateTimeFormatter pattern = DateTimeFormat.forPattern("yyy-MM-dd");
-        DateTime startOfYear;
-        DateTime endOfYear;
-        if (selectedYear == null){
-            startOfYear = new DateTime().monthOfYear().withMinimumValue().dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
-            endOfYear = new DateTime();
-        }else{
-            startOfYear = new DateTime().withYear(selectedYear).monthOfYear().withMinimumValue().dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
-            endOfYear = new DateTime().withYear(selectedYear).monthOfYear().withMaximumValue().dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue();
-        }
-
-        yearAppointments = new LineChartModel();
-        ChartSeries appointments = new ChartSeries();
-        appointments.setLabel(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
-
-        Map<DateTime, Integer> thisYearAppointments = new HashMap();
-        for(Schedule schedule : scheduleFacade.findByEmployeeAndDateBetween(authorizedUser, startOfYear.toDate(), endOfYear.toDate())) {
-            DateTime oneMonth = new DateTime (schedule.getDateTimeStart()).monthOfYear().getDateTime();
-            if(thisYearAppointments.get(oneMonth) == null){
-                thisYearAppointments.put(oneMonth, 1);
-            }else{
-                thisYearAppointments.put(oneMonth, thisYearAppointments.get(oneMonth) + 1);
-            }
-        }
-        for(DateTime monthOfYear = startOfYear; monthOfYear.isBefore(endOfYear); monthOfYear = monthOfYear.plusDays(1)){
-            appointments.set(monthOfYear.toString(pattern), thisYearAppointments.get(monthOfYear) == null ? 0 : thisYearAppointments.get(monthOfYear));
-        }
-//        for(DateTime monthOfYear = startOfYear; monthOfYear.isBefore(endOfYear); monthOfYear = monthOfYear.plusDays(1)){
-//            appointments.set(monthOfYear.toString(pattern), scheduleFacade.findByEmployeeAndDateBetween(authorizedUser,
-//                    monthOfYear.toDate(), monthOfYear.millisOfDay().withMaximumValue().toDate()).size());
-//        }
-
-        yearAppointments.addSeries(appointments);
-        yearAppointments.setTitle(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
-        yearAppointments.setLegendPosition("ne");
-        yearAppointments.setAnimate(true);
-        yearAppointments.setZoom(true);
-        yearAppointments.setSeriesColors("459e00");
-
-        DateAxis axis = new DateAxis(Message.getMessage("INDEX_MONTH_OF_YEAR"));
-        axis.setTickAngle(-50);
-        yearAppointments.getAxes().put(AxisType.X, axis);
-
-        Axis yAxis = yearAppointments.getAxis(AxisType.Y);
-        yAxis.setLabel(Message.getMessage("INDEX_APPOINTMENTS_COUNT"));
-    }
-
-    public void populateMonthSalary(){
-        DateTimeFormatter pattern = DateTimeFormat.forPattern("yyy-MM-dd");
-        DateTime startOfMonth;
-        DateTime endOfMonth;
-        if (selectedMonth == null){
-            startOfMonth = new DateTime().dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
-            endOfMonth = new DateTime();
-        }else{
-            startOfMonth = new DateTime().withMonthOfYear(selectedMonth).dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
-            endOfMonth = new DateTime().withMonthOfYear(selectedMonth).dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue();
-        }
-
-        monthSalary = new LineChartModel();
-        ChartSeries salary = new ChartSeries();
-        salary.setLabel(Message.getMessage("INDEX_MONTH_SALARY"));
-
-        for(DateTime dayOfMonth = startOfMonth; dayOfMonth.isBefore(endOfMonth); dayOfMonth = dayOfMonth.plusDays(1)){
-            List<Schedule> appointmentsOfMonth = scheduleFacade.findByEmployeeAndDateBetween(authorizedUser,
-                    dayOfMonth.toDate(), dayOfMonth.millisOfDay().withMaximumValue().toDate());
-            salary.set(dayOfMonth.toString(pattern), getSalarySum(appointmentsOfMonth));
-        }
-
-        monthSalary.addSeries(salary);
-        monthSalary.setTitle(Message.getMessage("INDEX_MONTH_SALARY_CUR"));
-        monthSalary.setLegendPosition("ne");
-        monthSalary.setAnimate(true);
-        monthSalary.setZoom(true);
-        monthSalary.setSeriesColors("459e00");
-
-        DateAxis axis = new DateAxis(Message.getMessage("INDEX_DAY_OF_MONTH"));
-        axis.setTickAngle(-50);
-        monthSalary.getAxes().put(AxisType.X, axis);
-
-        Axis yAxis = monthSalary.getAxis(AxisType.Y);
-        yAxis.setLabel(Message.getMessage("INDEX_MONTH_SALARY_CUR"));
-    }
-    
-    public void populateYearSalary(){
-        DateTimeFormatter pattern = DateTimeFormat.forPattern("yyy-MM-dd");
-        DateTime startOfYear;
-        DateTime endOfYear;
-        if (selectedYear == null){
-            startOfYear = new DateTime().monthOfYear().withMinimumValue().dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
-            endOfYear = new DateTime();
-        }else{
-            startOfYear = new DateTime().withYear(selectedYear).monthOfYear().withMinimumValue().dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
-            endOfYear = new DateTime().withYear(selectedYear).monthOfYear().withMaximumValue().dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue();
-        }
-
-        yearSalary = new LineChartModel();
-        ChartSeries salary = new ChartSeries();
-        salary.setLabel(Message.getMessage("INDEX_YEAR_SALARY"));
-        for(DateTime monthOfYear = startOfYear; monthOfYear.isBefore(endOfYear); monthOfYear = monthOfYear.plusMonths(1)){
-            List<Schedule> appointmentsOfYear = scheduleFacade.findByEmployeeAndDateBetween(authorizedUser,
-                    startOfYear.toDate(), monthOfYear.dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue().toDate());
-            salary.set(monthOfYear.toString(pattern), getSalarySum(appointmentsOfYear));
-        }
-
-        yearSalary.addSeries(salary);
-        yearSalary.setTitle(Message.getMessage("INDEX_YEAR_SALARY_CUR"));
-        yearSalary.setLegendPosition("ne");
-        yearSalary.setAnimate(true);
-        yearSalary.setSeriesColors("459e00");
-
-        DateAxis axis = new DateAxis(Message.getMessage("INDEX_MONTH_OF_YEAR"));
-        axis.setTickAngle(-50);
-        yearSalary.getAxes().put(AxisType.X, axis);
-
-        Axis yAxis = yearSalary.getAxis(AxisType.Y);
-        yAxis.setLabel(Message.getMessage("INDEX_YEAR_SALARY_CUR"));
-    }
-
-    public void populateStatistics(){
-        DateTime startOfMonth;
-        DateTime endOfMonth;
-        if (selectedMonth == null){
-            startOfMonth = new DateTime().dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
-            endOfMonth = new DateTime();
-        }else{
-            startOfMonth = new DateTime().withMonthOfYear(selectedMonth).dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
-            endOfMonth = new DateTime().withMonthOfYear(selectedMonth).dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue();
-        }
-
-        DateTime startOfYear;
-        DateTime endOfYear;
-        if (selectedYear == null){
-            startOfYear = new DateTime().monthOfYear().withMinimumValue().dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
-            endOfYear = new DateTime();
-        }else{
-            startOfYear = new DateTime().withYear(selectedYear).monthOfYear().withMinimumValue().dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
-            endOfYear = new DateTime().withYear(selectedYear).monthOfYear().withMaximumValue().dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue();
-        }
-
-        List<Schedule> monthAppointments = scheduleFacade.findByEmployeeAndDateBetween(authorizedUser, startOfMonth.toDate(), endOfMonth.toDate());
-
-        List<Schedule> yearAppointments = scheduleFacade.findByEmployeeAndDateBetween(authorizedUser, startOfYear.toDate(), endOfYear.toDate());
-
+    private void populateMonthStatistics(List<Schedule> monthAppointments, Map<Schedule, Map<String, Float>> monthSalaryData){
         appointmentsCountMonth = monthAppointments.size();
 
-        appointmentsCountYear = yearAppointments.size();
-
-        if(getWorkingDays(monthAppointments) == 0){
-            averageAppointmentsCountPerDay = 0f;
-        }else {
-            averageAppointmentsCountPerDay = ((float)monthAppointments.size() / (float)getWorkingDays(monthAppointments));
+        if(StatisticsHelper.getWorkingDays(monthAppointments) != 0){
+            averageAppointmentsCountPerDay = ((float)monthAppointments.size() / (float)StatisticsHelper.getWorkingDays(monthAppointments));
         }
+        maxAppointmentsPerDay = StatisticsHelper.getMaxAppointmentsPerDay(monthAppointments);
+        minAppointmentsPerDay = StatisticsHelper.getMinAppointmentsPerDay(monthAppointments);
+        for(Schedule schedule : monthAppointments){
+            monthSalarySum += monthSalaryData.get(schedule).get(function.name());
+            if (maxDaySalary < monthSalaryData.get(schedule).get(function.name()))
+                maxDaySalary= monthSalaryData.get(schedule).get(function.name());
+        }
+        minDaySalary = maxDaySalary;
+        for(Schedule schedule : monthAppointments){
+            if (minDaySalary > monthSalaryData.get(schedule).get(function.name()) && monthSalaryData.get(schedule).get(function.name()) != 0)
+                minDaySalary = monthSalaryData.get(schedule).get(function.name());
+        }
+        workingDaysInMonth = StatisticsHelper.getWorkingDays(monthAppointments);
+        averageDaySalary = monthSalarySum / workingDaysInMonth;
+    }
 
-        if(getWorkingDays(yearAppointments) == 0) {
-            averageAppointmentsCountPerMonth = 0f;
+    public void populateYearStatistics() {
+        Users user = selectedUser == null ? authorizedUser : selectedUser;
+
+        DateTime startOfYear, endOfYear;
+        if (selectedYear == null){
+            startOfYear = new DateTime().monthOfYear().withMinimumValue().dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
+            endOfYear = new DateTime();
         }else{
-            averageAppointmentsCountPerMonth = ((float)yearAppointments.size() / (float)getWorkingDays(yearAppointments));
+            startOfYear = new DateTime().withYear(selectedYear).monthOfYear().withMinimumValue().dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue();
+            endOfYear = new DateTime().withYear(selectedYear).monthOfYear().withMaximumValue().dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue();
         }
-        maxAppointmentsPerDay = getMaxAppointmentsPerDay(monthAppointments);
 
-        maxAppointmentsPerMonth = getMaxAppointmentsPerMonth(yearAppointments);
-
-        minAppointmentsPerDay = getMinAppointmentsPerDay(monthAppointments);
-
-        minAppointmentsPerMonth = getMinAppointmentsPerMonth(yearAppointments);
-
-        workingDaysInMonth = getWorkingDays(monthAppointments);
-
-        workingDaysInYear = getWorkingDays(yearAppointments);
-
-        //TODO Salary statistics
-        //monthSalarySum;
-
-        //yearSalarySum;
-
-        //averageDaySalary;
-
-        //averageMonthSalary;
-
-        //minDaySalary;
-
-        //maxDaySalary;
-
-        //minMonthSalary;
-
-        //maxMonthSalary;
-
-    }
-    // TODO move logic to ejb
-    private Integer getWorkingDays(List<Schedule> appointments){
-        HashSet<Integer> daysOfTheYear = new HashSet<>();
-        for(Schedule schedule : appointments){
-            daysOfTheYear.add(new DateTime(schedule.getDateTimeStart()).getDayOfYear());
+        List<Schedule> appointments;
+        Map<Schedule, Map<String, Float>> salaryData = null;
+        try {
+            if(isDoctor() || isAssistant()) {
+                appointments = scheduleFacade.findPayedByEmployeeAndDateBetween(user, startOfYear.toDate(), endOfYear.toDate());
+                salaryData = shareFacade.findFinancialDataOnScheduleList(appointments);
+            }else{
+                salaryData = new HashMap<>();
+                appointments = new LinkedList<>();
+            }
+        } catch (ShareFacadeLocal.ShareNotFoundException e) {
+            salaryData = new HashMap<>();
+            appointments = new LinkedList<>();
+            Message.showErrorInDialog(e.getMessage());
         }
-        return daysOfTheYear.size();
-    }
 
-    private Integer getMinAppointmentsPerDay(List<Schedule> appointments){
-        HashMap<Integer, Integer> appointmentPerDay = new HashMap<>();
-        Integer count;
-        for(Schedule schedule : appointments){
-            count = appointmentPerDay.get(new DateTime(schedule.getDateTimeStart()).getDayOfYear());
-            if (count == null) count = 0;
-            appointmentPerDay.put(new DateTime(schedule.getDateTimeStart()).getDayOfYear()
-                    , count + 1);
-        }
-        if(appointmentPerDay.size() == 0){
-            return 0;
-        }else {
-            return new TreeSet<>(appointmentPerDay.values()).first();
-        }
-    }
-
-    private Integer getMaxAppointmentsPerDay(List<Schedule> appointments){
-        HashMap<Integer, Integer> appointmentPerDay = new HashMap<>();
-        Integer count;
-        for(Schedule schedule : appointments){
-            count = appointmentPerDay.get(new DateTime(schedule.getDateTimeStart()).getDayOfYear());
-            if (count == null) count = 0;
-            appointmentPerDay.put(new DateTime(schedule.getDateTimeStart()).getDayOfYear()
-                    , count + 1);
-        }
-        if(appointmentPerDay.size() == 0){
-            return 0;
-        }else {
-            return new TreeSet<>(appointmentPerDay.values()).last();
-        }
-    }
-
-    private Integer getMinAppointmentsPerMonth(List<Schedule> appointments){
-        HashMap<Integer, Integer> appointmentPerMonth = new HashMap<>();
-        Integer count;
-        for(Schedule schedule : appointments){
-            count = appointmentPerMonth.get(monthNames.get("CALENDAR_MONTH_" + new DateTime(schedule.getDateTimeStart()).getMonthOfYear()));
-            if (count == null) count = 0;
-            appointmentPerMonth.put(monthNames.get(new DateTime(schedule.getDateTimeStart()).getMonthOfYear())
-                    , count + 1);
-        }
-        if(appointmentPerMonth.size() == 0){
-            return 0;
-        }else {
-            return new TreeSet<>(appointmentPerMonth.values()).first();
-        }
-    }
-
-    private Integer getMaxAppointmentsPerMonth(List<Schedule> appointments){
-        HashMap<Integer, Integer> appointmentPerMonth = new HashMap<>();
-        Integer count;
-        for(Schedule schedule : appointments){
-            count = appointmentPerMonth.get(monthNames.get("CALENDAR_MONTH_" + new DateTime(schedule.getDateTimeStart()).getMonthOfYear()));
-            if (count == null) count = 0;
-            appointmentPerMonth.put(monthNames.get(new DateTime(schedule.getDateTimeStart()).getMonthOfYear())
-                    , count + 1);
-        }
-        if(appointmentPerMonth.size() == 0){
-            return 0;
-        }else {
-            return new TreeSet<>(appointmentPerMonth.values()).last();
-        }
-    }
-
-    private float getSalarySum(List<Schedule> appointments){
-        float salarySum = 0f; //Sum of payments
-        Payments payment;
+        Map<DateTime, Float> thisYearSalary = new HashMap();
+        Map<DateTime, Integer> thisYearAppointments = new HashMap();
         for(Schedule schedule : appointments) {
-            payment = paymentsFacade.findBySchedule(schedule);
-            if(payment != null) {
-                salarySum +=payment.getTotal();
+            DateTime oneMonth = new DateTime (schedule.getDateTimeStart()).monthOfYear().getDateTime().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0);
+            if(thisYearAppointments.get(oneMonth) == null){
+                thisYearAppointments.put(oneMonth, 1);
+                thisYearSalary.put(oneMonth, salaryData.get(schedule).get(function.name()));
+            }else{
+                thisYearAppointments.put(oneMonth, thisYearAppointments.get(oneMonth) + 1);
+                thisYearSalary.put(oneMonth, thisYearSalary.get(oneMonth) + salaryData.get(schedule).get(function.name()));
             }
         }
-        return salarySum;
+        yearAppointments = StatisticsHelper.populateYearAppointments(startOfYear, endOfYear, thisYearAppointments);
+        yearSalary = StatisticsHelper.populateYearSalary(startOfYear, endOfYear, thisYearSalary);
+        populateYearStatistics(appointments, salaryData);
     }
 
-    private void populateMonthNames(){
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_1"), 1);
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_2").toString(), 2);
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_3").toString(), 3);
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_4").toString(), 4);
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_5").toString(), 5);
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_6").toString(), 6);
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_7").toString(), 7);
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_8").toString(), 8);
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_9").toString(), 9);
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_10").toString(), 10);
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_11").toString(), 11);
-        monthNames.put(Message.getMessage("CALENDAR_MONTH_12").toString(), 12);
+    private void populateYearStatistics(List<Schedule> yearAppointments, Map<Schedule, Map<String, Float>> yearSalaryData){
+        appointmentsCountYear = yearAppointments.size();
+
+        if(StatisticsHelper.getWorkingDays(yearAppointments) != 0) {
+            averageAppointmentsCountPerMonth = ((float)yearAppointments.size() / (float)StatisticsHelper.getWorkingDays(yearAppointments));
+        }
+        maxAppointmentsPerMonth = StatisticsHelper.getMaxAppointmentsPerMonth(yearAppointments);
+
+        minAppointmentsPerMonth = StatisticsHelper.getMinAppointmentsPerMonth(yearAppointments);
+
+        workingDaysInYear = StatisticsHelper.getWorkingDays(yearAppointments);
+
+        for(Schedule schedule : yearAppointments){
+            yearSalarySum += yearSalaryData.get(schedule).get(function.name());
+            if (maxMonthSalary < yearSalaryData.get(schedule).get(function.name()))
+                maxMonthSalary = yearSalaryData.get(schedule).get(function.name());
+
+        }
+        minMonthSalary = maxMonthSalary;
+        for(Schedule schedule : yearAppointments){
+            if (minMonthSalary > yearSalaryData.get(schedule).get(function.name()) && yearSalaryData.get(schedule).get(function.name()) != 0)
+                minMonthSalary = yearSalaryData.get(schedule).get(function.name());
+        }
+
+        averageMonthSalary = yearSalarySum / workingDaysInYear;
     }
+
     private void populateYears(){
-        //HashSet<String> years = new HashSet();
-        for( Schedule schedule : scheduleFacade.findByEmployeeAndDateBetween(authorizedUser, new DateTime().minusYears(100).toDate(),new Date())){
+        for( Schedule schedule : scheduleFacade.findPayedByEmployeeAndDateBetween(authorizedUser, new DateTime().minusYears(20).toDate(),new Date())){
             years.add(new DateTime(schedule.getDateTimeStart()).getYear());
         }
     }
@@ -481,10 +303,6 @@ public class IndexView implements Serializable{
 
     public Map<String,Integer> getMonthNames() {
         return monthNames;
-    }
-
-    public void setMonthNames(Map<String,Integer> monthNames) {
-        this.monthNames = monthNames;
     }
 
     public LineChartModel getMonthSalary() {
@@ -549,14 +367,6 @@ public class IndexView implements Serializable{
 
     public void setAppointmentsCountMonth(Integer appointmentsCountMonth) {
         this.appointmentsCountMonth = appointmentsCountMonth;
-    }
-
-    public Integer getAppointmentsCountYear() {
-        return appointmentsCountYear;
-    }
-
-    public void setAppointmentsCountYear(Integer appointmentsCountYear) {
-        this.appointmentsCountYear = appointmentsCountYear;
     }
 
     public Float getAverageAppointmentsCountPerDay() {
@@ -693,5 +503,35 @@ public class IndexView implements Serializable{
 
     public void setUsersFacade(UsersFacadeLocal usersFacade) {
         this.usersFacade = usersFacade;
+    }
+
+    public void retrieveWeather() {
+        try {
+            URL feedSource = new URL("http://weather.yahooapis.com/forecastrss?w=20070188&u=c&lang=" + sessionParams.getCurrentLocale().getLanguage());
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(new XmlReader(feedSource));
+            String value = ((SyndEntry) feed.getEntries().get(0)).getDescription().getValue();
+
+            currentWeather = value.split("<a href")[0];
+        } catch (Exception e) {
+            LOG.severe("Unable to retrieve weather forecast at the moment.");
+            LOG.severe(e.getMessage());
+        }
+    }
+
+    public String getCurrentWeather() {
+        return currentWeather;
+    }
+
+    public void setCurrentWeather(String currentWeather) {
+        this.currentWeather = currentWeather;
+    }
+
+    public boolean isDoctor(){
+        return function == ShareFacadeLocal.Part.DOCTOR;
+    }
+
+    public boolean isAssistant(){
+        return function == ShareFacadeLocal.Part.ASSISTANT;
     }
 }

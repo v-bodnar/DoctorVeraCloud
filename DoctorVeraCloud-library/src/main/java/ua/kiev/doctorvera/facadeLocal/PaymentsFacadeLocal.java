@@ -9,6 +9,7 @@ import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Schedule;
 
 import javax.ejb.Local;
+import java.util.List;
 
 /**
  * Interface for declaring main operations with Generic (Identified) entity
@@ -24,5 +25,5 @@ public interface PaymentsFacadeLocal  extends CRUDFacade<Payments>{
      * @param schedule record to search by
      * @return payment for the given Schedule record
      */
-    Payments findBySchedule(Schedule schedule);
+    List<Payments> findBySchedule(Schedule schedule);
 }

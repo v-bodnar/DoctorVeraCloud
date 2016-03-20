@@ -137,6 +137,8 @@ public class ScheduleView implements Serializable {
 
     private String cssStyle;
 
+    private boolean sendNotification;
+
     //Constructor)
     @PostConstruct
     public void init() {
@@ -159,7 +161,6 @@ public class ScheduleView implements Serializable {
         selectedMethods = new ArrayList<Methods>();
         allMethodTypes = methodTypesFacade.findAll();
         allMethodTypes.remove(methodTypesFacade.find(SERVICE_METHOD_TYPE_ID));
-        selectedMethodType = methodTypesFacade.findAll().get(0);
         breakTime = 5;
 
         constructPickList();
@@ -244,7 +245,6 @@ public class ScheduleView implements Serializable {
             schedule.setRoom(plan.getRoom());
             schedule.setDateTimeStart(getEarliestTime(plan));
             selectedMethods.clear();
-            selectedMethodType = methodTypesFacade.findAll().get(0);
             constructPickList();
             event = new DefaultScheduleEvent();
             RequestContext.getCurrentInstance().execute("PF('addScheduleDialog').show()");
@@ -450,15 +450,27 @@ public class ScheduleView implements Serializable {
      * Constructs Methods Picklist
      */
     public void constructPickList() {
-        if (selectedMethodType != null && selectedMethodType.getId() != null) {
-            List<Methods> allMethods = methodsFacade.findByType(selectedMethodType);
+        Map<MethodTypes, List<Methods>> doctorsMethodTypes = new HashMap();
 
-            for (Methods method : selectedMethods) {
-                allMethods.remove(method);
+        if(plan != null && plan.getId() != null && plan.getDoctor() != null){
+            plan.setDoctor(usersFacade.initializeLazyEntity(plan.getDoctor()));
+            for(Methods method : plan.getDoctor().getMethods()){
+                if(doctorsMethodTypes.containsKey(method.getMethodType())){
+                    doctorsMethodTypes.get(method.getMethodType()).add(method);
+                }else{
+                    List<Methods> methods = new LinkedList<>();
+                    methods.add(method);
+                    doctorsMethodTypes.put(method.getMethodType(), methods);
+                }
+
             }
-            methodsDualListModel = new DualListModel<Methods>(allMethods, selectedMethods);
+            allMethodTypes = new LinkedList<>(doctorsMethodTypes.keySet());
+        }
+
+        if (selectedMethodType != null && selectedMethodType.getId() != null) {
+            methodsDualListModel = new DualListModel<>(doctorsMethodTypes.get(selectedMethodType), selectedMethods);
         } else
-            methodsDualListModel = new DualListModel<Methods>(new ArrayList<Methods>(), new ArrayList<Methods>());
+            methodsDualListModel = new DualListModel<>(new ArrayList<Methods>(), selectedMethods);
     }
 
 
@@ -1086,5 +1098,13 @@ public class ScheduleView implements Serializable {
 
     public void setCurrentRoom(Rooms currentRoom) {
         this.currentRoom = currentRoom;
+    }
+
+    public boolean isSendNotification() {
+        return sendNotification;
+    }
+
+    public void setSendNotification(boolean sendNotification) {
+        this.sendNotification = sendNotification;
     }
 }

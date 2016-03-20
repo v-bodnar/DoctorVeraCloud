@@ -1,5 +1,7 @@
 package ua.kiev.doctorvera.resources;
 
+import org.primefaces.context.RequestContext;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.util.*;
@@ -48,5 +50,10 @@ public class Message extends LocalizedResource {
 	 */
 	public static void showError(String title, String message){
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, title, message));
+	}
+
+	public static void showErrorInDialog(String message) {
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, Message.getMessage("APPLICATION_ERROR_TITLE"), message);
+		RequestContext.getCurrentInstance().showMessageInDialog(facesMessage);
 	}
 }
