@@ -112,7 +112,19 @@ public class SchedulerService implements ScheduleServiceLocal {
 
     @Override
     public void changeEvent(Schedule schedule) {
+        LOG.info("" + new Date());
+        Date deliveryTime = new DateTime(schedule.getDateTimeStart()).minusDays(1).withHourOfDay(14).withMinuteOfHour(0).withSecondOfMinute(0).toDate();
 
+        try {
+            if(new Date().after(deliveryTime)){
+                sendMessage(schedule);
+            }else{
+                findTimerByInfo(SCHEDULE_PREFIX + schedule.getId()).getSchedule();
+            }
+
+        }catch (TimeServiceException e){
+            LOG.severe(e.getMessage());
+        }
     }
 
     @Override

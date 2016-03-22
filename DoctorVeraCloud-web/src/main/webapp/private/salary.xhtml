@@ -10,9 +10,12 @@
     <ui:define name="content">
         <h:form id="salaryForm">
             <p:growl id="growl" showDetail="true"  showSummary="true" />
+            <p:remoteCommand id="rc" name="updateTotalSumColumn"
+                             update="salaryTable:centerSum salaryTable:doctorDirectedSum salaryTable:assistantsSum salaryTable:doctorsSum salaryTable:paidSum salaryTable:costSum"/>
 
             <p:dataTable id="salaryTable" widgetVar="salaryTable" value="#{salaryView.scheduleList}" var="schedule"
-                         styleClass="salaryTable" >
+                         styleClass="salaryTable" filteredValue="#{salaryView.filteredScheduleList}">
+                <p:ajax event="filter" process="@this" oncomplete="updateTotalSumColumn()"/>
 
                 <p:column  headerText="#{MESSAGE.ENTITY_ID}" sortBy="#{schedule.id}"
                            filterBy="#{schedule.id}" filterMatchMode="contains" >
@@ -39,6 +42,9 @@
                 <p:column  headerText="#{MESSAGE.SCHEDULE_PATIENT}" sortBy="#{schedule.patient.lastName}"
                            filterBy="#{schedule.patient.lastName} #{schedule.patient.firstName}" filterMatchMode="contains" >
                     <h:outputText value="#{schedule.patient.lastName} #{schedule.patient.firstName}"/>
+                    <f:facet name="footer" >
+                        <h:outputText value="#{MESSAGE.SALARY_TOTAL}" />
+                    </f:facet>
                 </p:column>
 
                 <p:column  headerText="#{MESSAGE.SALARY_COST}"
@@ -47,6 +53,9 @@
                     <h:outputText value="#{salaryView.financialData.get(schedule).get('COST')}">
                         <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
                     </h:outputText>
+                    <f:facet name="footer">
+                        <h:outputText value="#{salaryView.costSum} #{MESSAGE.APPLICATION_CURRENCY}" id="costSum" />
+                    </f:facet>
                 </p:column>
 
                 <p:column  headerText="#{MESSAGE.SALARY_PAID}"
@@ -54,7 +63,10 @@
                            sortBy="#{salaryView.financialData.get(schedule).get('PAID')}">
                     <h:outputText value="#{salaryView.financialData.get(schedule).get('PAID')}" >
                         <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
-                </h:outputText>
+                    </h:outputText>
+                    <f:facet name="footer" >
+                        <h:outputText value="#{salaryView.paidSum} #{MESSAGE.APPLICATION_CURRENCY}" id="paidSum"/>
+                    </f:facet>
                 </p:column>
 
                 <p:column  headerText="#{MESSAGE.SALARY_DOCTOR}"
@@ -63,6 +75,9 @@
                     <h:outputText value="#{salaryView.financialData.get(schedule).get('DOCTOR')}" >
                         <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
                     </h:outputText>
+                    <f:facet name="footer" >
+                        <h:outputText value="#{salaryView.doctorsSum} #{MESSAGE.APPLICATION_CURRENCY}" id="doctorsSum"/>
+                    </f:facet>
                 </p:column>
 
                 <p:column  headerText="#{MESSAGE.SALARY_ASSISTANT}"
@@ -71,6 +86,9 @@
                     <h:outputText value="#{salaryView.financialData.get(schedule).get('ASSISTANT')}" >
                         <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
                     </h:outputText>
+                    <f:facet name="footer" >
+                        <h:outputText value="#{salaryView.assistantsSum} #{MESSAGE.APPLICATION_CURRENCY}" id="assistantsSum"/>
+                    </f:facet>
                 </p:column>
 
                 <p:column  headerText="#{MESSAGE.SALARY_DOCTOR_DIRECTED}"
@@ -79,6 +97,9 @@
                     <h:outputText value="#{salaryView.financialData.get(schedule).get('DOCTOR_DIRECTED')}" >
                         <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
                     </h:outputText>
+                    <f:facet name="footer" >
+                        <h:outputText value="#{salaryView.doctorDirectedSum} #{MESSAGE.APPLICATION_CURRENCY}" id="doctorDirectedSum"/>
+                    </f:facet>
                 </p:column>
 
                 <p:column  headerText="#{MESSAGE.SALARY_CENTER}"
@@ -87,19 +108,10 @@
                     <h:outputText value="#{salaryView.financialData.get(schedule).get('CENTER')}" >
                         <f:convertNumber type="currency" currencySymbol="#{MESSAGE.APPLICATION_CURRENCY}" />
                     </h:outputText>
+                    <f:facet name="footer" >
+                        <h:outputText value="#{salaryView.centerSum} #{MESSAGE.APPLICATION_CURRENCY}" id="centerSum"/>
+                    </f:facet>
                 </p:column>
-
-                <p:columnGroup type="footer">
-                    <p:row>
-                        <p:column colspan="4" style="text-align:right" footerText="#{MESSAGE.SALARY_TOTAL}"/>
-                        <p:column footerText="#{salaryView.costSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
-                        <p:column footerText="#{salaryView.paidSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
-                        <p:column footerText="#{salaryView.doctorsSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
-                        <p:column footerText="#{salaryView.assistantsSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
-                        <p:column footerText="#{salaryView.doctorDirectedSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
-                        <p:column footerText="#{salaryView.centerSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
-                    </p:row>
-                </p:columnGroup>
 
                 <f:facet name="header">
                     <!--<p:commandButton id="resetFilters" value="#{MESSAGE.USERS_CLEAR_FILTERS}" onsuccess="PF('salaryTable').clearFilters();"/>-->

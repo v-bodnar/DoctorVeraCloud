@@ -23,6 +23,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /*
@@ -32,15 +34,21 @@ import java.util.logging.Logger;
  * @since       1.0
  */
 public class SMSGateway{
-    private final String LOGIN = Config.getInstance().getString("SMS_GATEWAY_LOGIN");
-    private final String PASS = Config.getInstance().getString("SMS_GATEWAY_PASSWORD");
-    private final String FROM = Config.getInstance().getString("SMS_GATEWAY_ALPHA_NAME");
-    private final String SMS_SEND_URL = Config.getInstance().getString("SMS_GATEWAY");
+	private final static Logger LOG = Logger.getLogger(SMSGateway.class.getName());
+    private static final String LOGIN = Config.getInstance().getString("SMS_GATEWAY_LOGIN");
+    private static final String PASS = Config.getInstance().getString("SMS_GATEWAY_PASSWORD");
+    private static final String FROM = Config.getInstance().getString("SMS_GATEWAY_ALPHA_NAME");
+    private static final String SMS_SEND_URL = Config.getInstance().getString("SMS_GATEWAY");
     //private final String SMS_SATE_URL = "https://api.life.com.ua/ip2sms-request/";
+	//https://api.life.com.ua/ip2sms/
     
-    private final static Logger LOG = Logger.getLogger(SMSGateway.class.getName());
-    
-    public SMSGateway(){  
+	public enum SMSResultConstants{
+		STATUS,
+		DATE,
+		UUID;
+	}
+
+    public SMSGateway(){
     }     
     	
 	/*
@@ -76,8 +84,8 @@ public class SMSGateway{
 	 * Send SMS to Gateway
 	 */
     @SuppressWarnings("deprecation")
-	public  ArrayList<String> send(String phone, String sms) {
-        ArrayList<String> result = new ArrayList<String>();
+	public static  Map<SMSResultConstants ,String> send(String phone, String sms) {
+        Map<SMSResultConstants ,String> result = new HashMap();
         final String MESSAGE = "<message><service id='single' source='" + FROM + "'/><to>" + phone + "</to><body content-type='text/plain'>" + sms + "</body></message>";
         
         @SuppressWarnings("resource")
@@ -93,7 +101,12 @@ public class SMSGateway{
             httpPost.addHeader(BasicScheme.authenticate(new UsernamePasswordCredentials(LOGIN, PASS), "UTF-8", false));
             HttpResponse response = httpclient.execute(httpPost);
             HttpEntity resEntity = response.getEntity();
+			LOG.info( "Connection status: " + (response.getStatusLine().getStatusCode()));
             LOG.info( "Sending SMS: " + (response.getStatusLine().getStatusCode()==200));
+			if(response.getStatusLine().getStatusCode()!=200){
+				LOG.severe( "Connection error");
+				return null;
+			}
             xml = EntityUtils.toString(resEntity);
         } catch (Exception e) {
             LOG.severe( ""+e.getStackTrace());
@@ -101,14 +114,15 @@ public class SMSGateway{
             httpclient.getConnectionManager().shutdown();
         }
 
+
         //parsing xml result
         Document doc = loadXMLFromString(xml);
         NodeList nl = doc.getElementsByTagName("status");
         Element status = (Element) nl.item(0);
 
-        result.add(0, status.getAttribute("id").toString()); //tracking id at position 0
-        result.add(1, status.getAttribute("date").toString()); //date at position 1
-        result.add(2, getElementValue(status.getFirstChild())); //state at position 2
+        result.put(SMSResultConstants.UUID, status.getAttribute("id").toString()); //tracking id at position 0
+        result.put(SMSResultConstants.DATE, status.getAttribute("date").toString()); //date at position 1
+        result.put(SMSResultConstants.STATUS, getElementValue(status.getFirstChild())); //state at position 2
         return result;
     }
 

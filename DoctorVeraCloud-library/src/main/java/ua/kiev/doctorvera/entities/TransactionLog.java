@@ -22,6 +22,10 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer transactionLogId;
 
+    @Basic
+    @Column(name = "UId")
+    private String uId;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "Status")
@@ -137,6 +141,14 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
         transactionLogId = id;
     }
 
+    public String getuId() {
+        return uId;
+    }
+
+    public void setuId(String uId) {
+        this.uId = uId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -150,6 +162,7 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
         if (status != that.status) return false;
         if (!messageTemplate.equals(that.messageTemplate)) return false;
         if (details != null ? !details.equals(that.details) : that.details != null) return false;
+        if (uId != null ? !uId.equals(that.uId) : that.uId != null) return false;
         if (recipientsCount != null ? !recipientsCount.equals(that.recipientsCount) : that.recipientsCount != null)
             return false;
         return dateCreated.equals(that.dateCreated) && userCreated.equals(that.userCreated);
@@ -162,6 +175,7 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
         result = 31 * result + status.hashCode();
         result = 31 * result + messageTemplate.hashCode();
         result = 31 * result + (details != null ? details.hashCode() : 0);
+        result = 31 * result + (uId != null ? uId.hashCode() : 0);
         result = 31 * result + (recipientsCount != null ? recipientsCount.hashCode() : 0);
         result = 31 * result + dateCreated.hashCode();
         result = 31 * result + (deleted ? 1 : 0);

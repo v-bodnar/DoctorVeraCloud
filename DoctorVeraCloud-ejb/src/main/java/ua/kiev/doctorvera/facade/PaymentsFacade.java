@@ -46,4 +46,22 @@ public class PaymentsFacade extends AbstractFacade<Payments> implements Payments
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    /**
+     * Searches for all payments between given dates
+     * @param dateFrom date to search from
+     * @param dateTo date to search to
+     * @return list of found payments
+     */
+    @Override
+    public List<Payments> findByDate(Date dateFrom, Date dateTo){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Payments> cq = cb.createQuery(Payments.class);
+        Root<Payments> root = cq.from(Payments.class);
+        Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTime"), dateFrom, dateTo));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(datePredicate, deletedPredicate);
+        cq.distinct(true);
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
 }

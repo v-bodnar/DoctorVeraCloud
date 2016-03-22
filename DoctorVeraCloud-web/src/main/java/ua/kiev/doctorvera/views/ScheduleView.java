@@ -472,12 +472,31 @@ public class ScheduleView implements Serializable {
 
             }
             allMethodTypes = new LinkedList<>(doctorsMethodTypes.keySet());
-        }
+        }else if(schedule != null && schedule.getId() != null && schedule.getDoctor() != null){
+            schedule.setDoctor(usersFacade.initializeLazyEntity(schedule.getDoctor()));
+            for(Methods method : schedule.getDoctor().getMethods()){
+                if(doctorsMethodTypes.containsKey(method.getMethodType())){
+                    doctorsMethodTypes.get(method.getMethodType()).add(method);
+                }else{
+                    List<Methods> methods = new LinkedList<>();
+                    methods.add(method);
+                    doctorsMethodTypes.put(method.getMethodType(), methods);
+                }
 
+            }
+        }
+        if(selectedMethods == null){
+            selectedMethods = new ArrayList<>();
+        }
         if (selectedMethodType != null && selectedMethodType.getId() != null) {
-            methodsDualListModel = new DualListModel<>(doctorsMethodTypes.get(selectedMethodType), selectedMethods);
-        } else
+            List<Methods> sourceMethods = doctorsMethodTypes.get(selectedMethodType);
+            if(sourceMethods == null){
+                sourceMethods = new ArrayList<>();
+            }
+            methodsDualListModel = new DualListModel<>(sourceMethods, selectedMethods);
+        } else {
             methodsDualListModel = new DualListModel<>(new ArrayList<Methods>(), selectedMethods);
+        }
     }
 
 
@@ -915,7 +934,7 @@ public class ScheduleView implements Serializable {
             Payments payment = new Payments();
             payment.setUserCreated(authorizedUser);
             payment.setDateCreated(new Date());
-            payment.setDataTime(new Date());
+            payment.setDateTime(new Date());
             payment.setRecipient(authorizedUser);
             payment.setSchedule(schedule);
             payment.setTotal(pricesFacade.findLastPrice(schedule.getMethod()).getTotal());

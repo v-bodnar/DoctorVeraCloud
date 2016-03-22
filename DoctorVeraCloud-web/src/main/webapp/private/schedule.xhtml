@@ -46,7 +46,10 @@
 
                             <!-- Send Notification -->
                             <h:outputLabel for="notification" value="#{MESSAGE.SCHEDULE_SEND_NOTIFICATION}"/>
-                            <p:selectBooleanCheckbox value="#{scheduleView.sendNotification}" id="notification" name="notification"/>
+                            <p:selectBooleanCheckbox value="#{scheduleView.patient.foreigner}" id="notification" name="foreigner">
+                                <p:ajax update="phoneNumberMobile phoneNumberMobileInternational"
+                                        oncomplete="toggle()"/>
+                            </p:selectBooleanCheckbox>
                             <p:message for="notification"/>
 
                             <!-- Phone Number Mobile -->

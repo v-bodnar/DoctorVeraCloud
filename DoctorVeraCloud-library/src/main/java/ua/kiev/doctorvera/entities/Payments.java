@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Payments.findAll", query = "SELECT p FROM Payments p"),
     @NamedQuery(name = "Payments.findByPaymentId", query = "SELECT p FROM Payments p WHERE p.paymentId = :paymentId"),
-    @NamedQuery(name = "Payments.findByDataTime", query = "SELECT p FROM Payments p WHERE p.dataTime = :dataTime"),
+    @NamedQuery(name = "Payments.findByDataTime", query = "SELECT p FROM Payments p WHERE p.dateTime = :dataTime"),
     @NamedQuery(name = "Payments.findByTotal", query = "SELECT p FROM Payments p WHERE p.total = :total"),
     @NamedQuery(name = "Payments.findByDescription", query = "SELECT p FROM Payments p WHERE p.description = :description"),
     @NamedQuery(name = "Payments.findByDateCreated", query = "SELECT p FROM Payments p WHERE p.dateCreated = :dateCreated"),
@@ -48,9 +48,9 @@ public class Payments implements Serializable,Identified<Integer> {
     private Integer paymentId;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "DataTime")
+    @Column(name = "DateTime")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dataTime;
+    private Date dateTime;
     @Basic(optional = false)
     @NotNull
     @Column(name = "Total")
@@ -84,9 +84,9 @@ public class Payments implements Serializable,Identified<Integer> {
         this.paymentId = paymentId;
     }
 
-    public Payments(Integer paymentId, Date dataTime, float total, Date dateCreated, boolean deleted) {
+    public Payments(Integer paymentId, Date dateTime, float total, Date dateCreated, boolean deleted) {
         this.paymentId = paymentId;
-        this.dataTime = dataTime;
+        this.dateTime = dateTime;
         this.total = total;
         this.dateCreated = dateCreated;
         this.deleted = deleted;
@@ -100,12 +100,12 @@ public class Payments implements Serializable,Identified<Integer> {
         this.paymentId = paymentId;
     }
 
-    public Date getDataTime() {
-        return dataTime;
+    public Date getDateTime() {
+        return dateTime;
     }
 
-    public void setDataTime(Date dataTime) {
-        this.dataTime = dataTime;
+    public void setDateTime(Date dataTime) {
+        this.dateTime = dataTime;
     }
 
     public float getTotal() {
@@ -169,7 +169,7 @@ public class Payments implements Serializable,Identified<Integer> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((dataTime == null) ? 0 : dataTime.hashCode());
+				+ ((dateTime == null) ? 0 : dateTime.hashCode());
 		result = prime * result
 				+ ((dateCreated == null) ? 0 : dateCreated.hashCode());
 		result = prime * result + (deleted ? 1231 : 1237);
@@ -196,10 +196,10 @@ public class Payments implements Serializable,Identified<Integer> {
 		if (getClass() != obj.getClass())
 			return false;
 		Payments other = (Payments) obj;
-		if (dataTime == null) {
-			if (other.dataTime != null)
+		if (dateTime == null) {
+			if (other.dateTime != null)
 				return false;
-		} else if (!dataTime.equals(other.dataTime))
+		} else if (!dateTime.equals(other.dateTime))
 			return false;
 		if (dateCreated == null) {
 			if (other.dateCreated != null)
@@ -240,7 +240,7 @@ public class Payments implements Serializable,Identified<Integer> {
 
 	@Override
 	public String toString() {
-		return "Payments [paymentId=" + paymentId + ", dataTime=" + dataTime
+		return "Payments [paymentId=" + paymentId + ", dataTime=" + dateTime
 				+ ", total=" + total + ", description=" + description
 				+ ", dateCreated=" + dateCreated + ", deleted=" + deleted
 				+ ", schedule=" + schedule + ", userCreated=" + userCreated

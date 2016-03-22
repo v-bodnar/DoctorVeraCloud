@@ -9,6 +9,7 @@ import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Schedule;
 
 import javax.ejb.Local;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,4 +27,14 @@ public interface PaymentsFacadeLocal  extends CRUDFacade<Payments>{
      * @return payment for the given Schedule record
      */
     List<Payments> findBySchedule(Schedule schedule);
+
+    /**
+     * Searches for all payments between given dates
+     * @param dateFrom date to search from
+     * @param dateTo date to search to
+     * @return list of found payments
+     */
+    List<Payments> findByDate(Date dateFrom, Date dateTo);
+
+
 }

@@ -8,13 +8,39 @@
 		<h:outputText value="#{MESSAGE.PAYMENTS_ADD_TITLE}" />
 	</ui:define>
 	<ui:define name="content">
-	
+		<h:form id="searchForm">
+			<p:growl id="growl" showDetail="true" severity="info" />
+			<p:panel style="text-align: center">
+				<h:outputLabel for="dateStart" value=" #{MESSAGE.SALARY_FROM} " />
+
+				<p:calendar value="#{paymentsView.dateStart}"
+							id="dateStart"  pattern="dd-MM-yyyy" styleClass="myTextField"
+							required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+					<p:ajax event="dateSelect" update=":searchForm:growl"/>
+				</p:calendar>
+
+				<h:outputLabel for="dateEnd" value=" #{MESSAGE.SALARY_TO} " />
+				<p:calendar value="#{paymentsView.dateEnd}"
+							id="dateEnd"  pattern="dd-MM-yyyy" styleClass="myTextField"
+							required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+					<p:ajax event="dateSelect" update=":searchForm:growl"/>
+				</p:calendar>
+
+				<p:commandButton value="#{MESSAGE.SALARY_CALCULATE}" icon="fa fa-slideshare"
+								 actionListener = "#{paymentsView.searchPayments()}"
+								 update=":paymentsForm:paymentsTable :paymentsForm:paymentsTable:totalSumColumn"/>
+			</p:panel>
+		</h:form>
 		<h:form id="paymentsForm">
+			<p:growl id="growl" showDetail="true"  showSummary="true" />
+			<p:remoteCommand id="rc" name="updateTotalSumColumn" update="paymentsTable:totalSumColumn"/>
+
 			<p:dataTable id="paymentsTable" styleClass="paymentsTable"
-				var="payment" widgetVar="paymentsTable"
+				var="payment" widgetVar="paymentsTable" filteredValue="#{paymentsView.filteredPayments}"
 				value="#{paymentsView.allPayments}" rowKey="#{payment.id}"
-				rowStyleClass="#{payment.total le 0 ? 'outcome' : null}" >
-				
+				rowStyleClass="#{payment.total le 0 ? 'outcome' : null}">
+				<p:ajax event="filter" process="@this" oncomplete="updateTotalSumColumn()"/>
+
 				<p:column headerText="#{MESSAGE.ENTITY_ID}"
 					sortBy="#{payment.id}" filterBy="#{payment.id}"
 					filterMatchMode="contains" style="width:50px;">
@@ -23,7 +49,9 @@
 				
 				<p:column headerText="#{MESSAGE.PAYMENTS_DATE_TIME}"
 					sortBy="#{payment.dateCreated}" filterBy="#{payment.dateCreated}">
-					<h:outputText value="#{payment.dateCreated}" />
+					<h:outputText value="#{payment.dateCreated}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					</h:outputText>
 				</p:column>
 				
 				<p:column headerText="#{MESSAGE.PAYMENTS_CASHIER}"
@@ -35,12 +63,26 @@
 					sortBy="#{payment.description}" filterBy="#{payment.description}"
 					filterMatchMode="contains">
 					<h:outputText value="#{payment.description}" />
+					<f:facet name="footer" >
+						<h:outputText value="#{MESSAGE.SALARY_TOTAL}" />
+					</f:facet>
 				</p:column>
 				
 				<p:column headerText="#{MESSAGE.PAYMENTS_TOTAL}"
 					sortBy="#{payment.total}" filterBy="#{payment.total}"
 					filterMatchMode="contains">
 					<h:outputText value="#{payment.total}" />
+					<f:facet name="footer" >
+						<h:outputText value="#{paymentsView.totalSum} #{MESSAGE.APPLICATION_CURRENCY}" id="totalSumColumn"/>
+					</f:facet>
+				</p:column>
+
+				<p:column width="50">
+					<p:commandButton icon="ui-icon-print" ajax="false"
+									 update=":paymentsForm:growl" process="@this"
+									 rendered="#{securityUtils.checkPermissions('PAYMENTS_ADD')}">
+						<p:fileDownload value="#{paymentsView.printPayment(payment)}" />
+					</p:commandButton>
 				</p:column>
 
 				<f:facet name="footer">
@@ -57,7 +99,7 @@
 				
 				<p:dialog header="#{MESSAGE.PAYMENTS_ADD_TITLE}"
 				widgetVar="addPaymentDialog" modal="false" closeOnEscape="true">
-				
+					<p:ajax event="close" update=":paymentsForm:paymentsTable" />
 					<h:panelGrid columns="3" cellpadding="5"
 						style="margin:auto;width:100%;">
 						
@@ -72,11 +114,13 @@
 						
 						<!-- Total -->
 						<h:outputLabel for="total" value="#{MESSAGE.PAYMENTS_TOTAL}" />
-						<p:inputMask value="#{paymentsView.newPayment.total}"
-							id="total" name="total" mask="9?99999" slotChar="" 
-							required="true"	requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+						<p:inputText value="#{paymentsView.newPayment.total}"
+									 id="total" name="total" required="true"
+									 requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+									 converter="javax.faces.Float">
 							<p:ajax event="blur" update="totalMessage" process="total" />
-						</p:inputMask>
+							<f:validateDoubleRange />
+						</p:inputText>
 						<p:message for="total" id="totalMessage" />
 						
 						<!-- Description -->
@@ -103,22 +147,17 @@
 						<!-- Add button -->
 						<p:commandButton value="#{MESSAGE.PAYMENTS_ADD_BUTTON}"
 							actionListener="#{paymentsView.createPayment}" icon="ui-icon-check"
-							update = "@form :paymentsForm:paymentsTable" style="margin:auto"
+							update = ":paymentsForm:paymentsTable" style="margin:auto" process="@form"
 							rendered="#{securityUtils.checkPermissions('PAYMENTS_ADD')}"/>
 						
 						<!-- Add && print button -->
-						<!-- Add && print button -->
 						<p:commandButton value="#{MESSAGE.PAYMENTS_ADD_PRINT_BUTTON}"
 										 icon="ui-icon-print" style="margin:auto" ajax="false"
-										 oncomplete="PrimeFaces.monitorDownload(start, stop);"
+										 onclick="PF('addPaymentDialog').hide();"
 										 update="growl" process="@this"
 										 rendered="#{securityUtils.checkPermissions('PAYMENTS_ADD')}">
-							<p:fileDownload value="#{paymentsView.createAndPrintPayment}" />
+							<p:fileDownload value="#{paymentsView.createAndPrintPayment()}"/>
 						</p:commandButton>
-						<p:commandButton value="#{MESSAGE.PAYMENTS_ADD_PRINT_BUTTON}"
-							actionListener="#{paymentsView.createAndPrintPayment}" icon="ui-icon-print"
-							update = "@form :paymentsForm:paymentsTable" style="margin:auto"
-							rendered="#{securityUtils.checkPermissions('PAYMENTS_ADD')}"/>
 					</h:panelGrid>
 				</p:dialog>
 		</h:form>

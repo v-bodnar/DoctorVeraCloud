@@ -1,6 +1,7 @@
 package ua.kiev.doctorvera.views;
 
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.services.SMSServiceLocal;
 import ua.kiev.doctorvera.utils.SMSGateway;
 import ua.kiev.doctorvera.utils.Utils;
 
@@ -10,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Named(value="sendSMSView")
@@ -45,8 +47,8 @@ public class SendSMSView implements Serializable {
 
 	public void sendSMS(){
 		phone = Utils.stripPhone(phone);
-		ArrayList<String> result = smsGateway.send(phone, text);
-		LOG.info("SMS sent, tracking id: " + result.get(0) + " Status: " + result.get(2));
+		Map<SMSGateway.SMSResultConstants, String> result = smsGateway.send(phone, text);
+		LOG.info("SMS sent, tracking id: " + result.get(SMSGateway.SMSResultConstants.UUID) + " Status: " + result.get(SMSGateway.SMSResultConstants.STATUS));
 		final String successMessage = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));

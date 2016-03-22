@@ -15,12 +15,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -56,14 +52,15 @@ public class SalaryView implements Serializable{
 
     private List<Schedule> scheduleList;
 
+    private List<Schedule> filteredScheduleList = new LinkedList<>();
+
     private Date dateStart;
     private Date dateEnd;
     private Users selectedEmployee;
     private List<Users> allEmployees;
 
     private Map<Schedule, Map<String, Float>> financialData;
-    private Float test = 102f;
-
+    private Map<Schedule, Map<String, Float>> filteredFinancialData = new HashMap<>();
 
     @PostConstruct
     public void init(){
@@ -75,6 +72,8 @@ public class SalaryView implements Serializable{
             financialData = new HashMap<>();
             Message.showErrorInDialog(e.getMessage());
         }
+        filteredScheduleList.addAll(scheduleList);
+        filteredFinancialData.putAll(financialData);
         allEmployees = usersFacade.findByGroup(Integer.parseInt(Config.getMessage("EMPLOYEE_USER_GROUP_ID")));
     }
 
@@ -86,6 +85,17 @@ public class SalaryView implements Serializable{
             financialData = new HashMap<>();
             Message.showErrorInDialog(e.getMessage());
         }
+        filteredScheduleList.clear();
+        filteredScheduleList.addAll(scheduleList);
+    }
+
+    private void filterFinancialData(){
+        filteredFinancialData = new HashMap<>();
+        for(Schedule schedule : financialData.keySet()){
+            if(filteredScheduleList.contains(schedule)){
+                filteredFinancialData.put(schedule, financialData.get(schedule));
+            }
+        }
     }
 
     public void fillPaymentForm(){
@@ -95,7 +105,7 @@ public class SalaryView implements Serializable{
             Payments payment = new Payments();
             payment.setUserCreated(authorizedUser);
             payment.setDateCreated(new Date());
-            payment.setDataTime(new Date());
+            payment.setDateTime(new Date());
             payment.setRecipient(selectedEmployee);
             if(usersFacade.isDoctor(selectedEmployee)){
                 payment.setTotal(getDoctorsSum());
@@ -178,54 +188,61 @@ public class SalaryView implements Serializable{
         this.scheduleList = scheduleList;
     }
 
+    public List<Schedule> getFilteredScheduleList() {
+        return filteredScheduleList;
+    }
+
+    public void setFilteredScheduleList(List<Schedule> filteredScheduleList) {
+        this.filteredScheduleList = filteredScheduleList;
+    }
+
     public float getCostSum(){
+        filterFinancialData();
         float sum = 0;
-        if(financialData.values().isEmpty()) return sum;
-        for(Map<String, Float> map : financialData.values())
+        if(filteredFinancialData.values().isEmpty()) return sum;
+        for(Map<String, Float> map : filteredFinancialData.values())
             sum += map.get(ShareFacadeLocal.Part.COST.name());
         return sum;
     }
     public float getPaidSum(){
+        filterFinancialData();
         float sum = 0;
-        if(financialData.values().isEmpty()) return sum;
-        for(Map<String, Float> map : financialData.values())
+        if(filteredFinancialData.values().isEmpty()) return sum;
+        for(Map<String, Float> map : filteredFinancialData.values())
             sum += map.get(ShareFacadeLocal.Part.PAID.name());
         return sum;
     }
     public float getDoctorsSum(){
+        filterFinancialData();
         float sum = 0;
-        if(financialData.values().isEmpty()) return sum;
-        for(Map<String, Float> map : financialData.values())
+        if(filteredFinancialData.values().isEmpty()) return sum;
+        for(Map<String, Float> map : filteredFinancialData.values())
             sum += map.get(ShareFacadeLocal.Part.DOCTOR.name());
         return sum;
     }
     public float getDoctorDirectedSum(){
+        filterFinancialData();
         float sum = 0;
-        if(financialData.values().isEmpty()) return sum;
-        for(Map<String, Float> map : financialData.values())
+        if(filteredFinancialData.values().isEmpty()) return sum;
+        for(Map<String, Float> map : filteredFinancialData.values())
             sum += map.get(ShareFacadeLocal.Part.DOCTOR_DIRECTED.name());
         return sum;
     }
     public float getAssistantsSum(){
+        filterFinancialData();
         float sum = 0;
-        if(financialData.values().isEmpty()) return sum;
-        for(Map<String, Float> map : financialData.values())
+        if(filteredFinancialData.values().isEmpty()) return sum;
+        for(Map<String, Float> map : filteredFinancialData.values())
             sum += map.get(ShareFacadeLocal.Part.ASSISTANT.name());
         return sum;
     }
     public float getCenterSum(){
+        filterFinancialData();
         float sum = 0;
-        if(financialData.values().isEmpty()) return sum;
-        for(Map<String, Float> map : financialData.values())
+        if(filteredFinancialData.values().isEmpty()) return sum;
+        for(Map<String, Float> map : filteredFinancialData.values())
             sum += map.get(ShareFacadeLocal.Part.CENTER.name());
         return sum;
     }
 
-    public Float getTest() {
-        return test;
-    }
-
-    public void setTest(Float test) {
-        this.test = test;
-    }
 }

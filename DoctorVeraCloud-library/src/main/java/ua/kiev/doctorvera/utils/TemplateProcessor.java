@@ -12,8 +12,13 @@ import ua.kiev.doctorvera.entities.FileRepository;
 import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.PricesFacadeLocal;
 import ua.kiev.doctorvera.resources.Message;
 
+import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,12 +27,17 @@ import java.util.List;
 /**
  * Created by volodymyr.bodnar on 2/27/2016.
  */
+@Named
+@RequestScoped
 public class TemplateProcessor {
 
     Users currentUser;
     Users user;
     Schedule schedule;
     Payments payment;
+
+    @EJB
+    private PricesFacadeLocal pricesFacade;
 
     public StreamedContent processTemplate(FileRepository fileRepository) throws IOException {
 
@@ -114,7 +124,11 @@ public class TemplateProcessor {
     }
 
     public String replaceUsingUsersData(String text) {
-        if (text == null || user == null) return null;
+        if (text == null || user == null){
+            text = text.replaceAll("\\$usersFirstName|\\$usersLastName|\\$usersMiddleName|\\$usersMiddleName, " +
+                    "\\$usersId|\\$usersBirthDate|\\$usersMobilePhoneNumber|\\$usersHomePhoneNumber|\\$usersEmail|\\$usersLogin", "");
+            return text;
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
         if (text.contains("$usersFirstName"))
             text = text.replaceAll("\\$usersFirstName", user.getFirstName() == null ? "" : user.getFirstName());
@@ -138,7 +152,10 @@ public class TemplateProcessor {
     }
 
     public String replaceUsingCommonData(String text) {
-        if (text == null || currentUser == null) return null;
+        if (text == null || currentUser == null){
+            text = text.replaceAll("\\$currentDate|\\$currentUsersFirstName|\\$currentUsersLastName", "");
+            return text;
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
         if (text.contains("$currentDate"))
             text = text.replaceAll("\\$currentDate", formatter.format(new Date()));
@@ -150,7 +167,10 @@ public class TemplateProcessor {
     }
 
     public String replaceUsingScheduleData(String text) {
-        if (text == null || schedule == null) return null;
+        if (text == null || schedule == null) {
+            text = text.replaceAll("\\$scheduleId|\\$scheduleMethod", "");
+            return text;
+        }
         if (text.contains("$scheduleId"))
             text = text.replaceAll("\\$scheduleId", schedule.getId() == null ? "" : "" + schedule.getId());
         if (text.contains("$scheduleMethod"))
@@ -159,7 +179,10 @@ public class TemplateProcessor {
     }
 
     public String replaceUsingPaymentData(String text) {
-        if (text == null || payment == null) return null;
+        if (text == null || payment == null){
+            text = text.replaceAll("\\$paymentId|\\$paymentTotal|\\$paymentDescription", "");
+            return text;
+        }
         if (text.contains("$paymentId"))
             text = text.replaceAll("\\$paymentId", payment.getId() == null ? "" : "" + payment.getId());
         if (text.contains("$paymentTotal"))
@@ -167,6 +190,22 @@ public class TemplateProcessor {
         if (text.contains("$paymentDescription"))
             text = text.replaceAll("\\$paymentDescription", payment.getDescription());
 
+        return text;
+    }
+
+    public String processMessageText(String text, Schedule schedule){
+        if(schedule.getDateTimeStart() != null)
+            text = text.replace("$appointmentStartDate", "" + new SimpleDateFormat("yyyy-MM-dd").format(schedule.getDateTimeStart()));
+        if(schedule.getDateTimeStart() != null)
+            text = text.replace("$appointmentStartTime", "" + new SimpleDateFormat("HH:mm").format(schedule.getDateTimeStart()));
+        if(schedule.getMethod() != null && schedule.getMethod().getShortName() != null)
+            text = text.replace("$appointmentMethodName", schedule.getMethod().getShortName());
+        if(schedule.getMethod() != null && schedule.getMethod() != null && pricesFacade.findLastPrice(schedule.getMethod())!=null)
+            text = text.replace("$appointmentMethodPrice", "" + pricesFacade.findLastPrice(schedule.getMethod()).getTotal());
+        if(schedule.getDoctor() != null)
+            text = text.replace("$doctorsFirstName", schedule.getDoctor().getFirstName());
+        if(schedule.getDoctor()  != null)
+            text = text.replace("$doctorsLastName", schedule.getDoctor().getLastName());
         return text;
     }
 
