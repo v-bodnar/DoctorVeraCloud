@@ -174,15 +174,16 @@ public class UserGroupsTableView implements Serializable {
 		if (selectedGroup != null && selectedGroup.getId() != null && selectedSecurityPolicy != null){
 			userGroupsFacade.initializeLazyEntity(selectedGroup);
 			List<Policy> sourcePolicies = new ArrayList<>();
-			List<Policy> targetPolicy = (List<Policy>) selectedGroup.getPolicies();
-			for (Policy policy : allPolicies) {
+			List<Policy> targetPolicy = new ArrayList<>();
+			for(Policy policy : selectedGroup.getPolicies()){
 				if (policy.getPolicyGroup().equals(selectedSecurityPolicy.name())){
-					sourcePolicies.add(policy);
+					targetPolicy.add(policy);
 				}
 			}
-
-			for(Policy policy : targetPolicy){
-				sourcePolicies.remove(policy);
+			for (Policy policy : allPolicies) {
+				if (policy.getPolicyGroup().equals(selectedSecurityPolicy.name()) && !targetPolicy.contains(policy)){
+					sourcePolicies.add(policy);
+				}
 			}
 			policiesDualListModel = new DualListModel<>(sourcePolicies, targetPolicy);
 		} else
