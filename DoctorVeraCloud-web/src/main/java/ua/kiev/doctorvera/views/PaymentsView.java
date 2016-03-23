@@ -68,6 +68,7 @@ public class PaymentsView implements Serializable {
 		allPayments = paymentsFacade.findByDate(DateTime.now().withDayOfMonth(1).toDate(), new Date());
 		newPayment = new Payments();
 		isPositive = new Boolean(true);
+		filteredPayments = allPayments;
 		for(Payments payment : allPayments){
 			totalSum += payment.getTotal();
 		}
