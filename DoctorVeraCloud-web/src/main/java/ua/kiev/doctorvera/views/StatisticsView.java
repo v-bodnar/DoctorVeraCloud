@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.PieChartModel;
 import ua.kiev.doctorvera.entities.Methods;
+import ua.kiev.doctorvera.entities.Payments;
 import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.*;
@@ -95,6 +96,14 @@ public class StatisticsView implements Serializable{
 
     private Float maxDaySalary = 0f;
 
+    private Float fullBalance = 0f;
+
+    private Float periodBalance = 0f;
+
+    private Float periodIncome = 0f;
+
+    private Float periodOutcome = 0f;
+
     @PostConstruct
     public void init() {
         authorizedUser = sessionParams.getAuthorizedUser();
@@ -111,6 +120,22 @@ public class StatisticsView implements Serializable{
         }else{
             startOfPeriod = new DateTime(startDate).millisOfDay().withMinimumValue();
             endOfPeriod = new DateTime(endDate).millisOfDay().withMaximumValue();
+        }
+
+        fullBalance = 0f;
+        for(Payments payment : paymentsFacade.findAll()){
+            fullBalance += payment.getTotal();
+        }
+        List<Payments> paymentsForPeriod = paymentsFacade.findByDate(startOfPeriod.toDate(), endOfPeriod.toDate());
+        periodBalance = 0f;
+        periodIncome = 0f;
+        periodOutcome = 0f;
+        for(Payments payment : paymentsForPeriod){
+            periodBalance += payment.getTotal();
+            if(payment.getTotal() > 0)
+                periodIncome += payment.getTotal();
+            if(payment.getTotal() < 0)
+                periodOutcome += payment.getTotal();
         }
 
         List<Schedule> scheduleList;
@@ -397,5 +422,37 @@ public class StatisticsView implements Serializable{
 
     public PieChartModel getEmployeeChart() {
         return employeeChart;
+    }
+
+    public Float getPeriodOutcome() {
+        return periodOutcome;
+    }
+
+    public void setPeriodOutcome(Float periodOutcome) {
+        this.periodOutcome = periodOutcome;
+    }
+
+    public Float getPeriodIncome() {
+        return periodIncome;
+    }
+
+    public void setPeriodIncome(Float periodIncome) {
+        this.periodIncome = periodIncome;
+    }
+
+    public Float getPeriodBalance() {
+        return periodBalance;
+    }
+
+    public void setPeriodBalance(Float periodBalance) {
+        this.periodBalance = periodBalance;
+    }
+
+    public Float getFullBalance() {
+        return fullBalance;
+    }
+
+    public void setFullBalance(Float fullBalance) {
+        this.fullBalance = fullBalance;
     }
 }

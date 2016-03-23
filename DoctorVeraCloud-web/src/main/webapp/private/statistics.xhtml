@@ -122,16 +122,72 @@
                     <p:panelGrid style="width: 100%">
                         <p:row>
                             <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_FINANCIAL_FULL_BALANCE}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.fullBalance} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_FINANCIAL_PERIOD_BALANCE}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.periodBalance} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_FINANCIAL_PERIOD_INCOME}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.periodIncome} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_FINANCIAL_PERIOD_OUTCOME}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.periodOutcome} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_TOTAL_PAID}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.paidSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_CLINICS_INCOME}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.clinicsSalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_TOTAL_PAID_AVERAGE_PER_DAY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.averagePayedSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{MESSAGE.STATISTICS_CLINICS_INCOME_AVERAGE_PER_DAY}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{statisticsView.averageClinicsSalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
                                 <h:outputText value="#{MESSAGE.STATISTICS_SALARY_SUM}"/>
                             </p:column>
                             <p:column>
                                 <h:outputText value="#{statisticsView.salarySum} #{MESSAGE.APPLICATION_CURRENCY}"/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{MESSAGE.STATISTICS_TOTAL_PAID}"/>
+                                <h:outputText value="#{MESSAGE.INDEX_BEST_DAY}"/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{statisticsView.paidSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
+                                <h:outputText value="#{statisticsView.maxDaySalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
                             </p:column>
                         </p:row>
                         <p:row>
@@ -143,38 +199,10 @@
                                         value="#{statisticsView.averageDaySalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{MESSAGE.STATISTICS_TOTAL_PAID_AVERAGE_PER_DAY}"/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{statisticsView.averagePayedSum} #{MESSAGE.APPLICATION_CURRENCY}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column>
-                                <h:outputText value="#{MESSAGE.INDEX_BEST_DAY}"/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{statisticsView.maxDaySalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{MESSAGE.STATISTICS_CLINICS_INCOME}"/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{statisticsView.clinicsSalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
-                            </p:column>
-                        </p:row>
-                        <p:row>
-                            <p:column>
                                 <h:outputText value="#{MESSAGE.INDEX_WORST_DAY}"/>
                             </p:column>
                             <p:column>
                                 <h:outputText value="#{statisticsView.minDaySalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{MESSAGE.STATISTICS_CLINICS_INCOME_AVERAGE_PER_DAY}"/>
-                            </p:column>
-                            <p:column>
-                                <h:outputText value="#{statisticsView.averageClinicsSalary} #{MESSAGE.APPLICATION_CURRENCY}"/>
                             </p:column>
                         </p:row>
                         <p:row>
