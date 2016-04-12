@@ -60,12 +60,12 @@ public class MessageLog implements Serializable, Identified<Integer>{
     private Users userCreated;
 
     public enum Status {
+        NEW,
+        SENT,
         WAITING,
         SENDING,
         PAUSED,
         CANCELED,
-        NEW,
-        SENT,
         DELIVERED,
         DELIVERY_ERROR,
         SEND_ERROR

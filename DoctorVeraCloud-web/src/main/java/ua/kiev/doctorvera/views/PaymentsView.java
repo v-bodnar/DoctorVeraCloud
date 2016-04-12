@@ -1,6 +1,6 @@
 package ua.kiev.doctorvera.views;
 
-import com.itextpdf.text.*;
+import com.itextpdf.text.DocumentException;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.StreamedContent;
@@ -11,6 +11,7 @@ import ua.kiev.doctorvera.facadeLocal.FileRepositoryFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.PaymentsFacadeLocal;
 import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.utils.DateUtils;
 import ua.kiev.doctorvera.utils.TemplateProcessor;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 @Named(value="paymentsView")
@@ -152,6 +154,10 @@ public class PaymentsView implements Serializable {
 					"Дата: " + sf.format(newPayment.getDateCreated()) + "</BR>"
 					+"</body></html>";
 		return str;
+	}
+
+	public boolean filterByDate(Object value, Object filter, Locale locale) {
+		return DateUtils.filterByDate(value, filter, locale);
 	}
 
 	public Users getAuthorizedUser() {

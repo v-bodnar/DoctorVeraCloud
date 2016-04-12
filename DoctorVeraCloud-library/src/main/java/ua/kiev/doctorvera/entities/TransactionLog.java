@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -58,12 +58,14 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
     @ManyToOne(optional = false)
     private Users userCreated;
 
+    @OneToMany(mappedBy = "transaction")
+    private Collection<MessageLog> messageLogs;
+
     public enum Status {
-        NEW,
         PROGRESS,
-        SENT,
-        DELIVERED,
-        DELIVERY_ERROR,
+        SENT, //status for emails
+        DELIVERED, //status for sms
+        DELIVERY_ERROR, //status for sms
         SEND_ERROR
     }
 
@@ -147,6 +149,14 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
 
     public void setuId(String uId) {
         this.uId = uId;
+    }
+
+    public Collection<MessageLog> getMessageLogs() {
+        return messageLogs;
+    }
+
+    public void setMessageLogs(Collection<MessageLog> messageLogs) {
+        this.messageLogs = messageLogs;
     }
 
     @Override

@@ -48,15 +48,20 @@
 				</p:column>
 				
 				<p:column headerText="#{MESSAGE.PAYMENTS_DATE_TIME}"
-					sortBy="#{payment.dateCreated}" filterBy="#{payment.dateCreated}">
+					sortBy="#{payment.dateCreated}" filterBy="#{payment.dateCreated}" filterFunction="#{paymentsView.filterByDate}">
+					<f:facet name="filter" filterMatchMode="contains">
+						<p:calendar pattern="yyyy-MM-dd" styleClass="calendarFilter" id="paymentDateFilter">
+							<p:ajax event="dateSelect" oncomplete="PF('paymentsTable').filter()"/>
+						</p:calendar>
+					</f:facet>
 					<h:outputText value="#{payment.dateCreated}">
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
 					</h:outputText>
 				</p:column>
 				
-				<p:column headerText="#{MESSAGE.PAYMENTS_CASHIER}"
-					sortBy="#{payment.userCreated}" filterBy="#{payment.userCreated}">
-					<h:outputText value="#{payment.userCreated.firstName} #{payment.userCreated.firstName}" />
+				<p:column headerText="#{MESSAGE.PAYMENTS_CASHIER}" filterMatchMode="contains"
+					sortBy="#{payment.userCreated.lastName}" filterBy="#{payment.userCreated.lastName} #{payment.userCreated.firstName}">
+					<h:outputText value="#{payment.userCreated.lastName} #{payment.userCreated.firstName}" />
 				</p:column>
 				
 				<p:column headerText="#{MESSAGE.ENTITY_DESCRIPTION}"

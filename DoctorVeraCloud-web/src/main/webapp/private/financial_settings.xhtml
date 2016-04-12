@@ -61,7 +61,8 @@
                     #{share.percentageAssistant!=null?'%':MESSAGE.APPLICATION_CURRENCY}" />
                 </p:column>
 
-                <p:column headerText="#{MESSAGE.SHARE_DATE}" filterBy="#{share.date}" filterMatchMode="contains" sortBy="#{share.date}">
+                <p:column headerText="#{MESSAGE.SHARE_DATE}" filterBy="#{share.date}" filterMatchMode="contains" sortBy="#{share.date}"
+                filterFunction="#{financialSettingsView.filterByDate}">
                     <f:facet name="filter">
                         <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" style="width:100px;" id="dataTimeFilter">
                             <p:ajax event="dateSelect" oncomplete="PF('financialSettingsTable').filter()"/>

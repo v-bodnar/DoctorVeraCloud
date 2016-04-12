@@ -23,7 +23,7 @@
                 </p:column>
 
                 <p:column  headerText="#{MESSAGE.PAYMENTS_DATE_TIME}" sortBy="#{schedule.dateTimeStart}"
-                           filterBy="#{schedule.dateTimeStart}" filterMatchMode="contains" >
+                           filterBy="#{schedule.dateTimeStart}" filterMatchMode="contains" filterFunction="#{salaryView.filterByDate}">
                     <f:facet name="filter">
                         <p:calendar pattern="yyyy-MM-dd" styleClass="calendarFilter" id="dateStartFilter">
                             <p:ajax event="dateSelect" oncomplete="PF('salaryTable').filter()"/>

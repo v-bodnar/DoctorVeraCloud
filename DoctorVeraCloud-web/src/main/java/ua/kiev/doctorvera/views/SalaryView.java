@@ -8,6 +8,7 @@ import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.*;
 import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.utils.DateUtils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -92,7 +93,7 @@ public class SalaryView implements Serializable{
     private void filterFinancialData(){
         filteredFinancialData = new HashMap<>();
         for(Schedule schedule : financialData.keySet()){
-            if(filteredScheduleList.contains(schedule)){
+            if(filteredScheduleList != null && filteredScheduleList.contains(schedule)){
                 filteredFinancialData.put(schedule, financialData.get(schedule));
             }
         }
@@ -138,6 +139,10 @@ public class SalaryView implements Serializable{
             Message.showError(Message.getMessage("APPLICATION_ERROR"), Message.getMessage("SALARY_NO_EMPLOYEE_SELECTED"));
             RequestContext.getCurrentInstance().execute("PF('addPaymentDialog').hide();");
         }
+    }
+
+    public boolean filterByDate(Object value, Object filter, Locale locale){
+        return DateUtils.filterByDate(value, filter, locale);
     }
 
     public Date getDateStart() {

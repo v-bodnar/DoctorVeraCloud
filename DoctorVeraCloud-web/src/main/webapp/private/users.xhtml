@@ -60,7 +60,7 @@
 
                 <p:ajax event="contextMenu" update=":addTypesToUserForm:addTypesToUserDialog"/>
 
-                <p:column headerText="Id" sortBy="#{user.userId}"
+                <p:column headerText="#{MESSAGE.ENTITY_ID}" sortBy="#{user.userId}"
                           filterBy="#{user.userId}" filterMatchMode="exact">
                     <f:facet name="filter">
                         <p:inputText id="idFilter" onkeyup="PF('usersTable').filter();" converter="javax.faces.Integer"

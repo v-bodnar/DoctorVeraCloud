@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.views;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 import ua.kiev.doctorvera.entities.Policy;
@@ -207,6 +208,8 @@ public class UserGroupsTableView implements Serializable {
 		final String successMessage = Message.getMessage("USER_TYPES_EDITED");
 		final String successTitle = Message.getMessage("VALIDATOR_SUCCESS_TITLE");
 		Message.showMessage(successTitle, successMessage);
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('editTypeDialog').hide()");
     }
     
     //Adds selected User Group
@@ -218,6 +221,8 @@ public class UserGroupsTableView implements Serializable {
 		final String successMessage = Message.getMessage("APPLICATION_SAVED");
 		final String successTitle = Message.getMessage("USER_TYPES_SAVED");
 		Message.showMessage(successTitle, successMessage);
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("PF('addTypeDialog').hide()");
 	}
 	
 	//This method controls onTransfer event in the Pick List

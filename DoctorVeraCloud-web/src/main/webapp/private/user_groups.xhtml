@@ -81,6 +81,7 @@
 				<f:facet name="footer">
 			        <p:commandButton value="#{MESSAGE.USER_TYPES_ADD_BUTTON}" icon="ui-icon-plus"
 			        actionListener = "#{userGroupsTableView.initNewType}"
+					update=":userTypesAddForm:addTypeGrid"
 			        oncomplete="PF('addTypeDialog').show();"/>
 		    	</f:facet>
 
@@ -103,7 +104,7 @@
 				<p:growl id="growl" showDetail="true" />
 				<p:ajax event="close" update=":userTypesForm:userGroupsTable" />
 
-				<h:panelGrid columns="3" cellpadding="5">
+				<h:panelGrid id="addTypeGrid" columns="3" cellpadding="5">
 
 					<h:outputLabel for="userTypeName"
 						value="#{MESSAGE.USER_TYPES_NAME}" />
@@ -128,8 +129,7 @@
 					<p:commandButton id="userTypeSaveButton"
 						value="#{MESSAGE.USER_TYPES_ADD_BUTTON}" icon="ui-icon-plus"
 						actionListener="#{userGroupsTableView.saveNewType}"
-						update="userTypeDescriptionMessage userTypeNameMessage growl"
-						oncomplete="PF('addTypeDialog').hide();" />
+						update="userTypeDescriptionMessage userTypeNameMessage growl"/>
 
 				</h:panelGrid>
 
@@ -170,7 +170,6 @@
 						value="#{MESSAGE.APPLICATION_SAVE_BUTTON}" icon="ui-icon-plus"
 						actionListener="#{userGroupsTableView.saveSelectedType}"
 						update="userTypeDescriptionMessage userTypeNameMessage growl"
-						oncomplete="PF('editTypeDialog').hide();"
 						rendered="#{securityUtils.checkPermissions('USER_GROUPS_ADD_USER_GROUP')}"/>
 				</h:panelGrid>
 			</p:dialog>
