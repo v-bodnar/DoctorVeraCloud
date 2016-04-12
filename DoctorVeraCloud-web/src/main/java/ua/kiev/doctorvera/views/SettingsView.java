@@ -6,7 +6,9 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import ua.kiev.doctorvera.entities.*;
 import ua.kiev.doctorvera.facadeLocal.*;
+import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.services.SQLServiceLocal;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -50,8 +52,12 @@ public class SettingsView implements Serializable {
 
     @EJB
     FileRepositoryFacadeLocal fileRepositoryFacade;
+
     @EJB
     MethodTypesFacadeLocal methodTypesFacade;
+
+    @EJB
+    SQLServiceLocal sqlService;
 
     @Inject
     private SessionParams sessionParams;
@@ -91,6 +97,7 @@ public class SettingsView implements Serializable {
         messageBundleFacade.edit(constant);
         Message.showMessage(Message.getMessage("APPLICATION_SUCCESSFUL_TITLE"), Message.getMessage("APPLICATION_SAVED"));
         LOG.info("Changes to settings constants saved");
+        Config.clear();
     }
 
     public void savePaths(MessageBundle path){
@@ -107,11 +114,28 @@ public class SettingsView implements Serializable {
         LOG.info("Time " + new Date() + " Starting to upload file:");
         Integer fileId;
         if (uploadedFile != null) {
+            MessageBundle constant = allConstants.get(constantName);
+            FileRepository oldFile = fileRepositoryFacade.find(Integer.parseInt(constant.getValue()));
+            if (oldFile != null)
+                fileRepositoryFacade.remove(oldFile);
             fileId = fileRepositoryFacade.saveFile(uploadedFile.getContents(), uploadedFile.getFileName(), authorizedUser);
             LOG.info("File successfully uploaded id: " + fileId);
-            MessageBundle constant = allConstants.get(constantName);
             constant.setValue("" + fileId);
             messageBundleFacade.edit(constant);
+            Message.showMessage(Message.getMessage("APPLICATION_SUCCESSFUL_TITLE"), Message.getMessage("APPLICATION_SAVED"));
+            LOG.info("Changes to settings constant " + constantName + " saved");
+            Config.clear();
+        }
+    }
+
+
+    public void databaseBackupUpload(FileUploadEvent event) throws IOException {
+        UploadedFile uploadedFile = event.getFile();
+        String  constantName = (String)event.getComponent().getAttributes().get("constantName");
+        LOG.info("Time " + new Date() + " Starting to upload file:");
+        Integer fileId;
+        if (uploadedFile != null) {
+            LOG.info("File successfully uploaded id: ");
             Message.showMessage(Message.getMessage("APPLICATION_SUCCESSFUL_TITLE"), Message.getMessage("APPLICATION_SAVED"));
             LOG.info("Changes to settings constant " + constantName + " saved");
         }
@@ -226,5 +250,18 @@ public class SettingsView implements Serializable {
         }else {
             return methodTypesFacade.find(Integer.parseInt(id)).getShortName();
         }
+    }
+
+    public StreamedContent getExistingDump() throws IOException {
+        return fileRepositoryFacade.getExistingDataBaseDump();
+    }
+
+    public StreamedContent createNewDump() throws IOException {
+        return sqlService.generateNewDatabaseDump();
+    }
+
+    public boolean dropDatabase(){
+        sqlService.dropDatabase();
+        return false;
     }
 }

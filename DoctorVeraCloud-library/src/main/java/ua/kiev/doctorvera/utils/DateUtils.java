@@ -1,7 +1,10 @@
 package ua.kiev.doctorvera.utils;
 
+import org.joda.time.DateTime;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class DateUtils {
     public static Date getWeekStart(){
@@ -33,5 +36,19 @@ public class DateUtils {
         last.set(Calendar.SECOND, 59);
         last.set(Calendar.MILLISECOND, 99);
     	return last.getTime();
+    }
+
+    public static boolean filterByDate(Object value, Object filter, Locale locale) {
+        DateTime date = new DateTime((value)).withTime(0,0,0,0);
+
+        if( filter == null ) {
+            return true;
+        }
+
+        if( value == null ) {
+            return false;
+        }
+
+        return filter.equals(date.toDate());
     }
 }

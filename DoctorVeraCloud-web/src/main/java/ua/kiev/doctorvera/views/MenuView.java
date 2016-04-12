@@ -76,6 +76,8 @@ public class MenuView implements Serializable {
     private final String statisticsPageUrl = Mapping.getMessage("STATISTICS_PAGE");
     private final String salaryPageValue = Message.getMessage("MENU_ITEM_SALARY");
     private final String salarySettingsPageUrl = Mapping.getMessage("SALARY_PAGE");
+    private final String deliveryLogsPageValue = Message.getMessage("MENU_ITEM_DELIVERY_LOGS");
+    private final String deliveryLogsPageUrl = Mapping.getMessage("DELIVERY_LOGS_PAGE");
     private static final String APPLICATION_ROOT_URL = "";
     private static final Logger LOG = Logger.getLogger(MenuView.class.getName());
     private static final String SECURITY_POLICY_PARAM_NAME = "securityPolicy";
@@ -302,6 +304,15 @@ public class MenuView implements Serializable {
         item.setIcon("ui-icon-comment");
         item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_SEND_SMS));
         if (url != null && url.equals(APPLICATION_ROOT_URL + sendSMSPageUrl)) {
+            item.setStyleClass("ui-state-active");
+        }
+        deliverySubmenu.addElement(item);
+
+        item = new DefaultMenuItem(deliveryLogsPageValue);
+        item.setUrl(deliveryLogsPageUrl);
+        item.setIcon("fa fa-check-circle-o fa-fw");
+        item.setRendered(securityUtils.checkPermissions(SecurityPolicy.MENU_ITEM_DELIVERY_LOGS));
+        if (url != null && url.equals(APPLICATION_ROOT_URL + deliveryLogsPageUrl)) {
             item.setStyleClass("ui-state-active");
         }
         deliverySubmenu.addElement(item);

@@ -63,7 +63,8 @@ public class FileRepository implements Serializable, Identified<Integer> {
         TXT,
         JPG,
         PNG,
-        XML
+        XML,
+        SQL
     }
 
     public enum MimeType {
@@ -75,7 +76,8 @@ public class FileRepository implements Serializable, Identified<Integer> {
         TXT("text/plain"),
         JPG("image/jpeg"),
         PNG("image/png"),
-        XML("application/xml");
+        XML("application/xml"),
+        SQL("application/octet-stream");
         MimeType(String mimeType){
             this.mimeType = mimeType;
         }

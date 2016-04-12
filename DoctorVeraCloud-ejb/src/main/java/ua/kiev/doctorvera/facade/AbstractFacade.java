@@ -385,7 +385,7 @@ public abstract class AbstractFacade<T extends Identified<Integer>> implements C
                 Root root = cq.from(parentPath.getJavaType());
                 cq.distinct(true);
                 Path path = root.get(nextToken);
-                if (!path.getJavaType().equals(String.class)) throw new RuntimeException("");
+                if (!path.getJavaType().equals(String.class)) throw new RuntimeException("String is expected");
                 Predicate stringPredicate = cb.and(cb.like(path, "%" + entry.getValue() + "%"));
                 Predicate deleted = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
                 cq.select(root).where(cb.and(deleted, stringPredicate));
@@ -393,8 +393,22 @@ public abstract class AbstractFacade<T extends Identified<Integer>> implements C
 
                 return createFilterCondition(parentCb, parentPath, resultList);
 
+            }else if (Identified.class.isAssignableFrom(parentPath.getJavaType()) && entry.getValue() instanceof Enum) {
+                CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+                CriteriaQuery cq = cb.createQuery(parentPath.getJavaType());
+
+                Root root = cq.from(parentPath.getJavaType());
+                cq.distinct(true);
+                Path path = root.get(nextToken);
+                if (!path.getJavaType().isEnum()) throw new RuntimeException("Enum is expected");
+                Predicate stringPredicate = cb.and(cb.equal(path, entry.getValue()));
+                Predicate deleted = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+                cq.select(root).where(cb.and(deleted, stringPredicate));
+                List resultList = getEntityManager().createQuery(cq).getResultList();
+
+                return createFilterCondition(parentCb, parentPath, resultList);
             }else{
-                throw new RuntimeException("At this moment only Identified and Strings are supported");
+                throw new RuntimeException("At this moment only Identified and Strings, and enums are supported");
             }
         }
 

@@ -13,5 +13,8 @@ import java.util.List;
  */
 @Local
 public interface TransactionLogFacadeLocal  extends CRUDFacade<TransactionLog>{
-
+    List<TransactionLog> findUncompleted();
+    void checkTransactionStatus();
+    void checkTransactionStatus(TransactionLog transactionLog);
+    void checkTransactionStatus(List<TransactionLog> transactionLogs);
 }

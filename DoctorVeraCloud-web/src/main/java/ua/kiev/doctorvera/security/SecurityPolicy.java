@@ -31,6 +31,7 @@ public enum SecurityPolicy implements Serializable{
     MENU_ITEM_FINANCIAL_SETTINGS(SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_SALARY(SecurityPolicyGroup.MENU_GROUP),
     MENU_ITEM_STATISTICS(SecurityPolicyGroup.MENU_GROUP),
+    MENU_ITEM_DELIVERY_LOGS(SecurityPolicyGroup.MENU_GROUP),
     /**
      * Users page
      */
@@ -147,6 +148,7 @@ public enum SecurityPolicy implements Serializable{
     SETTINGS_PATHS_SAVE(SecurityPolicyGroup.SETTINGS_GROUP),
     SETTINGS_TEMPLATES_TAB(SecurityPolicyGroup.SETTINGS_GROUP),
     SETTINGS_TEMPLATES_SAVE(SecurityPolicyGroup.SETTINGS_GROUP),
+    SETTINGS_DATABASE_TAB(SecurityPolicyGroup.SETTINGS_GROUP),
     /**
      * Financial settings page
      */

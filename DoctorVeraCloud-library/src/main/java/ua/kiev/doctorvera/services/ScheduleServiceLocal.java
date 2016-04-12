@@ -2,6 +2,7 @@ package ua.kiev.doctorvera.services;
 
 import ua.kiev.doctorvera.entities.MessageScheduler;
 import ua.kiev.doctorvera.entities.Schedule;
+import ua.kiev.doctorvera.entities.TransactionLog;
 import ua.kiev.doctorvera.entities.Users;
 
 import javax.ejb.Local;

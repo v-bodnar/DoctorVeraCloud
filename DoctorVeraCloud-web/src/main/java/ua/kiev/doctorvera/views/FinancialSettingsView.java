@@ -11,6 +11,7 @@ import ua.kiev.doctorvera.entities.*;
 import ua.kiev.doctorvera.facadeLocal.*;
 import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Message;
+import ua.kiev.doctorvera.utils.DateUtils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.*;
+import java.util.Locale;
 import java.util.logging.Logger;
 /**
  * Created by volodymyr.bodnar on 2/15/2016.
@@ -221,6 +223,10 @@ public class FinancialSettingsView implements Serializable {
         selectedShare.setAssistants(assistantsDualListModel.getTarget());
         LOG.info(successMessage);
         Message.showMessage(successTitle, successMessage);
+    }
+
+    public boolean filterByDate(Object value, Object filter, Locale locale){
+        return DateUtils.filterByDate(value, filter, locale);
     }
 
     public List<Share> getAllShares() {

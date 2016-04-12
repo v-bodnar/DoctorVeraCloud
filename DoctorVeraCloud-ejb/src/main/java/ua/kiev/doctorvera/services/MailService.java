@@ -99,19 +99,22 @@ public class MailService implements MailServiceLocal {
                     messageLog.setStatus(MessageLog.Status.SEND_ERROR);
                     messageLog.setDetails(e.getMessage());
                     messageLogFacade.edit(messageLog);
-
+                    transactionLog.setStatus(TransactionLog.Status.SEND_ERROR);
+                    transactionLogFacade.edit(transactionLog);
                     LOG.severe(e.getMessage());
                 } catch (MessagingException e) {
                     messageLog.setStatus(MessageLog.Status.SEND_ERROR);
                     messageLog.setDetails(e.getMessage());
                     messageLogFacade.edit(messageLog);
-
+                    transactionLog.setStatus(TransactionLog.Status.SEND_ERROR);
+                    transactionLogFacade.edit(transactionLog);
                     LOG.severe(e.getMessage());
                 } catch (Exception e) {
                     messageLog.setStatus(MessageLog.Status.SEND_ERROR);
                     messageLog.setDetails(e.getMessage());
                     messageLogFacade.edit(messageLog);
-
+                    transactionLog.setStatus(TransactionLog.Status.SEND_ERROR);
+                    transactionLogFacade.edit(transactionLog);
                     LOG.severe(e.getMessage());
                 }
 

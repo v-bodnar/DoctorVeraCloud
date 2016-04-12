@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.facadeLocal;
 
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import ua.kiev.doctorvera.entities.FileRepository;
 import ua.kiev.doctorvera.entities.Users;
@@ -66,4 +67,10 @@ public interface FileRepositoryFacadeLocal extends CRUDFacade<FileRepository> {
      */
     Integer saveFile(byte[] fileContent, String fileName, Users currentUser);
 
+    /**
+     * Method returns sql file that is halt by system in order to restore database
+     * @return sql file
+     * @throws IOException throws exception if file has not been not found or is not readable
+     */
+    StreamedContent getExistingDataBaseDump() throws IOException;
 }

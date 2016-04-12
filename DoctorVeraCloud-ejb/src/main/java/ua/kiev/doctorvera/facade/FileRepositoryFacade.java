@@ -3,23 +3,25 @@ package ua.kiev.doctorvera.facade;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.FilenameUtils;
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.DefaultUploadedFile;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import ua.kiev.doctorvera.entities.FileRepository;
-import ua.kiev.doctorvera.entities.Locale;
-import ua.kiev.doctorvera.entities.MessageBundle;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.FileRepositoryFacadeLocal;
-import ua.kiev.doctorvera.facadeLocal.MessageBundleFacadeLocal;
 
 import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.logging.Logger;
 
 /**
  * Class for implementing main operations with Locale entity
@@ -32,6 +34,8 @@ public class FileRepositoryFacade extends AbstractFacade<FileRepository> impleme
     public FileRepositoryFacade() {
         super(FileRepository.class);
     }
+    private final static Logger LOG = Logger.getLogger(FileRepositoryFacade.class.getName());
+    private final static String DATABASE_DUMP_FILE = "dump.sql";
 
     @Override
     public File getFile(String fileName) throws IOException {
@@ -158,7 +162,16 @@ public class FileRepositoryFacade extends AbstractFacade<FileRepository> impleme
                 case ("jpg"): return FileRepository.Extension.JPG;
                 case ("png"): return FileRepository.Extension.PNG;
                 case ("xml"): return FileRepository.Extension.XML;
+                case ("sql"): return FileRepository.Extension.SQL;
                 default: throw new RuntimeException("Unknown file format");
             }
+    }
+
+    @Override
+    public StreamedContent getExistingDataBaseDump() throws IOException {
+        ClassLoader loader = FileRepositoryFacade.class.getClassLoader();
+        InputStream inputStream = loader.getResourceAsStream(DATABASE_DUMP_FILE);
+        StreamedContent streamedContent = new DefaultStreamedContent(inputStream, FileRepository.MimeType.SQL.getMimeType(), DATABASE_DUMP_FILE);
+        return streamedContent;
     }
 }

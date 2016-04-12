@@ -1,0 +1,92 @@
+<ui:composition template="index.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="title">
+        <h:outputText value="#{MESSAGE.DELIVERY_LOGS_TITLE}" />
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="deliveryLogsForm">
+            <p:dataTable id="deliveryLogsTable" widgetVar="deliveryLogsTable"
+                         value="#{deliveryLogsView.allTransactions}" var="transaction" rowKey="#{transaction.userId}"
+                         paginator="true" rows="10" rowsPerPageTemplate="10,15,20,100" lazy="true"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         rowStyleClass="#{deliveryLogsView.getTransactionRowStyle(transaction)}">
+                <p:column style="width:16px">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="#{MESSAGE.ENTITY_ID}" filterBy="#{transaction.transactionLogId}" sortBy="#{transaction.transactionLogId}"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{transaction.transactionLogId}" />
+                </p:column>
+                <p:column headerText="#{MESSAGE.ENTITY_DATE_CREATED}"
+                          filterBy="#{transaction.dateCreated}" sortBy="#{transaction.dateCreated}">
+                    <f:facet name="filter">
+                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter">
+                            <p:ajax event="dateSelect" oncomplete="PF('deliveryLogsTable').filter()"/>
+                        </p:calendar>
+                    </f:facet>
+                    <h:outputText value="#{transaction.dateCreated}">
+                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{MESSAGE.DELIVERY_LOG_ENTITY_MESSAGE_TEMPLATE}"
+                          filterBy="#{transaction.messageTemplate.id}" sortBy="#{transaction.messageTemplate.id}">
+                    <h:outputText value="#{transaction.messageTemplate.id}" filterMatchMode="contains"/>
+                </p:column>
+                <p:column headerText="#{MESSAGE.DELIVERY_LOG_ENTITY_MESSAGE_TEMPLATE_TYPE}"
+                          filterBy="#{transaction.messageTemplate.type}" sortBy="#{transaction.messageTemplate.type}">
+                    <f:facet name="filter">
+                        <p:selectOneMenu id="messageTypeFilter" onchange="PF('deliveryLogsTable').filter()" value="#{deliveryLogsView.messageTypeFilter}">
+                            <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{deliveryLogsView.getMessageTypes()}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{transaction.messageTemplate.type}" filterMatchMode="contains"/>
+                </p:column>
+                <p:column headerText="#{MESSAGE.DELIVERY_LOG_ENTITY_STATUS}" filterBy="#{transaction.status}" sortBy="#{transaction.status}">
+                    <f:facet name="filter">
+                        <p:selectOneMenu id="transactionStatusFilter" onchange="PF('deliveryLogsTable').filter()" value="#{deliveryLogsView.statusFilter}">
+                            <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{deliveryLogsView.getTransactionStatuses()}"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                    <h:outputText value="#{transaction.status}" filterMatchMode="contains"/>
+                </p:column>
+                <p:column headerText="#{MESSAGE.DELIVERY_LOG_ENTITY_RECIPIENTS_COUNT}" filterBy="#{transaction.recipientsCount}" sortBy="#{transaction.recipientsCount}">
+                    <h:outputText value="#{transaction.recipientsCount}" filterMatchMode="contains"/>
+                </p:column>
+                <p:rowExpansion>
+                    <p:panelGrid>
+                        <p:dataTable value="#{transaction.messageLogs}" var="message" id="transactionTable#{transaction.id}" rowStyleClass="#{payment.total le 0 ? 'outcome' : null}">
+                            <p:column headerText="#{MESSAGE.ENTITY_ID}" filterBy="#{message.messageLogId}" sortBy="#{message.messageLogId}">
+                                <h:outputText value="#{message.messageLogId}" filterMatchMode="contains"/>
+                            </p:column>
+                            <p:column headerText="#{MESSAGE.MESSAGE_LOG_USER}"
+                                      filterBy="#{message.recipient.lastName} #{message.recipient.firstName}"
+                                      sortBy="#{message.recipient.lastName}" filterMatchMode="contains">
+                                <h:outputText value="#{message.recipient.lastName} #{message.recipient.firstName}" />
+                            </p:column>
+                            <p:column headerText="#{MESSAGE.MESSAGE_LOG_RECIPIENT}"
+                                      filterBy="#{transaction.messageTemplate.type=='EMAIL'?message.recipient.email:message.recipient.phoneNumberMobile}"
+                                      sortBy="#{transaction.messageTemplate.type=='EMAIL' ? message.recipient.email:message.recipient.phoneNumberMobile}"
+                                      filterMatchMode="contains">
+                                <h:outputText value="#{transaction.messageTemplate.type=='EMAIL'?message.recipient.email:message.recipient.phoneNumberMobile}" />
+                            </p:column>
+                            <p:column headerText="#{MESSAGE.DELIVERY_LOG_ENTITY_STATUS}" filterBy="#{message.status}" sortBy="#{message.status}"
+                                      filterMatchMode="contains">
+                                <h:outputText value="#{message.status}" />
+                            </p:column>
+                            <p:column headerText="#{MESSAGE.ENTITY_DESCRIPTION}" filterBy="#{message.details}" sortBy="#{message.details}"
+                                      filterMatchMode="contains">
+                                <h:outputText value="#{message.details}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panelGrid>
+                </p:rowExpansion>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

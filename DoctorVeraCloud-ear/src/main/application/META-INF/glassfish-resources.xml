@@ -7,7 +7,7 @@
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<!--property name="URL" value="jdbc:mysql://127.2.81.130:3306/DrVera" /-->
 		<!--property name="URL" value="jdbc:mysql://127.9.142.2:3306/DrVera" /-->
-		<property name="URL" value="jdbc:mysql://localhost:3306/DrVera" />
+		<property name="URL" value="jdbc:mysql://localhost:3306/DrVera?useUnicode=true&amp;characterEncoding=UTF-8" />
 		<property name="user" value="bodnar" />
 		<property name="password" value="6215891" />
 		<property name="characterEncoding" value="UTF-8" />
@@ -17,4 +17,11 @@
 
 	<jdbc-resource enabled="true" jndi-name="java:app/jdbc/OpenshiftDoctorVera"
 		object-type="user" pool-name="testPool" />
+
+	<!--<admin-object-resource enabled="true" jndi-name="jms/myDestination"  res-type="javax.jms.Topic"  res-adapter="jmsra">-->
+		<!--<property name="Name" value="PhysicalTopic"/>-->
+	<!--</admin-object-resource>-->
+	<!--<connector-connection-pool name="jms/myDestinationFactoryPool"  connection-definition-name="javax.jms.TopicConnectionFactory"  resource-adapter-name="jmsra"/>-->
+	<!--<connector-resource enabled="true" jndi-name="jms/myDestinationFactory" pool-name="jms/myDestinationFactoryPool"  />-->
+
 </resources>

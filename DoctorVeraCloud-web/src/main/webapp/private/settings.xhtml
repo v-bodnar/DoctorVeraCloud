@@ -184,6 +184,32 @@
                             </p:inplace></h:panelGroup>
                         <p:message for="emailTemplate" id="emailTemplateMessage" />
 
+                        <!--SMS Template for Doctor-->
+                        <h:outputLabel for="doctorsSmsTemplate" value="#{MESSAGE.MDS_DOCTORS_SMS_TEMPLATE}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <f:facet name="output">#{settingsView.findTemplate(settingsView.allConstants.get('SMS_MESSAGE_TEMPLATE_FOR_DOCTOR').value)}</f:facet>
+                                <p:selectOneMenu id="doctorsSmsTemplate" value="#{settingsView.allConstants.get('SMS_MESSAGE_TEMPLATE_FOR_DOCTOR').value}"
+                                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                    <f:selectItems value="#{settingsView.smsTemplates}" itemValue="#{template.messageTemplateId}" itemLabel="#{template.name}" var="template"/>
+                                </p:selectOneMenu>
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMS_MESSAGE_TEMPLATE_FOR_DOCTOR')}" update="growl smsTemplateMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="doctorsSmsTemplate" id="doctorsSmsTemplateMessage" />
+
+                        <!--Emai Template for Doctor-->
+                        <h:outputLabel for="doctorsEmailTemplate" value="#{MESSAGE.MDS_DOCTORS_EMAIL_TEMPLATE}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <f:facet name="output">#{settingsView.findTemplate(settingsView.allConstants.get('EMAIL_MESSAGE_TEMPLATE_FOR_DOCTOR').value)}</f:facet>
+                                <p:selectOneMenu id="doctorsEmailTemplate" value="#{settingsView.allConstants.get('EMAIL_MESSAGE_TEMPLATE_FOR_DOCTOR').value}"
+                                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                    <f:selectItems value="#{settingsView.emailTemplates}" itemValue="#{mailTemplate.messageTemplateId}" itemLabel="#{mailTemplate.name}" var="mailTemplate"/>
+                                </p:selectOneMenu>
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('EMAIL_MESSAGE_TEMPLATE_FOR_DOCTOR')}" update="growl emailTemplateMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="doctorsEmailTemplate" id="doctorsEmailTemplateMessage" />
+
                     </h:panelGrid>
                     </h:form>
                 </p:tab>
@@ -413,6 +439,40 @@
 
                         </h:panelGrid>
                 </h:form>
+                </p:tab>
+                <p:tab title="#{MESSAGE.SETTINGS_DATABASE_TAB_TITLE}" rendered="#{securityUtils.checkPermissions('SETTINGS_DATABASE_TAB')}">
+                    <h:form id="settingsDataBaseConfig">
+                        <p:growl id="growl" autoUpdate="true"/>
+                        <h:panelGrid id="settingsDataBaseGrid" columns="2" cellpadding="5" styleClass="settingsTemplatesGrid">
+                            <h:outputLabel for="dataBaseBackup" value="#{MESSAGE.SETTINGS_DATABASE_BACKUP}"/>
+                            <p:toolbar><f:facet name="left">
+                                <h:outputLabel for="dataBaseBackup" value="dump.sql" styleClass="settingsFileNameLabel"/>
+                                <p:fileUpload id="dataBaseBackup" label="#{MESSAGE.APPLICATION_UPLOAD}" mode="advanced"
+                                              fileUploadListener="#{settingsView.databaseBackupUpload}"
+                                              sizeLimit="1000000000" allowTypes="/(\.|\/)(sql)$/"
+                                              auto="true" process="@none"  update="settingsDataBaseGrid">
+                                </p:fileUpload>
+
+                                <p:commandButton value="#{MESSAGE.SETTINGS_GET_EXISTING_DUMP}"
+                                                 ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" style="margin-top: 3px">
+                                    <p:fileDownload value="#{settingsView.getExistingDump()}" />
+                                </p:commandButton>
+                                <p:commandButton value="#{MESSAGE.SETTINGS_CREATE_NEW_DUMP}"
+                                                 ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" style="margin-top: 3px">
+                                    <p:fileDownload value="#{settingsView.createNewDump()}" />
+                                </p:commandButton>
+
+
+                            </f:facet></p:toolbar>
+                            <p:commandButton value="#{MESSAGE.SETTINGS_DROP_DATABASE}" action="#{settingsView.dropDatabase()}" icon="ui-icon-alert" styleClass="redButton">
+                                <p:confirm header="#{MESSAGE.APPLICATION_ATTENTION}" message="#{MESSAGE.SETTINGS_DROP_DATABASE_CONFIRMATION}" icon="ui-icon-alert" />
+                            </p:commandButton>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="#{MESSAGE.APPLICATION_YES}" type="button" styleClass="ui-confirmdialog-yes redButton" icon="ui-icon-check" />
+                                <p:commandButton value="#{MESSAGE.APPLICATION_NO}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                            </p:confirmDialog>
+                        </h:panelGrid>
+                    </h:form>
                 </p:tab>
 
             </p:tabView>

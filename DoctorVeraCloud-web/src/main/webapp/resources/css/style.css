@@ -233,3 +233,35 @@ input, textarea {
 	background: none !important;
 	background-color: #fafaf4 !important;
 }
+.transaction_row_completed td{
+	background-color: #bdf27e;
+}
+.transaction_row_uncompleted td{
+	background-color: gold;
+}
+.transaction_row_error td{
+	background-color: orangered;
+}
+.redButton{
+	border:1px solid #df0909 !important;
+	background-color: #f62b2b !important;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f62b2b), to(#d20202)) !important;
+	background-image: -webkit-linear-gradient(top, #f62b2b, #d20202) !important;
+	background-image: -moz-linear-gradient(top, #f62b2b, #d20202) !important;
+	background-image: -ms-linear-gradient(top, #f62b2b, #d20202) !important;
+	background-image: -o-linear-gradient(top, #f62b2b, #d20202) !important;
+	background-image: linear-gradient(to bottom, #f62b2b, #d20202) !important;
+	filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f62b2b, endColorstr=#d20202) !important;
+}
+
+.redButton:hover {
+	border: 1px solid #b30808 !important;
+	background-color: #e40a0a !important;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#e40a0a), to(#9f0202)) !important;
+	background-image: -webkit-linear-gradient(top, #e40a0a, #9f0202) !important;
+	background-image: -moz-linear-gradient(top, #e40a0a, #9f0202) !important;
+	background-image: -ms-linear-gradient(top, #e40a0a, #9f0202) !important;
+	background-image: -o-linear-gradient(top, #e40a0a, #9f0202) !important;
+	background-image: linear-gradient(to bottom, #e40a0a, #9f0202); !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#e40a0a, endColorstr=#9f0202) !important;
+}
