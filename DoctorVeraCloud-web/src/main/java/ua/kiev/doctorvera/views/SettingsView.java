@@ -260,8 +260,7 @@ public class SettingsView implements Serializable {
         return sqlService.generateNewDatabaseDump();
     }
 
-    public boolean dropDatabase(){
+    public void dropDatabase(){
         sqlService.dropDatabase();
-        return false;
     }
 }

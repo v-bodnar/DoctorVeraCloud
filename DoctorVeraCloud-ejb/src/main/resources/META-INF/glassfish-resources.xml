@@ -7,7 +7,7 @@
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<!--property name="URL" value="jdbc:mysql://127.2.81.130:3306/DrVera" /-->
 		<!--property name="URL" value="jdbc:mysql://127.9.142.2:3306/DrVera" /-->
-		<property name="URL" value="jdbc:mysql://localhost:3306/DrVera?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="URL" value="jdbc:mysql://localhost:3306/DrVera?useUnicode=true&amp;characterEncoding=UTF-8&amp;allowMultiQueries=true" />
 		<property name="user" value="bodnar" />
 		<property name="password" value="6215891" />
 		<property name="characterEncoding" value="UTF-8" />

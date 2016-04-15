@@ -26,5 +26,11 @@ public interface SQLServiceLocal {
      *
      * DROPPING DATA BASE CAN BE HARMFUL FOR YOUR DATA :-)
      */
-    Boolean dropDatabase();
+    void dropDatabase();
+
+    /**
+     * Checks if tables are populated, checks only users table, it has to contain at least root user
+     * @return true if tables are populated, false - otherwise
+     */
+    boolean isTablesPopulated();
 }

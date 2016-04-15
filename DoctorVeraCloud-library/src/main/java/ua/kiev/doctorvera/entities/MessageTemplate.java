@@ -28,7 +28,7 @@ public class MessageTemplate  implements Serializable, Identified<Integer>{
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "Content")
+    @Column(name = "Content", length=5000)
     private String content;
 
     @Basic

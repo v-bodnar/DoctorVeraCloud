@@ -35,11 +35,11 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
         super(Users.class);
     }
 
-    private final Integer DOCTOR_GROUP_ID = Integer.parseInt(Config.getInstance().getString("DOCTORS_USER_GROUP_ID"));
+    private final Integer DOCTOR_GROUP_ID = Integer.parseInt(Config.getMessage("DOCTORS_USER_GROUP_ID"));
 
-    private final Integer PATIENT_GROUP_ID = Integer.parseInt(Config.getInstance().getString("PATIENTS_USER_GROUP_ID"));
+    private final Integer PATIENT_GROUP_ID = Integer.parseInt(Config.getMessage("PATIENTS_USER_GROUP_ID"));
 
-    private final Integer ASSISTANT_GROUP_ID = Integer.parseInt(Config.getInstance().getString("ASSISTANTS_USER_GROUP_ID"));
+    private final Integer ASSISTANT_GROUP_ID = Integer.parseInt(Config.getMessage("ASSISTANTS_USER_GROUP_ID"));
     /**
     * Searches for User by his username(unique value)
     * @returns Users entity that matches search parameter

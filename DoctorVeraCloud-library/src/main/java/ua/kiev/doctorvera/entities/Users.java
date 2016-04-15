@@ -141,7 +141,7 @@ public class Users implements Serializable,Identified<Integer> {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "MessagingAccepted", columnDefinition="tinyint(1) default 0")
+    @Column(name = "MessagingAccepted")
     private boolean messagingAccepted;
 
     public Users() {

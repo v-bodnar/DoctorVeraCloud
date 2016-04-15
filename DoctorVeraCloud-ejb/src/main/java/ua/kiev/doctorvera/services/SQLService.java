@@ -36,10 +36,11 @@ public class SQLService implements SQLServiceLocal {
     @Override
     public StreamedContent generateNewDatabaseDump() throws IOException {
         StringBuilder dump = new StringBuilder();
-//        for(String tableName: getTableNames()){
-//            dump.append(createTableDump(tableName));
-//        }
-        dump.append(createTableDump("filerepository"));
+        dump.append("START TRANSACTION;\nSET foreign_key_checks = 0;\n");
+        for(String tableName: getTableNames()){
+            dump.append(createTableDump(tableName));
+        }
+        dump.append("SET foreign_key_checks = 1;\nCOMMIT;\n");
         String newDumpFileName = new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "_DBDump";
         String extension = FileRepository.MimeType.SQL.name().toLowerCase();
         File tempFile = File.createTempFile(newDumpFileName, extension);
@@ -61,28 +62,32 @@ public class SQLService implements SQLServiceLocal {
      * DROPPING DATA BASE CAN BE HARMFUL FOR YOUR DATA :-)
      */
     @Override
-    public Boolean dropDatabase() {
+    public void dropDatabase() {
         final List<Boolean> result = new ArrayList<>(1);
         result.add(false);
         //Actually it does not drop database it drops all its tables
         EntityManagerImpl entityManagerImpl = (EntityManagerImpl) em.getDelegate();
+        List<String> tableNames = getTableNames();
         entityManagerImpl.getSession().doWork(
                 connection -> {
-                    String query = "SELECT * FROM ";
-                    List<String> tableNames = getTableNames();
+                    String dropQuery = "DROP TABLE ";
+
                     // First we output the create table stuff
                     for (String tableName : tableNames) {
-                        query += tableName;
+                        dropQuery += tableName;
                         if (tableNames.indexOf(tableName) != tableNames.size() - 1) {
-                            query += ", ";
+                            dropQuery += ", ";
+                        }else{
+                            dropQuery += "; ";
                         }
                     }
-                    PreparedStatement stmt = connection.prepareStatement(query);
-                    result.add(0, stmt.execute());
+                    Statement stmt = connection.createStatement();
+                    stmt.executeUpdate("SET foreign_key_checks = 0;");
+                    stmt.executeUpdate(dropQuery);
+                    stmt.executeUpdate("SET foreign_key_checks = 1;");
                     LOG.info("Data Base tables dropped!");
                 }
         );
-        return result.get(0);
     }
 
     /**
@@ -124,15 +129,13 @@ public class SQLService implements SQLServiceLocal {
         final StringBuilder tableDump = new StringBuilder();
         EntityManagerImpl entityManagerImpl = (EntityManagerImpl) em.getDelegate();
 
-        //Constructing first part of insert statement
-        tableDump.append("INSERT INTO " + tableName + "\n");
-
         //Selecting all data from current table
         entityManagerImpl.getSession().doWork(
                 connection -> {
                     // First we output the create table stuff
                     PreparedStatement stmt = connection.prepareStatement("SELECT * FROM " + tableName);
                     ResultSet rs = stmt.executeQuery();
+                    if(!rs.isBeforeFirst()) return; //no results
 
                     // Creating helper table with ordered column names
                     List<String> columnNames = new ArrayList<>();
@@ -141,6 +144,9 @@ public class SQLService implements SQLServiceLocal {
                         if (!columnNames.contains(rsmt.getColumnName(i)))
                             columnNames.add(rsmt.getColumnName(i));
                     }
+
+                    //Constructing first part of insert statement
+                    tableDump.append("INSERT INTO " + tableName + "\n");
 
                     // Constructing second part of insert  statement (those with column names)
                     tableDump.append(" (");
@@ -157,11 +163,7 @@ public class SQLService implements SQLServiceLocal {
                         Iterator columnNamesIterator = columnNames.iterator();
                         while (columnNamesIterator.hasNext()) {
                             String columnName = (String) columnNamesIterator.next();
-                            try {
-                                tableDump.append(convertSqlObjectToString(rs, columnName, rsmt.getColumnType(columnNames.indexOf(columnName) + 1)));
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
+                            tableDump.append(convertSqlObjectToString(rs, columnName, rsmt.getColumnType(columnNames.indexOf(columnName) + 1)));
                             if (columnNamesIterator.hasNext()) tableDump.append(", ");
                         }
                         if (rs.isLast()) {
@@ -181,7 +183,15 @@ public class SQLService implements SQLServiceLocal {
         return tableDump.toString();
     }
 
-    private String convertSqlObjectToString(ResultSet rs, String columnName, int type) throws SQLException, UnsupportedEncodingException {
+    /**
+     * This method creates string for sql query depending on actual DB data type
+     * @param rs result set
+     * @param columnName current column name
+     * @param type current column data type
+     * @return string that is ready to insert into insert query as value of some column
+     * @throws SQLException
+     */
+    private String convertSqlObjectToString(ResultSet rs, String columnName, int type) throws SQLException {
         Object value = rs.getObject(columnName);
         if (value == null) {
             return "NULL";
@@ -193,9 +203,29 @@ public class SQLService implements SQLServiceLocal {
         } else if (type == -7) { // TINY INT
             return rs.getBoolean(columnName) ? "1" : "0";
         } else if (type == 12){ // VARCHAR
-            return "'" + rs.getString(columnName).replaceAll("'", "\\'") + "'";
+            return "'" + rs.getString(columnName).replaceAll("'", "''") + "'";
         }else {
-            return "'" + value.toString().replaceAll("'", "\\'") + "'";
+            return "'" + value.toString().replaceAll("'", "''") + "'";
         }
+    }
+
+    /**
+     * Checks if Db tables are populated,
+     * checks only users table it has to hold at least one record with root user
+     *
+     * @return true - if tables are populated, false otherwise
+     */
+    public boolean isTablesPopulated(){
+        EntityManagerImpl entityManagerImpl = (EntityManagerImpl) em.getDelegate();
+        List<Integer> result = new ArrayList<>(1);
+        entityManagerImpl.getSession().doWork(
+                connection -> {
+                    Statement stmt = connection.createStatement();
+                    ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM users");
+                    rs.next();
+                    result.add(0, rs.getInt(1));
+                }
+        );
+        return result.get(0) != 0;
     }
 }

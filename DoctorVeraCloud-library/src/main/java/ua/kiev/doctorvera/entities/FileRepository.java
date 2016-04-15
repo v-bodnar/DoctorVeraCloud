@@ -1,6 +1,5 @@
 package ua.kiev.doctorvera.entities;
 
-import javax.mail.internet.MimeMessage;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;

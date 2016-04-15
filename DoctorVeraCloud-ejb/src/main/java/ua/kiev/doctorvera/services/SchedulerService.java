@@ -18,6 +18,7 @@ import java.util.logging.Logger;
  */
 @Singleton
 @Startup
+@DependsOn({"StartUpBean"})
 public class SchedulerService implements ScheduleServiceLocal {
 
     @Resource
@@ -50,10 +51,6 @@ public class SchedulerService implements ScheduleServiceLocal {
     private final static String MESSAGE_SCHEDULER_PREFIX = "MESSAGE_SCHEDULER_";
     private final static String SCHEDULE_PREFIX = "SCHEDULE_";
     private final static Logger LOG = Logger.getLogger(SchedulerService.class.getName());
-    private final Integer USERS_BREAK_ID = Integer.parseInt(Config.getInstance().getString("USERS_BREAK_ID"));
-    private final Integer EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE = Integer.parseInt(Config.getInstance().getString("EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE"));
-    private final Integer SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE = Integer.parseInt(Config.getInstance().getString("SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE"));
-
 
     @Override
     public void scheduleEvent(MessageScheduler scheduler){
@@ -195,6 +192,10 @@ public class SchedulerService implements ScheduleServiceLocal {
     }
 
     private void sendMessage(Schedule schedule){
+        final Integer USERS_BREAK_ID = Integer.parseInt(Config.getInstance().getString("USERS_BREAK_ID"));
+        final Integer EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE = Integer.parseInt(Config.getInstance().getString("EMAIL_MESSAGE_TEMPLATE_FOR_SCHEDULE"));
+        final Integer SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE = Integer.parseInt(Config.getInstance().getString("SMS_MESSAGE_TEMPLATE_FOR_SCHEDULE"));
+
         if (schedule.getPatient().equals(usersFacade.find(USERS_BREAK_ID)))
             return;
 
