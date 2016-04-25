@@ -15,6 +15,6 @@ import java.util.List;
 public interface TransactionLogFacadeLocal  extends CRUDFacade<TransactionLog>{
     List<TransactionLog> findUncompleted();
     void checkTransactionStatus();
-    void checkTransactionStatus(TransactionLog transactionLog);
-    void checkTransactionStatus(List<TransactionLog> transactionLogs);
+    void checkTransactionStatus(TransactionLog transactionLog, Boolean checkOnSmsGateway);
+    void checkTransactionStatus(List<TransactionLog> transactionLogs, Boolean checkOnSmsGateway);
 }

@@ -58,7 +58,7 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
     @ManyToOne(optional = false)
     private Users userCreated;
 
-    @OneToMany(mappedBy = "transaction")
+    @OneToMany(mappedBy = "transaction", fetch=FetchType.EAGER)
     private Collection<MessageLog> messageLogs;
 
     public enum Status {
@@ -66,7 +66,9 @@ public class TransactionLog  implements Serializable, Identified<Integer>{
         SENT, //status for emails
         DELIVERED, //status for sms
         DELIVERY_ERROR, //status for sms
-        SEND_ERROR
+        SEND_ERROR,
+        PAUSED,//status for sms
+        CANCELED;//status for sms
     }
 
 

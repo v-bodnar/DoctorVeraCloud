@@ -70,6 +70,8 @@ public class MailService implements MailServiceLocal {
                         }
                     });
 
+            List<MessageLog> messageLogs = new LinkedList<>();
+
             for(Users user : userList) {
                 if(user.getEmail() == null || user.getEmail().isEmpty() || !user.isMessagingAccepted()){
                     LOG.info("User: " + user.getFirstName() + " " + user.getLastName() + " has no email");
@@ -82,6 +84,7 @@ public class MailService implements MailServiceLocal {
                 messageLog.setRecipient(user);
                 messageLog.setTransaction(transactionLog);
                 messageLog.setStatus(MessageLog.Status.NEW);
+                messageLogs.add(messageLog);
                 messageLogFacade.create(messageLog);
 
                 try{
@@ -122,9 +125,15 @@ public class MailService implements MailServiceLocal {
             }
 
             transactionLog.setStatus(TransactionLog.Status.SENT);
+            for(MessageLog messageLog : messageLogs){
+                if(messageLog.getStatus() == MessageLog.Status.SEND_ERROR){
+                    transactionLog.setStatus(TransactionLog.Status.SEND_ERROR);
+                }
+            }
+            transactionLog.setMessageLogs(messageLogs);
             transactionLog.setRecipientsCount(totalEmailsToSend);
             transactionLog.setDetails(sentEmails + " of total " + totalEmailsToSend + " were successfully sent");
-            transactionLogFacade.edit(transactionLog);
+            transactionLogFacade.checkTransactionStatus(transactionLog, false);
 
     }
 

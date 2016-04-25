@@ -76,7 +76,7 @@ public class DeliveryLogsView implements Serializable{
         public List<TransactionLog> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
             allPaginatedFilteredLogs = transactionLogFacade.initializeLazyEntity(transactionLogFacade.findAll(first, pageSize, sortField, sortOrder, filters), sortOrder, sortField);
             setRowCount(transactionLogFacade.count(first, pageSize, filters));
-            transactionLogFacade.checkTransactionStatus(allPaginatedFilteredLogs);
+            transactionLogFacade.checkTransactionStatus(allPaginatedFilteredLogs, true);
             return allPaginatedFilteredLogs;
         }
     }

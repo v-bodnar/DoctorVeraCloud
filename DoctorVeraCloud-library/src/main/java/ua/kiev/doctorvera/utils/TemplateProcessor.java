@@ -195,17 +195,17 @@ public class TemplateProcessor {
 
     public String processMessageText(String text, Schedule schedule){
         if(schedule.getDateTimeStart() != null)
-            text = text.replace("$appointmentStartDate", "" + new SimpleDateFormat("yyyy-MM-dd").format(schedule.getDateTimeStart()));
+            text = text.replaceAll("\\$appointmentStartDate", "" + new SimpleDateFormat("yyyy-MM-dd").format(schedule.getDateTimeStart()));
         if(schedule.getDateTimeStart() != null)
-            text = text.replace("$appointmentStartTime", "" + new SimpleDateFormat("HH:mm").format(schedule.getDateTimeStart()));
+            text = text.replaceAll("\\$appointmentStartTime", "" + new SimpleDateFormat("HH:mm").format(schedule.getDateTimeStart()));
         if(schedule.getMethod() != null && schedule.getMethod().getShortName() != null)
-            text = text.replace("$appointmentMethodName", schedule.getMethod().getShortName());
+            text = text.replaceAll("\\$appointmentMethodName", schedule.getMethod().getShortName());
         if(schedule.getMethod() != null && schedule.getMethod() != null && pricesFacade.findLastPrice(schedule.getMethod())!=null)
-            text = text.replace("$appointmentMethodPrice", "" + pricesFacade.findLastPrice(schedule.getMethod()).getTotal());
+            text = text.replaceAll("\\$appointmentMethodPrice", "" + pricesFacade.findLastPrice(schedule.getMethod()).getTotal());
         if(schedule.getDoctor() != null)
-            text = text.replace("$doctorsFirstName", schedule.getDoctor().getFirstName());
+            text = text.replaceAll("\\$doctorsFirstName", schedule.getDoctor().getFirstName());
         if(schedule.getDoctor()  != null)
-            text = text.replace("$doctorsLastName", schedule.getDoctor().getLastName());
+            text = text.replaceAll("\\$doctorsLastName", schedule.getDoctor().getLastName());
         return text;
     }
 

@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.views;
 
+import org.joda.time.DateTime;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -9,6 +10,7 @@ import ua.kiev.doctorvera.facadeLocal.*;
 import ua.kiev.doctorvera.resources.Config;
 import ua.kiev.doctorvera.resources.Message;
 import ua.kiev.doctorvera.services.SQLServiceLocal;
+import ua.kiev.doctorvera.services.ScheduleServiceLocal;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -19,6 +21,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -33,31 +37,34 @@ public class SettingsView implements Serializable {
     private static final Logger LOG = Logger.getLogger(SettingsView.class.getName());
 
     @EJB
-    LocaleFacadeLocal localeFacade;
+    private LocaleFacadeLocal localeFacade;
 
     @EJB
-    MessageBundleFacadeLocal messageBundleFacade;
+    private MessageBundleFacadeLocal messageBundleFacade;
 
     @EJB
-    MessageTemplateFacadeLocal messageTemplateFacade;
+    private MessageTemplateFacadeLocal messageTemplateFacade;
 
     @EJB
-    UsersFacadeLocal usersFacade;
+    private UsersFacadeLocal usersFacade;
 
     @EJB
-    UserGroupsFacadeLocal userGroupsFacade;
+    private UserGroupsFacadeLocal userGroupsFacade;
 
     @EJB
-    MethodsFacadeLocal methodsFacade;
+    private MethodsFacadeLocal methodsFacade;
 
     @EJB
-    FileRepositoryFacadeLocal fileRepositoryFacade;
+    private FileRepositoryFacadeLocal fileRepositoryFacade;
 
     @EJB
-    MethodTypesFacadeLocal methodTypesFacade;
+    private MethodTypesFacadeLocal methodTypesFacade;
 
     @EJB
-    SQLServiceLocal sqlService;
+    private SQLServiceLocal sqlService;
+
+    @EJB
+    private ScheduleServiceLocal schedulerService;
 
     @Inject
     private SessionParams sessionParams;
@@ -248,7 +255,7 @@ public class SettingsView implements Serializable {
         if(id == null || id.isEmpty()){
             return "";
         }else {
-            return methodTypesFacade.find(Integer.parseInt(id)).getShortName();
+                return methodTypesFacade.find(Integer.parseInt(id)).getShortName();
         }
     }
 
@@ -262,5 +269,24 @@ public class SettingsView implements Serializable {
 
     public void dropDatabase(){
         sqlService.dropDatabase();
+    }
+
+    public void saveDoctorsNotificationDeliveryTime(){
+        MessageBundle constant = allConstants.get("MDS_DOCTORS_NOTIFICATION_TIME");
+        constant.setDateCreated(new Date());
+        constant.setUserCreated(authorizedUser);
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyy").parse(allConstants.get("MDS_DOCTORS_NOTIFICATION_TIME").getValue());
+        } catch (ParseException e) {
+            LOG.severe(e.getMessage());
+            return;
+        }
+        constant.setValue(new SimpleDateFormat("HH:mm").format(date));
+        messageBundleFacade.edit(constant);
+        Message.showMessage(Message.getMessage("APPLICATION_SUCCESSFUL_TITLE"), Message.getMessage("APPLICATION_SAVED"));
+        LOG.info("Changes to settings constants saved");
+        Config.clear();
+        schedulerService.changeDoctorsNotificationDeliveryTime();
     }
 }

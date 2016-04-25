@@ -608,7 +608,8 @@ public class ScheduleView implements Serializable {
             } else {
                 editSchedule();
                 scheduleFacade.edit(schedule);
-
+                if(isSendNotification())
+                    scheduleService.scheduleEvent(schedule);
                 //Creating corresponding Schedule event
                 event = eventFromSchedule(schedule);
                 eventModel.addEvent(event);
@@ -775,16 +776,14 @@ public class ScheduleView implements Serializable {
                             schedule.getDescription(),
                     schedule.getDateTimeStart(),
                     schedule.getDateTimeEnd(),
-                    schedule
-            );
+                    schedule);
                 newEvent.setDescription(
                         formatter.format(schedule.getDateTimeStart()) + " - " +
                                 formatter.format(schedule.getDateTimeEnd()) + " | " +
                                 schedule.getMethod().getShortName() + " | " +
                                 schedule.getPatient().getFirstName() + " " +
                                 schedule.getPatient().getLastName() + " | " +
-                                schedule.getDescription()
-                );
+                                schedule.getDescription());
         } else {
             newEvent = new DefaultScheduleEvent(
                     schedule.getMethod().getShortName() + " | " +
@@ -797,8 +796,7 @@ public class ScheduleView implements Serializable {
                         formatter.format(schedule.getDateTimeStart()) + " - " +
                                 formatter.format(schedule.getDateTimeEnd()) + " | " +
                         schedule.getMethod().getShortName() + " | " +
-                                schedule.getDescription()
-                );
+                                schedule.getDescription());
         }
         newEvent.setStyleClass("fc-schedule doc" + schedule.getDoctor().getId());
         if (event != null && event.getId() != null)
@@ -912,7 +910,7 @@ public class ScheduleView implements Serializable {
     public StreamedContent printForm() throws IOException {
         TemplateProcessor processUtil = new TemplateProcessor();
         processUtil.setCurrentUser(authorizedUser);
-        processUtil.setUser(authorizedUser);
+        processUtil.setUser(schedule.getPatient());
         processUtil.setSchedule(schedule);
 
         FileRepository usersForm = fileRepositoryFacade.find(Integer.parseInt(Config.getMessage("PERSONAL_DATA_FORM_TEMPLATE")));
@@ -922,7 +920,7 @@ public class ScheduleView implements Serializable {
     public StreamedContent printSecureAgreement() throws IOException {
         TemplateProcessor processUtil = new TemplateProcessor();
         processUtil.setCurrentUser(authorizedUser);
-        processUtil.setUser(authorizedUser);
+        processUtil.setUser(schedule.getPatient());
         processUtil.setSchedule(schedule);
 
         FileRepository usersForm = fileRepositoryFacade.find(Integer.parseInt(Config.getMessage("PERSONAL_DATA_SECURITY_TEMPLATE")));

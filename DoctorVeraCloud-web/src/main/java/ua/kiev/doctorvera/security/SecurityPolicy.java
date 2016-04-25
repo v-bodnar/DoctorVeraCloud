@@ -104,7 +104,7 @@ public enum SecurityPolicy implements Serializable{
     SCHEDULE_UPDATE(SecurityPolicyGroup.SCHEDULE_GROUP),
     SCHEDULE_DELETE(SecurityPolicyGroup.SCHEDULE_GROUP),
     /**
-     * User Groups page
+     * Delivery Groups page
      */
     DELIVERY_GROUPS_ADD_USER_GROUP(SecurityPolicyGroup.DELIVERY_GROUPS_GROUP),
     DELIVERY_GROUPS_DELETE_USER_GROUP(SecurityPolicyGroup.DELIVERY_GROUPS_GROUP),

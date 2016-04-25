@@ -14,8 +14,8 @@
 			<p:growl id="growl" showDetail="true"/>
 
 			<p:schedule id="planSchedule" value="#{planView.eventModel}" locale="ru" view="agendaWeek" scrollTime="7" slotMinutes="30"
-						minTime="7:00" maxTime="20:00" styleClass="planCalendar" timeZone="GMT+1" widgetVar="planSchedule" rightHeaderTemplate="month,agendaWeek"
-			allDaySlot="false" tooltip="true" columnFormat="dddd,DD, MMMM">
+						minTime="7:00" maxTime="20:00" styleClass="planCalendar"  widgetVar="planSchedule" rightHeaderTemplate="month,agendaWeek"
+			allDaySlot="false" tooltip="true" columnFormat="dddd,DD, MMMM" ignoreTimezone="false" timeFormat="HH:mm" timeZone="GMT+2">
 				<p:ajax event="dateSelect" listener="#{planView.onDateSelect}" update="addPlanDialog" oncomplete="PF('addPlanDialog').show();" disabled="#{!securityUtils.checkPermissions('PLAN_CREATE')}"/>
             	<p:ajax event="eventSelect" listener="#{planView.onEventSelect}" update="addPlanDialog" oncomplete="PF('addPlanDialog').show();" disabled="#{!securityUtils.checkPermissions('PLAN_UPDATE')}"/>
             	<p:ajax event="eventMove" listener="#{planView.onEventMove}" update="planSchedule growl" disabled="#{!securityUtils.checkPermissions('PLAN_READ')}"/>
@@ -109,28 +109,28 @@
 
 
 <script type="text/javascript">
-    PrimeFaces.locales['ru'] = {
-        closeText: 'закрыть',
-        prevText: 'назад',
-        nextText: 'вперед',
-        currentText: 'сегодня',
-        monthNames: ['Январь','Февраль','Март','Апрель','Май','Июнь',
-            'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
-        monthNamesShort: ['Янв','Фев','Март','Апр','Май','Июнь',
-            'Июль','Авг','Сен','Окт','Ноя','Дек'],
-        dayNames: ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'],
-        dayNamesShort: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
-        dayNamesMin: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
-        weekHeader: 'Пн',
-        firstDay: 1,
-        isRTL: false,
-        showMonthAfterYear: false,
-        yearSuffix: '',
-        month: 'Месяц',
-        week: 'Неделя',
-        day: 'День',
-        allDayText : 'Весь день'
-    };
+	PrimeFaces.locales['ru'] = {
+		closeText: 'закрыть',
+		prevText: 'назад',
+		nextText: 'вперед',
+		currentText: 'сегодня',
+		monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+			'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+		monthNamesShort: ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь',
+			'Июль', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+		dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+		dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+		dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+		weekHeader: 'Пн',
+		firstDay: 1,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: '',
+		month: 'Месяц',
+		week: 'Неделя',
+		day: 'День',
+		allDayText: 'Весь день'
+	};
 
 PrimeFaces.widget.Dialog.prototype.applyFocus = function() {
   var firstInput = this.jq.find(':not(:submit):not(:button):input:visible:enabled:first');

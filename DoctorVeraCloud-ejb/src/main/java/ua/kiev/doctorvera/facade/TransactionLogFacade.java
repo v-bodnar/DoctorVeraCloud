@@ -2,8 +2,10 @@ package ua.kiev.doctorvera.facade;
 
 import ua.kiev.doctorvera.entities.*;
 import ua.kiev.doctorvera.facadeLocal.TransactionLogFacadeLocal;
+import ua.kiev.doctorvera.services.SMSService;
+import ua.kiev.doctorvera.services.SMSServiceLocal;
 
-import javax.ejb.Stateless;
+import javax.ejb.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -18,6 +20,9 @@ import java.util.List;
  */
 @Stateless
 public class TransactionLogFacade extends AbstractFacade<TransactionLog> implements TransactionLogFacadeLocal {
+
+    @EJB
+    private SMSServiceLocal smsService;
 
     public TransactionLogFacade() {
         super(TransactionLog.class);
@@ -45,19 +50,19 @@ public class TransactionLogFacade extends AbstractFacade<TransactionLog> impleme
 
     @Override
     public void checkTransactionStatus(){
-        checkTransactionStatus(findUncompleted());
+        checkTransactionStatus(findUncompleted(), true);
     }
 
     @Override
-    public void checkTransactionStatus(List<TransactionLog> transactionLogs){
+    public void checkTransactionStatus(List<TransactionLog> transactionLogs, Boolean checkOnSmsGateway){
         if(transactionLogs == null) return;
         for(TransactionLog transactionLog : transactionLogs){
-            checkTransactionStatus(transactionLog);
+            checkTransactionStatus(transactionLog, checkOnSmsGateway);
         }
     }
 
     @Override
-    public void checkTransactionStatus(TransactionLog transactionLog){
+    public void checkTransactionStatus(TransactionLog transactionLog, Boolean checkOnSmsGateway){
         boolean transactionStatusChanged = false;
         //-------- SMS ---------
         if(transactionLog.getMessageTemplate().getType() == MessageTemplate.Type.SMS) {
@@ -67,26 +72,31 @@ public class TransactionLogFacade extends AbstractFacade<TransactionLog> impleme
                     || transactionLog.getStatus() == TransactionLog.Status.SEND_ERROR
                     || transactionLog.getStatus() == TransactionLog.Status.DELIVERY_ERROR) return;
 
-            int delivered = 0;
-            for (MessageLog messageLog : transactionLog.getMessageLogs()) {
-                switch (messageLog.getStatus()) {
-                    case SEND_ERROR:
-                        transactionLog.setStatus(TransactionLog.Status.SEND_ERROR);
-                        transactionStatusChanged = true;
-                        break;
-                    case DELIVERY_ERROR:
-                        transactionLog.setStatus(TransactionLog.Status.DELIVERY_ERROR);
-                        transactionStatusChanged = true;
-                        break;
-                    case DELIVERED:
-                        delivered++;
-                        break;
-                }
+            //Refreshing status
+            if(checkOnSmsGateway){
+                smsService.checkSmsStatus(transactionLog);
             }
-            if (transactionLog.getRecipientsCount() != null && transactionLog.getRecipientsCount() == delivered) {
-                transactionLog.setStatus(TransactionLog.Status.DELIVERED);
-                transactionStatusChanged = true;
-            }
+
+//            int delivered = 0;
+//            for (MessageLog messageLog : transactionLog.getMessageLogs()) {
+//                switch (messageLog.getStatus()) {
+//                    case SEND_ERROR:
+//                        transactionLog.setStatus(TransactionLog.Status.SEND_ERROR);
+//                        transactionStatusChanged = true;
+//                        break;
+//                    case DELIVERY_ERROR:
+//                        transactionLog.setStatus(TransactionLog.Status.DELIVERY_ERROR);
+//                        transactionStatusChanged = true;
+//                        break;
+//                    case DELIVERED:
+//                        delivered++;
+//                        break;
+//                }
+//            }
+//            if (transactionLog.getRecipientsCount() != null && transactionLog.getRecipientsCount() == delivered) {
+//                transactionLog.setStatus(TransactionLog.Status.DELIVERED);
+//                transactionStatusChanged = true;
+//            }
 
         }//-------- EMAILS ---------
         else if(transactionLog.getMessageTemplate().getType() == MessageTemplate.Type.EMAIL) {

@@ -250,7 +250,7 @@
 
                     <p:calendar value="#{messageSchedulerView.newMessageScheduler.time}"
                                 id="schedulerTime"  pattern="HH:mm" timeOnly="true" styleClass="myTextField"
-                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" timeZone="" minHour="6" maxHour="22">
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" minHour="6" maxHour="22">
                         <p:ajax event="dateSelect" update="schedulerTimeMessage growl"/>
                     </p:calendar>
                     <p:message for="schedulerTime" id="schedulerTimeMessage" />

@@ -7,14 +7,18 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.joda.time.DateTime;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import ua.kiev.doctorvera.entities.MessageLog;
+import ua.kiev.doctorvera.entities.TransactionLog;
+import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.resources.Config;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -23,7 +27,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -34,19 +39,10 @@ import java.util.logging.Logger;
  * @since       1.0
  */
 public class SMSGateway{
-	private final static Logger LOG = Logger.getLogger(SMSGateway.class.getName());
-    private static final String LOGIN = Config.getInstance().getString("SMS_GATEWAY_LOGIN");
-    private static final String PASS = Config.getInstance().getString("SMS_GATEWAY_PASSWORD");
-    private static final String FROM = Config.getInstance().getString("SMS_GATEWAY_ALPHA_NAME");
-    private static final String SMS_SEND_URL = Config.getInstance().getString("SMS_GATEWAY");
+
     //private final String SMS_SATE_URL = "https://api.life.com.ua/ip2sms-request/";
 	//https://api.life.com.ua/ip2sms/
-    
-	public enum SMSResultConstants{
-		STATUS,
-		DATE,
-		UUID;
-	}
+
 
     public SMSGateway(){
     }     
@@ -79,52 +75,7 @@ public class SMSGateway{
         return false;
     }
     */
-    
-	/**
-	 * Send SMS to Gateway
-	 */
-    @SuppressWarnings("deprecation")
-	public static  Map<SMSResultConstants ,String> send(String phone, String sms) {
-        Map<SMSResultConstants ,String> result = new HashMap();
-        final String MESSAGE = "<message><service id='single' source='" + FROM + "'/><to>" + phone + "</to><body content-type='text/plain'>" + sms + "</body></message>";
-        
-        @SuppressWarnings("resource")
-		HttpClient httpclient = new DefaultHttpClient();
-        String xml = null;
-        try {
-            HttpPost httpPost = new HttpPost(SMS_SEND_URL);
 
-            StringEntity entity = new StringEntity(MESSAGE, "UTF-8");
-            entity.setContentType("text/xml");
-            entity.setChunked(true);
-            httpPost.setEntity(entity);
-            httpPost.addHeader(BasicScheme.authenticate(new UsernamePasswordCredentials(LOGIN, PASS), "UTF-8", false));
-            HttpResponse response = httpclient.execute(httpPost);
-            HttpEntity resEntity = response.getEntity();
-			LOG.info( "Connection status: " + (response.getStatusLine().getStatusCode()));
-            LOG.info( "Sending SMS: " + (response.getStatusLine().getStatusCode()==200));
-			if(response.getStatusLine().getStatusCode()!=200){
-				LOG.severe( "Connection error");
-				return null;
-			}
-            xml = EntityUtils.toString(resEntity);
-        } catch (Exception e) {
-            LOG.severe( ""+e.getStackTrace());
-        } finally {
-            httpclient.getConnectionManager().shutdown();
-        }
-
-
-        //parsing xml result
-        Document doc = loadXMLFromString(xml);
-        NodeList nl = doc.getElementsByTagName("status");
-        Element status = (Element) nl.item(0);
-
-        result.put(SMSResultConstants.UUID, status.getAttribute("id").toString()); //tracking id at position 0
-        result.put(SMSResultConstants.DATE, status.getAttribute("date").toString()); //date at position 1
-        result.put(SMSResultConstants.STATUS, getElementValue(status.getFirstChild())); //state at position 2
-        return result;
-    }
 
 	/*
 	 * Check SMS State
@@ -165,46 +116,9 @@ public class SMSGateway{
         return sms;
     }
  */
-	// Method generates XML document
-	public static Document loadXMLFromString(String xml) {
-		Document doc = null;
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		try {
 
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			InputSource is = new InputSource();
-			is.setCharacterStream(new StringReader(xml));
-			doc = db.parse(is);
 
-		} catch (ParserConfigurationException e) {
-			LOG.severe( e.getMessage());
-			return null;
-		} catch (SAXException e) {
-			LOG.severe( e.getMessage());
-			return null;
-		} catch (IOException e) {
-			LOG.severe( e.getMessage());
-			return null;
-		}
-		// return DOM
-		return doc;
-	}
 
-	// Method retrieves nodes from XML
-	public static final String getElementValue(Node elem) {
-		Node child;
-		if (elem != null) {
-			if (elem.hasChildNodes()) {
-				for (child = elem.getFirstChild(); child != null; child = child
-						.getNextSibling()) {
-					if (child.getNodeType() == Node.TEXT_NODE) {
-						return child.getNodeValue();
-					}
-				}
-			}
-		}
-		return "";
-	}
     
     /*
      * This will update state of each SMS with state - 3

@@ -96,6 +96,15 @@
                             </p:inplace></h:panelGroup>
                         <p:message for="smtpStartTls" id="smtpStartTlsMessage" />
 
+                        <!--SMS STATUS REQUEST URL-->
+                        <h:outputLabel for="smsStatusURL" value="#{MESSAGE.MDS_SMS_GATEWAY_STATUS_REQUEST_URL}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:inputText id="smsStatusURL" value="#{settingsView.allConstants.get('SMS_GATEWAY_STATUS_REQUEST_URL').value}"
+                                             required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"/>
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('SMS_GATEWAY_STATUS_REQUEST_URL')}" update="growl smsStatusURLMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="smsStatusURL" id="smsStatusURLMessage" />
 
                         <!--SMS GATEWAY-->
                         <h:outputLabel for="smsGateway" value="#{MESSAGE.MDS_SMS_GATEWAY}" />
@@ -204,11 +213,34 @@
                                 <f:facet name="output">#{settingsView.findTemplate(settingsView.allConstants.get('EMAIL_MESSAGE_TEMPLATE_FOR_DOCTOR').value)}</f:facet>
                                 <p:selectOneMenu id="doctorsEmailTemplate" value="#{settingsView.allConstants.get('EMAIL_MESSAGE_TEMPLATE_FOR_DOCTOR').value}"
                                                  required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
-                                    <f:selectItems value="#{settingsView.emailTemplates}" itemValue="#{mailTemplate.messageTemplateId}" itemLabel="#{mailTemplate.name}" var="mailTemplate"/>
+                                    <f:selectItems value="#{settingsView.smsTemplates}" itemValue="#{mailTemplate.messageTemplateId}" itemLabel="#{mailTemplate.name}" var="mailTemplate"/>
                                 </p:selectOneMenu>
                                 <p:ajax event="save" listener="#{settingsView.saveSettings('EMAIL_MESSAGE_TEMPLATE_FOR_DOCTOR')}" update="growl emailTemplateMessage" process="@this"/>
                             </p:inplace></h:panelGroup>
                         <p:message for="doctorsEmailTemplate" id="doctorsEmailTemplateMessage" />
+
+                        <!-- Doctors notification time-->
+                        <h:outputLabel for="doctorsNotificationTime" value="#{MESSAGE.MDS_DOCTORS_NOTIFICATION_TIME}"/>
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <f:facet name="output">#{settingsView.allConstants.get('MDS_DOCTORS_NOTIFICATION_TIME').value}</f:facet>
+                                <p:calendar id="doctorsNotificationTime" value="#{settingsView.allConstants.get('MDS_DOCTORS_NOTIFICATION_TIME').value}" pattern="HH:mm" timeOnly="true"
+                                            required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                    <f:converter converterId="defaultTimeConverter"/>
+                                </p:calendar>
+                                <p:ajax event="save" listener="#{settingsView.saveDoctorsNotificationDeliveryTime()}" update="growl doctorsNotificationTimeMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="doctorsNotificationTime" id="doctorsNotificationTimeMessage" />
+
+                        <!--SEND NOTIFICATIONS TO DOCTORS FLAG-->
+                        <h:outputLabel for="doctorsNotificationIsActive" value="#{MESSAGE.MDS_DOCTORS_NOTIFICATION_IS_ACTIVE}" />
+                        <h:panelGroup><span class="ui-icon ui-icon-pencil" style="position:relative;top:3px;display: inline-block"/>
+                            <p:inplace editor="true" disabled="#{!securityUtils.checkPermissions('SETTINGS_MDS_SAVE')}">
+                                <p:selectBooleanCheckbox  id="doctorsNotificationIsActive" value="#{settingsView.allConstants.get('MDS_DOCTORS_NOTIFICATION_IS_ACTIVE').value}"
+                                                          required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" />
+                                <p:ajax event="save" listener="#{settingsView.saveSettings('MDS_DOCTORS_NOTIFICATION_IS_ACTIVE')}" update="growl doctorsNotificationIsActiveMessage" process="@this"/>
+                            </p:inplace></h:panelGroup>
+                        <p:message for="doctorsNotificationIsActive" id="doctorsNotificationIsActiveMessage" />
 
                     </h:panelGrid>
                     </h:form>
@@ -435,7 +467,6 @@
                                     <p:fileDownload value="#{settingsView.downloadTemplate('OUTCOME_FORM_TEMPLATE')}" />
                                 </p:commandButton>
                             </f:facet></p:toolbar>
-
 
                         </h:panelGrid>
                 </h:form>

@@ -1,5 +1,6 @@
 package ua.kiev.doctorvera.views;
 
+import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -226,8 +227,11 @@ public class MessageSchedulerView implements Serializable {
     }
 
     public String getRowStyle(MessageScheduler scheduler){
-        if(scheduler.getDateEnd().before(new Date())) return "oldSchedulerRow";
-        else if (scheduler.getDateStart().after(new Date())) return "futureSchedulerRow";
+        DateTime time = new DateTime(scheduler.getTime());
+        DateTime endDateWithTime = new DateTime(scheduler.getDateEnd()).withHourOfDay(time.getHourOfDay()).withMinuteOfHour(time.getMinuteOfHour());
+        DateTime startDateWithTime = new DateTime(scheduler.getDateEnd()).withHourOfDay(time.getHourOfDay()).withMinuteOfHour(time.getMinuteOfHour());
+        if(endDateWithTime.toDate().before(new Date())) return "oldSchedulerRow";
+        else if (startDateWithTime.toDate().after(new Date())) return "futureSchedulerRow";
         else return "";
     }
 }

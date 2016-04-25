@@ -36,11 +36,11 @@ public class SQLService implements SQLServiceLocal {
     @Override
     public StreamedContent generateNewDatabaseDump() throws IOException {
         StringBuilder dump = new StringBuilder();
-        dump.append("START TRANSACTION;\nSET foreign_key_checks = 0;\n");
+        //dump.append("START TRANSACTION;\nSET foreign_key_checks = 0;\n");
         for(String tableName: getTableNames()){
             dump.append(createTableDump(tableName));
         }
-        dump.append("SET foreign_key_checks = 1;\nCOMMIT;\n");
+        //dump.append("SET foreign_key_checks = 1;\nCOMMIT;\n");
         String newDumpFileName = new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "_DBDump";
         String extension = FileRepository.MimeType.SQL.name().toLowerCase();
         File tempFile = File.createTempFile(newDumpFileName, extension);

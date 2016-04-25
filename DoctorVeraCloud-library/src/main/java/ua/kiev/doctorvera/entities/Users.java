@@ -267,6 +267,10 @@ public class Users implements Serializable,Identified<Integer> {
         return foreigner;
     }
 
+    public Boolean isForeigner() {
+        return foreigner;
+    }
+
     public void setForeigner(Boolean isForeigner) {
         this.foreigner = isForeigner;
     }
