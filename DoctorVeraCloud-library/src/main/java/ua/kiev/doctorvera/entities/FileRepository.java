@@ -34,7 +34,7 @@ public class FileRepository implements Serializable, Identified<Integer> {
 
     @Lob
     @NotNull
-    @Column(name = "File")
+    @Column(name = "File", length=1000000)
     private byte[] file;
 
     @Basic(optional = false)
