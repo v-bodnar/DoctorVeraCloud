@@ -38,3 +38,4 @@ cmake-build-debug/
 
 # JIRA plugin
 atlassian-ide-plugin.xml
+manifest.mf
