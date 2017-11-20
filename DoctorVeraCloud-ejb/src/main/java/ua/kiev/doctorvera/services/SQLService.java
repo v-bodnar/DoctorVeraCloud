@@ -96,25 +96,12 @@ public class SQLService implements SQLServiceLocal {
      *
      * @return All table names of current Schema
      */
-    private List<String> getTableNames() {
+    public List<String> getTableNames() {
         List<String> tableNames = new LinkedList<>();
-        Query tableNamesQuery = em.createNativeQuery("select TABLE_NAME from information_schema.tables where TABLE_SCHEMA = '" + getSchemaName() + "'");
+        Query tableNamesQuery = em.createNativeQuery("select TABLE_NAME from information_schema.tables where TABLE_SCHEMA = 'public' AND table_type='BASE TABLE'");
         tableNames.addAll(tableNamesQuery.getResultList());
         LOG.finest(tableNames.toString());
         return tableNames;
-    }
-
-    /**
-     * Method searches for jdbc Data Base schema name in the jdbc properties,
-     * it has been set manually in persistence.xml
-     *
-     * @return Schema name
-     */
-    private String getSchemaName() {
-        EntityManagerFactory emf = em.getEntityManagerFactory();
-        Map<String, Object> emfProperties = emf.getProperties();
-        LOG.finest((String) emfProperties.get("javax.persistence.jdbc.schema"));
-        return (String) emfProperties.get("javax.persistence.jdbc.schema");
     }
 
     /**
@@ -199,7 +186,7 @@ public class SQLService implements SQLServiceLocal {
             Blob blob = rs.getBlob(columnName);
             byte[] bdata = blob.getBytes(1, (int) blob.length());
 
-            return "UNHEX('" + DatatypeConverter.printHexBinary(bdata) + "')";
+            return "decode('" + DatatypeConverter.printHexBinary(bdata) + "','hex')";
         } else if (type == -7) { // TINY INT
             return rs.getBoolean(columnName) ? "1" : "0";
         } else if (type == 12){ // VARCHAR

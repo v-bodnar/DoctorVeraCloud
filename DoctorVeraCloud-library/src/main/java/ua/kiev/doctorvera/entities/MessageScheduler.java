@@ -37,7 +37,7 @@ public class MessageScheduler  implements Serializable, Identified<Integer>{
             inverseJoinColumns = {@JoinColumn(name = "DeliveryGroupId", referencedColumnName = "DeliveryGroupId")})
     private List<DeliveryGroup> deliveryGroups;
 
-    @JoinColumn(name = "User", referencedColumnName = "UserId")
+    @JoinColumn(name = "Users", referencedColumnName = "UserId")
     @ManyToOne
     private Users user;
 

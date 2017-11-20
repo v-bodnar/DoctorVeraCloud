@@ -43,11 +43,11 @@ public class ScheduleFacadeTest{
         Properties properties = new Properties();
         properties.put(Context.INITIAL_CONTEXT_FACTORY, "org.apache.openejb.client.LocalInitialContextFactory");
         properties.put("DoctorVera", "new://Resource?type=DataSource");
-        properties.put("DoctorVera.JdbcDriver", "com.mysql.jdbc.Driver");
-        properties.put("DoctorVera.JdbcUrl", "jdbc:mysql://localhost:3306/DrVera");
-        properties.put("DoctorVera.hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        properties.put("DoctorVera.UserName", "bodnar");
-        properties.put("DoctorVera.Password", "6215891");
+        properties.put("DoctorVera.JdbcDriver", "org.postgresql.Driver");
+        properties.put("DoctorVera.JdbcUrl", "jdbc:postgresql://localhost:5432/DrVera");
+        properties.put("DoctorVera.hibernate.dialect", "ua.kiev.doctorvera.sql.PostgreSQLDialect");
+        properties.put("DoctorVera.UserName", "DrVera");
+        properties.put("DoctorVera.Password", "Aq1sw2de3");
 
         container = EJBContainer.createEJBContainer(properties);
         try {

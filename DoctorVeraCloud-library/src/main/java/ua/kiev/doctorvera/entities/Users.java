@@ -7,6 +7,7 @@ package ua.kiev.doctorvera.entities;
 
 import org.apache.commons.io.IOUtils;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.Type;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import ua.kiev.doctorvera.utils.Utils;
@@ -89,6 +90,7 @@ public class Users implements Serializable,Identified<Integer> {
     @Column(name = "Deleted")
     private boolean deleted;
     @Lob
+    @Type(type="org.hibernate.type.PrimitiveByteArrayBlobType")
     @Column(name = "AvatarImage")
     private byte[] avatarImage;
     @Basic(optional = false)
@@ -112,7 +114,7 @@ public class Users implements Serializable,Identified<Integer> {
     @ManyToMany(fetch=FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(
         name="UsersHasUserGroups",
-        joinColumns={@JoinColumn(name="User", referencedColumnName="UserId")},
+        joinColumns={@JoinColumn(name="Users", referencedColumnName="UserId")},
         inverseJoinColumns={@JoinColumn(name="UserGroup", referencedColumnName="UserGroupId")})
     private Collection<UserGroups> userGroups;
 

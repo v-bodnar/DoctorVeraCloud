@@ -48,7 +48,7 @@ public class UserGroups implements Serializable,Identified<Integer> {
     @Column(name = "Deleted")
     private boolean deleted;
 
-    @OrderColumn(name="user")
+    @OrderColumn(name="Users")
     @ManyToMany(mappedBy="userGroups", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<Users> users;
 

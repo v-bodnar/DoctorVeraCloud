@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -30,7 +31,7 @@ public class StartUpBean {
     private EntityManager em;
 
     @EJB
-    SQLServiceLocal sqlService;
+    private SQLServiceLocal sqlService;
 
     @PostConstruct
     public void init(){
@@ -63,8 +64,18 @@ public class StartUpBean {
     private String getSqlQueryForPopulatingTables() throws IOException {
         ClassLoader loader = StartUpBean.class.getClassLoader();
         InputStream inputStream = loader.getResourceAsStream("dump.sql");
-        String dump = "SET foreign_key_checks = 0;  " + IOUtils.toString(inputStream, "UTF-8") + " SET foreign_key_checks = 1;";
+        List<String> tableNames = sqlService.getTableNames();
+        StringBuffer stringBuffer = new StringBuffer("BEGIN;\n");
+        for(String tableName : tableNames){
+            stringBuffer.append("ALTER TABLE ").append(tableName).append(" DISABLE TRIGGER ALL; \n");
+        }
+        stringBuffer.append(IOUtils.toString(inputStream, "UTF-8"));
+        for(String tableName : tableNames){
+            stringBuffer.append("ALTER TABLE ").append(tableName).append(" ENABLE TRIGGER ALL; \n");
+        }
+        stringBuffer.append("END;");
+
         inputStream.close();
-        return dump;
+        return stringBuffer.toString();
     }
 }

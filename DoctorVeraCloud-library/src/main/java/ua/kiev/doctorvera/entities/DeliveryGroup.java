@@ -35,7 +35,7 @@ public class DeliveryGroup implements Serializable, Identified<Integer>{
     @JoinTable(
             name = "DeliveryGroupHasUsers",
             joinColumns = {@JoinColumn(name = "DeliveryGroup", referencedColumnName = "DeliveryGroupId")},
-            inverseJoinColumns = {@JoinColumn(name = "User", referencedColumnName = "UserId")})
+            inverseJoinColumns = {@JoinColumn(name = "Users", referencedColumnName = "UserId")})
     private List<Users> users;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

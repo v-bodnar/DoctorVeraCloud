@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="DoctorVera" transaction-type="JTA">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<jta-data-source>java:app/jdbc/OpenshiftDoctorVera</jta-data-source>
+		<jta-data-source>java:app/jdbc/DoctorVera</jta-data-source>
 		<class>ua.kiev.doctorvera.entities.Address</class>
 		<class>ua.kiev.doctorvera.entities.Methods</class>
 		<class>ua.kiev.doctorvera.entities.MethodTypes</class>
@@ -28,9 +28,10 @@
 		<properties>
 			<property name="hibernate.transaction.jta.platform"
 				value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />
-				<property name="hibernate.dialect" value = "org.hibernate.dialect.MySQLDialect" />
+				<property name="hibernate.dialect" value = "ua.kiev.doctorvera.sql.PostgreSQLDialect" />
 				<property name="hibernate.show_sql" value ="false" />
 				<property name="hibernate.hbm2ddl.auto" value="update"/>
+				<property name="hibernate.jdbc.use_streams_for_binary" value="false"/>
 				<property name="javax.persistence.jdbc.schema" value="DrVera" />
 		</properties>
 	</persistence-unit>

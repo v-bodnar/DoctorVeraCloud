@@ -4,6 +4,7 @@ import org.primefaces.model.StreamedContent;
 
 import javax.ejb.Local;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Service is dedicated for low level database manipulating
@@ -33,4 +34,6 @@ public interface SQLServiceLocal {
      * @return true if tables are populated, false - otherwise
      */
     boolean isTablesPopulated();
+
+    List<String> getTableNames();
 }
