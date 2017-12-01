@@ -1,5 +1,7 @@
 package ua.kiev.doctorvera.entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,6 +36,7 @@ public class FileRepository implements Serializable, Identified<Integer> {
 
     @Lob
     @NotNull
+    @Type(type="org.hibernate.type.PrimitiveByteArrayBlobType")
     @Column(name = "File", length=1000000)
     private byte[] file;
 
