@@ -90,7 +90,7 @@ public class Users implements Serializable,Identified<Integer> {
     @Column(name = "Deleted")
     private boolean deleted;
     @Lob
-    @Type(type="org.hibernate.type.PrimitiveByteArrayBlobType")
+    @Type(type="org.hibernate.type.BinaryType")
     @Column(name = "AvatarImage")
     private byte[] avatarImage;
     @Basic(optional = false)

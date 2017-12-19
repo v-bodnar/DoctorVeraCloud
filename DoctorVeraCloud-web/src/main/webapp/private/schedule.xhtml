@@ -32,10 +32,10 @@
                     header="#{scheduleView.schedule.id==null?MESSAGE.SCHEDULE_ADD_DIALOG_TITLE:MESSAGE.SCHEDULE_EDIT_DIALOG_TITLE}
 			        #{scheduleView.schedule.doctor.firstName} #{scheduleView.schedule.doctor.lastName}"
                     widgetVar="addScheduleDialog" id="addScheduleDialog" modal="false" showEffect="clip"
-                    styleClass="addScheduleDialog" closeOnEscape="true" width="1000" height="630">
+                    styleClass="addScheduleDialog" closeOnEscape="true"  height="430">
 
-                <p:messages id="errorMessage" showDetail="true" style="width:800px;font-size:90%" escape="true"/>
-                        <h:panelGrid columns="3" cellpadding="5">
+                <p:messages id="errorMessage" showDetail="true" style="width:800px;font-size:90%" escape="true" />
+                        <h:panelGrid columns="3" cellpadding="5" >
                             <!-- International -->
                             <h:outputLabel for="foreigner" value="#{MESSAGE.USERS_IS_FOREIGNER}"/>
                             <p:selectBooleanCheckbox value="#{scheduleView.patient.foreigner}" id="foreigner" name="foreigner">
@@ -266,7 +266,6 @@
                             </p:fieldset>
 
                         </h:panelGrid>
-
                 <script>
 
                     $("#method .ui-multiselectlistbox-listcontainer +.ui-multiselectlistbox-listcontainer li").click(

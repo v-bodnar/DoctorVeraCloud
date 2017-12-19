@@ -3,29 +3,28 @@ package ua.kiev.doctorvera.converters;
 import ua.kiev.doctorvera.entities.MethodTypes;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.MethodTypesFacadeLocal;
-import ua.kiev.doctorvera.facadeLocal.MethodsFacadeLocal;
 import ua.kiev.doctorvera.views.SessionParams;
 
-import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.util.Date;
 import java.util.List;
 
 @FacesConverter(value = "methodTypesConverter")
 public class MethodTypesConverter implements Converter{
 
-	@EJB
-	private MethodTypesFacadeLocal methodTypesFacade;
+	private MethodTypesFacadeLocal methodTypesFacade = (MethodTypesFacadeLocal) new InitialContext().lookup("java:global/DoctorVeraCloud-ear-0.0.1-SNAPSHOT/DoctorVeraCloud-ejb-0.0.1-SNAPSHOT/MethodTypesFacade");
 
-    @EJB
-    private MethodsFacadeLocal methodsFacade;
-	
 	private Users authorizedUser;
-	
-    
+
+    public MethodTypesConverter() throws NamingException {
+    }
+
+
     @SuppressWarnings({"deprecation" })
 	@Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

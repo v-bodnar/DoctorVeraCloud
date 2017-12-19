@@ -10,6 +10,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 /**
  * Created by volodymyr.bodnar on 25.11.2015.
@@ -18,7 +20,10 @@ import javax.faces.convert.FacesConverter;
 public class MessageSchedulerConverter implements Converter {
 
     @EJB
-    private MessageSchedulerFacadeLocal messageSchedulerFacade;
+    private MessageSchedulerFacadeLocal messageSchedulerFacade = (MessageSchedulerFacadeLocal) new InitialContext().lookup("java:global/DoctorVeraCloud-ear-0.0.1-SNAPSHOT/DoctorVeraCloud-ejb-0.0.1-SNAPSHOT/MessageSchedulerFacade");
+
+    public MessageSchedulerConverter() throws NamingException {
+    }
 
 
     @Override

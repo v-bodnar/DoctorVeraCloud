@@ -1,18 +1,13 @@
 package ua.kiev.doctorvera.views;
 
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.io.SyndFeedInput;
-import com.sun.syndication.io.XmlReader;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.primefaces.context.RequestContext;
 import org.primefaces.model.DashboardColumn;
 import org.primefaces.model.DashboardModel;
 import org.primefaces.model.DefaultDashboardColumn;
 import org.primefaces.model.DefaultDashboardModel;
-import org.primefaces.model.chart.*;
+import org.primefaces.model.chart.LineChartModel;
 import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PaymentsFacadeLocal;
@@ -24,12 +19,10 @@ import ua.kiev.doctorvera.utils.StatisticsHelper;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -507,12 +500,11 @@ public class IndexView implements Serializable{
 
     public void retrieveWeather() {
         try {
-            URL feedSource = new URL("http://weather.yahooapis.com/forecastrss?w=20070188&u=c&lang=" + sessionParams.getCurrentLocale().getLanguage());
-            SyndFeedInput input = new SyndFeedInput();
-            SyndFeed feed = input.build(new XmlReader(feedSource));
-            String value = ((SyndEntry) feed.getEntries().get(0)).getDescription().getValue();
-
-            currentWeather = value.split("<a href")[0];
+            currentWeather ="<a href=\"https://www.accuweather.com/ru/us/new-york-ny/10007/current-weather/349727\" class=\"aw-widget-legal\">\n" +
+                    "<!--\n" +
+                    "By accessing and/or using this code snippet, you agree to AccuWeather’s terms and conditions (in English) which can be found at https://www.accuweather.com/en/free-weather-widgets/terms and AccuWeather’s Privacy Statement (in English) which can be found at https://www.accuweather.com/en/privacy.\n" +
+                    "-->\n" +
+                    "</a><div id=\"awtd1513695196807\" class=\"aw-widget-36hour\"  data-locationkey=\"\" data-unit=\"c\" data-language=\"ru\" data-useip=\"true\" data-uid=\"awtd1513695196807\" data-editlocation=\"true\"></div>\t\t<script type=\"text/javascript\" src=\"https://oap.accuweather.com/launch.js\"></script>";
         } catch (Exception e) {
             LOG.severe("Unable to retrieve weather forecast at the moment.");
             LOG.severe(e.getMessage());

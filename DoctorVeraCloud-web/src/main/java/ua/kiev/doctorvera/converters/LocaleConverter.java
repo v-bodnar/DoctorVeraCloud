@@ -10,14 +10,19 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 /**
  * Created by volodymyr.bodnar on 2/6/2016.
  */
 @FacesConverter(value = "localeConverter")
 public class LocaleConverter   implements Converter {
-    @EJB
-    LocaleFacadeLocal localeFacade;
+
+    LocaleFacadeLocal localeFacade = (LocaleFacadeLocal) new InitialContext().lookup("java:global/DoctorVeraCloud-ear-0.0.1-SNAPSHOT/DoctorVeraCloud-ejb-0.0.1-SNAPSHOT/LocaleFacade");
+
+    public LocaleConverter() throws NamingException {
+    }
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

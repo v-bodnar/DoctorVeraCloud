@@ -9,6 +9,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 /**
  * Created by volodymyr.bodnar on 25.11.2015.
@@ -16,8 +18,10 @@ import javax.faces.convert.FacesConverter;
 @FacesConverter(value = "deliveryGroupConverter")
 public class DeliveryGroupConverter  implements Converter {
 
-    @EJB
-    private DeliveryGroupFacadeLocal deliveryGroupFacade;
+    private DeliveryGroupFacadeLocal deliveryGroupFacade = (DeliveryGroupFacadeLocal) new InitialContext().lookup("java:global/DoctorVeraCloud-ear-0.0.1-SNAPSHOT/DoctorVeraCloud-ejb-0.0.1-SNAPSHOT/DeliveryGroupFacade");
+
+    public DeliveryGroupConverter() throws NamingException {
+    }
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

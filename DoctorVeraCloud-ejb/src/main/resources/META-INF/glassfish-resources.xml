@@ -22,6 +22,9 @@
 		<property name="Password" value="Aq1sw2de3"/>
 		<property name="DatabaseName" value="DrVera"/>
 		<property name="driverClass" value="org.postgresql.Driver"/>
+		<property name="hibernate.connection.CharSet" value="utf8"/>
+		<property name="hibernate.connection.characterEncoding" value="utf8"/>
+		<property name="hibernate.connection.useUnicode" value="true"/>
 	</jdbc-connection-pool>
 	<jdbc-resource enabled="true" jndi-name="java:module/jdbc/DoctorVera" object-type="user" pool-name="drveraPool"/>
 </resources>

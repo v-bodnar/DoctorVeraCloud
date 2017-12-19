@@ -1,22 +1,24 @@
 package ua.kiev.doctorvera.converters;
 
 import ua.kiev.doctorvera.entities.Policy;
-import ua.kiev.doctorvera.entities.Users;
 import ua.kiev.doctorvera.facadeLocal.PolicyFacadeLocal;
-import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 
-import javax.ejb.EJB;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 @FacesConverter(value = "policyConverter")
 public class PolicyConverter implements Converter{
 
-	@EJB
-	private PolicyFacadeLocal policyFacade;
-    
+
+	private PolicyFacadeLocal policyFacade = (PolicyFacadeLocal) new InitialContext().lookup("java:global/DoctorVeraCloud-ear-0.0.1-SNAPSHOT/DoctorVeraCloud-ejb-0.0.1-SNAPSHOT/PolicyFacade");
+
+    public PolicyConverter() throws NamingException {
+    }
+
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value)
     {

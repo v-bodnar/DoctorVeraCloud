@@ -182,13 +182,10 @@ public class SQLService implements SQLServiceLocal {
         Object value = rs.getObject(columnName);
         if (value == null) {
             return "NULL";
-        } else if (type == -4) { // BLOB
-            Blob blob = rs.getBlob(columnName);
-            byte[] bdata = blob.getBytes(1, (int) blob.length());
-
-            return "decode('" + DatatypeConverter.printHexBinary(bdata) + "','hex')";
+        } else if (type == -2) { // BLOB
+            return "decode('" + rs.getString(columnName).replaceFirst("\\\\x","") + "','hex')";
         } else if (type == -7) { // TINY INT
-            return rs.getBoolean(columnName) ? "1" : "0";
+            return "" + rs.getBoolean(columnName);
         } else if (type == 12){ // VARCHAR
             return "'" + rs.getString(columnName).replaceAll("'", "''") + "'";
         }else {

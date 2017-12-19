@@ -772,6 +772,7 @@ public class ScheduleView implements Serializable {
             newEvent = new DefaultScheduleEvent(
                     schedule.getMethod().getShortName() + " | " +
                             schedule.getPatient().getFirstName() + " " +
+                            schedule.getPatient().getMiddleName() + " " +
                             schedule.getPatient().getLastName() + " | " +
                             schedule.getDescription(),
                     schedule.getDateTimeStart(),
@@ -782,6 +783,7 @@ public class ScheduleView implements Serializable {
                                 formatter.format(schedule.getDateTimeEnd()) + " | " +
                                 schedule.getMethod().getShortName() + " | " +
                                 schedule.getPatient().getFirstName() + " " +
+                                schedule.getPatient().getMiddleName() + " " +
                                 schedule.getPatient().getLastName() + " | " +
                                 schedule.getDescription());
         } else {
@@ -830,7 +832,7 @@ public class ScheduleView implements Serializable {
         patient.setUserCreated(authorizedUser);
         patient.setUsername(Utils.generateUsername(patient.getLastName(), patient.getFirstName()));
         patient.setPassword(RandomPasswordGenerator.generatePswd(8, 10, 2, 2, 1).toString());
-
+        patient.setColor("2d862d");
         usersFacade.create(patient);
         UserGroups patients = userGroupsFacade.initializeLazyEntity(userGroupsFacade.find(PATIENTS_TYPE_ID));
         patients.getUsers().add(patient);

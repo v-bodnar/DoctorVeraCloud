@@ -9,6 +9,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 /**
  * Created by volodymyr.bodnar on 25.11.2015.
@@ -17,7 +19,10 @@ import javax.faces.convert.FacesConverter;
 public class MessageTemplateConverter implements Converter {
 
     @EJB
-    private MessageTemplateFacadeLocal messageTemplateFacade;
+    private MessageTemplateFacadeLocal messageTemplateFacade = (MessageTemplateFacadeLocal)new InitialContext().lookup("java:global/DoctorVeraCloud-ear-0.0.1-SNAPSHOT/DoctorVeraCloud-ejb-0.0.1-SNAPSHOT/MessageTemplateFacade");
+
+    public MessageTemplateConverter() throws NamingException {
+    }
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

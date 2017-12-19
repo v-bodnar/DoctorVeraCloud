@@ -36,7 +36,7 @@ public class FileRepository implements Serializable, Identified<Integer> {
 
     @Lob
     @NotNull
-    @Type(type="org.hibernate.type.PrimitiveByteArrayBlobType")
+    @Type(type="org.hibernate.type.BinaryType")
     @Column(name = "File", length=1000000)
     private byte[] file;
 

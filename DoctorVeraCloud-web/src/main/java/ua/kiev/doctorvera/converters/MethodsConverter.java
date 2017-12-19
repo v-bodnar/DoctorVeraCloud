@@ -8,14 +8,19 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 @FacesConverter(value = "methodsConverter")
 public class MethodsConverter implements Converter{
 
-	@EJB
-	private MethodsFacadeLocal methodsFacade;
-    
-    @Override
+
+	private MethodsFacadeLocal methodsFacade = (MethodsFacadeLocal)new InitialContext().lookup("java:global/DoctorVeraCloud-ear-0.0.1-SNAPSHOT/DoctorVeraCloud-ejb-0.0.1-SNAPSHOT/MethodsFacade");
+
+	public MethodsConverter() throws NamingException {
+	}
+
+	@Override
     public Object getAsObject(FacesContext context, UIComponent component, String value){
     	//Checking for null and empty value
     	if(value != null && value instanceof String && value !=""){
