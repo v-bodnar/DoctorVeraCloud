@@ -14,6 +14,10 @@
 .ui-layout-resizer-north{
 	z-index: -1 !important;
 }
+body.ui-layout-container{
+	z-index: -1 !important;
+}
+
 .headerCenter .ui-widget-content{
 	background:none;
 	padding-left:30px;

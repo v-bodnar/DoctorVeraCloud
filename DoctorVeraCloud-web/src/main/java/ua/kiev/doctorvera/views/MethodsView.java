@@ -251,7 +251,9 @@ public class MethodsView implements Serializable {
 			if(addFlag){
 				//Add method to user transfered
 				//usersFacade.addMethod(userTransferred, selectedMethod, authorizedUser);
-				userTransferred.getMethods().add(selectedMethod);
+				if(!userTransferred.getMethods().contains(selectedMethod)) {
+					userTransferred.getMethods().add(selectedMethod);
+				}
 
 				//Setting time and user that made changes
 				userTransferred.setUserCreated(authorizedUser);

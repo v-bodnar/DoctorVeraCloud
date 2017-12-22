@@ -54,7 +54,7 @@
             <p:dataTable id="usersTable" widgetVar="usersTable" styleClass="usersTable"
                          value="#{usersTableView.allUsers}" var="user" rowKey="#{user.userId}"
                          selection="#{usersTableView.selectedUser}" selectionMode="single"
-                         paginator="true" rows="10"
+                         paginator="true" rows="10" sortBy="#{user.userId}"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          rowsPerPageTemplate="10,15,20,100" lazy="true">
 

@@ -247,38 +247,40 @@ public class UserGroupsTableView implements Serializable {
 		else
 			successMessage = Message.getMessage("USER_TYPES_REMOVE_SUCCESS_START");
 		
-		//Iterating each transfered user
+		//Iterating each transferred user
 		for(Object userObject : event.getItems()){
-			Users userTransfered=(Users)userObject;
+			Users userTransferred=(Users)userObject;
 			
 			//Constructing success message
-			successMessage += userTransfered.getFirstName() + " " + userTransfered.getLastName() + ", ";
+			successMessage += userTransferred.getFirstName() + " " + userTransferred.getLastName() + ", ";
 			
 			if(addFlag){
-				//Add group to user transfered
+				//Add group to user transferred
 				//usersFacade.addUserGroup(userTransfered, selectedGroup, authorizedUser);
-				userTransfered = usersFacade.initializeLazyEntity(userTransfered);
-				userTransfered.getUserGroups().add(selectedGroup);
+				userTransferred = usersFacade.initializeLazyEntity(userTransferred);
+				if(!userTransferred.getUserGroups().contains(selectedGroup)) {
+					userTransferred.getUserGroups().add(selectedGroup);
+				}
 
 				//Setting time and user that made changes
-				userTransfered.setUserCreated(authorizedUser);
+				userTransferred.setUserCreated(authorizedUser);
 				selectedGroup.setUserCreated(authorizedUser);
-				userTransfered.setDateCreated(new Date());
+				userTransferred.setDateCreated(new Date());
 				selectedGroup.setDateCreated(new Date());
-				usersFacade.edit(userTransfered);
+				usersFacade.edit(userTransferred);
 				userGroupsFacade.edit(selectedGroup);
 			}else{
-				//Remove group from user transfered
+				//Remove group from user transferred
 				//usersFacade.removeUserGroup(userTransfered, selectedGroup);
-				userTransfered = usersFacade.initializeLazyEntity(userTransfered);
-				userTransfered.getUserGroups().remove(selectedGroup);
+				userTransferred = usersFacade.initializeLazyEntity(userTransferred);
+				userTransferred.getUserGroups().remove(selectedGroup);
 
 				//Setting time and user that made changes
-				userTransfered.setUserCreated(authorizedUser);
+				userTransferred.setUserCreated(authorizedUser);
 				selectedGroup.setUserCreated(authorizedUser);
-				userTransfered.setDateCreated(new Date());
+				userTransferred.setDateCreated(new Date());
 				selectedGroup.setDateCreated(new Date());
-				usersFacade.edit(userTransfered);
+				usersFacade.edit(userTransferred);
 				userGroupsFacade.edit(selectedGroup);
 			}
 		}

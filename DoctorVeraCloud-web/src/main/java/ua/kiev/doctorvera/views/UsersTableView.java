@@ -27,15 +27,15 @@ import java.util.logging.Logger;
 @Named(value="usersTableView")
 @ViewScoped
 public class UsersTableView implements Serializable {
-	
+
 	private final static Logger LOG = Logger.getLogger(UserGroupsTableView.class.getName());
-	
+
 	@EJB
 	private UsersFacadeLocal usersFacade;
-	
+
 	@EJB
 	private UserGroupsFacadeLocal userGroupsFacade;
-	
+
 	@EJB
 	private AddressFacadeLocal addressFacade;
 
@@ -77,31 +77,32 @@ public class UsersTableView implements Serializable {
 	}
 
 	private Users selectedUser;
-	
-	public UsersTableView(){}
-	
+
+	public UsersTableView() {
+	}
+
 	//Model for picklist PrimeFaces widget
 	private DualListModel<UserGroups> userTypesDualListModel;
 
 	private String groupFilter;
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		authorizedUser = sessionParams.getAuthorizedUser();
 		allUsers = new UsersLazyModel();
 		allUserGroups = userGroupsFacade.initializeLazyEntity(userGroupsFacade.findAll());
-		for(UserGroups group : allUserGroups){
+		for (UserGroups group : allUserGroups) {
 			allUserGroupsNames.add(group.getName());
 		}
 		//System.out.println(addressFacade.toString());
 		constructPickList();
 	}
-	
-	public void constructPickList(){
-		if (selectedUser != null && selectedUser.getId() != null){
+
+	public void constructPickList() {
+		if (selectedUser != null && selectedUser.getId() != null) {
 			List<UserGroups> allTypes = userGroupsFacade.findAll();
 			List<UserGroups> targetUsers = userGroupsFacade.findByUser(selectedUser);
-			for(UserGroups userType : targetUsers){
+			for (UserGroups userType : targetUsers) {
 				allTypes.remove(userType);
 			}
 			userTypesDualListModel = new DualListModel<UserGroups>(allTypes, targetUsers);
@@ -142,7 +143,7 @@ public class UsersTableView implements Serializable {
 	public void setSelectedUser(Users selectedUser) {
 		this.selectedUser = selectedUser;
 	}
-	
+
 	public DualListModel<UserGroups> getUserTypesDualListModel() {
 		return userTypesDualListModel;
 	}
@@ -150,7 +151,7 @@ public class UsersTableView implements Serializable {
 	public void setUserTypesDualListModel(DualListModel<UserGroups> userTypesDualListModel) {
 		this.userTypesDualListModel = userTypesDualListModel;
 	}
-	
+
 	public void setAuthorizedUser(Users authorizedUser) {
 		this.authorizedUser = authorizedUser;
 	}
@@ -163,13 +164,15 @@ public class UsersTableView implements Serializable {
 		this.userGroupsFacade = userGroupsFacade;
 	}
 
-	public void deleteUser(){
-		addressFacade.remove(selectedUser.getAddress());
+	public void deleteUser() {
+		if (selectedUser.getAddress() != null) {
+			addressFacade.remove(selectedUser.getAddress());
+		}
 		usersFacade.remove(selectedUser);
 		//allUsers.remove(selectedUser);
 		final String successMessage = Message.getMessage("USERS_DELETE_CONFIRM_TITLE");
 		final String successTitle = Message.getMessage("USERS_DELETED");
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage));
 	}
 	
 	public boolean filterByBirthDate(Object value, Object filter, Locale locale) throws ParseException {
@@ -187,10 +190,8 @@ public class UsersTableView implements Serializable {
 	
 	//This method controls onTransfer event in the Pick List
 	public void onTransfer(TransferEvent event){
-
-		
 		//All Users from the right picker
-		List<UserGroups> targetList = userTypesDualListModel.getTarget();
+		Set<UserGroups> targetList = new HashSet<>(userTypesDualListModel.getTarget());
 		
 		//Indicates to add new group to user transferred or to remove group from user
 		Boolean addFlag = false;
@@ -211,39 +212,28 @@ public class UsersTableView implements Serializable {
 				selectedUser.getFirstName() + " " + selectedUser.getFirstName() +
 				Message.getMessage("USERS_REMOVE_SUCCESS_END") + " ";
 
-		//Iterating each transfered user
+		//Iterating each transferred user
 		for(Object userTypeObject : event.getItems()){
-			UserGroups userGroupTransfered=(UserGroups)userTypeObject;
+			UserGroups userGroupTransferred=(UserGroups)userTypeObject;
 			
 				//Constructing success message
-				successMessage += userGroupTransfered.getName() + ", ";
+				successMessage += userGroupTransferred.getName() + ", ";
 			
 			if(addFlag){
-				//Add group to user transfered
-				selectedUser.getUserGroups().add(userGroupTransfered);
-				
-				//Setting time and user that made changes
-				userGroupTransfered.setUserCreated(authorizedUser);
-				selectedUser.setUserCreated(authorizedUser);
-				userGroupTransfered.setDateCreated(new Date());
-				selectedUser.setDateCreated(new Date());
-
-				userGroupsFacade.edit(userGroupTransfered);
-				usersFacade.edit(selectedUser);
+				//Add group to user transferred
+				if(!selectedUser.getUserGroups().contains(userGroupTransferred)) {
+					selectedUser.getUserGroups().add(userGroupTransferred);
+				}
 			}else{
 				//Remove group from user transferred
-				selectedUser.getUserGroups().remove(userGroupTransfered);
-				
-				//Setting time and user that made changes
-				userGroupTransfered.setUserCreated(authorizedUser);
-				selectedUser.setUserCreated(authorizedUser);
-				userGroupTransfered.setDateCreated(new Date());
-				selectedUser.setDateCreated(new Date());
-
-				userGroupsFacade.edit(userGroupTransfered);
-				usersFacade.edit(selectedUser);
+				selectedUser.getUserGroups().remove(userGroupTransferred);
 			}
 		}
+
+		//Setting time and user that made changes
+		selectedUser.setUserCreated(authorizedUser);
+		selectedUser.setDateCreated(new Date());
+		selectedUser = usersFacade.edit(selectedUser);
 
 		LOG.info(successMessage);
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, successTitle, successMessage ));

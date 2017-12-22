@@ -522,7 +522,7 @@ public class ScheduleView implements Serializable {
         if (isValid) {
 
             if (isNew(patient)) { // Creating new user
-                createpatient(patient, authorizedUser);
+                createPatient(patient, authorizedUser);
                 //TODO send email
             }
 
@@ -580,7 +580,7 @@ public class ScheduleView implements Serializable {
 
         if (isValid) {
             if (isNew(patient)) { // Creating new user
-                createpatient(patient, authorizedUser);
+                createPatient(patient, authorizedUser);
                 //TODO send email with password
             }
 
@@ -720,7 +720,9 @@ public class ScheduleView implements Serializable {
 
             if (addFlag) {
                 //Add method to selected list
-                selectedMethods.add(methodTransfered);
+                if(!selectedMethods.contains(methodTransfered)) {
+                    selectedMethods.add(methodTransfered);
+                }
             } else {
                 //Remove method from selected list
                 selectedMethods.remove(methodTransfered);
@@ -827,16 +829,15 @@ public class ScheduleView implements Serializable {
     }
 
 
-    public void createpatient(Users patient, Users authorizedUser) {
+    public void createPatient(Users patient, Users authorizedUser) {
         patient.setDateCreated(new Date());
         patient.setUserCreated(authorizedUser);
         patient.setUsername(Utils.generateUsername(patient.getLastName(), patient.getFirstName()));
         patient.setPassword(RandomPasswordGenerator.generatePswd(8, 10, 2, 2, 1).toString());
         patient.setColor("2d862d");
         usersFacade.create(patient);
-        UserGroups patients = userGroupsFacade.initializeLazyEntity(userGroupsFacade.find(PATIENTS_TYPE_ID));
-        patients.getUsers().add(patient);
-        userGroupsFacade.edit(patients);
+        patient.setUserGroups(Arrays.asList(userGroupsFacade.find(PATIENTS_TYPE_ID)));
+        usersFacade.edit(patient);
     }
 
     public void createNewSchedule(Methods method, Date startTime) {
