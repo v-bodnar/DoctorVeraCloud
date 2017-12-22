@@ -2,14 +2,23 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+				xmlns:f="http://java.sun.com/jsf/core">
 	<ui:define name="title">
 		<h:outputText value="#{MESSAGE.PLAN_TITLE_FULL}" />
 	</ui:define>
 	<ui:define name="content">
 		<h:form id="planForm">
 			<p:growl id="growl" showDetail="true"/>
-		    
+
+			<!-- Doctor Filter -->
+			<p:selectOneMenu id="doctorFilter" value="#{planGeneralView.selectedDoctor}" converter="usersConverter"
+							 styleClass="mySelectOneMenu">
+				<f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true" />
+				<f:selectItems value="#{planGeneralView.allDoctors}" var="doctor" itemLabel="#{doctor.firstName} #{doctor.lastName}" />
+				<p:ajax event="change" oncomplete="PF('planSchedule').update();" listener="#{planGeneralView.filter}" />
+			</p:selectOneMenu>
+
 			<p:schedule id="planSchedule" value="#{planGeneralView.eventModel}" locale="ru" view="month" firstHour="6" slotMinutes="180"
                         minTime="7:00" maxTime="20:00" styleClass="planCalendar" timeZone="GMT+2" widgetVar="planSchedule" rightHeaderTemplate="month,agendaWeek"
 			allDaySlot="false" tooltip="true" columnFormat="dddd,DD, MMMM" ignoreTimezone="false">

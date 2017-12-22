@@ -4,9 +4,11 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.LazyScheduleModel;
 import org.primefaces.model.ScheduleModel;
+import ua.kiev.doctorvera.entities.Plan;
 import ua.kiev.doctorvera.entities.Rooms;
 import ua.kiev.doctorvera.entities.Schedule;
 import ua.kiev.doctorvera.entities.Users;
+import ua.kiev.doctorvera.facadeLocal.PlanFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.ScheduleFacadeLocal;
 import ua.kiev.doctorvera.facadeLocal.UsersFacadeLocal;
 import ua.kiev.doctorvera.resources.Config;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -36,6 +39,9 @@ public class ScheduleGeneralView implements Serializable {
 	private UsersFacadeLocal usersFacade;
 
 	@EJB
+	private PlanFacadeLocal planFacade;
+
+	@EJB
 	private ScheduleFacadeLocal scheduleFacade;
 
 	private Users authorizedUser;
@@ -46,28 +52,23 @@ public class ScheduleGeneralView implements Serializable {
 	//All Schedule Items
 	private List<Schedule> allSchedule;
 
+	//All Plan Items
+	private List<Plan> allPlan;
+
 	private ScheduleModel eventModel;
 
 	private String cssStyle;
+
+	private List<Users> allDoctors;
+
+	private Users selectedDoctor;
 
 	//Constructor)
 	@PostConstruct
 	public void init(){
 		authorizedUser = sessionParams.getAuthorizedUser();
-		//Schedule populating
-		eventModel = new LazyScheduleModel() {
-			private static final long serialVersionUID = 8535371059490008142L;
-
-			@Override
-			public void loadEvents(Date start, Date end) {
-
-				allSchedule = scheduleFacade.findByStartDateBetween(start, end);
-				for(Schedule schedule : allSchedule){
-					eventModel.addEvent(eventFromSchedule(schedule));
-				}
-
-			}
-		};
+		allDoctors = usersFacade.findByGroup(DOCTORS_USER_GROUP_ID);
+		loadEvents();
 		generateCss();
 	}
 
@@ -124,6 +125,84 @@ public class ScheduleGeneralView implements Serializable {
 		return newEvent;
 	}
 
+	//Creates Plan event from Plan record
+	private DefaultScheduleEvent eventFromPlan(Plan plan) {
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+		DefaultScheduleEvent newEvent = new DefaultScheduleEvent(
+				plan.getDoctor().getFirstName() + " " +
+						plan.getDoctor().getLastName() + " | " +
+						plan.getDescription(),
+				plan.getDateTimeStart(),
+				plan.getDateTimeEnd(),
+				plan);
+		newEvent.setDescription(
+				formatter.format(plan.getDateTimeStart()) + " - " +
+						formatter.format(plan.getDateTimeEnd()) + " | " +
+						plan.getDoctor().getFirstName() + " " +
+
+						plan.getDoctor().getLastName() + " | " +
+						plan.getRoom().getName() + " | " +
+						plan.getDescription()
+		);
+		newEvent.setStyleClass("fc-plan doc" + plan.getDoctor().getId());
+		return newEvent;
+	}
+
+	public void filter(){
+		if(selectedDoctor == null){
+			loadEvents();
+		}else {
+			//Schedule populating
+			eventModel = new LazyScheduleModel() {
+				private static final long serialVersionUID = 8535371059490008142L;
+
+				@Override
+				public void loadEvents(Date start, Date end) {
+
+					allPlan = planFacade.findByStartDateBetweenAndDoctor(start, end, selectedDoctor);
+					for (Plan plan : allPlan) {
+						eventModel.addEvent(eventFromPlan(plan));
+					}
+
+					allSchedule = scheduleFacade.findByEmployeeAndEndDateBetweenExclusiveFrom(selectedDoctor,start, end);
+					//remove unnecessary breaks
+					Iterator<Schedule> iter = allSchedule.iterator();
+					while(iter.hasNext()){
+						Schedule nextSchedule = iter.next();
+						if(nextSchedule.getParentSchedule() != null && !allSchedule.contains(nextSchedule.getParentSchedule())){
+							iter.remove();
+						}
+					}
+					for(Schedule schedule : allSchedule){
+						eventModel.addEvent(eventFromSchedule(schedule));
+					}
+
+				}
+			};
+		}
+	}
+
+	private void loadEvents(){
+		eventModel = new LazyScheduleModel() {
+			private static final long serialVersionUID = 8535371059490008142L;
+
+			@Override
+			public void loadEvents(Date start, Date end) {
+
+				allPlan = planFacade.findByStartDateBetween(start, end);
+				for (Plan plan : allPlan) {
+					eventModel.addEvent(eventFromPlan(plan));
+				}
+
+				allSchedule = scheduleFacade.findByStartDateBetween(start, end);
+				for(Schedule schedule : allSchedule){
+					eventModel.addEvent(eventFromSchedule(schedule));
+				}
+
+			}
+		};
+	}
+
 	private void generateCss(){
 		cssStyle = "<style>";
 		for(Users doctor : usersFacade.findByGroup(DOCTORS_USER_GROUP_ID))
@@ -158,5 +237,21 @@ public class ScheduleGeneralView implements Serializable {
 
 	public void setCssStyle(String cssStyle) {
 		this.cssStyle = cssStyle;
+	}
+
+	public List<Users> getAllDoctors() {
+		return allDoctors;
+	}
+
+	public void setAllDoctors(List<Users> allDoctors) {
+		this.allDoctors = allDoctors;
+	}
+
+	public Users getSelectedDoctor() {
+		return selectedDoctor;
+	}
+
+	public void setSelectedDoctor(Users selectedDoctor) {
+		this.selectedDoctor = selectedDoctor;
 	}
 }

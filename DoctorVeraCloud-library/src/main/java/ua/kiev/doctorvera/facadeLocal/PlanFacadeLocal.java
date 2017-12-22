@@ -32,6 +32,29 @@ public interface PlanFacadeLocal extends CRUDFacade<Plan> {
 
 
     /**
+     * Searches for all Plan records that have starting date between the given date range and provided by given doctor
+     *
+     * @param from - date to search from
+     * @param to   - date to search to
+     * @param doctor - doctor that provides research
+     * @return List<Plan> List of existing Plan records that are not marked as deleted
+     */
+    List<Plan> findByStartDateBetweenAndDoctor(Date from, Date to, Users doctor);
+
+    /**
+     * Searches for all Plan records that have starting date between the given date range
+     * and provided by given doctor and in specified room
+     *
+     * @param room - Room to search by
+     * @param from - date to search from
+     * @param to   - date to search to
+     * @param doctor - doctor that provides research
+     * @return List<Plan> List of existing Plan records that are not marked as deleted
+     */
+    List<Plan> findByStartDateBetweenAndDoctorAndRoom(Date from, Date to, Users doctor, Rooms room);
+
+
+    /**
      * Searches for Plan record that have starting date exactly the same as the given one
      *
      * @param date - date to search for

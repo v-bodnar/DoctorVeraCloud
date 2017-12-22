@@ -98,6 +98,17 @@ public interface ScheduleFacadeLocal  extends CRUDFacade<Schedule>{
      */
     List<Schedule> findByStartDateBetween(Date from, Date to);
 
+
+    /**
+     * Searches for all Schedule records that have starting date between the given date range
+     *
+     * @param from - date to search from
+     * @param to   - date to search to
+     * @param doctor - doctor that provides research
+     * @return List<Schedule> List of existing Schedule records that are not marked as deleted
+     */
+    List<Schedule> findByStartDateBetweenAndDoctorAndRoom(Date from, Date to, Users doctor, Rooms room);
+
     /**
      * Searches for all Schedule records that have starting date between the given date range
      * and are payed(payment exists for them)

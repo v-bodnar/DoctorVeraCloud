@@ -89,6 +89,8 @@ public class ScheduleView implements Serializable {
 
     private Users authorizedUser;
 
+    private Users selectedDoctor;
+
     private Rooms currentRoom;
 
     //Data for Schedule Form Autocomplete inputs
@@ -176,6 +178,11 @@ public class ScheduleView implements Serializable {
             allLastNames.add(user.getLastName());
         }
 
+        populateEvents();
+        generateCss();
+    }
+
+    public void populateEvents() {
         //Schedule populating
         eventModel = new LazyScheduleModel() {
             private static final long serialVersionUID = 8535371059490008142L;
@@ -183,27 +190,61 @@ public class ScheduleView implements Serializable {
             @Override
             public void loadEvents(Date start, Date end) {
                 if (currentRoom != null) { //for current room
-                    allPlan = planFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end);
-                    for (Plan plan : allPlan) {
-                        eventModel.addEvent(eventFromPlan(plan));
-                    }
-
-                    allSchedule = scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end);
-                    for (Schedule schedule : allSchedule) {
-                        DefaultScheduleEvent event = eventFromSchedule(schedule);
-                        if (isBreakSchedule(schedule)) {
-                            event.setEditable(false);
+                    if (selectedDoctor == null) {
+                        allPlan = planFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end);
+                        for (Plan plan : allPlan) {
+                            eventModel.addEvent(eventFromPlan(plan));
                         }
-                        eventModel.addEvent(event);
+
+                        allSchedule = scheduleFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end);
+                        for (Schedule schedule : allSchedule) {
+                            DefaultScheduleEvent event = eventFromSchedule(schedule);
+                            if (isBreakSchedule(schedule)) {
+                                event.setEditable(false);
+                            }
+                            eventModel.addEvent(event);
+                        }
+                    } else {
+                        allPlan = planFacade.findByStartDateBetweenAndDoctorAndRoom(start, end, selectedDoctor, currentRoom);
+                        for (Plan plan : allPlan) {
+                            eventModel.addEvent(eventFromPlan(plan));
+                        }
+                        allSchedule = scheduleFacade.findByStartDateBetweenAndDoctorAndRoom(start, end, selectedDoctor, currentRoom);
+
+                        //remove unnecessary breaks
+                        Iterator<Schedule> iter = allSchedule.iterator();
+                        while(iter.hasNext()){
+                            Schedule nextSchedule = iter.next();
+                            if(nextSchedule.getParentSchedule() != null && !allSchedule.contains(nextSchedule.getParentSchedule())){
+                                iter.remove();
+                            }
+                        }
+
+                        for (Schedule schedule : allSchedule) {
+                            DefaultScheduleEvent event = eventFromSchedule(schedule);
+                            if (isBreakSchedule(schedule)) {
+                                event.setEditable(false);
+                            }
+                            eventModel.addEvent(event);
+                        }
                     }
 
-                }else{ //for current user
+                } else { //for current user
                     allPlan = planFacade.findByDoctorAndStartDateBetweenExclusiveTo(authorizedUser, start, end);
                     for (Plan plan : allPlan) {
                         eventModel.addEvent(eventFromPlan(plan));
                     }
 
                     allSchedule = scheduleFacade.findByEmployeeAndStartDateBetweenExclusiveTo(authorizedUser, start, end);
+                    //remove unnecessary breaks
+                    Iterator<Schedule> iter = allSchedule.iterator();
+                    while(iter.hasNext()){
+                        Schedule nextSchedule = iter.next();
+                        if(nextSchedule.getParentSchedule() != null && !allSchedule.contains(nextSchedule.getParentSchedule())){
+                            iter.remove();
+                        }
+                    }
+
                     for (Schedule schedule : allSchedule) {
                         DefaultScheduleEvent event = eventFromSchedule(schedule);
                         if (isBreakSchedule(schedule)) {
@@ -214,7 +255,6 @@ public class ScheduleView implements Serializable {
                 }
             }
         };
-        generateCss();
     }
 
     /**
@@ -1137,5 +1177,13 @@ public class ScheduleView implements Serializable {
 
     public void setSendNotification(boolean sendNotification) {
         this.sendNotification = sendNotification;
+    }
+
+    public Users getSelectedDoctor() {
+        return selectedDoctor;
+    }
+
+    public void setSelectedDoctor(Users selectedDoctor) {
+        this.selectedDoctor = selectedDoctor;
     }
 }

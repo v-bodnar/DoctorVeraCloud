@@ -12,6 +12,14 @@
         <h:form id="scheduleForm">
             <p:growl id="growl" showDetail="true" severity="info,warn,error"/>
 
+            <!-- Doctor Filter -->
+            <p:selectOneMenu id="doctorFilter" value="#{scheduleView.selectedDoctor}" converter="usersConverter"
+                             styleClass="mySelectOneMenu">
+                <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true" />
+                <f:selectItems value="#{scheduleView.allDoctors}" var="doctor" itemLabel="#{doctor.firstName} #{doctor.lastName}" />
+                <p:ajax event="change" oncomplete="PF('schedule').update();" listener="#{scheduleView.populateEvents}" />
+            </p:selectOneMenu>
+
             <p:schedule id="schedule" value="#{scheduleView.eventModel}" locale="ru" view="agendaWeek" styleClass="scheduleCalendar" widgetVar="schedule"
                         rightHeaderTemplate="agendaDay,agendaWeek" scrollTime="7" minTime="7:00" maxTime="20:00" timeFormat="HH:mm"
                         allDaySlot="false" slotMinutes="15" columnFormat="dddd,DD, MMMM" tooltip="true" ignoreTimezone="false" timeZone="GMT+2" >

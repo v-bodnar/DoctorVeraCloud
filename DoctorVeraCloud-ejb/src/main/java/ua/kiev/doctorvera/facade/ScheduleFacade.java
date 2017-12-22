@@ -193,6 +193,28 @@ public class ScheduleFacade extends AbstractFacade<Schedule> implements Schedule
     }
     /**
      * Searches for all Schedule records that have starting date between the given date range
+     *
+     * @param from - date to search from
+     * @param to   - date to search to
+     * @param doctor - doctor that provides research
+     * @return List<Schedule> List of existing Schedule records that are not marked as deleted
+     */
+    @Override
+    public List<Schedule> findByStartDateBetweenAndDoctorAndRoom(Date from, Date to, Users doctor, Rooms room){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Schedule> cq = cb.createQuery(Schedule.class);
+        Root<Schedule> root = cq.from(Schedule.class);
+        Predicate roomPredicate = cb.and(cb.equal(root.<Rooms>get("room"), room));
+        Predicate breakPredicate = cb.and(cb.equal(root.<Users>get("doctor"), usersFacade.find(USERS_BREAK_ID)));
+        Predicate doctorPredicate = cb.and(cb.equal(root.get("doctor"), doctor));
+        Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTimeStart"), from, to));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(datePredicate, deletedPredicate, cb.or(doctorPredicate,breakPredicate), roomPredicate);
+        cq.distinct(true);
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+    /**
+     * Searches for all Schedule records that have starting date between the given date range
      * and are payed(payment exists for them)
      *
      * @param from - date to search from

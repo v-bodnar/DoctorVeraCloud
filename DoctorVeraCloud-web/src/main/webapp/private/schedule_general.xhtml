@@ -2,7 +2,8 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="title">
         <h:outputText value="#{MESSAGE.SCHEDULE_TITLE_FULL}"/>
@@ -11,6 +12,14 @@
     <ui:define name="content">
         <h1><h:outputText value="#{MESSAGE.SCHEDULE_ALL_ROOMS}"/></h1>
         <h:form id="scheduleForm">
+
+            <!-- Doctor Filter -->
+            <p:selectOneMenu id="doctorFilter" value="#{scheduleGeneralView.selectedDoctor}" converter="usersConverter"
+                             styleClass="mySelectOneMenu">
+                <f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true" />
+                <f:selectItems value="#{scheduleGeneralView.allDoctors}" var="doctor" itemLabel="#{doctor.firstName} #{doctor.lastName}" />
+                <p:ajax event="change" oncomplete="PF('schedule').update();" listener="#{scheduleGeneralView.filter}" />
+            </p:selectOneMenu>
 
             <p:schedule id="schedule" value="#{scheduleGeneralView.eventModel}" locale="ru" view="agendaWeek" firstHour="7"
                         minTime="7:00" maxTime="20:00" styleClass="scheduleCalendar" timeZone="GMT+2" widgetVar="schedule" ignoreTimezone="false"

@@ -53,6 +53,8 @@ public class PlanView implements Serializable {
 	@Inject
 	private PlanValidator planValidator;
 
+	private Users selectedDoctor;
+
 	private Users authorizedUser;
 
     private Rooms currentRoom;
@@ -77,23 +79,46 @@ public class PlanView implements Serializable {
 	public void init(){
 		authorizedUser = sessionParams.getAuthorizedUser();
 		currentRoom = sessionParams.getPlanRoom();
-		eventModel = new LazyScheduleModel() {
-			private static final long serialVersionUID = 8535371059490008142L;
-
-			@Override
-            public void loadEvents(Date start, Date end) {
-				allPlan = planFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end);
-				for(Plan plan : allPlan){
-					eventModel.addEvent(eventFromPlan(plan));
-				}
-
-			}  
-		};
+		loadEvents();
         generateCss();
 		allRooms = roomsFacade.findAll();
 		allDoctors = usersFacade.findByGroup(DOCTORS_USER_GROUP_ID);
 		plan = new Plan();
 		//colorize();
+	}
+
+	public void filter(){
+		if(selectedDoctor != null) {
+			eventModel = new LazyScheduleModel() {
+				private static final long serialVersionUID = 8535371059490008142L;
+
+				@Override
+				public void loadEvents(Date start, Date end) {
+					allPlan = planFacade.findByStartDateBetweenAndDoctorAndRoom(start, end, selectedDoctor, currentRoom);
+					for (Plan plan : allPlan) {
+						eventModel.addEvent(eventFromPlan(plan));
+					}
+
+				}
+			};
+		}else{
+			loadEvents();
+		}
+	}
+
+	private void loadEvents(){
+		eventModel = new LazyScheduleModel() {
+			private static final long serialVersionUID = 8535371059490008142L;
+
+			@Override
+			public void loadEvents(Date start, Date end) {
+				allPlan = planFacade.findByRoomAndStartDateBetweenExclusiveTo(currentRoom, start, end);
+				for(Plan plan : allPlan){
+					eventModel.addEvent(eventFromPlan(plan));
+				}
+
+			}
+		};
 	}
 	
 	
@@ -339,6 +364,14 @@ public class PlanView implements Serializable {
             cssStyle += ".doc" + doctor.getId() + "{background-color: #" + doctor.getColor() + "}";
         cssStyle += "</style>";
     }
+
+	public Users getSelectedDoctor() {
+		return selectedDoctor;
+	}
+
+	public void setSelectedDoctor(Users selectedDoctor) {
+		this.selectedDoctor = selectedDoctor;
+	}
 
     /*
     public void colorize(){

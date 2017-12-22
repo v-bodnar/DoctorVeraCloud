@@ -13,6 +13,14 @@
 
 			<p:growl id="growl" showDetail="true"/>
 
+			<!-- Doctor Filter -->
+			<p:selectOneMenu id="doctorFilter" value="#{planView.selectedDoctor}" converter="usersConverter"
+							 styleClass="mySelectOneMenu">
+				<f:selectItem itemLabel="#{MESSAGE.APPLICATION_SELECT_ONE}" itemValue="#{null}" noSelectionOption="true" />
+				<f:selectItems value="#{planView.allDoctors}" var="doctor" itemLabel="#{doctor.firstName} #{doctor.lastName}" />
+				<p:ajax event="change" oncomplete="PF('planSchedule').update();" listener="#{planView.filter}" />
+			</p:selectOneMenu>
+
 			<p:schedule id="planSchedule" value="#{planView.eventModel}" locale="ru" view="agendaWeek" scrollTime="7" slotMinutes="30"
 						minTime="7:00" maxTime="20:00" styleClass="planCalendar"  widgetVar="planSchedule" rightHeaderTemplate="month,agendaWeek"
 			allDaySlot="false" tooltip="true" columnFormat="dddd,DD, MMMM" ignoreTimezone="false" timeFormat="HH:mm" timeZone="GMT+2">

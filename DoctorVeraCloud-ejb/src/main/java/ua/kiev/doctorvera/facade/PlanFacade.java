@@ -49,6 +49,54 @@ public class PlanFacade extends AbstractFacade<Plan> implements PlanFacadeLocal 
     }
 
     /**
+     * Searches for all Plan records that have starting date between the given date range and provided by given doctor
+     *
+     * @param from - date to search from
+     * @param to   - date to search to
+     * @param doctor - doctor that provides research
+     * @return List<Plan> List of existing Plan records that are not marked as deleted
+     */
+    @Override
+    public List<Plan> findByStartDateBetweenAndDoctor(Date from, Date to, Users doctor){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Plan> cq = cb.createQuery(Plan.class);
+        Root<Plan> root = cq.from(Plan.class);
+        Predicate doctorPredicate = cb.and(cb.equal(root.get("doctor"), doctor));
+        Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTimeStart"), from, to));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(datePredicate, deletedPredicate, doctorPredicate);
+        cq.distinct(true);
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
+    /**
+     * Searches for all Plan records that have starting date between the given date range
+     * and provided by given doctor and in specified room
+     *
+     * @param room - Room to search by
+     * @param from - date to search from
+     * @param to   - date to search to
+     * @param doctor - doctor that provides research
+     * @return List<Plan> List of existing Plan records that are not marked as deleted
+     */
+    @Override
+    public List<Plan> findByStartDateBetweenAndDoctorAndRoom(Date from, Date to, Users doctor, Rooms room){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Plan> cq = cb.createQuery(Plan.class);
+        Root<Plan> root = cq.from(Plan.class);
+        Predicate doctorPredicate = cb.and(cb.equal(root.get("doctor"), doctor));
+        Predicate roomPredicate = cb.and(cb.equal(root.<Rooms>get("room"), room));
+        Predicate datePredicate = cb.and(cb.between(root.<Date>get("dateTimeStart"), from, to));
+        Predicate datePredicate2 = cb.and(cb.notEqual(root.<Date>get("dateTimeStart"), to));
+        Predicate deletedPredicate = cb.and(cb.isFalse(root.<Boolean>get("deleted")));
+        cq.select(root).where(datePredicate, datePredicate2, deletedPredicate, roomPredicate, doctorPredicate);
+        cq.distinct(true);
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
+
+
+    /**
      * Searches for Plan record that have starting date exactly the same as the given one
      *
      * @param date - date to search for

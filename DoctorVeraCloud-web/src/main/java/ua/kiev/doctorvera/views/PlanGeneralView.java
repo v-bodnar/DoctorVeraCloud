@@ -45,23 +45,17 @@ public class PlanGeneralView implements Serializable {
 	private ScheduleModel eventModel;
 	
     private String cssStyle;
+
+	private List<Users> allDoctors;
+
+	private Users selectedDoctor;
 	
 	public PlanGeneralView(){}
 	
 	@PostConstruct
 	public void init(){
-		eventModel = new LazyScheduleModel() {
-			private static final long serialVersionUID = 8535371059490008142L;
-
-			@Override
-            public void loadEvents(Date start, Date end) {
-				allPlan = planFacade.findByStartDateBetween(start, end);
-				for(Plan plan : allPlan){
-					eventModel.addEvent(eventFromPlan(plan));
-				}
-
-			}  
-		};
+		loadEvents();
+		allDoctors = usersFacade.findByGroup(DOCTORS_TYPE_ID);
         generateCss();
 	}
 	
@@ -89,6 +83,40 @@ public class PlanGeneralView implements Serializable {
 		newEvent.setEditable(false);
     	return newEvent;
     }
+
+    public void filter(){
+    	if(selectedDoctor != null) {
+			eventModel = new LazyScheduleModel() {
+				private static final long serialVersionUID = 8535371059490008142L;
+
+				@Override
+				public void loadEvents(Date start, Date end) {
+					allPlan = planFacade.findByStartDateBetweenAndDoctor(start, end, selectedDoctor);
+					for (Plan plan : allPlan) {
+						eventModel.addEvent(eventFromPlan(plan));
+					}
+
+				}
+			};
+		}else{
+			loadEvents();
+		}
+	}
+
+	private void loadEvents(){
+		eventModel = new LazyScheduleModel() {
+			private static final long serialVersionUID = 8535371059490008142L;
+
+			@Override
+			public void loadEvents(Date start, Date end) {
+				allPlan = planFacade.findByStartDateBetween(start, end);
+				for(Plan plan : allPlan){
+					eventModel.addEvent(eventFromPlan(plan));
+				}
+
+			}
+		};
+	}
 	
     private void generateCss(){
         cssStyle = "<style>";
@@ -124,5 +152,21 @@ public class PlanGeneralView implements Serializable {
     
     public void setSessionParams(SessionParams sessionParams) {
 		this.sessionParams = sessionParams;
+	}
+
+	public List<Users> getAllDoctors() {
+		return allDoctors;
+	}
+
+	public void setAllDoctors(List<Users> allDoctors) {
+		this.allDoctors = allDoctors;
+	}
+
+	public Users getSelectedDoctor() {
+		return selectedDoctor;
+	}
+
+	public void setSelectedDoctor(Users selectedDoctor) {
+		this.selectedDoctor = selectedDoctor;
 	}
 }
