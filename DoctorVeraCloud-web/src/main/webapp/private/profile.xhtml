@@ -144,7 +144,7 @@
 						<p:column><span class="ui-icon ui-icon-pencil" style="margin-right:5px;display: inline-block"/>
 						<p:inplace  editor="true" emptyLabel="#{MESSAGE.USERS_PLACEHOLDER_PHONE_NUMBER_MOBILE}"
 									disabled="#{!userProfileView.checkPermission('PROFILE_EDIT_PHONE_NUMBER')}">
-							<p:inputMask value="#{userProfileView.user.phoneNumberMobile}" id="phoneNumberMobile" name="phoneNumberMobile" mask="(999)999-99-99" validator="#{usersValidator.validate}" rendered="#{!userProfileView.user.foreigner}">
+							<p:inputMask value="#{userProfileView.user.phoneNumberMobile}" id="phoneNumberMobile" name="phoneNumberMobile" mask="+38(999)999-99-99" validator="#{usersValidator.validate}" rendered="#{!userProfileView.user.foreigner}">
 								<f:attribute name="name" value="phoneNumberMobile" />
 							</p:inputMask>
 							<p:inputMask value="#{userProfileView.user.phoneNumberMobile}" id="phoneNumberMobileInternational" name="phoneNumberMobileInternational" mask="9?999999999999" validator="#{usersValidator.validate}" rendered="#{userProfileView.user.foreigner}">
