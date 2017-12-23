@@ -92,7 +92,7 @@ public class SecurityUtils implements Serializable{
         mappedPagesToPolicies.put(SEND_SMS_PAGE_URL, SecurityPolicy.MENU_ITEM_SEND_SMS);
         mappedPagesToPolicies.put(ROOMS_PAGE_URL, SecurityPolicy.MENU_ITEM_ROOMS);
         mappedPagesToPolicies.put(PLAN_PAGE_URL, SecurityPolicy.MENU_ITEM_MAIN);
-        mappedPagesToPolicies.put(METHODS_PAGE_URL, SecurityPolicy.MENU_ITEM_PLAN);
+        mappedPagesToPolicies.put(METHODS_PAGE_URL, SecurityPolicy.MENU_ITEM_METHODS);
         mappedPagesToPolicies.put(PAYMENTS_PAGE_URL, SecurityPolicy.MENU_ITEM_PAYMENTS);
         mappedPagesToPolicies.put(SCHEDULE_PAGE_URL, SecurityPolicy.MENU_ITEM_SCHEDULE);
         mappedPagesToPolicies.put(SCHEDULE_GENERAL_PAGE_URL, SecurityPolicy.MENU_ITEM_SCHEDULE_GENERAL);
