@@ -14,5 +14,11 @@ Class-Path: hibernate-entitymanager-4.3.5.Final.jar jboss-logging-3.1.
  i-2.2.jar cdi-api-1.2.jar javax.el-api-3.0.0.jar javax.interceptor-ap
  i-1.2.jar javax.inject-1.jar joda-time-2.8.1.jar itextpdf-5.5.6.jar p
  rimefaces-5.3-SNAPSHOT-patched.jar primefaces-5.2.jar resources-ckedi
- tor-4.0.0.jar
+ tor-4.0.0.jar primefaces-5.3.jar primefaces-extensions-4.0.0.jar gson
+ -2.2.4.jar commons-lang3-3.1.jar commons-logging-1.2.jar javax.faces-
+ 2.2.8.jar rome-1.0.jar jdom-1.0.jar javaee-api-7.0.jar javax.mail-1.5
+ .0.jar activation-1.1.jar poi-3.13.jar commons-codec-1.9.jar poi-ooxm
+ l-3.13.jar poi-ooxml-schemas-3.13.jar poi-scratchpad-3.13.jar xmlbean
+ s-2.6.0.jar stax-api-1.0.1.jar commons-fileupload-1.3.1.jar commons-i
+ o-2.4.jar
 

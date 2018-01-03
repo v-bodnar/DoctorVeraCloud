@@ -14,11 +14,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 @Named(value="userLoginView")
 @ViewScoped
 public class UserLoginView implements Serializable {
-	@EJB
+    private final static Logger LOG = Logger.getLogger(UserGroupsTableView.class.getName());
+
+    @EJB
 	private UsersFacadeLocal usersFacade;
 	
     private Users incomingUser = new Users();
@@ -86,12 +89,18 @@ public class UserLoginView implements Serializable {
         //securityUtils.isAlreadySynchronized();
         RequestContext requestContext = RequestContext.getCurrentInstance();
         FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
         FacesMessage message = null;
         boolean loggedIn = false;
         sessionParams.setAuthorizedUser(usersFacade.findByCred(incomingUser.getUsername(), incomingUser.getPassword()));
 
         if(incomingUser.getUsername() != null && incomingUser.getPassword() != null && sessionParams.getAuthorizedUser() != null) {
             loggedIn = true;
+            LOG.info("User " + incomingUser.getUsername() + " has logged in! IP: " + ipAddress);
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, WELCOME_MESSAGE_TITLE, WELCOME_MESSAGE + sessionParams.getAuthorizedUser().getFirstName() + " " + sessionParams.getAuthorizedUser().getLastName());
         } else {
             loggedIn = false;
