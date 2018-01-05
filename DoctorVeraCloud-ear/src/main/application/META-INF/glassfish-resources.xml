@@ -1,33 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_7.dtd">
 <resources>
-	<!--<jdbc-connection-pool name="testPool"-->
-		<!--datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"-->
-		<!--res-type="javax.sql.DataSource">-->
-		<!--<property name="driverClass" value="com.mysql.jdbc.Driver" />-->
-		<!--&lt;!&ndash;property name="URL" value="jdbc:mysql://127.2.81.130:3306/DrVera" /&ndash;&gt;-->
-		<!--&lt;!&ndash;property name="URL" value="jdbc:mysql://127.9.142.2:3306/DrVera" /&ndash;&gt;-->
-		<!--<property name="URL" value="jdbc:mysql://localhost:3306/DrVera?useUnicode=true&amp;characterEncoding=UTF-8&amp;allowMultiQueries=true" />-->
-		<!--<property name="user" value="bodnar" />-->
-		<!--<property name="password" value="6215891" />-->
-		<!--<property name="characterEncoding" value="UTF-8" />-->
-		<!--<property name="characterSetResults" value="UTF-8" />-->
-		<!--<property name="useUnicode" value="true" />-->
-	<!--</jdbc-connection-pool>-->
-
-	<!--<jdbc-resource enabled="true" jndi-name="java:app/jdbc/OpenshiftDoctorVera"-->
-		<!--object-type="user" pool-name="testPool" />-->
-
-	<!--<admin-object-resource enabled="true" jndi-name="jms/myDestination"  res-type="javax.jms.Topic"  res-adapter="jmsra">-->
-		<!--<property name="Name" value="PhysicalTopic"/>-->
-	<!--</admin-object-resource>-->
-	<!--<connector-connection-pool name="jms/myDestinationFactoryPool"  connection-definition-name="javax.jms.TopicConnectionFactory"  resource-adapter-name="jmsra"/>-->
-	<!--<connector-resource enabled="true" jndi-name="jms/myDestinationFactory" pool-name="jms/myDestinationFactoryPool"  />-->
 	<jdbc-connection-pool name="drveraPool" res-type="javax.sql.DataSource" datasource-classname="org.postgresql.ds.PGPoolingDataSource">
-		<property name="URL" value="jdbc:postgresql://localhost:5432/DrVera"/>
-		<property name="User" value="postgres"/>
-		<property name="Password" value="Aq1sw2de3"/>
-		<property name="DatabaseName" value="DrVera"/>
+		<property name="URL" value="jdbc:postgresql://xxxx/xxx"/>
+		<property name="User" value="xxxxx"/>
+		<property name="Password" value="xxxxx"/>
+		<property name="DatabaseName" value="drvera"/>
 		<property name="driverClass" value="org.postgresql.Driver"/>
 		<property name="hibernate.connection.CharSet" value="utf8"/>
 		<property name="hibernate.connection.characterEncoding" value="utf8"/>

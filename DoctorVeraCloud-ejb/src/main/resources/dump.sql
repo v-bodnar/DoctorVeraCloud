@@ -808,13 +808,13 @@ INSERT INTO messagebundle
 ('833', '2016-01-23 14:46:09.0', false, 'SECURITY_POLICY_STATISTICS_FINANCIAL', '0', 'Финансовая статистика', '1', '1'),
 ('834', '2016-01-23 14:46:09.0', false, 'SECURITY_POLICY_STATISTICS_APPOINTMENTS', '0', 'Статистика приемов', '1', '1'),
 ('835', '2016-01-23 14:46:09.0', false, 'SECURITY_POLICY_STATISTICS_METHODS', '0', 'Статистика по методам исседований', '1', '1'),
-('836'	'2017-12-23 12:54:05.0', false	'MDS_DOCTORS_NOTIFICATION_IS_ACTIVE',	'0',	'Активно', '1', '1'),
-('837'	'2017-12-23 13:26:31.0', false	'MDS_DOCTORS_NOTIFICATION_TIME',	'0',	'Время отправки сообщений персоналу', '1', '1'),
-('838'	'2017-12-23 13:28:31.0', false	'MDS_DOCTORS_NOTIFICATION_IS_ACTIVE',	'1',	true, '1', '1'),
-('839'	'2017-12-23 13:33:04.0', false	'MDS_SMS_GATEWAY_STATUS_REQUEST_URL',	'0',	'Status url', '1', '1'),
-('841'	'2017-12-23 13:54:36.0', false	'MDS_TRANSACTION_DETAILS_SCHEDULE',	'0',	'Отправлено при записи пациента', '1', '1'),
-('842'	'2017-12-23 14:12:28.0', false	'SMS_GATEWAY_STATUS_REQUEST_URL',	'1',	'https://api.life.com.ua/ip2sms/', NULL, '1'),
-('843'	'2017-12-23 14:55:33.0', false	'SMTP_PASSWORD',	'1',	'nenimdada6215891', NULL, '1');
+('836',	'2017-12-23 12:54:05.0', false,	'MDS_DOCTORS_NOTIFICATION_IS_ACTIVE',	'0',	'Активно', '1', '1'),
+('837',	'2017-12-23 13:26:31.0', false,	'MDS_DOCTORS_NOTIFICATION_TIME',	'0',	'Время отправки сообщений персоналу', '1', '1'),
+('838',	'2017-12-23 13:28:31.0', false,	'MDS_DOCTORS_NOTIFICATION_IS_ACTIVE',	'1',	true, '1', '1'),
+('839',	'2017-12-23 13:33:04.0', false,	'MDS_SMS_GATEWAY_STATUS_REQUEST_URL',	'0',	'Status url', '1', '1'),
+('841',	'2017-12-23 13:54:36.0', false,	'MDS_TRANSACTION_DETAILS_SCHEDULE',	'0',	'Отправлено при записи пациента', '1', '1'),
+('842',	'2017-12-23 14:12:28.0', false,	'SMS_GATEWAY_STATUS_REQUEST_URL',	'1',	'https://api.life.com.ua/ip2sms/', NULL, '1'),
+('843',	'2017-12-23 14:55:33.0', false,	'SMTP_PASSWORD',	'1',	'nenimdada6215891', NULL, '1');
 INSERT INTO messagetemplate
  (MessageTemplateId, Content, DateCreated, Deleted, Description, Name, System, Type, UserCreated) VALUES
 ('1', '<div id="header" style="

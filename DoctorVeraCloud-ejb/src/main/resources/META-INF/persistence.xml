@@ -32,7 +32,7 @@
 				<property name="hibernate.show_sql" value ="false" />
 				<property name="hibernate.hbm2ddl.auto" value="update"/>
 				<property name="hibernate.jdbc.use_streams_for_binary" value="false"/>
-				<property name="javax.persistence.jdbc.schema" value="DrVera" />
+				<property name="javax.persistence.jdbc.schema" value="public" />
 		</properties>
 	</persistence-unit>
 </persistence>
