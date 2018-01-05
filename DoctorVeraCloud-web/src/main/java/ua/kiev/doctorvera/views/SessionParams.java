@@ -92,6 +92,7 @@ public class SessionParams implements Serializable {
     }
 
     public void setAuthorizedUser(Users authorizedUser) {
+        if(authorizedUser == null) return;
         this.authorizedUser = authorizedUser;
         if(currentLocale == null){
             setDefaultLocale();
