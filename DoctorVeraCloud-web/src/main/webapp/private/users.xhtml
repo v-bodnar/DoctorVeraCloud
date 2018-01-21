@@ -82,7 +82,7 @@
                 <p:column headerText="#{MESSAGE.USERS_BIRTH_DATE}" sortBy="#{user.birthDate}"
                           filterBy="#{user.birthDate}" >
                     <f:facet name="filter">
-                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" id="birthDateFilter">
+                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" id="birthDateFilter" navigator="true">
                             <p:ajax event="dateSelect" oncomplete="PF('usersTable').filter()"/>
                         </p:calendar>
                     </f:facet>

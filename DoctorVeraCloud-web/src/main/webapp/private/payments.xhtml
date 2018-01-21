@@ -50,7 +50,7 @@
 				<p:column headerText="#{MESSAGE.PAYMENTS_DATE_TIME}"
 					sortBy="#{payment.dateCreated}" filterBy="#{payment.dateCreated}" filterFunction="#{paymentsView.filterByDate}">
 					<f:facet name="filter" filterMatchMode="contains">
-						<p:calendar pattern="yyyy-MM-dd" styleClass="calendarFilter" id="paymentDateFilter">
+						<p:calendar pattern="yyyy-MM-dd" styleClass="calendarFilter" id="paymentDateFilter" navigator="true">
 							<p:ajax event="dateSelect" oncomplete="PF('paymentsTable').filter()"/>
 						</p:calendar>
 					</f:facet>

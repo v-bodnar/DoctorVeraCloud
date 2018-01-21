@@ -15,13 +15,13 @@
                 <h:outputLabel for="dateStart" value=" #{MESSAGE.SALARY_FROM} "/>
 
                 <p:calendar value="#{statisticsView.startDate}"
-                            id="dateStart" pattern="dd-MM-yyyy" styleClass="myTextField">
+                            id="dateStart" pattern="dd-MM-yyyy" styleClass="myTextField" navigator="true">
                     <p:ajax event="dateSelect" />
                 </p:calendar>
 
                 <h:outputLabel for="dateEnd" value=" #{MESSAGE.SALARY_TO} "/>
                 <p:calendar value="#{statisticsView.endDate}"
-                            id="dateEnd" pattern="dd-MM-yyyy" styleClass="myTextField">
+                            id="dateEnd" pattern="dd-MM-yyyy" styleClass="myTextField" navigator="true">
                     <p:ajax event="dateSelect"/>
                 </p:calendar>
 

@@ -87,7 +87,7 @@
 				                <h:outputText for="birthDate" value="#{userProfileView.user.birthDate}">
 				                	<f:convertDateTime type="date" pattern="dd-MM-yyyy"/></h:outputText>
 				            </f:facet>
-							<p:calendar value="#{userProfileView.user.birthDate}" id="birthDate" name="birthDate" pattern="dd-MM-yyyy">
+							<p:calendar value="#{userProfileView.user.birthDate}" id="birthDate" name="birthDate" pattern="dd-MM-yyyy" navigator="true">
 							</p:calendar>
 							<p:ajax event="save" update="birthDateMessage growl" listener="#{userProfileView.save}"/>
 						</p:inplace></p:column>

@@ -24,7 +24,7 @@
                 <p:column headerText="#{MESSAGE.ENTITY_DATE_CREATED}"
                           filterBy="#{transaction.dateCreated}" sortBy="#{transaction.dateCreated}">
                     <f:facet name="filter">
-                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter">
+                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" navigator="true">
                             <p:ajax event="dateSelect" oncomplete="PF('deliveryLogsTable').filter()"/>
                         </p:calendar>
                     </f:facet>

@@ -164,7 +164,8 @@
                             <p:calendar id="dateTimeStart" value="#{scheduleView.schedule.dateTimeStart}"
                                         required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
                                         requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
-                                        validator="#{scheduleValidator.validateStartDate}">
+                                        validator="#{scheduleValidator.validateStartDate}"
+                                        navigator="true">
                                 <f:attribute name="schedule" value="#{scheduleView.schedule}"/>
                                 <p:ajax event="dateSelect" update="dateTimeStartMessage growl"/>
                             </p:calendar>
@@ -327,7 +328,8 @@
                     <h:outputLabel for="dateTimeStart" value="#{MESSAGE.PLAN_TIME_START}"/>
                     <p:calendar id="dateTimeStart" value="#{scheduleView.plan.dateTimeStart}"
                                 required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
-                                requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                                navigator="true">
                         <f:attribute name="name" value="dateTimeStart" />
                         <p:ajax event="blur" update="dateTimeStartMessage" />
                     </p:calendar>
@@ -336,7 +338,7 @@
                     <h:outputLabel for="dateTimeEnd" value="#{MESSAGE.PLAN_TIME_END}"/>
                     <p:calendar id="dateTimeEnd" value="#{scheduleView.plan.dateTimeEnd}"
                                 required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
-                                requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" navigator="true">
                         <f:attribute name="name" value="dateTimeEnd" />
                         <p:ajax event="blur" update="dateTimeStartMessage" />
                     </p:calendar>

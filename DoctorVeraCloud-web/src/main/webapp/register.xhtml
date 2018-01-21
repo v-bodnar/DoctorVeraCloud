@@ -84,6 +84,7 @@
 					<!-- Birth Date -->
 					<h:outputLabel for="birthDate" value="#{MESSAGE.USERS_BIRTH_DATE}" />
 					<p:calendar value="#{userRegisterView.user.birthDate}"
+								navigator="true"
 						id="birthDate" name="birthDate" pattern="dd-MM-yyyy"
 						required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
 						<p:ajax event="change" update="birthDateMessage growl" />

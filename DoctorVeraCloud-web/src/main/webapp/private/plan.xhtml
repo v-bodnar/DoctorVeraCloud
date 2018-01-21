@@ -38,7 +38,7 @@
 				<h:panelGrid  id="addPlanGrid" columns="3" cellpadding="5">
 				
 					<h:outputLabel for="dateTimeStart" value="#{MESSAGE.PLAN_TIME_START}" />
-        			<p:calendar id="dateTimeStart" value="#{planView.plan.dateTimeStart}" 
+        			<p:calendar id="dateTimeStart" value="#{planView.plan.dateTimeStart}"  navigator="true"
         				required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
 						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
 						<p:ajax event="blur" update="dateTimeStartMessage" />
@@ -46,7 +46,7 @@
 					<p:message for="dateTimeStart" id="dateTimeStartMessage" />
 
 					<h:outputLabel for="dateTimeEnd" value="#{MESSAGE.PLAN_TIME_END}" />
-        			<p:calendar id="dateTimeEnd" value="#{planView.plan.dateTimeEnd}"
+        			<p:calendar id="dateTimeEnd" value="#{planView.plan.dateTimeEnd}" navigator="true"
         				required="true" pattern="dd-MM-yyyy HH:mm" minHour="7" maxHour="20"
 						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
 						<p:ajax event="blur" update="dateTimeStartMessage" process="@this" />

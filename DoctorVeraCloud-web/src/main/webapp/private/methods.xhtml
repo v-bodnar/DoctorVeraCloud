@@ -257,7 +257,7 @@
 					<!-- Price Date -->
 					<h:outputLabel for="priceDate"
 						value="#{MESSAGE.METHODS_PRICE_DATE}" />
-					<p:calendar  id="priceDate" pattern="dd-MM-yyyy"
+					<p:calendar  id="priceDate" pattern="dd-MM-yyyy" navigator="true"
 						value="#{methodsView.price.dateTime}" required="true"
 						requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" 
 						validator="#{priceValidator.validate}"

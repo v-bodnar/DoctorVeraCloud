@@ -25,7 +25,7 @@
                 <p:column  headerText="#{MESSAGE.PAYMENTS_DATE_TIME}" sortBy="#{schedule.dateTimeStart}"
                            filterBy="#{schedule.dateTimeStart}" filterMatchMode="contains" filterFunction="#{salaryView.filterByDate}">
                     <f:facet name="filter">
-                        <p:calendar pattern="yyyy-MM-dd" styleClass="calendarFilter" id="dateStartFilter">
+                        <p:calendar pattern="yyyy-MM-dd" styleClass="calendarFilter" id="dateStartFilter" navigator="true">
                             <p:ajax event="dateSelect" oncomplete="PF('salaryTable').filter()"/>
                         </p:calendar>
                     </f:facet>
@@ -120,14 +120,16 @@
 
                     <p:calendar value="#{salaryView.dateStart}"
                                 id="dateStart"  pattern="dd-MM-yyyy" styleClass="myTextField"
-                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                                navigator="true">
                         <p:ajax event="dateSelect" update=":salaryForm:growl"/>
                     </p:calendar>
 
                     <h:outputLabel for="dateEnd" value=" #{MESSAGE.SALARY_TO} " />
                     <p:calendar value="#{salaryView.dateEnd}"
                                 id="dateEnd"  pattern="dd-MM-yyyy" styleClass="myTextField"
-                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}">
+                                required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}"
+                                navigator="true">
                         <p:ajax event="dateSelect" update=":salaryForm:growl"/>
                     </p:calendar>
 

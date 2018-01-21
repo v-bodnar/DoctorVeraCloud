@@ -83,7 +83,7 @@
                           sortBy="#{scheduler.dateStart}" filterBy="#{scheduler.dateStart}"
                           filterFunction="#{messageSchedulerView.filterByDate}">
                     <f:facet name="filter">
-                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" style="width:100px;" id="startDateFilter">
+                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" style="width:100px;" id="startDateFilter" navigator="true">
                             <p:ajax event="dateSelect" oncomplete="PF('messageSchedulerTable').filter()"/>
                         </p:calendar>
                     </f:facet>
@@ -97,7 +97,7 @@
                           sortBy="#{scheduler.dateEnd}" filterBy="#{scheduler.dateEnd}"
                           filterFunction="#{messageSchedulerView.filterByDate}">
                     <f:facet name="filter">
-                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" style="width:100px;" id="endDateFilter">
+                        <p:calendar pattern="dd-MM-yyyy" styleClass="calendarFilter" style="width:100px;" id="endDateFilter" navigator="true">
                             <p:ajax event="dateSelect" oncomplete="PF('messageSchedulerTable').filter()"/>
                         </p:calendar>
                     </f:facet>
@@ -225,7 +225,7 @@
                     <!-- Start Date of message Sending -->
                     <h:outputLabel for="schedulerDateStart" value="#{MESSAGE.MESSAGE_SCHEDULER_DATE_START}" />
 
-                    <p:calendar value="#{messageSchedulerView.newMessageScheduler.dateStart}"
+                    <p:calendar value="#{messageSchedulerView.newMessageScheduler.dateStart}" navigator="true"
                                 id="schedulerDateStart"  pattern="dd-MM-yyyy" styleClass="myTextField"
                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" binding="#{startDate}">
                         <p:ajax event="dateSelect" update="schedulerDateStartMessage growl"/>
@@ -236,7 +236,7 @@
                     <!-- End Date of message Sending -->
                     <h:outputLabel for="schedulerDateEnd" value="#{MESSAGE.MESSAGE_SCHEDULER_DATE_END}" />
 
-                    <p:calendar value="#{messageSchedulerView.newMessageScheduler.dateEnd}"
+                    <p:calendar value="#{messageSchedulerView.newMessageScheduler.dateEnd}" navigator="true"
                                 id="schedulerDateEnd"  pattern="dd-MM-yyyy" styleClass="myTextField"
                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" validator="#{dateRangeValidator.validate}">
                         <f:attribute name="startDate" value="#{startDate}"/>
@@ -248,7 +248,7 @@
                     <!-- Time of message Sending -->
                     <h:outputLabel for="schedulerDateEnd" value="#{MESSAGE.MESSAGE_SCHEDULER_TIME}" />
 
-                    <p:calendar value="#{messageSchedulerView.newMessageScheduler.time}"
+                    <p:calendar value="#{messageSchedulerView.newMessageScheduler.time}" navigator="true"
                                 id="schedulerTime"  pattern="HH:mm" timeOnly="true" styleClass="myTextField"
                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" minHour="6" maxHour="22">
                         <p:ajax event="dateSelect" update="schedulerTimeMessage growl"/>
@@ -318,7 +318,7 @@
                     <!-- Start Date of message Sending -->
                     <h:outputLabel for="schedulerDateStart" value="#{MESSAGE.MESSAGE_SCHEDULER_DATE_START}" />
 
-                    <p:calendar value="#{messageSchedulerView.selectedMessageScheduler.dateStart}"
+                    <p:calendar value="#{messageSchedulerView.selectedMessageScheduler.dateStart}" navigator="true"
                                 id="schedulerDateStart"  pattern="dd-MM-yyyy" styleClass="myTextField"
                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" binding="#{startDateEdit}">
                         <p:ajax event="dateSelect" update="schedulerDateStartMessage growl"/>
@@ -329,7 +329,7 @@
                     <!-- End Date of message Sending -->
                     <h:outputLabel for="schedulerDateEnd" value="#{MESSAGE.MESSAGE_SCHEDULER_DATE_END}" />
 
-                    <p:calendar value="#{messageSchedulerView.selectedMessageScheduler.dateEnd}"
+                    <p:calendar value="#{messageSchedulerView.selectedMessageScheduler.dateEnd}" navigator="true"
                                 id="schedulerDateEnd"  pattern="dd-MM-yyyy" styleClass="myTextField"
                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" validator="#{dateRangeValidator.validate}">
                         <f:attribute name="startDate" value="#{startDateEdit}"/>
@@ -341,7 +341,7 @@
                     <!-- Time of message Sending -->
                     <h:outputLabel for="schedulerDateEnd" value="#{MESSAGE.MESSAGE_SCHEDULER_TIME}" />
 
-                    <p:calendar value="#{messageSchedulerView.selectedMessageScheduler.time}"
+                    <p:calendar value="#{messageSchedulerView.selectedMessageScheduler.time}" navigator="true"
                                 id="schedulerTime"  pattern="HH:mm" timeOnly="true" styleClass="myTextField"
                                 required="true" requiredMessage="#{MESSAGE.VALIDATOR_REQUIRED}" timeZone="" minHour="6" maxHour="22">
                         <p:ajax event="dateSelect" update="schedulerTimeMessage growl"/>
