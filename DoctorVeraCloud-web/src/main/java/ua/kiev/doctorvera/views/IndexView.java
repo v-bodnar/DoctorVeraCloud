@@ -194,6 +194,7 @@ public class IndexView implements Serializable{
         }
         maxAppointmentsPerDay = StatisticsHelper.getMaxAppointmentsPerDay(monthAppointments);
         minAppointmentsPerDay = StatisticsHelper.getMinAppointmentsPerDay(monthAppointments);
+        monthSalarySum = 0f;
         for(Schedule schedule : monthAppointments){
             monthSalarySum += monthSalaryData.get(schedule).get(function.name());
             if (maxDaySalary < monthSalaryData.get(schedule).get(function.name()))
