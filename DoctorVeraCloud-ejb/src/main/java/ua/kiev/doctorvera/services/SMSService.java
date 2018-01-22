@@ -40,6 +40,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static ua.kiev.doctorvera.entities.TransactionLog.Status.CANCELED;
+
 /**
  * Created by volodymyr.bodnar on 1/10/2016.
  */
@@ -126,6 +128,8 @@ public class SMSService implements SMSServiceLocal{
     public boolean sendSMS(Users recipient, String sms, TransactionLog transactionLog) {
         if (recipient.getPhoneNumberMobile() == null || recipient.isForeigner() || !recipient.isMessagingAccepted()){
             LOG.info("User does not have mobile phone, or is foreigner or, did not accept messaging!");
+            transactionLog.setStatus(CANCELED);
+            transactionLogFacade.edit(transactionLog);
             return false;
         }
 
@@ -145,8 +149,9 @@ public class SMSService implements SMSServiceLocal{
         messageLog.setStatus(convertMessageStatus(state.getTextContent()));
         messageLog.setuId(statusNode.getAttribute("id"));
         try {
-            messageLog.setDateCreated(new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z").parse(statusNode.getAttribute("date")));
+            messageLog.setDateCreated(new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US).parse(statusNode.getAttribute("date")));
         } catch (ParseException e) {
+            messageLog.setDateCreated(new Date());
             LOG.severe("Error in parsing date: " + statusNode.getAttribute("date") + "for format 'EEE, d MMM yyyy HH:mm:ss Z'.");
         }
         messageLog.setDetails(((Element) state).getAttribute("error"));
@@ -257,9 +262,20 @@ public class SMSService implements SMSServiceLocal{
     public void checkSmsStatus(TransactionLog transactionLog){
         String xmlMessage;
         boolean singleMessage = transactionLog.getMessageLogs().size() == 1;
+
         if(singleMessage){
+            if(((List<MessageLog>)transactionLog.getMessageLogs()).get(0).getStatus() == MessageLog.Status.CANCELED){
+                transactionLog.setStatus(CANCELED);
+                transactionLogFacade.edit(transactionLog);
+            }
+            if(((List<MessageLog>)transactionLog.getMessageLogs()).get(0).getuId() == null || ((List<MessageLog>)transactionLog.getMessageLogs()).get(0).getuId().isEmpty()){
+                return;
+            }
             xmlMessage = "<request id='" + ((List<MessageLog>)transactionLog.getMessageLogs()).get(0).getuId() + "'>status</request>";
         }else{
+            if(transactionLog.getuId() == null || transactionLog.getuId().isEmpty()){
+                return;
+            }
             xmlMessage = "<request groupid='" + transactionLog.getuId() + "'>status</request>";
         }
 
@@ -316,14 +332,14 @@ public class SMSService implements SMSServiceLocal{
                 + " state: " + status.getAttribute("state")
                 + " reports: " + status.getAttribute("reports")
                 + "");
-        LOG.info("Total - " + total.getTextContent());
-        LOG.info("Queued - " + queued.getTextContent());
-        LOG.info("Accepted - " + accepted.getTextContent());
-        LOG.info("Enroute - " + enroute.getTextContent());
-        LOG.info("Delivered - " + delivered.getTextContent());
-        LOG.info("Expired - " + expired.getTextContent());
-        LOG.info("Undeliverable - " + undeliverable.getTextContent());
-        LOG.info("Unknown - " + unknown.getTextContent());
+        LOG.info("Total - " + total == null ? "" : total.getTextContent());
+        LOG.info("Queued - " + queued == null ? "" : queued.getTextContent());
+        LOG.info("Accepted - " + accepted == null ? "" : accepted.getTextContent());
+        LOG.info("Enroute - " + enroute == null ? "" : enroute.getTextContent());
+        LOG.info("Delivered - " + delivered == null ? "" : delivered.getTextContent());
+        LOG.info("Expired - " + expired == null ? "" : expired.getTextContent());
+        LOG.info("Undeliverable - " + undeliverable == null ? "" : undeliverable.getTextContent());
+        LOG.info("Unknown - " + unknown == null ? "" : unknown.getTextContent());
 
         Date dateUpdated = null;
         try {
@@ -393,7 +409,7 @@ public class SMSService implements SMSServiceLocal{
                 messageLog.setDetails(messageStateElement.getAttribute("error"));
             }
             try {
-                messageLog.setDateCreated(new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z").parse(statusNode.getAttribute("date")));
+                messageLog.setDateCreated(new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US).parse(statusNode.getAttribute("date")));
             } catch (ParseException e) {
                 LOG.severe("Error in parsing date: " + statusNode.getAttribute("date") + "for format 'EEE, d MMM yyyy HH:mm:ss Z'.");
             }
@@ -499,7 +515,7 @@ public class SMSService implements SMSServiceLocal{
             case("paused"):
                 return TransactionLog.Status.PAUSED;
             case("canceled"):
-                return TransactionLog.Status.CANCELED;
+                return CANCELED;
             default:
                 return TransactionLog.Status.PROGRESS;
         }

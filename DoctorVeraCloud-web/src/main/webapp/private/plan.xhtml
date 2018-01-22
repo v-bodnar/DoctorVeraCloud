@@ -23,7 +23,7 @@
 
 			<p:schedule id="planSchedule" value="#{planView.eventModel}" locale="ru" view="agendaWeek" scrollTime="7" slotMinutes="30"
 						minTime="7:00" maxTime="20:00" styleClass="planCalendar"  widgetVar="planSchedule" rightHeaderTemplate="month,agendaWeek"
-			allDaySlot="false" tooltip="true" columnFormat="dddd,DD, MMMM" ignoreTimezone="false" timeFormat="HH:mm" timeZone="GMT+2">
+			allDaySlot="false" tooltip="true" columnFormat="dddd,DD, MMMM" ignoreTimezone="true" timeFormat="HH:mm" timeZone="GMT+2">
 				<p:ajax event="dateSelect" listener="#{planView.onDateSelect}" update="addPlanDialog" oncomplete="PF('addPlanDialog').show();" disabled="#{!securityUtils.checkPermissions('PLAN_CREATE')}"/>
             	<p:ajax event="eventSelect" listener="#{planView.onEventSelect}" update="addPlanDialog" oncomplete="PF('addPlanDialog').show();" disabled="#{!securityUtils.checkPermissions('PLAN_UPDATE')}"/>
             	<p:ajax event="eventMove" listener="#{planView.onEventMove}" update="planSchedule growl" disabled="#{!securityUtils.checkPermissions('PLAN_READ')}"/>

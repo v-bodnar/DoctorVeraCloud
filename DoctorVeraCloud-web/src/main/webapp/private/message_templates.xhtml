@@ -34,12 +34,12 @@
                     </p:commandLink>
                 </p:menuitem>
 
-                <p:menuitem update="smsTemplatesTable growl" rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_SEND') : securityUtils.checkPermissions('EMAIL_TEMPLATES_SEND')}" styleClass="dv-menu-item">
-                    <p:commandLink styleClass="ui-menuitem-link" ajax="false" update="smsTemplatesTable growl">
-                        <h:outputText styleClass="ui-menuitem-icon ui-icon  ui-icon-mail-closed" />
-                        <h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.MESSAGE_TEMPLATES_SEND_BUTTON}" />
-                    </p:commandLink>
-                </p:menuitem>
+                <!--<p:menuitem update="smsTemplatesTable growl" rendered="#{isSMSType ? securityUtils.checkPermissions('SMS_TEMPLATES_SEND') : securityUtils.checkPermissions('EMAIL_TEMPLATES_SEND')}" styleClass="dv-menu-item">-->
+                    <!--<p:commandLink styleClass="ui-menuitem-link" ajax="false" update="smsTemplatesTable growl">-->
+                        <!--<h:outputText styleClass="ui-menuitem-icon ui-icon  ui-icon-mail-closed" />-->
+                        <!--<h:outputText styleClass="ui-menuitem-text" value="#{MESSAGE.MESSAGE_TEMPLATES_SEND_BUTTON}" />-->
+                    <!--</p:commandLink>-->
+                <!--</p:menuitem>-->
 
             </p:contextMenu>
 

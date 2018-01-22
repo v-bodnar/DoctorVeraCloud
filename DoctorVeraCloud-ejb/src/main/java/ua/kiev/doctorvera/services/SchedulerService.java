@@ -281,7 +281,9 @@ public class SchedulerService implements ScheduleServiceLocal {
         //Sending email
         if (emailMessageTemplate == null) {
             LOG.severe("Email message template for patient notification has not been set.");
-        } else if (schedule.getPatient() != null) {
+        } else if(schedule.getPatient().getEmail() == null || schedule.getPatient().getEmail().isEmpty()){
+            LOG.info("User did not provide email ");
+        }else if (schedule.getPatient() != null) {
             TransactionLog emailTransactionLog = new TransactionLog();
             emailTransactionLog.setUserCreated(schedule.getUserCreated());
             emailTransactionLog.setMessageTemplate(emailMessageTemplate);
@@ -301,6 +303,8 @@ public class SchedulerService implements ScheduleServiceLocal {
         //Sending SMS
         if (smsMessageTemplate == null) {
             LOG.severe("SMS message template for patient notification has not been set.");
+        } else if(schedule.getPatient().getPhoneNumberMobile() == null || schedule.getPatient().getPhoneNumberMobile().isEmpty()){
+            LOG.info("User did not provide mobile phone number ");
         } else if (schedule.getPatient() != null) {
 
 

@@ -875,6 +875,7 @@ public class ScheduleView implements Serializable {
         patient.setUsername(Utils.generateUsername(patient.getLastName(), patient.getFirstName()));
         patient.setPassword(RandomPasswordGenerator.generatePswd(8, 10, 2, 2, 1).toString());
         patient.setColor("2d862d");
+        patient.setMessagingAccepted(true);
         usersFacade.create(patient);
         patient.setUserGroups(Arrays.asList(userGroupsFacade.find(PATIENTS_TYPE_ID)));
         usersFacade.edit(patient);

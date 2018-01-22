@@ -19,6 +19,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
+import javax.xml.registry.infomodel.User;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,6 +39,8 @@ public class TemplateProcessor {
 
     @EJB
     private PricesFacadeLocal pricesFacade;
+
+    private SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
 
     public StreamedContent processTemplate(FileRepository fileRepository) throws IOException {
 
@@ -129,7 +132,6 @@ public class TemplateProcessor {
                     "\\$usersId|\\$usersBirthDate|\\$usersMobilePhoneNumber|\\$usersHomePhoneNumber|\\$usersEmail|\\$usersLogin", "");
             return text;
         }
-        SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
         if (text.contains("$usersFirstName"))
             text = text.replaceAll("\\$usersFirstName", user.getFirstName() == null ? "" : user.getFirstName());
         if (text.contains("$usersLastName"))
@@ -163,6 +165,8 @@ public class TemplateProcessor {
             text = text.replaceAll("\\$currentUsersFirstName", currentUser.getFirstName());
         if (text.contains("$currentUsersLastName") && currentUser != null)
             text = text.replaceAll("\\$currentUsersLastName", currentUser.getLastName());
+        if (text.contains("currentUsersMiddleName") && currentUser != null)
+            text = text.replaceAll("\\$currentUsersMiddleName", currentUser.getMiddleName());
         return text;
     }
 
@@ -175,6 +179,26 @@ public class TemplateProcessor {
             text = text.replaceAll("\\$scheduleId", schedule.getId() == null ? "" : "" + schedule.getId());
         if (text.contains("$scheduleMethod"))
             text = text.replaceAll("\\$scheduleMethod", schedule.getMethod() == null ? "" : "" + schedule.getMethod().getShortName());
+        Users patient = schedule.getPatient();
+
+        if (text.contains("$patientFirstName"))
+            text = text.replaceAll("\\$patientFirstName", patient.getFirstName() == null ? "" : patient.getFirstName());
+        if (text.contains("$patientLastName"))
+            text = text.replaceAll("\\$patientLastName", patient.getLastName() == null ? "" : patient.getLastName());
+        if (text.contains("$patientMiddleName"))
+            text = text.replaceAll("\\$patientMiddleName", patient.getMiddleName() == null ? "" : patient.getMiddleName());
+        if (text.contains("$patientId"))
+            text = text.replaceAll("\\$patientId", patient.getId() == null ? "" : "" + patient.getId());
+        if (text.contains("$patientBirthDate"))
+            text = text.replaceAll("\\$patientBirthDate", patient.getBirthDate() == null ? "" : formatter.format(patient.getBirthDate()));
+        if (text.contains("$patientMobilePhoneNumber"))
+            text = text.replaceAll("\\$patientMobilePhoneNumber", patient.getPhoneNumberMobile() == null ? "" : patient.getPhoneNumberMobile());
+        if (text.contains("$patientHomePhoneNumber"))
+            text = text.replaceAll("\\$patientHomePhoneNumber", patient.getPhoneNumberHome() == null ? "" : patient.getPhoneNumberHome());
+        if (text.contains("$patientEmail"))
+            text = text.replaceAll("\\$patientEmail", patient.getEmail() == null ? "" : patient.getEmail());
+        if (text.contains("$patientLogin"))
+            text = text.replaceAll("\\$patientLogin", patient.getUsername() == null ? "" : patient.getUsername());
         return text;
     }
 
